@@ -61,3 +61,10 @@ Route::patch('/customer/{id}', 'App\Http\Controllers\Admin\CustomerController@up
 Route::get('/customer/{id}/edit', 'App\Http\Controllers\Admin\CustomerController@edit')->name('local.customer.edit');
 Route::delete('/customer/{id}', 'App\Http\Controllers\Admin\CustomerController@destroy')->name('local.customer.delete');
 Route::get('record/customer', 'App\Http\Controllers\Admin\CustomerController@recordCustomer')->name('local.record.customer');
+
+Route::get('/vendor', 'App\Http\Controllers\Admin\VendorController@index')->name('local.vendor.index');
+Route::post('/vendor', 'App\Http\Controllers\Admin\VendorController@store')->name('local.vendor.store');
+Route::patch('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@update')->name('local.vendor.update');
+Route::get('/vendor/{id}/edit', 'App\Http\Controllers\Admin\VendorController@edit')->name('local.vendor.edit');
+Route::delete('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@destroy')->name('local.vendor.delete');
+Route::get('record/vendor', 'App\Http\Controllers\Admin\VendorController@recordVendor')->name('local.record.vendor');

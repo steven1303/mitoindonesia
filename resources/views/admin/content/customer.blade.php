@@ -4,7 +4,7 @@
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">Tools</a></li>
+        <li><a href="#">Settings</a></li>
         <li class="active"><a href="#"> Customer</a></li>
     </ol>
 </section>
@@ -16,7 +16,7 @@
                     <h3 class="box-title"  id="formTitle">Create Customer</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="branchForm" method="POST">
+                    <form role="form" id="customerForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
@@ -40,14 +40,32 @@
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>NPWP</label>
-                                    <input type="text" class="form-control" id="npwp" name="npwp" placeholder="Input NPWP">
+                                    <label>KTP</label>
+                                    <input type="text" class="form-control" id="ktp" name="ktp" placeholder="Input KTP">
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Input Address">
+                                    <label>Address 1</label>
+                                    <input type="text" class="form-control" id="address1" name="address1" placeholder="Input Address">
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Address 2</label>
+                                    <input type="text" class="form-control" id="address2" name="address2" placeholder="Input Address">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>NPWP</label>
+                                    <input type="text" class="form-control" id="npwp" name="npwp" placeholder="Input NPWP">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>BOD</label>
+                                    <input type="text" class="form-control" id="bod" name="bod" placeholder="Input NPWP">
                                 </div>
                             </div>
                         </div>
@@ -67,14 +85,14 @@
                     <h3 class="box-title">List Customer</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="branchTable">
+                    <table class="table table-bordered table-striped"  id="customerTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>city</th>
-                                <th>npwp</th>
-                                <th>phone</th>
+                                <th>City</th>
+                                <th>NPWP</th>
+                                <th>Phone</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -89,7 +107,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#branchTable')
+    var table = $('#customerTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -100,7 +118,7 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.branch') }}",
+        "ajax": "{{route('local.record.customer') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'name', name: 'name'},
@@ -112,28 +130,28 @@
     });
 
     $(function(){
-	    $('#branchForm').validator().on('submit', function (e) {
+	    $('#customerForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.branch.store') }}";
+				    url = "{{route('local.customer.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('branch') . '/' }}" + id;
+				    url = "{{ url('customer') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#branchForm').serialize(),
+				    data : $('#customerForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#branchForm')[0].reset();
+                            $('#customerForm')[0].reset();
                             $('#btnSave').text('Submit');
                             success(data.stat, data.message);
                         }
@@ -157,19 +175,22 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('branch') }}" + '/' + id + "/edit",
+        url: "{{ url('customer') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit Admin');
+            $('#formTitle').text('Edit Customer');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
             $('#name').val(data.name);
             $('#city').val(data.city);
-            $('#address').val(data.address);
+            $('#address1').val(data.address1);
+            $('#address2').val(data.address2);
             $('#phone').val(data.phone);
             $('#npwp').val(data.npwp);
+            $('#bod').val(data.bod);
+            $('#ktp').val(data.ktp);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -179,7 +200,7 @@
 
     function cancel(){
         save_method = 'add';
-        $('#branchForm')[0].reset();
+        $('#customerForm')[0].reset();
         $('#btnSave').text('Submit');
         $('#formTitle').text('Add Branch');
         $('#btnSave').attr('disabled',false);
@@ -200,7 +221,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('branch') }}" + '/' + id,
+                    url : "{{ url('customer') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

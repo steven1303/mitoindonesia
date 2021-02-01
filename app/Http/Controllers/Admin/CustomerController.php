@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class CustomerController extends SettingAjaxController
@@ -27,6 +28,7 @@ class CustomerController extends SettingAjaxController
             'npwp' => $request['npwp'],
             'ktp' => $request['ktp'],
             'bod' => $request['bod'],
+            'id_branch' => Auth::user()->id_branch,
         ];
 
         $activity = Customer::create($data);
@@ -91,7 +93,7 @@ class CustomerController extends SettingAjaxController
     }
 
     public function recordCustomer(){
-        $data = Customer::all();
+        $data = Customer::where('id_branch','=', Auth::user()->id_branch)->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){

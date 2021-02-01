@@ -61,12 +61,12 @@
                 </a>
                 <ul class="treeview-menu">
                     <li>
-                        <a href="#">
+                        <a href="javascript:ajaxLoad('{{route('local.customer.index')}}')">
                             <i class="fa fa-th"></i> <span>Customer</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
                             <i class="fa fa-th"></i> <span>Vendor</span>
                         </a>
                     </li>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\Admin;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +15,12 @@ class AdminController extends SettingAjaxController
     //
     public function index()
     {
-        $data = [];
+        $role = Role::all();
+        $branch = Branch::all();
+        $data = [
+            'roles' => $role,
+            'branches' => $branch,
+        ];
         return view('admin.content.admin')->with($data);
     }
 
