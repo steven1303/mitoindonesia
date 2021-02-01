@@ -4,11 +4,11 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>Admin</b>LTE</a>
+            <a href="#"><b>SIM</b>mito</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Silahkan login dengan user ID anda </p>
             <form action="{{ route('local.admin.login.submit') }}" method="post">
                 @csrf
                 <div class="form-group has-feedback">
@@ -45,7 +45,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
                 </div>
                 <!-- /.col -->
             </div>
