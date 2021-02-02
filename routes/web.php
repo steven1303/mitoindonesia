@@ -68,3 +68,12 @@ Route::patch('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@update
 Route::get('/vendor/{id}/edit', 'App\Http\Controllers\Admin\VendorController@edit')->name('local.vendor.edit');
 Route::delete('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@destroy')->name('local.vendor.delete');
 Route::get('record/vendor', 'App\Http\Controllers\Admin\VendorController@recordVendor')->name('local.record.vendor');
+
+Route::get('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@index')->name('local.stock_master.index');
+Route::post('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@store')->name('local.stock_master.store');
+Route::patch('/stock_master/{id}', 'App\Http\Controllers\Admin\StockMasterController@update')->name('local.stock_master.update');
+Route::get('/stock_master/{id}/edit', 'App\Http\Controllers\Admin\StockMasterController@edit')->name('local.stock_master.edit');
+Route::delete('/stock_master/{id}', 'App\Http\Controllers\Admin\StockMasterController@destroy')->name('local.stock_master.delete');
+Route::get('record/stock_master', 'App\Http\Controllers\Admin\StockMasterController@recordStockMaster')->name('local.record.stock_master');
+
+Route::get('/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@index')->name('local.stock_movement.index');

@@ -72,6 +72,26 @@
                     </li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>Inventory</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_master.index')}}')">
+                            <i class="fa fa-th"></i> <span>Stock Master</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
+                            <i class="fa fa-th"></i> <span>Vendor</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
