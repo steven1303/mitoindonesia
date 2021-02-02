@@ -63,28 +63,26 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">History Stock Movement</h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-bordered table-striped"  id="stockMasterTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Movement Type</th>
-                                    <th>Tanggal</th>
-                                    <th>In</th>
-                                    <th>Out</th>
-                                    <th>Order</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                      </div>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">History Stock Movement</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped"  id="stockMasterTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Movement Type</th>
+                                <th>Tanggal</th>
+                                <th>In</th>
+                                <th>Out</th>
+                                <th>Order</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
