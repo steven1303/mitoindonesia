@@ -86,8 +86,28 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
-                            <i class="fa fa-th"></i> <span>Vendor</span>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Adjustment</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>SPBD</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.spbd.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPBD</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Report</span>
                         </a>
                     </li>
                 </ul>

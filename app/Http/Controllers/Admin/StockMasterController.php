@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\StockMaster;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class StockMasterController extends SettingAjaxController
@@ -21,6 +22,8 @@ class StockMasterController extends SettingAjaxController
         $data = [
             'stock_no' => $request['stock_no'],
             'name' => $request['name'],
+            'satuan' => $request['satuan'],
+            'id_branch' => Auth::user()->id_branch,
         ];
 
         $activity = StockMaster::create($data);
@@ -60,6 +63,7 @@ class StockMasterController extends SettingAjaxController
         $data = StockMaster::find($id);
         $data->stock_no    = $request['stock_no'];
         $data->name    = $request['name'];
+        $data->satuan    = $request['satuan'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Stock Master Success', 'stat' => 'Success']);
@@ -79,7 +83,7 @@ class StockMasterController extends SettingAjaxController
     }
 
     public function recordStockMaster(){
-        $data = StockMaster::latest()->get();
+        $data = StockMaster::where('id_branch','=', Auth::user()->id_branch)->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('soh', function($data){
@@ -96,5 +100,38 @@ class StockMasterController extends SettingAjaxController
                 return $action;
             })
             ->rawColumns(['action'])->make(true);
+    }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchStockMaster(Request $request)
+    {
+        $term = trim($request->q);
+
+        if (empty($term)) {
+            return response()->json([]);
+        }
+
+        $tags = StockMaster::where([
+            ['stock_no','like','%'.$term.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = [
+                'id'    => $tag->id,
+                'text'  => $tag->stock_no,
+                'name'  => $tag->name,
+                'satuan'  => $tag->satuan,
+            ];
+        }
+
+        return response()->json($formatted_tags);
     }
 }

@@ -68,6 +68,7 @@ Route::patch('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@update
 Route::get('/vendor/{id}/edit', 'App\Http\Controllers\Admin\VendorController@edit')->name('local.vendor.edit');
 Route::delete('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@destroy')->name('local.vendor.delete');
 Route::get('record/vendor', 'App\Http\Controllers\Admin\VendorController@recordVendor')->name('local.record.vendor');
+Route::get('record/search_vendor', 'App\Http\Controllers\Admin\VendorController@searchVendor')->name('local.search.vendor');
 
 Route::get('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@index')->name('local.stock_master.index');
 Route::post('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@store')->name('local.stock_master.store');
@@ -75,5 +76,25 @@ Route::patch('/stock_master/{id}', 'App\Http\Controllers\Admin\StockMasterContro
 Route::get('/stock_master/{id}/edit', 'App\Http\Controllers\Admin\StockMasterController@edit')->name('local.stock_master.edit');
 Route::delete('/stock_master/{id}', 'App\Http\Controllers\Admin\StockMasterController@destroy')->name('local.stock_master.delete');
 Route::get('record/stock_master', 'App\Http\Controllers\Admin\StockMasterController@recordStockMaster')->name('local.record.stock_master');
+Route::get('record/search_stock_master', 'App\Http\Controllers\Admin\StockMasterController@searchStockMaster')->name('local.search.stock_master');
 
 Route::get('/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@index')->name('local.stock_movement.index');
+Route::get('record/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@recordStockMovement')->name('local.record.stock_movement');
+
+Route::get('/stock_adj', 'App\Http\Controllers\Admin\StockAdjController@index')->name('local.stock_adj.index');
+Route::post('/stock_adj', 'App\Http\Controllers\Admin\StockAdjController@store')->name('local.stock_adj.store');
+Route::patch('/stock_adj/{id}', 'App\Http\Controllers\Admin\StockAdjController@update')->name('local.stock_adj.update');
+Route::get('/stock_adj/{id}/edit', 'App\Http\Controllers\Admin\StockAdjController@edit')->name('local.stock_adj.edit');
+Route::delete('/stock_adj/{id}', 'App\Http\Controllers\Admin\StockAdjController@destroy')->name('local.stock_adj.delete');
+Route::get('record/stock_adj', 'App\Http\Controllers\Admin\StockAdjController@recordStockAdjustment')->name('local.record.stock_adj');
+
+Route::get('/spbd', 'App\Http\Controllers\Admin\SpbdController@index')->name('local.spbd.index');
+Route::post('/spbd', 'App\Http\Controllers\Admin\SpbdController@store')->name('local.spbd.store');
+Route::patch('/spbd/{id}', 'App\Http\Controllers\Admin\SpbdController@update')->name('local.spbd.update');
+Route::get('/spbd/{id}/edit', 'App\Http\Controllers\Admin\SpbdController@edit')->name('local.spbd.edit');
+Route::delete('/spbd/{id}', 'App\Http\Controllers\Admin\SpbdController@destroy')->name('local.spbd.delete');
+Route::get('record/spbd', 'App\Http\Controllers\Admin\SpbdController@recordSpbd')->name('local.record.spbd');
+
+Route::get('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@detail')->name('local.spbd.detail.index');
+Route::post('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@store_detail')->name('local.spbd.store_detail');
+Route::get('record/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@recordSpbd_detail')->name('local.record.spbd_detail');

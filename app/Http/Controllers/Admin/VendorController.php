@@ -101,4 +101,36 @@ class VendorController extends SettingAjaxController
             })
             ->rawColumns(['action'])->make(true);
     }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchVendor(Request $request)
+    {
+        $term = trim($request->q);
+
+        if (empty($term)) {
+            return response()->json([]);
+        }
+
+        $tags = Vendor::where([
+            ['name','like','%'.$term.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = [
+                'id'    => $tag->id,
+                'text'  => $tag->name,
+                'name'  => $tag->name,
+            ];
+        }
+
+        return response()->json($formatted_tags);
+    }
 }

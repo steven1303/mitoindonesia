@@ -13,6 +13,7 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
   <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->

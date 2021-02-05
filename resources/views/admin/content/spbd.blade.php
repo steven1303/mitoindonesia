@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Stock Master
+        Create SPBD
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">Inventory</a></li>
-        <li class="active"><a href="#"> Stock Master</a></li>
+        <li><a href="#">SPBD</a></li>
+        <li class="active"><a href="#"> Create SPBD</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,29 +13,28 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create Stock Master</h3>
+                    <h3 class="box-title"  id="formTitle">Create Stock Adjustment</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="stockMasterForm" method="POST">
+                    <form role="form" id="SpbdForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Stock Number</label>
-                                    <input type="text" class="form-control" id="stock_no" name="stock_no" placeholder="Input Stock Number">
+                                    <label>SPBD No</label>
+                                    <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Stock Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Input Stock Name">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Input Stock Name">
+                                    <label>Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="datemask" name="spbd_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -52,16 +51,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List Stock Master</h3>
+                    <h3 class="box-title">List SPBD</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped"  id="stockMasterTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Stock No</th>
-                                <th> Name</th>
-                                <th>SOH</th>
+                                <th>SPBD No</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -87,42 +85,43 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.stock_master') }}",
+        "ajax": "{{route('local.record.spbd') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'stock_no', name: 'stock_no'},
-            {data: 'name', name: 'name'},
-            {data: 'soh', name: 'soh'},
-            {data: 'satuan', name: 'satuan'},
+            {data: 'spbd_no', name: 'spbd_no'},
+            {data: 'spbd_date', name: 'spbd_date'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     $(function(){
-	    $('#stockMasterForm').validator().on('submit', function (e) {
+        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
+
+	    $('#SpbdForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.stock_master.store') }}";
+				    url = "{{route('local.spbd.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('stock_master') . '/' }}" + id;
+				    url = "{{ url('spbd') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#stockMasterForm').serialize(),
+				    data : $('#SpbdForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#stockMasterForm')[0].reset();
+                            $('#SpbdForm')[0].reset();
                             $('#btnSave').text('Submit');
                             success(data.stat, data.message);
+                            ajaxLoad("{{ url('spbd_detail') }}" + '/' + data.spbd_id)
                         }
                         if(data.stat == 'Error'){
                             error(data.stat, data.message);
@@ -144,17 +143,16 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('stock_master') }}" + '/' + id + "/edit",
+        url: "{{ url('spbd') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit Roles');
+            $('#formTitle').text('Edit SPBD');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            $('#stock_no').val(data.stock_no);
-            $('#name').val(data.name);
-            $('#satuan').val(data.satuan);
+            $('#spbd_no').val(data.spbd_no);
+            $('#datemask').val(data.spbd_date);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -164,9 +162,9 @@
 
     function cancel(){
         save_method = 'add';
-        $('#stockMasterForm')[0].reset();
+        $('#SpbdForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Add Roles');
+        $('#formTitle').text('Create Stock Adjustment');
         $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
     }
@@ -185,7 +183,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('stock_master') }}" + '/' + id,
+                    url : "{{ url('spbd') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

@@ -4,7 +4,10 @@
 <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>
 <script src="{{url('bower_components/sweetalert2/sweetalert2.all.min.js')}}"></script>
-{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> --}}
+<script src="{{url('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{url('js/input-mask/jquery.inputmask.js')}}"></script>
+<script src="{{url('js/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+<script src="{{url('js/input-mask/jquery.inputmask.extensions.js')}}"></script>
 <!-- DataTables -->
 <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>

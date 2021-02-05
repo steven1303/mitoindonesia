@@ -1,6 +1,6 @@
 <section class="content-header">
     <h1>
-        Stock Movement Part $kode Part
+        Stock Movement Part
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
@@ -14,8 +14,8 @@
         <div class="col-md-4">
             <div class="box box-widget widget-user">
                 <div class="widget-user-header bg-yellow">
-                    <h3 class="widget-user-username">Part Number</h3>
-                    <h5 class="widget-user-desc">Part Name</h5>
+                    <h3 class="widget-user-username">{{ $stock_detail->stock_no }}</h3>
+                    <h5 class="widget-user-desc">{{ $stock_detail->name }}</h5>
                 </div>
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
@@ -23,6 +23,32 @@
                             <a href="#">Branch Name <span class="pull-right badge bg-blue">SOH</span></a>
                         </li>
                     </ul>
+                    <div class="row">
+                        <div class="col-sm-3 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">1</h5>
+                                <span class="description-text">Order</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">2</h5>
+                                <span class="description-text">Sell</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="description-block">
+                                <h5 class="description-header">3</h5>
+                                <span class="description-text">In</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="description-block">
+                                <h5 class="description-header">4</h5>
+                                <span class="description-text">Out</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +103,7 @@
                                 <th>In</th>
                                 <th>Out</th>
                                 <th>Order</th>
+                                <th>Sell</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -88,3 +115,28 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    var table = $('#stockMasterTable')
+    .DataTable({
+        'paging'      	: true,
+        'lengthChange'	: true,
+        'searching'   	: true,
+        'ordering'    	: true,
+        'info'        	: true,
+        'autoWidth'   	: false,
+        "processing"	: true,
+        "serverSide"	: true,
+        responsive      : true,
+        "ajax": "{{route('local.record.stock_movement', $stock_detail->id ) }}",
+        "columns": [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            {data: 'type', name: 'type'},
+            {data: 'move_date', name: 'move_date'},
+            {data: 'order_qty', name: 'order_qty'},
+            {data: 'sell_qty', name: 'sell_qty'},
+            {data: 'in_qty', name: 'in_qty'},
+            {data: 'out_qty', name: 'out_qty'},
+            {data: 'action', name:'action', orderable: false, searchable: false}
+        ]
+    });
+</script>
