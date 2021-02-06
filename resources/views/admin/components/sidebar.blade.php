@@ -106,6 +106,16 @@
                         </a>
                     </li>
                     <li>
+                        <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPPB</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.po_stock.index')}}')">
+                            <i class="fa fa-th"></i> <span>PO Stock</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Report</span>
                         </a>

@@ -13,7 +13,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create Stock Adjustment</h3>
+                    <h3 class="box-title"  id="formTitle">Create SPBD</h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
@@ -24,6 +24,14 @@
                                 <div class="form-group">
                                     <label>SPBD No</label>
                                     <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Vendor</label>
+                                    <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
+                                        <option></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -97,6 +105,25 @@
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
+        $('#vendor').select2({
+            placeholder: "Select and Search",
+            ajax:{
+                url:"{{route('local.search.vendor') }}",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+        })
+
 	    $('#SpbdForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
@@ -119,9 +146,13 @@
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
                             $('#SpbdForm')[0].reset();
+                            $('#vendor').val(null).trigger('change');
                             $('#btnSave').text('Submit');
                             success(data.stat, data.message);
-                            ajaxLoad("{{ url('spbd_detail') }}" + '/' + data.spbd_id)
+                            if (data.process == 'add')
+                            {
+                                ajaxLoad("{{ url('spbd_detail') }}" + '/' + data.spbd_id);
+                            }
                         }
                         if(data.stat == 'Error'){
                             error(data.stat, data.message);
@@ -151,6 +182,8 @@
             $('#formTitle').text('Edit SPBD');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
+            var newOption = new Option(data.vendor.name, data.id_vendor, true, true);
+            $('#vendor').append(newOption).trigger('change');
             $('#spbd_no').val(data.spbd_no);
             $('#datemask').val(data.spbd_date);
         },
@@ -166,6 +199,7 @@
         $('#btnSave').text('Submit');
         $('#formTitle').text('Create Stock Adjustment');
         $('#btnSave').attr('disabled',false);
+        $('#vendor').val(null).trigger('change');
         $('input[name=_method]').val('POST');
     }
 

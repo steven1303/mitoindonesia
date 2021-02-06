@@ -18,7 +18,6 @@ class CreateStockMovementsTable extends Migration
             $table->bigInteger('id_stock_master');
             $table->bigInteger('id_branch');
             $table->dateTime('move_date');
-            $table->string('bin');
             $table->string('type');
             $table->string('doc_no');
             $table->Integer('order_qty');

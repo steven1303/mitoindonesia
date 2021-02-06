@@ -10,7 +10,7 @@ class StockMaster extends Model
     use HasFactory;
 
     protected $fillable = [
-        'stock_no','name','harga_modal','harga_jual','id_branch'
+        'stock_no','name','bin','harga_modal','harga_jual','id_branch','satuan'
     ];
 
     public function stock_movement()

@@ -22,6 +22,7 @@ class StockMasterController extends SettingAjaxController
         $data = [
             'stock_no' => $request['stock_no'],
             'name' => $request['name'],
+            'bin' => $request['bin'],
             'satuan' => $request['satuan'],
             'id_branch' => Auth::user()->id_branch,
         ];
@@ -63,6 +64,7 @@ class StockMasterController extends SettingAjaxController
         $data = StockMaster::find($id);
         $data->stock_no    = $request['stock_no'];
         $data->name    = $request['name'];
+        $data->bin    = $request['bin'];
         $data->satuan    = $request['satuan'];
         $data->update();
         return response()

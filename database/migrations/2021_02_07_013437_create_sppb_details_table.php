@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpbdDetailsTable extends Migration
+class CreateSppbDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateSpbdDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('spbd_details', function (Blueprint $table) {
+        Schema::create('sppb_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('spbd_id');
+            $table->bigInteger('sppb_id');
             $table->bigInteger('id_stock_master');
-            $table->decimal('po_qty', 10, 2)->default(0);
+            $table->decimal('inv_qty', 10, 2)->default(0);
             $table->decimal('qty', 10, 2)->default(0);
+            $table->decimal('price', 10, 2)->default(0);
             $table->string('keterangan')->nullable();
-            $table->string('spbd_detail_status');
+            $table->string('sppb_detail_status')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreateSpbdDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spbd_details');
+        Schema::dropIfExists('sppb_details');
     }
 }

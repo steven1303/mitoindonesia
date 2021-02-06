@@ -17,6 +17,7 @@ class CreateStockMastersTable extends Migration
             $table->id();
             $table->string('stock_no')->unique();
             $table->bigInteger('id_branch');
+            $table->string('bin');
             $table->string('name');
             $table->string('satuan')->nullable();
             $table->decimal('harga_modal', 15, 2)->default(0);

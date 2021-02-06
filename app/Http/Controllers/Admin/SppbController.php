@@ -4,50 +4,54 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Spbd;
 use App\Models\SpbdDetail;
+
+use App\Models\Sppb;
+use App\Models\SppbDetail;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
-class SpbdController extends SettingAjaxController
+class SppbController extends SettingAjaxController
 {
     public function index()
     {
         $data = [];
-        return view('admin.content.spbd')->with($data);
+        return view('admin.content.sppb')->with($data);
     }
 
     public function detail($id)
     {
-        $spbd = Spbd::findOrFail($id);
+        $sppb = Sppb::findOrFail($id);
         $data = [
-            'spbd' => $spbd
+            'sppb' => $sppb
         ];
-        return view('admin.content.spbd_detail')->with($data);
+        return view('admin.content.sppb_detail')->with($data);
     }
 
     public function store(Request $request)
     {
         // return $request;
         $data = [
-            'spbd_no' => $request['spbd_no'],
             'id_branch' => Auth::user()->id_branch,
-            'id_vendor' => $request['vendor'],
-            'spbd_date' => $request['spbd_date'],
-            'spbd_user_id' => Auth::user()->id,
-            'spbd_user_name' => Auth::user()->name,
-            'spbd_status' => 1,
+            'sppb_no' => $request['sppb_no'],
+            'sppb_date' => $request['sppb_date'],
+            'id_customer' => $request['customer'],
+            'sppb_po_cust' => $request['sppb_po_cust'],
+            'sppb_status' => 1,
+            'sppb_user_name' => Auth::user()->name,
+            'sppb_user_id' => Auth::user()->id,
         ];
 
-        $activity = Spbd::create($data);
+        $activity = Sppb::create($data);
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new SPBD Success' , 'stat' => 'Success', 'spbd_id' => $activity->id, 'process' => 'add']);
+                ->json(['code'=>200,'message' => 'Add new SPPB Success' , 'stat' => 'Success', 'sppb_id' => $activity->id, 'process' => 'add']);
 
         } else {
             return response()
-                ->json(['code'=>200,'message' => 'Error SPBD Store', 'stat' => 'Error']);
+                ->json(['code'=>200,'message' => 'Error SPPB Store', 'stat' => 'Error']);
         }
     }
 
@@ -55,23 +59,24 @@ class SpbdController extends SettingAjaxController
     {
         // return $request;
         $data = [
-            'spbd_id' => $id,
+            'id_branch' => Auth::user()->id_branch,
+            'sppb_id' => $id,
             'id_stock_master' => $request['stock_master'],
             'qty' => $request['qty'],
+            'price' => $request['price'],
             'keterangan' => $request['keterangan'],
-            'id_branch' => Auth::user()->id_branch,
-            'spbd_detail_status' => 1,
+            'sppb_detail_status' => 1,
         ];
 
-        $activity = SpbdDetail::create($data);
+        $activity = SppbDetail::create($data);
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new item SPBD Success', 'stat' => 'Success', 'process' => 'update']);
+                ->json(['code'=>200,'message' => 'Add new item SPPB Success', 'stat' => 'Success', 'process' => 'update']);
 
         } else {
             return response()
-                ->json(['code'=>200,'message' => 'Error item SPBD Store', 'stat' => 'Error']);
+                ->json(['code'=>200,'message' => 'Error item SPPB Store', 'stat' => 'Error']);
         }
     }
 
@@ -83,7 +88,7 @@ class SpbdController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $data = Spbd::with('vendor')->findOrFail($id);
+        $data = Sppb::with('customer')->findOrFail($id);
         return $data;
     }
 
@@ -95,7 +100,7 @@ class SpbdController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        $data = SpbdDetail::with('stock_master')->findOrFail($id);
+        $data = SppbDetail::with('stock_master')->findOrFail($id);
         return $data;
     }
 
@@ -109,13 +114,14 @@ class SpbdController extends SettingAjaxController
     public function update(Request $request, $id)
     {
 
-        $data = Spbd::find($id);
-        $data->spbd_no    = $request['spbd_no'];
-        $data->id_vendor    = $request['vendor'];
-        $data->spbd_date    = $request['spbd_date'];
+        $data = Sppb::find($id);
+        $data->sppb_no    = $request['sppb_no'];
+        $data->sppb_date    = $request['sppb_date'];
+        $data->id_customer    = $request['customer'];
+        $data->sppb_po_cust    = $request['sppb_po_cust'];
         $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Edit SPBD Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Edit SPPB Success', 'stat' => 'Success']);
     }
 
     /**
@@ -128,13 +134,14 @@ class SpbdController extends SettingAjaxController
     public function update_detail(Request $request, $id)
     {
         // return $request;
-        $data = SpbdDetail::find($id);
+        $data = SppbDetail::find($id);
         $data->id_stock_master    = $request['stock_master'];
         $data->qty    = $request['qty'];
+        $data->price    = $request['price'];
         $data->keterangan    = $request['keterangan'];
         $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Edit Item SPBD Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Edit Item SPPB Success', 'stat' => 'Success']);
     }
 
     /**
@@ -145,9 +152,9 @@ class SpbdController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Spbd::destroy($id);
+        Sppb::destroy($id);
         return response()
-            ->json(['code'=>200,'message' => 'SBPD Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'SPPB Success Deleted', 'stat' => 'Success']);
     }
 
     /**
@@ -158,28 +165,28 @@ class SpbdController extends SettingAjaxController
      */
     public function destroy_detail($id)
     {
-        SpbdDetail::destroy($id);
+        SppbDetail::destroy($id);
         return response()
-            ->json(['code'=>200,'message' => 'SBPD Detail Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'SPPB Detail Success Deleted', 'stat' => 'Success']);
     }
 
-    public function recordSpbd(){
-        $data = Spbd::where([
+    public function recordSppb(){
+        $data = Sppb::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
-                $spbd_detail = "javascript:ajaxLoad('".route('local.spbd.detail.index', $data->id)."')";
+                $sppb_detail = "javascript:ajaxLoad('".route('local.sppb.detail.index', $data->id)."')";
                 $action = "";
-                $title = "'".$data->spbd_no."'";
-                if($data->spbd_status == 1){
-                    $action .= '<a href="'.$spbd_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
+                $title = "'".$data->sppb_no."'";
+                if($data->sppb_status == 1){
+                    $action .= '<a href="'.$sppb_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
-                if($data->spbd_status == 2){
-                    $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                if($data->sppb_status == 2){
+                    $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                 }
 
                 return $action;
@@ -187,28 +194,28 @@ class SpbdController extends SettingAjaxController
             ->rawColumns(['action'])->make(true);
     }
 
-    public function recordSpbd_detail($id, $po_stat = NULL){
-        if($po_stat == 1){
-            $data = SpbdDetail::where([
+    public function recordSppb_detail($id, $inv_stat = NULL){
+        if($inv_stat == 1){
+            $data = SppbDetail::where([
                 ['id_branch','=', Auth::user()->id_branch],
-                ['spbd_id','=', $id],
-            ])->whereRaw('spbd_details.qty <> spbd_details.po_qty')->latest()->get();
+                ['sppb_id','=', $id],
+            ])->whereRaw('sppb_details.qty <> sppb_details.inv_qty')->latest()->get();
         }else{
-            $data = SpbdDetail::where([
+            $data = SppbDetail::where([
                 ['id_branch','=', Auth::user()->id_branch],
-                ['spbd_id','=', $id],
+                ['sppb_id','=', $id],
             ])->latest()->get();
         }
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data)  use($po_stat){
+            ->addColumn('action', function($data)  use($inv_stat){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
-                if($data->spbd->spbd_status == 1){
+                if($data->sppd->sppb_status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
-                if($po_stat == 1){
+                if($inv_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
                 }
                 return $action;
@@ -238,10 +245,10 @@ class SpbdController extends SettingAjaxController
             return response()->json([]);
         }
 
-        $tags = Spbd::where([
-            ['spbd_no','like','%'.$term.'%'],
+        $tags = Sppb::where([
+            ['sppb_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['spbd_status','=', 2],
+            ['sppb_status','=', 2],
         ])->get();
 
         $formatted_tags = [];
@@ -265,12 +272,12 @@ class SpbdController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function spbd_open($id)
+    public function sppb_open($id)
     {
-        $data = Spbd::findOrFail($id);
-        $data->spbd_status = 2;
+        $data = Sppb::findOrFail($id);
+        $data->sppb_status = 2;
         $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Open SPBD Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Open SPPB Success', 'stat' => 'Success']);
     }
 }

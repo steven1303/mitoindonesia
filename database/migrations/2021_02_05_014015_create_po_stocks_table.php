@@ -15,12 +15,13 @@ class CreatePoStocksTable extends Migration
     {
         Schema::create('po_stocks', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_branch');
             $table->string('po_no');
-            $table->bigInteger('id_vendor');
             $table->bigInteger('id_spbd');
+            $table->bigInteger('id_vendor');
             $table->dateTime('po_ord_date');
-            $table->decimal('ppn', 10, 2)->default(0);
             $table->integer('po_status')->default(1);
+            $table->decimal('ppn', 10, 2)->default(0);
             $table->string('spbd_user_name');
             $table->bigInteger('spbd_user_id');
             $table->timestamps();

@@ -105,4 +105,35 @@ class CustomerController extends SettingAjaxController
             })
             ->rawColumns(['action'])->make(true);
     }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCustomer(Request $request)
+    {
+        $term = trim($request->q);
+
+        if (empty($term)) {
+            return response()->json([]);
+        }
+
+        $tags = Customer::where([
+            ['name','like','%'.$term.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = [
+                'id'    => $tag->id,
+                'text'  => $tag->name,
+            ];
+        }
+
+        return response()->json($formatted_tags);
+    }
 }

@@ -61,6 +61,7 @@ Route::patch('/customer/{id}', 'App\Http\Controllers\Admin\CustomerController@up
 Route::get('/customer/{id}/edit', 'App\Http\Controllers\Admin\CustomerController@edit')->name('local.customer.edit');
 Route::delete('/customer/{id}', 'App\Http\Controllers\Admin\CustomerController@destroy')->name('local.customer.delete');
 Route::get('record/customer', 'App\Http\Controllers\Admin\CustomerController@recordCustomer')->name('local.record.customer');
+Route::get('record/search_customer', 'App\Http\Controllers\Admin\CustomerController@searchCustomer')->name('local.search.customer');
 
 Route::get('/vendor', 'App\Http\Controllers\Admin\VendorController@index')->name('local.vendor.index');
 Route::post('/vendor', 'App\Http\Controllers\Admin\VendorController@store')->name('local.vendor.store');
@@ -94,7 +95,42 @@ Route::patch('/spbd/{id}', 'App\Http\Controllers\Admin\SpbdController@update')->
 Route::get('/spbd/{id}/edit', 'App\Http\Controllers\Admin\SpbdController@edit')->name('local.spbd.edit');
 Route::delete('/spbd/{id}', 'App\Http\Controllers\Admin\SpbdController@destroy')->name('local.spbd.delete');
 Route::get('record/spbd', 'App\Http\Controllers\Admin\SpbdController@recordSpbd')->name('local.record.spbd');
+Route::get('record/search_spbd', 'App\Http\Controllers\Admin\SpbdController@searchSpbd')->name('local.search.spbd');
 
 Route::get('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@detail')->name('local.spbd.detail.index');
 Route::post('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@store_detail')->name('local.spbd.store_detail');
-Route::get('record/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@recordSpbd_detail')->name('local.record.spbd_detail');
+Route::get('/spbd/{id}/edit_detail', 'App\Http\Controllers\Admin\SpbdController@edit_detail')->name('local.spbd.edit_detail');
+Route::patch('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@update_detail')->name('local.spbd.update_detail');
+Route::delete('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@destroy_detail')->name('local.spbd.delete_detail');
+Route::get('record/spbd_detail/{id}/{po_stat?}', 'App\Http\Controllers\Admin\SpbdController@recordSpbd_detail')->name('local.record.spbd_detail');
+Route::get('/spbd_open/{id}', 'App\Http\Controllers\Admin\SpbdController@spbd_open')->name('local.spbd.open.index');
+
+Route::get('/po_stock', 'App\Http\Controllers\Admin\PoStockController@index')->name('local.po_stock.index');
+Route::post('/po_stock', 'App\Http\Controllers\Admin\PoStockController@store')->name('local.po_stock.store');
+Route::get('/po_stock/{id}/edit', 'App\Http\Controllers\Admin\PoStockController@edit')->name('local.po_stock.edit');
+Route::patch('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@update')->name('local.po_stock.update');
+Route::delete('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@destroy')->name('local.po_stock.delete');
+Route::get('record/po_stock', 'App\Http\Controllers\Admin\PoStockController@recordPoStock')->name('local.record.po_stock');
+
+Route::get('/po_stock_detail/{id}', 'App\Http\Controllers\Admin\PoStockController@detail')->name('local.po_stock.detail.index');
+Route::post('/po_stock_detail/{id}', 'App\Http\Controllers\Admin\PoStockController@store_detail')->name('local.po_stock.store_detail');
+Route::get('/po_stock_detail/{id}/edit_detail', 'App\Http\Controllers\Admin\PoStockController@edit_detail')->name('local.po_stock.edit_detail');
+Route::patch('/po_stock_detail/{id}', 'App\Http\Controllers\Admin\PoStockController@update_detail')->name('local.po_stock.update_detail');
+Route::delete('/po_stock_detail/{id}', 'App\Http\Controllers\Admin\PoStockController@destroy_detail')->name('local.po_stock.delete_detail');
+Route::get('record/po_stock_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\PoStockController@recordPoStock_detail')->name('local.record.po_stock_detail');
+Route::get('/po_stock_open/{id}', 'App\Http\Controllers\Admin\PoStockController@po_stock_open')->name('local.po_stock.open.index');
+
+Route::get('/sppb', 'App\Http\Controllers\Admin\SppbController@index')->name('local.sppb.index');
+Route::post('/sppb', 'App\Http\Controllers\Admin\SppbController@store')->name('local.sppb.store');
+Route::patch('/sppb/{id}', 'App\Http\Controllers\Admin\SppbController@update')->name('local.sppb.update');
+Route::get('/sppb/{id}/edit', 'App\Http\Controllers\Admin\SppbController@edit')->name('local.sppb.edit');
+Route::delete('/sppb/{id}', 'App\Http\Controllers\Admin\SppbController@destroy')->name('local.sppb.delete');
+Route::get('record/sppb', 'App\Http\Controllers\Admin\SppbController@recordSppb')->name('local.record.sppb');
+
+Route::get('/sppb_detail/{id}', 'App\Http\Controllers\Admin\SppbController@detail')->name('local.sppb.detail.index');
+Route::post('/sppb_detail/{id}', 'App\Http\Controllers\Admin\SppbController@store_detail')->name('local.sppb.store_detail');
+Route::get('/sppb/{id}/edit_detail', 'App\Http\Controllers\Admin\SppbController@edit_detail')->name('local.sppb.edit_detail');
+Route::patch('/sppb_detail/{id}', 'App\Http\Controllers\Admin\SppbController@update_detail')->name('local.sppb.update_detail');
+Route::delete('/sppb_detail/{id}', 'App\Http\Controllers\Admin\SppbController@destroy_detail')->name('local.sppb.delete_detail');
+Route::get('record/sppb_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\SppbController@recordSppb_detail')->name('local.record.sppb_detail');
+Route::get('/sppb_open/{id}', 'App\Http\Controllers\Admin\SppbController@sppb_open')->name('local.sppb.open.index');

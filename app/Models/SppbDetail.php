@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SpbdDetail extends Model
+class SppbDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id_branch',
-        'spbd_id',
+        'sppb_id',
         'id_stock_master',
+        'inv_qty',
         'qty',
+        'price',
         'keterangan',
-        'spbd_detail_status',
+        'sppb_detail_status',
     ];
 
     public function stock_master()
@@ -23,8 +25,8 @@ class SpbdDetail extends Model
         return $this->belongsTo('App\Models\StockMaster','id_stock_master');
     }
 
-    public function spbd()
+    public function sppd()
     {
-        return $this->belongsTo('App\Models\Spbd','spbd_id');
+        return $this->belongsTo('App\Models\Sppb','sppb_id');
     }
 }

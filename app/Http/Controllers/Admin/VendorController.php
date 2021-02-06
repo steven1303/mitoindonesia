@@ -127,7 +127,6 @@ class VendorController extends SettingAjaxController
             $formatted_tags[] = [
                 'id'    => $tag->id,
                 'text'  => $tag->name,
-                'name'  => $tag->name,
             ];
         }
 
