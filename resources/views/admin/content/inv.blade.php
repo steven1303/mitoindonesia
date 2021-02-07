@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create PO Stock
+        Create Invoice
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
         <li><a href="#">SPBD</a></li>
-        <li class="active"><a href="#"> Create PO Stock</a></li>
+        <li class="active"><a href="#"> Create Invoice</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,49 +13,84 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create PO Stock</h3>
+                    <h3 class="box-title"  id="formTitle">Create Invoice</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="PoStockForm" method="POST">
+                    <form role="form" id="InvoiceForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>PO No</label>
-                                    <input type="text" class="form-control" id="po_no" name="po_no" placeholder="Input SPBD No">
+                                    <label>Invoice No</label>
+                                    <input type="text" class="form-control" id="inv_no" name="inv_no" placeholder="Input Invoice No">
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>SPBD No</label>
-                                    <select class="form-control select2" id="spbd" name="spbd" style="width: 100%;">
+                                    <label>Invoice Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="datemask1" name="date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>TOP Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="datemask2" name="top_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>SPPB No</label>
+                                    <select class="form-control select2" id="sppb" name="sppb" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Vendor</label>
-                                    <input type="text" class="form-control" id="vendor_name" name="vendor_name" placeholder="Vendor Name" readonly>
-                                    <input type="hidden" id="vendor" name="vendor">
+                                    <label>Customer</label>
+                                    <input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="Vendor Name" readonly>
+                                    <input type="hidden" id="customer" name="customer">
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="datemask" name="po_ord_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-                                    </div>
+                                    <label>PO Customer</label>
+                                    <input type="text" class="form-control" id="po_cust" name="po_cust" placeholder="Input PO No Customer" readonly>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Alamat Customer</label>
+                                    <input type="text" class="form-control" id="inv_kirimke" name="inv_kirimke" placeholder="Input Alamat Customer">
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Alamat Pengantaran</label>
+                                    <input type="text" class="form-control" id="inv_alamatkirim" name="inv_alamatkirim" placeholder="Input Alamat Pengantaran">
                                 </div>
                             </div>
                             <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Mata Uang</label>
+                                    <input type="text" class="form-control" id="mata_uang" name="mata_uang" placeholder="Input Mata Uang">
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
                                 <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input SPBD No">
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN">
                                 </div>
                             </div>
                         </div>
@@ -72,15 +107,17 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List PO Stock</h3>
+                    <h3 class="box-title">List Invoice</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="poStockTable">
+                    <table class="table table-bordered table-striped"  id="invoiceTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>PO No</th>
+                                <th>Invoice No</th>
+                                <th>SPPB No</th>
                                 <th>Date</th>
+                                <th>total</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -95,7 +132,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#poStockTable')
+    var table = $('#invoiceTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -106,22 +143,24 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.po_stock') }}",
+        "ajax": "{{route('local.record.inv') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'po_no', name: 'po_no'},
-            {data: 'po_ord_date', name: 'po_ord_date'},
+            {data: 'inv_no', name: 'inv_no'},
+            {data: 'id_sppb', name: 'id_sppb'},
+            {data: 'date', name: 'date'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     $(function(){
-        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
+        $('#datemask1').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
+        $('#datemask2').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#spbd').select2({
+        $('#sppb').select2({
             placeholder: "Select and Search",
             ajax:{
-                url:"{{route('local.search.spbd') }}",
+                url:"{{route('local.search.sppb') }}",
                 dataType: 'json',
                 data: function (params) {
                     return {
@@ -137,40 +176,41 @@
             },
         })
 
-        $('#spbd').on('select2:select', function (e) {
+        $('#sppb').on('select2:select', function (e) {
             var data = e.params.data;
-            $('#vendor').val(data.vendor);
-            $('#vendor_name').val(data.vendor_name);
+            $('#customer').val(data.customer);
+            $('#customer_name').val(data.customer_name);
+            $('#po_cust').val(data.customer_po);
         });
 
-	    $('#PoStockForm').validator().on('submit', function (e) {
+	    $('#InvoiceForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.po_stock.store') }}";
+				    url = "{{route('local.inv.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('po_stock') . '/' }}" + id;
+				    url = "{{ url('inv') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#PoStockForm').serialize(),
+				    data : $('#InvoiceForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#PoStockForm')[0].reset();
+                            $('#InvoiceForm')[0].reset();
                             $('#btnSave').text('Submit');
                             $('#spbd').val(null).trigger('change');
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('po_stock_detail') }}" + '/' + data.po_id);
+                                ajaxLoad("{{ url('inv_detail') }}" + '/' + data.inv_id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -193,21 +233,26 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('po_stock') }}" + '/' + id + "/edit",
+        url: "{{ url('inv') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit PO Stock');
+            $('#formTitle').text('Edit Invoice');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            $('#po_no').val(data.po_no);
-            var newOption = new Option(data.name_spbd, data.id_spbd, true, true);
-            $('#spbd').append(newOption).trigger('change');
-            $('#vendor').val(data.id_vendor);
-            $('#vendor_name').val(data.vendor_name);
-            $('#datemask').val(data.po_ord_date);
-            $('#ppn').val(data.ppn);
+            $('#inv_no').val(data.inv_no);
+            $('#datemask1').val(data.datemask1);
+            $('#datemask2').val(data.datemask2);
+            var newOption = new Option(data.sppb_no, data.sppb, true, true);
+            $('#sppb').append(newOption).trigger('change');
+            $('#customer_name').val(data.customer_name);
+            $('#customer').val(data.customer);
+            $('#po_cust').val(data.po_cust);
+            $('#inv_kirimke').val(data.inv_kirimke);
+            $('#inv_alamatkirim').val(data.inv_alamatkirim);
+            $('#mata_uang').val(data.mata_uang);
+            $('#ppn').val(data.ppn - 0);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -217,11 +262,11 @@
 
     function cancel(){
         save_method = 'add';
-        $('#PoStockForm')[0].reset();
+        $('#InvoiceForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#spbd').val(null).trigger('change');
+        $('#formTitle').text('Create Invoice');
         $('#btnSave').attr('disabled',false);
+        $('#sppb').val(null).trigger('change');
         $('input[name=_method]').val('POST');
     }
 
@@ -239,7 +284,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('po_stock') }}" + '/' + id,
+                    url : "{{ url('inv') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

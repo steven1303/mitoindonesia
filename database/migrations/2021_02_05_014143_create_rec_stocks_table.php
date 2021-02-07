@@ -15,16 +15,16 @@ class CreateRecStocksTable extends Migration
     {
         Schema::create('rec_stocks', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_branch');
             $table->string('rec_no');
             $table->bigInteger('id_vendor');
             $table->bigInteger('id_po_stock');
-            $table->string('pos_no');
             $table->string('rec_inv_ven');
             $table->dateTime('rec_date');
             $table->decimal('ppn', 10, 2)->default(0);
-            $table->integer('po_status')->default(1);
-            $table->string('spbd_user_name');
-            $table->bigInteger('spbd_user_id');
+            $table->integer('status')->default(1);
+            $table->string('user_name');
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }

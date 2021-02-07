@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create PO Stock
+        Create Receipt
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPBD</a></li>
-        <li class="active"><a href="#"> Create PO Stock</a></li>
+        <li><a href="#">Receipt</a></li>
+        <li class="active"><a href="#"> Create Receipt</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,23 +13,23 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create PO Stock</h3>
+                    <h3 class="box-title"  id="formTitle">Create Receipt</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="PoStockForm" method="POST">
+                    <form role="form" id="RecForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>PO No</label>
-                                    <input type="text" class="form-control" id="po_no" name="po_no" placeholder="Input SPBD No">
+                                    <label>Receipt No</label>
+                                    <input type="text" class="form-control" id="rec_no" name="rec_no" placeholder="Input Rec No">
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>SPBD No</label>
-                                    <select class="form-control select2" id="spbd" name="spbd" style="width: 100%;">
+                                    <label>PO Stock No</label>
+                                    <select class="form-control select2" id="po_stock" name="po_stock" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>
@@ -48,14 +48,20 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" id="datemask" name="po_ord_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                        <input type="text" id="datemask" name="rec_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
+                                    <label>Invoice Customer</label>
+                                    <input type="text" class="form-control" id="rec_inv_ven" name="rec_inv_ven" placeholder="Invoice Customer">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input SPBD No">
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input % PPN" readonly>
                                 </div>
                             </div>
                         </div>
@@ -72,13 +78,14 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List PO Stock</h3>
+                    <h3 class="box-title">List Receipt</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="poStockTable">
+                    <table class="table table-bordered table-striped"  id="recTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Receipt No</th>
                                 <th>PO No</th>
                                 <th>Date</th>
                                 <th>Action</th>
@@ -95,7 +102,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#poStockTable')
+    var table = $('#recTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -106,11 +113,12 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.po_stock') }}",
+        "ajax": "{{route('local.record.rec') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'po_no', name: 'po_no'},
-            {data: 'po_ord_date', name: 'po_ord_date'},
+            {data: 'rec_no', name: 'rec_no'},
+            {data: 'po_stock_no', name: 'po_stock_no'},
+            {data: 'rec_date', name: 'rec_date'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -118,10 +126,10 @@
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#spbd').select2({
+        $('#po_stock').select2({
             placeholder: "Select and Search",
             ajax:{
-                url:"{{route('local.search.spbd') }}",
+                url:"{{route('local.search.po_stock') }}",
                 dataType: 'json',
                 data: function (params) {
                     return {
@@ -137,34 +145,35 @@
             },
         })
 
-        $('#spbd').on('select2:select', function (e) {
+        $('#po_stock').on('select2:select', function (e) {
             var data = e.params.data;
             $('#vendor').val(data.vendor);
             $('#vendor_name').val(data.vendor_name);
+            $('#ppn').val(data.ppn);
         });
 
-	    $('#PoStockForm').validator().on('submit', function (e) {
+	    $('#RecForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.po_stock.store') }}";
+				    url = "{{route('local.rec.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('po_stock') . '/' }}" + id;
+				    url = "{{ url('rec') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#PoStockForm').serialize(),
+				    data : $('#RecForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#PoStockForm')[0].reset();
+                            $('#RecForm')[0].reset();
                             $('#btnSave').text('Submit');
                             $('#spbd').val(null).trigger('change');
                             success(data.stat, data.message);
@@ -193,7 +202,7 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('po_stock') }}" + '/' + id + "/edit",
+        url: "{{ url('rec') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -201,12 +210,13 @@
             $('#formTitle').text('Edit PO Stock');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            $('#po_no').val(data.po_no);
-            var newOption = new Option(data.name_spbd, data.id_spbd, true, true);
-            $('#spbd').append(newOption).trigger('change');
+            $('#rec_no').val(data.rec_no);
+            var newOption = new Option(data.name_po_stock, data.po_stock, true, true);
+            $('#po_stock').append(newOption).trigger('change');
             $('#vendor').val(data.id_vendor);
             $('#vendor_name').val(data.vendor_name);
-            $('#datemask').val(data.po_ord_date);
+            $('#datemask').val(data.rec_date);
+            $('#rec_inv_ven').val(data.rec_inv_ven);
             $('#ppn').val(data.ppn);
         },
         error : function() {
@@ -217,7 +227,7 @@
 
     function cancel(){
         save_method = 'add';
-        $('#PoStockForm')[0].reset();
+        $('#RecForm')[0].reset();
         $('#btnSave').text('Submit');
         $('#formTitle').text('Create Stock Adjustment');
         $('#spbd').val(null).trigger('change');
@@ -239,7 +249,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('po_stock') }}" + '/' + id,
+                    url : "{{ url('rec') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

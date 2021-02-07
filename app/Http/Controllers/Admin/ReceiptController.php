@@ -3,28 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\PoStock;
+use App\Models\RecStock;
 use App\Models\SpbdDetail;
+
 use Illuminate\Http\Request;
 use App\Models\PoStockDetail;
+use App\Models\RecStockDetail;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
-class PoStockController extends SettingAjaxController
+class ReceiptController extends SettingAjaxController
 {
     public function index()
     {
         $data = [];
-        return view('admin.content.po_stock')->with($data);
+        return view('admin.content.rec')->with($data);
     }
 
     public function detail($id)
     {
-        $po_stock = PoStock::findOrFail($id);
+        $rec = RecStock::findOrFail($id);
         $data = [
-            'po_stock' => $po_stock
+            'rec' => $rec
         ];
-        return view('admin.content.po_stock_detail')->with($data);
+        return view('admin.content.rec_detail')->with($data);
     }
 
     /**
@@ -35,15 +38,16 @@ class PoStockController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $po = PoStock::findOrFail($id);
+        $po = RecStock::findOrFail($id);
         $data = array(
             "id" => $po->id,
-            "po_no" => $po->po_no,
-            "id_spbd" => $po->id_spbd,
-            "name_spbd" => $po->spbd->spbd_no,
-            "id_vendor" => $po->spbd->id_vendor,
-            "vendor_name" => $po->spbd->vendor->name,
-            "po_ord_date" => $po->po_ord_date,
+            "rec_no" => $po->rec_no,
+            "po_stock" => $po->id_po_stock,
+            "name_po_stock" => $po->po_stock->po_no,
+            "id_vendor" => $po->id_vendor,
+            "vendor_name" => $po->vendor->name,
+            "rec_date" => $po->rec_date,
+            "rec_inv_ven" => $po->rec_inv_ven,
             "ppn" => $po->ppn,
         );
         return json_encode($data);
@@ -57,20 +61,20 @@ class PoStockController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        $po = PoStockDetail::findOrFail($id);
+        $rec = RecStockDetail::findOrFail($id);
         $data = array(
-            "id" => $po->id,
-            "id_spbd_detail" => $po->id_spbd_detail,
-            "id_spbd" => $po->id_spbd,
-            "stock_master" => $po->stock_master->stock_no,
-            "id_stock_master" => $po->id_stock_master,
-            "qty" => $po->qty,
-            'rec_qty' => $po->rec_qty,
-            "satuan" => $po->stock_master->satuan,
-            "keterangan" => $po->keterangan,
-            "keterangan1" => $po->spbd_detail->keterangan,
-            'price' =>$po->price,
-            'disc' => $po->disc,
+            "id" => $rec->id,
+            "id_rec" => $rec->id_spbd,
+            "id_po_detail" => $rec->id_po_detail,
+            "stock_master" => $rec->stock_master->stock_no,
+            "id_stock_master" => $rec->id_stock_master,
+            "terima" => $rec->terima,
+            "order" => $rec->order,
+            "satuan" => $rec->stock_master->satuan,
+            "keterangan" => $rec->keterangan,
+            "keterangan1" => $rec->po_detail->keterangan,
+            'price' =>$rec->price,
+            'disc' => $rec->disc,
         );
         return json_encode($data);
     }
@@ -80,25 +84,26 @@ class PoStockController extends SettingAjaxController
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'po_no' => $request['po_no'],
-            'id_spbd' => $request['spbd'],
+            'rec_no' => $request['rec_no'],
             'id_vendor' => $request['vendor'],
-            'po_ord_date' => $request['po_ord_date'],
-            'po_status' => 1,
+            'id_po_stock' => $request['po_stock'],
+            'rec_inv_ven' => $request['rec_inv_ven'],
+            'rec_date' => $request['rec_date'],
             'ppn' => $request['ppn'],
-            'spbd_user_id' => Auth::user()->id,
-            'spbd_user_name' => Auth::user()->name,
+            'status' => 1,
+            'user_id' => Auth::user()->id,
+            'user_name' => Auth::user()->name,
         ];
 
-        $activity = PoStock::create($data);
+        $activity = RecStock::create($data);
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new PO Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id]);
+                ->json(['code'=>200,'message' => 'Add new Receipt Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id]);
 
         } else {
             return response()
-                ->json(['code'=>200,'message' => 'Error PO Stock Store', 'stat' => 'Error']);
+                ->json(['code'=>200,'message' => 'Error Receipt Stock Store', 'stat' => 'Error']);
         }
     }
 
@@ -107,20 +112,22 @@ class PoStockController extends SettingAjaxController
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'id_po' => $id,
-            'id_spbd_detail' => $request['id_spbd_detail'],
+            'id_rec' => $id,
+            'id_po_detail' => $request['id_po_detail'],
             'id_stock_master' => $request['id_stock_master'],
-            'qty' => $request['qty'],
+            'order' => $request['qty'],
+            'terima' => $request['terima'],
+            'bo' => $request['qty'] - $request['terima'],
             'price' => $request['price'],
             'disc' => $request['disc'],
             'keterangan' => $request['keterangan'],
-            'po_detail_status' => 1,
+            'rec_detail_status' => 1,
         ];
 
-        $activity = PoStockDetail::create($data);
+        $activity = RecStockDetail::create($data);
 
-        $spbd_detail = SpbdDetail::find($request['id_spbd_detail']);
-        $spbd_detail->po_qty = $request['qty'];
+        $spbd_detail = PoStockDetail::find($request['id_po_detail']);
+        $spbd_detail->rec_qty = $request['terima'];
         $spbd_detail->update();
 
 
@@ -144,15 +151,16 @@ class PoStockController extends SettingAjaxController
     public function update(Request $request, $id)
     {
 
-        $data = PoStock::find($id);
-        $data->po_no    = $request['po_no'];
-        $data->id_spbd    = $request['spbd'];
+        $data = RecStock::find($id);
+        $data->rec_no    = $request['rec_no'];
+        $data->id_po_stock    = $request['po_stock'];
         $data->id_vendor    = $request['vendor'];
-        $data->po_ord_date    = $request['po_ord_date'];
+        $data->rec_date    = $request['rec_date'];
+        $data->rec_inv_ven    = $request['rec_inv_ven'];
         $data->ppn    = $request['ppn'];
         $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Edit PO Stock Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Edit Receipt Stock Success', 'stat' => 'Success']);
     }
 
 
@@ -167,13 +175,19 @@ class PoStockController extends SettingAjaxController
     public function update_detail(Request $request, $id)
     {
         // return $request;
-        $data = PoStockDetail::find($id);
-        $data->price    = $request['price'];
-        $data->disc    = $request['disc'];
+        $data = RecStockDetail::find($id);
+        $data->terima    = $request['terima'];
         $data->keterangan    = $request['keterangan'];
         $data->update();
+
+        $po_detail = PoStockDetail::find($data->id_po_detail);
+        $po_detail->rec_qty    = $po_detail->rec_qty - $request['terima'];
+        $po_detail->update();
+
         return response()
-            ->json(['code'=>200,'message' => 'Edit Item PO Stock Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Edit Item Receipt Stock Success', 'stat' => 'Success']);
+
+
     }
 
     /**
@@ -184,9 +198,9 @@ class PoStockController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        PoStock::destroy($id);
+        RecStock::destroy($id);
         return response()
-            ->json(['code'=>200,'message' => 'PO Stock Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Receipt Stock Success Deleted', 'stat' => 'Success']);
     }
 
     /**
@@ -197,50 +211,58 @@ class PoStockController extends SettingAjaxController
      */
     public function destroy_detail($id)
     {
-        $po_detail = PoStockDetail::find($id);
-        PoStockDetail::destroy($id);
-        $spbd_detail = SpbdDetail::find($po_detail->id_spbd_detail);
-        $spbd_detail->po_qty = $spbd_detail->po_qty - $po_detail->qty;
-        $spbd_detail->update();
+        $rec_detail = RecStockDetail::find($id);
+        RecStockDetail::destroy($id);
+        $po_detail = PoStockDetail::find($rec_detail->id_po_detail);
+        return $po_detail;
+        $po_detail->rec_qty = $po_detail->rec_qty - $rec_detail->terima;
+        $po_detail->update();
         return response()
-            ->json(['code'=>200,'message' => 'PO Stock item Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Receipt Stock item Success Deleted', 'stat' => 'Success']);
     }
 
-    public function recordPoStock(){
-        $data = PoStock::where([
+    public function recordRec(){
+        $data = RecStock::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('po_stock_no', function($data){
+                $action = $data->po_stock()->count();
+                if($data->po_stock()->count() > 0){
+                    $action = $data->po_stock->po_no;
+                }
+                return $action;
+            })
             ->addColumn('action', function($data){
-                $po_stock_detail = "javascript:ajaxLoad('".route('local.po_stock.detail.index', $data->id)."')";
+                $rec_detail = "javascript:ajaxLoad('".route('local.rec.detail.index', $data->id)."')";
                 $action = "";
-                $title = "'".$data->po_no."'";
-                if($data->po_status == 1){
-                    $action .= '<a href="'.$po_stock_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
+                $title = "'".$data->rec_no."'";
+                if($data->status == 1){
+                    $action .= '<a href="'.$rec_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
-                if($data->po_status == 2){
-                    $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                if($data->status == 2){
+                    $action .= '<a href="'.$rec_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                 }
 
                 return $action;
             })
-            ->rawColumns(['action'])->make(true);
+            ->rawColumns(['action','po_stock_no'])->make(true);
     }
 
-    public function recordPoStock_detail($id, $rec_stat = NULL){
-        $data = PoStockDetail::where([
+    public function recordRec_detail($id, $rec_stat = NULL){
+        $data = RecStockDetail::where([
             ['id_branch','=', Auth::user()->id_branch],
-            ['id_po','=', $id],
-        ])->whereRaw('po_stock_details.qty <> po_stock_details.rec_qty')->latest()->get();
+            ['id_rec','=', $id],
+        ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data)  use($rec_stat){
                 $action = "";
-                $title = "'".$data->stock_master->name."'";
-                if($data->po_stock->po_status == 1){
+                $title = "'".$data->stock_master->stock_no."'";
+                if($data->receipt->status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
@@ -266,47 +288,12 @@ class PoStockController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function po_stock_open($id)
+    public function rec_open($id)
     {
-        $data = PoStock::findOrFail($id);
-        $data->po_status = 2;
+        $data = RecStock::findOrFail($id);
+        $data->status = 2;
         $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Open PO Stock Success', 'stat' => 'Success']);
-    }
-
-    /**
-     * Search a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function searchPo_stock(Request $request)
-    {
-        $term = trim($request->q);
-
-        if (empty($term)) {
-            return response()->json([]);
-        }
-
-        $tags = PoStock::where([
-            ['po_no','like','%'.$term.'%'],
-            ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 2],
-        ])->get();
-
-        $formatted_tags = [];
-
-        foreach ($tags as $tag) {
-            $formatted_tags[] = [
-                'id'    => $tag->id,
-                'text'  => $tag->po_no,
-                'vendor'  => $tag->id_vendor,
-                'vendor_name'  => $tag->vendor->name,
-                'ppn'  => $tag->ppn - 0,
-            ];
-        }
-
-        return response()->json($formatted_tags);
+            ->json(['code'=>200,'message' => 'Open Receipt Stock Success', 'stat' => 'Success']);
     }
 }

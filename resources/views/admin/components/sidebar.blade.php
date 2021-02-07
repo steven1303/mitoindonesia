@@ -94,7 +94,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-folder"></i> <span>SPBD</span>
+                  <i class="fa fa-folder"></i> <span>Transaksi</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
@@ -113,6 +113,16 @@
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_stock.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Stock</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
+                            <i class="fa fa-th"></i> <span>Invoice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.rec.index')}}')">
+                            <i class="fa fa-th"></i> <span>Receipt</span>
                         </a>
                     </li>
                     <li>

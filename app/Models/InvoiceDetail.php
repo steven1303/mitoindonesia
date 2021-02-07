@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RecStockDetail extends Model
+class InvoiceDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id_branch',
-        'id_rec',
-        'id_po_detail',
-        'id_mov_id',
+        'id_sppb_detail',
+        'id_inv',
         'id_stock_master',
-        'order',
-        'terima',
-        'bo',
+        'qty',
         'price',
         'disc',
+        'subtotal',
+        'total_befppn',
+        'total_ppn',
         'keterangan',
-        'rec_detail_status',
+        'inv_detail_status',
     ];
 
     public function stock_master()
@@ -29,13 +29,13 @@ class RecStockDetail extends Model
         return $this->belongsTo('App\Models\StockMaster','id_stock_master');
     }
 
-    public function receipt()
+    public function invoice()
     {
-        return $this->belongsTo('App\Models\RecStock','id_rec');
+        return $this->belongsTo('App\Models\Invoice','id_inv');
     }
 
-    public function po_detail()
+    public function sppb_detail()
     {
-        return $this->belongsTo('App\Models\PoStockDetail','id_po_detail');
+        return $this->belongsTo('App\Models\SppbDetail','id_sppb_detail');
     }
 }

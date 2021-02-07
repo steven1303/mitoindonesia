@@ -26,4 +26,9 @@ class PoStock extends Model
     	return $this->belongsTo('App\Models\Spbd','id_spbd');
     }
 
+    public function vendor()
+    {
+    	return $this->belongsTo('App\Models\Vendor','id_vendor');
+    }
+
 }

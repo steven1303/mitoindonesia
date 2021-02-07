@@ -237,7 +237,7 @@ class SppbController extends SettingAjaxController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function searchSpbd(Request $request)
+    public function searchSppb(Request $request)
     {
         $term = trim($request->q);
 
@@ -256,9 +256,10 @@ class SppbController extends SettingAjaxController
         foreach ($tags as $tag) {
             $formatted_tags[] = [
                 'id'    => $tag->id,
-                'text'  => $tag->spbd_no,
-                'vendor'  => $tag->id_vendor,
-                'vendor_name'  => $tag->vendor->name,
+                'text'  => $tag->sppb_no,
+                'customer'  => $tag->id_customer,
+                'customer_name'  => $tag->customer->name,
+                'customer_po'  => $tag->sppb_po_cust,
             ];
         }
 
