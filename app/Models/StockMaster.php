@@ -18,4 +18,9 @@ class StockMaster extends Model
         return $this->hasMany('App\Models\StockMovement','id_stock_master');
     }
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
 }

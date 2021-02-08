@@ -193,6 +193,22 @@
         });
     }
 
+    function approve(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('spbd') }}" + '/' + id + "/approve",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+
     function cancel(){
         save_method = 'add';
         $('#SpbdForm')[0].reset();

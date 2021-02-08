@@ -13,7 +13,7 @@ class StockMovement extends Model
         'id_stock_master',
         'id_branch',
         'move_date',
-        'bin',
+        // 'bin',
         'type',
         'doc_no',
         'order_qty',
@@ -29,5 +29,10 @@ class StockMovement extends Model
     public function stock_master()
     {
     	return $this->belongsTo('App\Models\StockMaster','id_stock_master');
+    }
+
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
     }
 }

@@ -130,6 +130,7 @@
         "ajax": "{{route('local.record.stock_adj') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            {data: 'stock_no', name: 'stock_no'},
             {data: 'doc_no', name: 'doc_no'},
             {data: 'order_qty', name: 'order_qty'},
             {data: 'sell_qty', name: 'sell_qty'},

@@ -20,31 +20,31 @@
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         <li>
-                            <a href="#">Branch Name <span class="pull-right badge bg-blue">SOH</span></a>
+                            <a href="#">{{ $stock_detail->branch->name }} <span class="pull-right badge bg-blue">{{ $stock_detail->stock_movement->sum('in_qty') - $stock_detail->stock_movement->sum('out_qty') }}</span></a>
                         </li>
                     </ul>
                     <div class="row">
                         <div class="col-sm-3 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">1</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('order_qty') }}</h5>
                                 <span class="description-text">Order</span>
                             </div>
                         </div>
                         <div class="col-sm-3 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">2</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('sell_qty') }}</h5>
                                 <span class="description-text">Sell</span>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="description-block">
-                                <h5 class="description-header">3</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('in_qty') }}</h5>
                                 <span class="description-text">In</span>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="description-block">
-                                <h5 class="description-header">4</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('out_qty') }}</h5>
                                 <span class="description-text">Out</span>
                             </div>
                         </div>

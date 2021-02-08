@@ -171,6 +171,7 @@ class SpbdController extends SettingAjaxController
             ->addIndexColumn()
             ->addColumn('action', function($data){
                 $spbd_detail = "javascript:ajaxLoad('".route('local.spbd.detail.index', $data->id)."')";
+                $spbd_approve = "javascript:ajaxLoad('".route('local.spbd.approve', $data->id)."')";
                 $action = "";
                 $title = "'".$data->spbd_no."'";
                 if($data->spbd_status == 1){
@@ -179,6 +180,10 @@ class SpbdController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
                 if($data->spbd_status == 2){
+                    $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                }
+                if($data->spbd_status == 3){
                     $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                 }
 
@@ -241,7 +246,7 @@ class SpbdController extends SettingAjaxController
         $tags = Spbd::where([
             ['spbd_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['spbd_status','=', 2],
+            ['spbd_status','=', 3],
         ])->get();
 
         $formatted_tags = [];
@@ -272,5 +277,20 @@ class SpbdController extends SettingAjaxController
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open SPBD Success', 'stat' => 'Success']);
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = Spbd::findOrFail($id);
+        $data->spbd_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
     }
 }

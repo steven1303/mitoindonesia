@@ -20,10 +20,10 @@ class CreateStockMovementsTable extends Migration
             $table->dateTime('move_date');
             $table->string('type');
             $table->string('doc_no');
-            $table->Integer('order_qty');
-            $table->Integer('sell_qty');
-            $table->Integer('in_qty');
-            $table->Integer('out_qty');
+            $table->decimal('order_qty', 15, 2)->default(0);
+            $table->decimal('sell_qty', 15, 2)->default(0);
+            $table->decimal('in_qty', 15, 2)->default(0);
+            $table->decimal('out_qty', 15, 2)->default(0);
             $table->decimal('harga_modal', 15, 2)->default(0);
             $table->decimal('harga_jual', 15, 2)->default(0);
             $table->string('user');

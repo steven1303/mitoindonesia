@@ -167,3 +167,5 @@ Route::delete('/rec_detail/{id}', 'App\Http\Controllers\Admin\ReceiptController@
 Route::get('record/rec_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\ReceiptController@recordRec_detail')->name('local.record.rec_detail');
 Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_open')->name('local.rec.open.index');
 //
+Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');
+Route::get('/sppb/{id}/approve', 'App\Http\Controllers\Admin\SppbController@approve')->name('local.sppb.approve');

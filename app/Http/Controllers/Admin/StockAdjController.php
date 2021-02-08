@@ -75,7 +75,7 @@ class StockAdjController extends SettingAjaxController
 
         $data = StockMovement::find($id);
         $data->id_stock_master    = $request['stock_master'];
-        $data->bin    = $request['bin'];
+        // $data->bin    = $request['bin'];
         $data->order_qty    = $request['order_qty'];
         $data->sell_qty    = $request['sell_qty'];
         $data->in_qty    = $request['in_qty'];
@@ -113,6 +113,10 @@ class StockAdjController extends SettingAjaxController
                 $action = "";
                 return $action;
             })
+            ->addColumn('stock_no', function($data){
+                $action = $data->stock_master->stock_no;
+                return $action;
+            })
             ->addColumn('action', function($data){
                 // $stock_movement = "javascript:ajaxLoad('".route('local.stock_movement.index', $data->id)."')";
                 $action = "";
@@ -122,6 +126,6 @@ class StockAdjController extends SettingAjaxController
                 // $action .= '<a href="'.$stock_movement.'" class="btn btn-primary btn-xs"> Detail</a> ';
                 return $action;
             })
-            ->rawColumns(['action'])->make(true);
+            ->rawColumns(['action','stock_no','soh'])->make(true);
     }
 }
