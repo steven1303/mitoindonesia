@@ -250,11 +250,11 @@ class PoStockController extends SettingAjaxController
                 return $action;
             })
             ->addColumn('nama_stock', function($data){
-                $action = $data->stock_master->first()->name;
+                $action = $data->stock_master->name;
                 return $action;
             })
             ->addColumn('satuan', function($data){
-                $action = $data->stock_master->first()->satuan;
+                $action = $data->stock_master->satuan;
                 return $action;
             })
             ->rawColumns(['action'])->make(true);

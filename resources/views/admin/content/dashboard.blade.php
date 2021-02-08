@@ -14,7 +14,13 @@
             <h2><p align=center><b>Sistem Informasi Manajemen Mito Indonesia</b></h2>
         </div>
         <div class="box-body">
-            Halaman Awal
+        <p align=center><b>
+        <?php 
+        // echo "<img src='' width='70' height='90' />";
+        // echo "<img src='' width='70' height='90' />";
+        ?> 
+        <img src="{{asset('img/PT_Mito_png.png')}}" width='50%' />
+        </b>
         </div>
         <div class="box-footer">
             Footer
