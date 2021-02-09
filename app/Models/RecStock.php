@@ -31,4 +31,9 @@ class RecStock extends Model
     {
     	return $this->belongsTo('App\Models\Vendor','id_vendor');
     }
+
+    public function receipt_detail()
+    {
+    	return $this->hasMany('App\Models\RecStockDetail','id_rec');
+    }
 }

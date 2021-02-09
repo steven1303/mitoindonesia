@@ -43,17 +43,6 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="datemask" name="rec_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
                                     <label>Invoice Customer</label>
                                     <input type="text" class="form-control" id="rec_inv_ven" name="rec_inv_ven" placeholder="Invoice Customer">
                                 </div>
@@ -175,11 +164,11 @@
                             $('#id').val('');
                             $('#RecForm')[0].reset();
                             $('#btnSave').text('Submit');
-                            $('#spbd').val(null).trigger('change');
+                            $('#po_stock').val(null).trigger('change');
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('po_stock_detail') }}" + '/' + data.po_id);
+                                ajaxLoad("{{ url('rec_detail') }}" + '/' + data.rec_id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -223,6 +212,10 @@
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_receipt(id){
+        window.open("{{ url('receipt_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

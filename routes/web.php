@@ -173,3 +173,4 @@ Route::get('/sppb/{id}/approve', 'App\Http\Controllers\Admin\SppbController@appr
 
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
 Route::get('/po_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_stock')->name('local.print.po_stock');
+Route::get('/receipt_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_receipt')->name('local.print.rec');

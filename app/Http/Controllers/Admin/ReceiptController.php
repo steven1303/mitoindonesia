@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\PoStock;
 use App\Models\RecStock;
-use App\Models\SpbdDetail;
 
+use App\Models\SpbdDetail;
 use Illuminate\Http\Request;
 use App\Models\PoStockDetail;
 use App\Models\RecStockDetail;
@@ -88,7 +89,7 @@ class ReceiptController extends SettingAjaxController
             'id_vendor' => $request['vendor'],
             'id_po_stock' => $request['po_stock'],
             'rec_inv_ven' => $request['rec_inv_ven'],
-            'rec_date' => $request['rec_date'],
+            'rec_date' => Carbon::now(),
             'ppn' => $request['ppn'],
             'status' => 1,
             'user_id' => Auth::user()->id,
@@ -99,7 +100,7 @@ class ReceiptController extends SettingAjaxController
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new Receipt Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id]);
+                ->json(['code'=>200,'message' => 'Add new Receipt Stock Success' , 'stat' => 'Success', 'rec_id' => $activity->id, 'process' => 'add']);
 
         } else {
             return response()
@@ -155,7 +156,6 @@ class ReceiptController extends SettingAjaxController
         $data->rec_no    = $request['rec_no'];
         $data->id_po_stock    = $request['po_stock'];
         $data->id_vendor    = $request['vendor'];
-        $data->rec_date    = $request['rec_date'];
         $data->rec_inv_ven    = $request['rec_inv_ven'];
         $data->ppn    = $request['ppn'];
         $data->update();
@@ -245,6 +245,7 @@ class ReceiptController extends SettingAjaxController
                 }
                 if($data->status == 2){
                     $action .= '<a href="'.$rec_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_receipt('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
 
                 return $action;

@@ -224,11 +224,11 @@ class PoStockController extends SettingAjaxController
                 if($data->po_status == 2){
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
                 if($data->po_status == 3){
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
                 return $action;
             })
@@ -312,7 +312,7 @@ class PoStockController extends SettingAjaxController
         $tags = PoStock::where([
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 2],
+            ['po_status','=', 3],
         ])->get();
 
         $formatted_tags = [];

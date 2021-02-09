@@ -333,7 +333,7 @@
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
-            print_sppb("{{ $po_stock->id }}");
+            print_po_stock("{{ $po_stock->id }}");
             ajaxLoad("{{ route('local.po_stock.index') }}");
         },
         error : function() {
@@ -342,7 +342,7 @@
         });
     }
 
-    function print_sppb(id){
+    function print_po_stock(id){
         window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
     }
 

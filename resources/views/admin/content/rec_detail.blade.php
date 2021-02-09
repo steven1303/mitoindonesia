@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="button" onclick="open_po_stock_Form()" class="btn btn-success">Open / Request</button>
+                            <button type="button" onclick="open_receipt_Form()" class="btn btn-success">Print</button>
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
                         </div>
                     </form>
@@ -346,19 +346,24 @@
         });
     }
 
-    function open_po_stock_Form() {
+    function open_receipt_Form() {
         $.ajax({
         url: "{{route('local.rec.open.index', $rec->id) }}",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
+            print_receipt("{{ $rec->id }}");
             ajaxLoad("{{ route('local.po_stock.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_receipt(id){
+        window.open("{{ url('receipt_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){
