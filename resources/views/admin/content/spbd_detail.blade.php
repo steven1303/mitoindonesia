@@ -1,6 +1,6 @@
 <section class="content-header">
     <h1>
-        SPBD  @if($spbd->spbd_status == 1 ) Draft @endif @if($spbd->spbd_status == 2 ) Open @endif
+        SPBD  Detail
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
@@ -14,7 +14,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">SPBD {{ $spbd->spbd_no }}</h3>
+                    <h3 class="box-title"  id="formTitle">SPBD {{ $spbd->spbd_no }} <b>(  @if($spbd->spbd_status == 1 ) Draft @endif @if($spbd->spbd_status == 2 ) Open @endif @if($spbd->spbd_status == 3 ) Approved @endif ) </b></h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
@@ -260,12 +260,17 @@
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
+            print_spbd( "{{ $spbd->id }}" );
             ajaxLoad("{{ route('local.spbd.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_spbd(id){
+        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

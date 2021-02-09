@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\PoStock;
 use App\Models\SpbdDetail;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ class PoStockController extends SettingAjaxController
             'po_no' => $request['po_no'],
             'id_spbd' => $request['spbd'],
             'id_vendor' => $request['vendor'],
-            'po_ord_date' => $request['po_ord_date'],
+            'po_ord_date' => Carbon::now(),
             'po_status' => 1,
             'ppn' => $request['ppn'],
             'spbd_user_id' => Auth::user()->id,
@@ -94,7 +95,7 @@ class PoStockController extends SettingAjaxController
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new PO Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id]);
+                ->json(['code'=>200,'message' => 'Add new PO Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id , 'process' => 'add']);
 
         } else {
             return response()
@@ -148,7 +149,6 @@ class PoStockController extends SettingAjaxController
         $data->po_no    = $request['po_no'];
         $data->id_spbd    = $request['spbd'];
         $data->id_vendor    = $request['vendor'];
-        $data->po_ord_date    = $request['po_ord_date'];
         $data->ppn    = $request['ppn'];
         $data->update();
         return response()
@@ -223,8 +223,13 @@ class PoStockController extends SettingAjaxController
                 }
                 if($data->po_status == 2){
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-
+                if($data->po_status == 3){
+                    $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
                 return $action;
             })
             ->rawColumns(['action'])->make(true);
@@ -273,6 +278,21 @@ class PoStockController extends SettingAjaxController
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open PO Stock Success', 'stat' => 'Success']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = PoStock::findOrFail($id);
+        $data->po_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
     }
 
     /**

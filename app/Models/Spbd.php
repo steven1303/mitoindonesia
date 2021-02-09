@@ -23,4 +23,9 @@ class Spbd extends Model
     {
     	return $this->belongsTo('App\Models\Vendor','id_vendor');
     }
+
+    public function spbd_detail()
+    {
+    	return $this->hasMany('App\Models\SpbdDetail','spbd_id');
+    }
 }

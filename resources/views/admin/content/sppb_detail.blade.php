@@ -273,12 +273,17 @@
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
+            print_sppb("{{ $sppb->id }}");
             ajaxLoad("{{ route('local.sppb.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_sppb(id){
+        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

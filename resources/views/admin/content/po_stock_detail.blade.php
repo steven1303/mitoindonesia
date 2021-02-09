@@ -14,7 +14,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }}</h3>
+                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }} <b>(  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif @if($po_stock->po_status == 3 ) Approved @endif ) </b></h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
@@ -333,12 +333,17 @@
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
+            print_sppb("{{ $po_stock->id }}");
             ajaxLoad("{{ route('local.po_stock.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_sppb(id){
+        window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

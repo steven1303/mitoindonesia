@@ -34,17 +34,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="datemask" name="spbd_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -191,6 +180,10 @@
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_spbd(id){
+        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
 
     function approve(id) {

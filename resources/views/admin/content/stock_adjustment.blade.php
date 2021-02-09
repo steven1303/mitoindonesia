@@ -97,6 +97,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Stock No</th>
                                 <th>Doc No</th>
                                 <th>Order</th>
                                 <th>Sell</th>

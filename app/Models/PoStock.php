@@ -31,4 +31,9 @@ class PoStock extends Model
     	return $this->belongsTo('App\Models\Vendor','id_vendor');
     }
 
+    public function po_stock_detail()
+    {
+    	return $this->hasMany('App\Models\PoStockDetail','id_po');
+    }
+
 }

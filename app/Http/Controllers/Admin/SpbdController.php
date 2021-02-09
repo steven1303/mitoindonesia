@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Spbd;
 use App\Models\SpbdDetail;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class SpbdController extends SettingAjaxController
             'spbd_no' => $request['spbd_no'],
             'id_branch' => Auth::user()->id_branch,
             'id_vendor' => $request['vendor'],
-            'spbd_date' => $request['spbd_date'],
+            'spbd_date' => Carbon::now(),
             'spbd_user_id' => Auth::user()->id,
             'spbd_user_name' => Auth::user()->name,
             'spbd_status' => 1,
@@ -112,7 +113,7 @@ class SpbdController extends SettingAjaxController
         $data = Spbd::find($id);
         $data->spbd_no    = $request['spbd_no'];
         $data->id_vendor    = $request['vendor'];
-        $data->spbd_date    = $request['spbd_date'];
+        $data->spbd_date    = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit SPBD Success', 'stat' => 'Success']);
@@ -182,9 +183,11 @@ class SpbdController extends SettingAjaxController
                 if($data->spbd_status == 2){
                     $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
                 if($data->spbd_status == 3){
                     $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
 
                 return $action;
