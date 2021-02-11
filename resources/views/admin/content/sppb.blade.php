@@ -40,17 +40,6 @@
                                     <input type="text" class="form-control" id="sppb_po_cust" name="sppb_po_cust" placeholder="Input PO Customer">
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="datemask" name="sppb_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -109,7 +98,6 @@
     });
 
     $(function(){
-        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
         $('#customer').select2({
             placeholder: "Select and Search",
@@ -190,9 +178,28 @@
             $('#id').val(data.id);
             var newOption = new Option(data.customer.name, data.id_customer, true, true);
             $('#sppb_no').val(data.sppb_no);
-            $('#datemask').val(data.sppb_date);
             $('#customer').append(newOption).trigger('change');
             $('#sppb_po_cust').val(data.sppb_po_cust);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+
+    function print_sppb(id){
+        window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
+    }
+
+    function approve(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('sppb') }}" + '/' + id + "/approve",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
         },
         error : function() {
             error('Error', 'Nothing Data');

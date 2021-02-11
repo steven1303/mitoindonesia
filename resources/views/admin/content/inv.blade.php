@@ -28,17 +28,6 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Invoice Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="datemask1" name="date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
                                     <label>TOP Date</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -69,6 +58,18 @@
                                     <input type="text" class="form-control" id="po_cust" name="po_cust" placeholder="Input PO No Customer" readonly>
                                 </div>
                             </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>Mata Uang</label>
+                                    <input type="text" class="form-control" id="mata_uang" name="mata_uang" placeholder="Input Mata Uang">
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>PPN</label>
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN">
+                                </div>
+                            </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <label>Alamat Customer</label>
@@ -79,18 +80,6 @@
                                 <div class="form-group">
                                     <label>Alamat Pengantaran</label>
                                     <input type="text" class="form-control" id="inv_alamatkirim" name="inv_alamatkirim" placeholder="Input Alamat Pengantaran">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Mata Uang</label>
-                                    <input type="text" class="form-control" id="mata_uang" name="mata_uang" placeholder="Input Mata Uang">
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN">
                                 </div>
                             </div>
                         </div>
@@ -147,7 +136,7 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'inv_no', name: 'inv_no'},
-            {data: 'id_sppb', name: 'id_sppb'},
+            {data: 'sppb_no', name: 'sppb_no'},
             {data: 'date', name: 'date'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
@@ -253,6 +242,26 @@
             $('#inv_alamatkirim').val(data.inv_alamatkirim);
             $('#mata_uang').val(data.mata_uang);
             $('#ppn').val(data.ppn - 0);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+
+    function print_inv(id){
+        window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
+    }
+
+    function approve(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('inv') }}" + '/' + id + "/approve",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
         },
         error : function() {
             error('Error', 'Nothing Data');

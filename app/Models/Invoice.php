@@ -32,4 +32,14 @@ class Invoice extends Model
     {
     	return $this->belongsTo('App\Models\Sppb','id_sppb');
     }
+
+    public function customer()
+    {
+    	return $this->belongsTo('App\Models\Customer','id_customer');
+    }
+
+    public function inv_detail()
+    {
+    	return $this->hasMany('App\Models\InvoiceDetail','id_inv');
+    }
 }

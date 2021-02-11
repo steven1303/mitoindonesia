@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Spbd;
+use App\Models\Sppb;
+use App\Models\Invoice;
 use App\Models\PoStock;
 use App\Models\RecStock;
 use Illuminate\Http\Request;
@@ -41,6 +43,28 @@ class PrintController extends Controller
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_receipt',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_receipt.pdf');
+        // return view('admin.content.pdf.print_spbd')->with($data);
+    }
+
+    public function print_sppb($id)
+    {
+        $sppb = Sppb::findOrFail($id);
+        $data = [
+            'sppb' => $sppb
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_sppb',$data);
+        return $pdf->stream('print_sppb.pdf');
+        // return view('admin.content.pdf.print_spbd')->with($data);
+    }
+
+    public function print_inv($id)
+    {
+        $inv = Invoice::findOrFail($id);
+        $data = [
+            'inv' => $inv
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_invoice',$data);
+        return $pdf->stream('print_invoice.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 }

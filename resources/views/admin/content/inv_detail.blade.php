@@ -375,12 +375,17 @@
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
+            print_inv("{{ $invoice->id }}");
             ajaxLoad("{{ route('local.inv.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
+    }
+
+    function print_inv(id){
+        window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

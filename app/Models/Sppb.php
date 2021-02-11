@@ -24,4 +24,9 @@ class Sppb extends Model
     {
     	return $this->belongsTo('App\Models\Customer','id_customer');
     }
+
+    public function sppb_detail()
+    {
+    	return $this->hasMany('App\Models\SppbDetail','sppb_id');
+    }
 }

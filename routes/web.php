@@ -170,7 +170,10 @@ Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_o
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');
 Route::get('/po_stock/{id}/approve', 'App\Http\Controllers\Admin\PoStockController@approve')->name('local.po_stock.approve');
 Route::get('/sppb/{id}/approve', 'App\Http\Controllers\Admin\SppbController@approve')->name('local.sppb.approve');
+Route::get('/inv/{id}/approve', 'App\Http\Controllers\Admin\InvoiceController@approve')->name('local.inv.approve');
 
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
 Route::get('/po_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_stock')->name('local.print.po_stock');
 Route::get('/receipt_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_receipt')->name('local.print.rec');
+Route::get('/sppb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_sppb')->name('local.print.sppb');
+Route::get('/inv_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_inv')->name('local.print.inv');

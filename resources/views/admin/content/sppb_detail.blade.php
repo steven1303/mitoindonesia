@@ -283,7 +283,7 @@
     }
 
     function print_sppb(id){
-        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
+        window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){

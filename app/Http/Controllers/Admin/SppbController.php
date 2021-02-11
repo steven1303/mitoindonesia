@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Spbd;
-use App\Models\SpbdDetail;
 
 use App\Models\Sppb;
+use App\Models\SpbdDetail;
 use App\Models\SppbDetail;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -35,7 +36,7 @@ class SppbController extends SettingAjaxController
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'sppb_no' => $request['sppb_no'],
-            'sppb_date' => $request['sppb_date'],
+            'sppb_date' => Carbon::now(),
             'id_customer' => $request['customer'],
             'sppb_po_cust' => $request['sppb_po_cust'],
             'sppb_status' => 1,
@@ -116,7 +117,7 @@ class SppbController extends SettingAjaxController
 
         $data = Sppb::find($id);
         $data->sppb_no    = $request['sppb_no'];
-        $data->sppb_date    = $request['sppb_date'];
+        $data->sppb_date    = Carbon::now();
         $data->id_customer    = $request['customer'];
         $data->sppb_po_cust    = $request['sppb_po_cust'];
         $data->update();
@@ -187,6 +188,12 @@ class SppbController extends SettingAjaxController
                 }
                 if($data->sppb_status == 2){
                     $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
+                if($data->sppb_status == 3){
+                    $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
 
                 return $action;
@@ -211,7 +218,7 @@ class SppbController extends SettingAjaxController
             ->addColumn('action', function($data)  use($inv_stat){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
-                if($data->sppd->sppb_status == 1){
+                if($data->sppb->sppb_status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
@@ -248,7 +255,7 @@ class SppbController extends SettingAjaxController
         $tags = Sppb::where([
             ['sppb_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['sppb_status','=', 2],
+            ['sppb_status','=', 3],
         ])->get();
 
         $formatted_tags = [];
@@ -280,5 +287,20 @@ class SppbController extends SettingAjaxController
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open SPPB Success', 'stat' => 'Success']);
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = Sppb::findOrFail($id);
+        $data->sppb_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'SPPB Approve Success', 'stat' => 'Success']);
     }
 }

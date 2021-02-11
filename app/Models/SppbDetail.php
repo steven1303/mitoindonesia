@@ -25,7 +25,7 @@ class SppbDetail extends Model
         return $this->belongsTo('App\Models\StockMaster','id_stock_master');
     }
 
-    public function sppd()
+    public function sppb()
     {
         return $this->belongsTo('App\Models\Sppb','sppb_id');
     }

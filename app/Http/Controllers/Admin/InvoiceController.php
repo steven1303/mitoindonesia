@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\SppbDetail;
 use Illuminate\Http\Request;
@@ -39,7 +40,6 @@ class InvoiceController extends SettingAjaxController
         $data = array(
             "id" => $inv->id,
             "inv_no" => $inv->inv_no,
-            "datemask1" => $inv->date,
             "datemask2" => $inv->top_date,
             "sppb" => $inv->id_sppb,
             "sppb_no" => $inv->sppb->sppb_no,
@@ -90,7 +90,7 @@ class InvoiceController extends SettingAjaxController
             'inv_kirimke' => $request['inv_kirimke'],
             'inv_alamatkirim' => $request['inv_alamatkirim'],
             'mata_uang' => $request['mata_uang'],
-            'date' => $request['date'],
+            'date' => Carbon::now(),
             'top_date' => $request['top_date'],
             'inv_status' => 1,
             'ppn' => $request['ppn'],
@@ -102,7 +102,7 @@ class InvoiceController extends SettingAjaxController
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new Invoice Success' , 'stat' => 'Success', 'inv_id' => $activity->id]);
+                ->json(['code'=>200,'message' => 'Add new Invoice Success' , 'stat' => 'Success', 'inv_id' => $activity->id, 'process' => 'add']);
 
         } else {
             return response()
@@ -166,7 +166,6 @@ class InvoiceController extends SettingAjaxController
         $data->inv_kirimke    = $request['inv_kirimke'];
         $data->inv_alamatkirim    = $request['inv_alamatkirim'];
         $data->mata_uang    = $request['mata_uang'];
-        $data->date    = $request['date'];
         $data->top_date    = $request['top_date'];
         $data->ppn    = $request['ppn'];
         $data->update();
@@ -245,9 +244,17 @@ class InvoiceController extends SettingAjaxController
                 }
                 if($data->inv_status == 2){
                     $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-
+                if($data->inv_status == 3){
+                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
                 return $action;
+            })
+            ->addColumn('sppb_no', function($data){
+                return $data->sppb->sppb_no;
             })
             ->rawColumns(['action'])->make(true);
     }
@@ -295,5 +302,20 @@ class InvoiceController extends SettingAjaxController
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Request Invoice Success', 'stat' => 'Success']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = Invoice::findOrFail($id);
+        $data->inv_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
     }
 }
