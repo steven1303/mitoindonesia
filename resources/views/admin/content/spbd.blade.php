@@ -57,6 +57,7 @@
                                 <th>ID</th>
                                 <th>SPBD No</th>
                                 <th>Date</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

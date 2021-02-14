@@ -67,7 +67,7 @@
                         <tr>
                             <td>1.</td>
                             <td>Harga Modal</td>
-                            <td>Harga Modal</td>
+                            <td>{{ $stock_detail->harga_modal }}</td>
                         </tr>
                         <tr>
                             <td>2.</td>
@@ -77,7 +77,7 @@
                         <tr>
                             <td>3.</td>
                             <td>Harga Jual</td>
-                            <td>Harga Jual</td>
+                            <td>{{ $stock_detail->harga_jual }}</td>
                         </tr>
                         <tr>
                             <td>4.</td>
@@ -100,10 +100,10 @@
                                 <th>ID</th>
                                 <th>Movement Type</th>
                                 <th>Tanggal</th>
-                                <th>In</th>
-                                <th>Out</th>
                                 <th>Order</th>
                                 <th>Sell</th>
+                                <th>In</th>
+                                <th>Out</th>
                                 <th>Status</th>
                             </tr>
                         </thead>

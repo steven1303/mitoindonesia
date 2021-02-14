@@ -7,6 +7,7 @@ use App\Models\PoStock;
 use App\Models\SpbdDetail;
 use Illuminate\Http\Request;
 use App\Models\PoStockDetail;
+use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
@@ -290,9 +291,37 @@ class PoStockController extends SettingAjaxController
     {
         $data = PoStock::findOrFail($id);
         $data->po_status = 3;
+        $movement = $this->po_movement($data->po_stock_detail);
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
+    }
+
+    public function po_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->po_stock->po_ord_date,
+                // 'bin' => "-",
+                'type' => 'PO',
+                'doc_no' => $detail->po_stock->po_no,
+                'order_qty' => $detail->qty,
+                'sell_qty' => 0,
+                'in_qty' => 0,
+                'out_qty' => 0,
+                'harga_modal' => $detail->price,
+                'harga_jual' => 0,
+                'user' => Auth::user()->name,
+                'ket' => 'PO Approved at ('.Carbon::now().')',
+            ];
+
+            $movement = StockMovement::create($data);
+            $stock_master = StockMaster::find($detail->id_stock_master);
+            $stock_master->harga_modal = $detail->price;
+            $data->update();
+        }
     }
 
     /**

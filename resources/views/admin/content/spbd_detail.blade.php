@@ -58,7 +58,9 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">SPBD Detail</h3><br/><br/>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    @if ($spbd->spbd_status == 1 )
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    @endif
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped"  id="stockMasterTable">

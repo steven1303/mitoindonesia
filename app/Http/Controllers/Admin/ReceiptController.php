@@ -7,8 +7,10 @@ use App\Models\PoStock;
 use App\Models\RecStock;
 
 use App\Models\SpbdDetail;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
 use App\Models\PoStockDetail;
+use App\Models\StockMovement;
 use App\Models\RecStockDetail;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -293,8 +295,36 @@ class ReceiptController extends SettingAjaxController
     {
         $data = RecStock::findOrFail($id);
         $data->status = 2;
+        $movement = $this->rec_movement($data->receipt_detail);
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open Receipt Stock Success', 'stat' => 'Success']);
+    }
+
+    public function rec_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->receipt->rec_date,
+                // 'bin' => "-",
+                'type' => 'RC',
+                'doc_no' => $detail->receipt->rec_no,
+                'order_qty' => 0,
+                'sell_qty' => 0,
+                'in_qty' => $detail->terima,
+                'out_qty' => 0,
+                'harga_modal' => $detail->price,
+                'harga_jual' => 0,
+                'user' => Auth::user()->name,
+                'ket' => 'PO ('.$detail->po_detail->po_stock->po_no.')',
+            ];
+
+            $movement = StockMovement::create($data);
+            $stock_master = StockMaster::find($detail->id_stock_master);
+            $stock_master->harga_modal = $detail->price;
+            $stock_master->update();
+        }
     }
 }

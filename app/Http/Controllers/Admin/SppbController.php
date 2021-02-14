@@ -8,7 +8,9 @@ use App\Models\Spbd;
 use App\Models\Sppb;
 use App\Models\SpbdDetail;
 use App\Models\SppbDetail;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
+use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
@@ -299,8 +301,36 @@ class SppbController extends SettingAjaxController
     {
         $data = Sppb::findOrFail($id);
         $data->sppb_status = 3;
+        $this->sppb_movement($data->sppb_detail);
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'SPPB Approve Success', 'stat' => 'Success']);
+    }
+
+    public function sppb_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->sppb->sppb_date,
+                // 'bin' => "-",
+                'type' => 'SPPB',
+                'doc_no' => $detail->sppb->sppb_no,
+                'order_qty' => 0,
+                'sell_qty' => 0,
+                'in_qty' => 0,
+                'out_qty' => $detail->qty,
+                'harga_modal' => 0,
+                'harga_jual' => $detail->price,
+                'user' => Auth::user()->name,
+                'ket' => 'SPPB Approved at ('.Carbon::now().')',
+            ];
+
+            $movement = StockMovement::create($data);
+            $stock_master = StockMaster::find($detail->id_stock_master);
+            $stock_master->harga_jual = $detail->price;
+            $stock_master->update();
+        }
     }
 }

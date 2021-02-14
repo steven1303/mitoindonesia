@@ -65,7 +65,12 @@
                             <div class="col-xs-3">
                                 <div class="form-group">
                                     <label>BOD</label>
-                                    <input type="text" class="form-control" id="bod" name="bod" placeholder="Input NPWP">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="bod" name="bod" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +135,8 @@
     });
 
     $(function(){
+        $('#bod').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
+
 	    $('#customerForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){

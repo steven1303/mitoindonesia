@@ -30,18 +30,6 @@
                             </div>
                             <div class="col-xs-2">
                                 <div class="form-group">
-                                    <label>Order QTY</label>
-                                    <input type="text" class="form-control" id="order_qty" name="order_qty" placeholder="Input Order QTY">
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    <label>Sell QTY</label>
-                                    <input type="text" class="form-control" id="sell_qty" name="sell_qty" placeholder="Input Sell QTY">
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
                                     <label>In QTY</label>
                                     <input type="text" class="form-control" id="in_qty" name="in_qty" placeholder="Input In QTY">
                                 </div>
@@ -50,12 +38,6 @@
                                 <div class="form-group">
                                     <label>Out QTY</label>
                                     <input type="text" class="form-control" id="out_qty" name="out_qty" placeholder="Input Out QTY">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Bin</label>
-                                    <input type="text" class="form-control" id="bin" name="bin" placeholder="Input Bin">
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -70,7 +52,7 @@
                                     <input type="text" class="form-control" id="harga_jual" name="harga_jual" placeholder="Input Harga Jual">
                                 </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-8">
                                 <div class="form-group">
                                     <label>Keterangan</label>
                                     <input type="text" class="form-control" id="ket" name="ket" placeholder="Input Keterangan">
@@ -218,8 +200,6 @@
             $('#stock_master').val(data.id_stock_master);
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
             $('#stock_master').append(newOption).trigger('change');
-            $('#order_qty').val(data.order_qty);
-            $('#sell_qty').val(data.sell_qty);
             $('#in_qty').val(data.in_qty);
             $('#out_qty').val(data.out_qty);
             $('#bin').val(data.bin);

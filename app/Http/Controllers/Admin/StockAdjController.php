@@ -26,11 +26,11 @@ class StockAdjController extends SettingAjaxController
             'id_stock_master' => $request['stock_master'],
             'id_branch' => Auth::user()->id_branch,
             'move_date' => Carbon::now(),
-            'bin' => $request['bin'],
+            // 'bin' => "-",
             'type' => 'ADJ',
             'doc_no' => 'Adjusment',
-            'order_qty' => $request['order_qty'],
-            'sell_qty' => $request['sell_qty'],
+            'order_qty' => 0,
+            'sell_qty' => 0,
             'in_qty' => $request['in_qty'],
             'out_qty' => $request['out_qty'],
             'harga_modal' => $request['harga_modal'],
@@ -76,8 +76,8 @@ class StockAdjController extends SettingAjaxController
         $data = StockMovement::find($id);
         $data->id_stock_master    = $request['stock_master'];
         // $data->bin    = $request['bin'];
-        $data->order_qty    = $request['order_qty'];
-        $data->sell_qty    = $request['sell_qty'];
+        $data->order_qty    = 0;
+        $data->sell_qty    = 0;
         $data->in_qty    = $request['in_qty'];
         $data->out_qty    = $request['out_qty'];
         $data->harga_modal    = $request['harga_modal'];
