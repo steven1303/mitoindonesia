@@ -73,7 +73,7 @@
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <label>Alamat Customer</label>
-                                    <input type="text" class="form-control" id="inv_kirimke" name="inv_kirimke" placeholder="Input Alamat Customer">
+                                    <input type="text" class="form-control" id="inv_kirimke" name="inv_kirimke" placeholder="Input Alamat Customer" readonly>
                                 </div>
                             </div>
                             <div class="col-xs-6">
@@ -170,6 +170,7 @@
             $('#customer').val(data.customer);
             $('#customer_name').val(data.customer_name);
             $('#po_cust').val(data.customer_po);
+            $('#inv_kirimke').val(data.customer_address);
         });
 
 	    $('#InvoiceForm').validator().on('submit', function (e) {

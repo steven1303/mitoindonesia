@@ -127,6 +127,11 @@
                     </li>
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Pelunasan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Report</span>
                         </a>
                     </li>

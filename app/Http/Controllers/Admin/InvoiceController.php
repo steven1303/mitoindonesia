@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\SppbDetail;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
 use App\Models\InvoiceDetail;
+use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
@@ -314,8 +316,36 @@ class InvoiceController extends SettingAjaxController
     {
         $data = Invoice::findOrFail($id);
         $data->inv_status = 3;
+        $this->inv_movement($data->inv_detail);
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
+    }
+
+    public function inv_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->invoice->date,
+                // 'bin' => "-",
+                'type' => 'INV',
+                'doc_no' => $detail->invoice->inv_no,
+                'order_qty' => 0,
+                'sell_qty' => $detail->qty,
+                'in_qty' => 0,
+                'out_qty' => 0,
+                'harga_modal' => 0,
+                'harga_jual' => $detail->price,
+                'user' => Auth::user()->name,
+                'ket' => 'SPPB ('.$detail->sppb_detail->sppb->sppb_no.')',
+            ];
+
+            $movement = StockMovement::create($data);
+            $stock_master = StockMaster::find($detail->id_stock_master);
+            $stock_master->harga_jual = $detail->price;
+            $stock_master->update();
+        }
     }
 }

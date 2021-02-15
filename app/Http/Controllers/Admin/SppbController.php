@@ -268,6 +268,7 @@ class SppbController extends SettingAjaxController
                 'text'  => $tag->sppb_no,
                 'customer'  => $tag->id_customer,
                 'customer_name'  => $tag->customer->name,
+                'customer_address' => $tag->customer->address1.' , '.$tag->customer->address2,
                 'customer_po'  => $tag->sppb_po_cust,
             ];
         }
