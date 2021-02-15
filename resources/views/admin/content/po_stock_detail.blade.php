@@ -147,13 +147,13 @@
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="text" class="form-control" id="price" name="price" placeholder="Price">
+                                <input type="text" class="form-control number" id="price" name="price" placeholder="Price"  oninput="format_decimal_limit()">
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label>Discount</label>
-                                <input type="text" class="form-control" id="disc" name="disc" placeholder="Discount">
+                                <input type="text" class="form-control number" id="disc" name="disc" placeholder="Discount"  oninput="format_decimal_limit()">
                             </div>
                         </div>
                         <div class="col-xs-5">
@@ -220,14 +220,47 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
-            {data: 'price', name: 'price'},
-            {data: 'disc', name: 'disc'},
+            {data: 'price_format', name: 'price_format'},
+            {data: 'disc_format', name: 'disc_format'},
             {data: 'satuan', name: 'satuan'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
+    function format_decimal_limit(){
+            VMasker(document.getElementById("price")).maskMoney({
+                precision: 0,
+                separator: '.',
+                delimiter: '.',
+                unit: 'Rp',
+            });
+
+            VMasker(document.getElementById("disc")).maskMoney({
+                precision: 0,
+                separator: '.',
+                delimiter: '.',
+                unit: 'Rp',
+            });
+        }
+
     $(function(){
+
+        // var cleaveC = new Cleave('#price', {
+        //     numeral: true,
+        //     numeralThousandsGroupStyle: 'thousand'
+        // });
+        // var cleaveC = new Cleave('#disc', {
+        //     numeral: true,
+        //     numeralThousandsGroupStyle: 'thousand'
+        // });
+
+
+        $(".number").keypress(function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+        });
+
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
 	    $('#PoDetailForm').validator().on('submit', function (e) {

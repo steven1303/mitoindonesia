@@ -113,8 +113,8 @@ class PoStockController extends SettingAjaxController
             'id_spbd_detail' => $request['id_spbd_detail'],
             'id_stock_master' => $request['id_stock_master'],
             'qty' => $request['qty'],
-            'price' => $request['price'],
-            'disc' => $request['disc'],
+            'price' => preg_replace('/\D/', '',$request['price']),
+            'disc' => preg_replace('/\D/', '',$request['disc']),
             'keterangan' => $request['keterangan'],
             'po_detail_status' => 1,
         ];
@@ -169,8 +169,8 @@ class PoStockController extends SettingAjaxController
     {
         // return $request;
         $data = PoStockDetail::find($id);
-        $data->price    = $request['price'];
-        $data->disc    = $request['disc'];
+        $data->price    = preg_replace('/\D/', '',$request['price']);
+        $data->disc    = preg_replace('/\D/', '',$request['disc']);
         $data->keterangan    = $request['keterangan'];
         $data->update();
         return response()
@@ -242,7 +242,12 @@ class PoStockController extends SettingAjaxController
             ['id_po','=', $id],
         ])->whereRaw('po_stock_details.qty <> po_stock_details.rec_qty')->latest()->get();
         return DataTables::of($data)
-            ->addIndexColumn()
+            ->addIndexColumn()->addColumn('price_format', function($data){
+                return "Rp. ".number_format($data->price,0, ",", ".");
+            })
+            ->addIndexColumn()->addColumn('disc_format', function($data){
+                return "Rp. ".number_format($data->disc,0, ",", ".");
+            })
             ->addColumn('action', function($data)  use($rec_stat){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";

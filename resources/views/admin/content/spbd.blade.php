@@ -88,6 +88,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'spbd_no', name: 'spbd_no'},
             {data: 'spbd_date', name: 'spbd_date'},
+            {data: 'status_spbd', name: 'status_spbd'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });

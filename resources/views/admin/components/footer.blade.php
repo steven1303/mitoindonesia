@@ -21,10 +21,12 @@
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{asset('js/iziToast.min.js')}}"></script>
 <script src="{{asset('js/message.js')}}"></script>
+<script src="{{asset('js/cleave.min.js')}}"></script>
+<script src="{{asset('js/vanilla-masker.min.js')}}"></script>
 <script>
-  $(document).ready(function () {
-    $('.sidebar-menu').tree()
-  })
+    $(document).ready(function () {
+        $('.sidebar-menu').tree()
+    })
 </script>
 
 <script src="{{asset('js/global.min.js')}}"></script>

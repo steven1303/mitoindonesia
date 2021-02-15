@@ -84,7 +84,7 @@
                                 <th>ID</th>
                                 <th>Stock Master</th>
                                 <th>Order</th>
-                                <th>Sell</th>
+                                <th>Terima</th>
                                 <th>Satuan</th>
                                 <th>Action</th>
                             </tr>

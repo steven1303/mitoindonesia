@@ -170,6 +170,21 @@ class SpbdController extends SettingAjaxController
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('status_spbd', function($data){
+                $spbd_status = "";
+                if($data->spbd_status == 1){
+                    $spbd_status = "Draft";
+                }elseif ($data->spbd_status == 2) {
+                    $spbd_status = "Request";
+                }elseif ($data->spbd_status == 3) {
+                    $spbd_status = "Approved";
+                }elseif ($data->spbd_status == 4) {
+                    $spbd_status = "Closed";
+                }else {
+                    $spbd_status = "Reject";
+                }
+                return $spbd_status;
+            })
             ->addColumn('action', function($data){
                 $spbd_detail = "javascript:ajaxLoad('".route('local.spbd.detail.index', $data->id)."')";
                 $spbd_approve = "javascript:ajaxLoad('".route('local.spbd.approve', $data->id)."')";
