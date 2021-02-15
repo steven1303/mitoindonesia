@@ -4,7 +4,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>M</b>ito</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>SIM</b>mito</span>
+        <span class="logo-lg"><b>SIM</b>ito</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -21,7 +21,7 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
+                        <!-- <img src="{{asset(' ')}}" class="user-image" alt="User Image"> -->
                         <span class="hidden-xs">{{ Auth::user()->username }}</span>
                     </a>
                     <ul class="dropdown-menu">

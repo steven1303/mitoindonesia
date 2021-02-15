@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h3 style="text-align: center;">SURAT PERMINTAAN BARANG DAGANG <br/>
+    <h3 style="text-align: center;">SURAT PERMINTAAN BARANG DAGANG<br/>
         (SPBD)
     </h3>
         Kepada : <br/>

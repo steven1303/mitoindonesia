@@ -4,13 +4,11 @@
       <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                <img src="{{asset('/img/PT_Mito_png.png')}}" class="img-circle" alt="User Image">
             </div>
+            
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
-                <a href="#">
-                    <i class="fa fa-circle text-success"></i> Online
-                </a>
+                <p>Welcome</p>
             </div>
         </div>
         <!-- /.search form -->
@@ -22,6 +20,101 @@
                     <i class="fa fa-th"></i> <span>Dashboard</span>
                 </a>
             </li>
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>Ordering</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.spbd.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPBD</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.po_stock.index')}}')">
+                            <i class="fa fa-th"></i> <span>PO Stock</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.rec.index')}}')">
+                            <i class="fa fa-th"></i> <span>Receipt</span>
+                        </a>
+                    </li>
+                 </ul>
+            </li>
+
+             <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>Inventory</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_master.index')}}')">
+                            <i class="fa fa-th"></i> <span>Stock Master</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Adjustment</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>Transaktion</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPPB</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
+                            <i class="fa fa-th"></i> <span>Invoice</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Report</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-folder"></i> <span>Settings</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.customer.index')}}')">
+                            <i class="fa fa-th"></i> <span>Customer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
+                            <i class="fa fa-th"></i> <span>Vendor</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="treeview">
                 <a href="#">
                   <i class="fa fa-folder"></i> <span>Tools</span>
@@ -52,91 +145,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-folder"></i> <span>Settings</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.customer.index')}}')">
-                            <i class="fa fa-th"></i> <span>Customer</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
-                            <i class="fa fa-th"></i> <span>Vendor</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-folder"></i> <span>Inventory</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.stock_master.index')}}')">
-                            <i class="fa fa-th"></i> <span>Stock Master</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
-                            <i class="fa fa-th"></i> <span>Adjustment</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-folder"></i> <span>Transaksi</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.spbd.index')}}')">
-                            <i class="fa fa-th"></i> <span>SPBD</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
-                            <i class="fa fa-th"></i> <span>SPPB</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.po_stock.index')}}')">
-                            <i class="fa fa-th"></i> <span>PO Stock</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
-                            <i class="fa fa-th"></i> <span>Invoice</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.rec.index')}}')">
-                            <i class="fa fa-th"></i> <span>Receipt</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
-                            <i class="fa fa-th"></i> <span>Pelunasan</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
-                            <i class="fa fa-th"></i> <span>Report</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            
         </ul>
     </section>
     <!-- /.sidebar -->

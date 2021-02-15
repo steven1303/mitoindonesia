@@ -13,9 +13,9 @@
         </div>
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.18
+                <b>Version</b> 1.150221
             </div>
-            <strong>Copyright &copy; 2014-2019
+            <strong>Copyright &copy; SIMito 2021
         </footer>
         <aside class="control-sidebar control-sidebar-dark">
             <div class="tab-content">
