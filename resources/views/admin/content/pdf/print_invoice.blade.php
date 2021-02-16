@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h3 style="text-align: center;">RECEIPT ORDER </h3>
+    <h3 style="text-align: center;">INVOICE </h3>
     <P style="text-align: center;">Kepada Yth : {{ $inv->customer->name }} </P>
         Tanggal : {{ $inv->date }}<br/>
         No. Invoice : {{ $inv->inv_no }}<br/>

@@ -46,6 +46,81 @@
         <br/>
         <em>Note : Exclude (Harga Belum Termasuk PPN 10%)</em><br/>
         <br/>
+        <br/>
+
+        <table border="2" width="50%" height="500px" cellspacing="0" cellpadding="0">
+            <tbody>
+
+                <tr>
+                    <td style="text-align: center;"><p>DIPERIKSA OLEH </p>
+                 
+                        <p>__________________________________ <br/> </p>
+                    </td>
+
+                    <td style="text-align: center;"><p>DISETUJUI OLEH </p>
+                  
+                         <p>__________________________________ <br/></p>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td style="text-align: center;">
+                        <p>DIPERIKSA OLEH </p>
+                 
+                        <p>__________________________________ <br/> </p>
+                    </td>
+
+                    <td style="text-align: center;"><p>DISETUJUI OLEH </p>
+                  
+                         <p>__________________________________ <br/></p>
+                     </td>
+                 </tr>
+            </tbody>
+        </table>
+       
+
+
+
+
+     
+            
+<!--
+    
+  </tr>
+  <tr>
+    <td colspan="3" align="right" valign="top" style="border:1px solid; padding:5px">&nbsp;</td>
+  </tr>
+        <tr>
+    <td colspan="3" align="right" valign="top" style="border:1px solid; padding:5px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="74%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td colspan="2" align="center"><em><strong>Telah diperiksa dan dihitung sesuai
+                dengan fisik barang</strong></em><br /></td>
+              </tr>
+            <tr>
+              <td align="center"><p>DIPERIKSA OLEH </p>
+                  <p>&nbsp;</p>
+                <p>__________________________________ <br />
+                </p></td>
+              <td align="center"><p>DISETUJUI OLEH </p>
+                  <p>&nbsp;</p>
+                <p>__________________________________ </p></td>
+            </tr>
+            
+            
+        </table></td>
+        <td valign="top" style="border:solid 1px"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+      
+            
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+
+-->
+
+        
+        <br/>
         &nbsp;<br/>
         <br/>
         {{-- Medan, {{$po_stock->po_ord_date}} --}}
