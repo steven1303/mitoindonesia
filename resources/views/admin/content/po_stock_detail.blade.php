@@ -51,7 +51,9 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button id="btnSave" type="button" onclick="open_po_stock_Form()" class="btn btn-success">Open / Request</button>
+                            @if($po_stock->po_status == 1 )
+                                <button id="btnSave" type="button" onclick="open_po_stock_Form()" class="btn btn-success">Open / Request</button>
+                            @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
                         </div>
                     </form>
