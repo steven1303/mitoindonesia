@@ -306,12 +306,13 @@ class ReceiptController extends SettingAjaxController
         $movement = $this->rec_movement($data->receipt_detail);
 
         $po_stock = PoStock::findOrFail($data->id_po_stock);
-        $total_terima = $data->po_stock->po_stock_detail->sum('rec_qty') + $data->receipt_detail->sum('terima');
-        if($data->po_stock->po_stock_detail->sum('qty') == $total_terima){
-            $po_stock->po_status = 5;
-        }else{
-            $po_stock->po_status = 4;
-        }
+        // $total_terima = $data->po_stock->po_stock_detail->sum('rec_qty') + $data->receipt_detail->sum('terima');
+        // if($data->po_stock->po_stock_detail->sum('qty') == $total_terima){
+        //     $po_stock->po_status = 5;
+        // }else{
+        //     $po_stock->po_status = 4;
+        // }
+        $po_stock->po_status = 5;
         $po_stock->update();
 
         $data->update();
