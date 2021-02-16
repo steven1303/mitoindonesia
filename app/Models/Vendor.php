@@ -10,6 +10,6 @@ class Vendor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','id_branch','address1','address2','city','phone','npwp',
+        'name','id_branch','address1','address2','city','phone','npwp','ppn'
     ];
 }

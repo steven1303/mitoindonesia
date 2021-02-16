@@ -14,7 +14,9 @@ class SpbdController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
+        $data = [
+            'spbd_no' => $this->spbd_no()
+        ];
         return view('admin.content.spbd')->with($data);
     }
 
@@ -27,11 +29,21 @@ class SpbdController extends SettingAjaxController
         return view('admin.content.spbd_detail')->with($data);
     }
 
+    public function spbd_no(){
+        $tanggal = Carbon::now();
+        $format = 'SPBD/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $spbd_no = Spbd::where([
+            ['spbd_no','like', $format.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count() + 1;
+        return $format.'/'.sprintf("%03d", $spbd_no);
+    }
+
     public function store(Request $request)
     {
         // return $request;
         $data = [
-            'spbd_no' => $request['spbd_no'],
+            'spbd_no' => $this->spbd_no(),
             'id_branch' => Auth::user()->id_branch,
             'id_vendor' => $request['vendor'],
             'spbd_date' => Carbon::now(),
@@ -111,7 +123,7 @@ class SpbdController extends SettingAjaxController
     {
 
         $data = Spbd::find($id);
-        $data->spbd_no    = $request['spbd_no'];
+        // $data->spbd_no    = $request['spbd_no'];
         $data->id_vendor    = $request['vendor'];
         $data->spbd_date    = Carbon::now();
         $data->update();
@@ -200,7 +212,7 @@ class SpbdController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-                if($data->spbd_status == 3){
+                else{
                     $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
@@ -275,6 +287,7 @@ class SpbdController extends SettingAjaxController
                 'text'  => $tag->spbd_no,
                 'vendor'  => $tag->id_vendor,
                 'vendor_name'  => $tag->vendor->name,
+                'ppn'  => $tag->vendor->ppn,
             ];
         }
 

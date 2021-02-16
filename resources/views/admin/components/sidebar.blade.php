@@ -6,7 +6,7 @@
             <div class="pull-left image">
                 <img src="{{asset('/img/PT_Mito_png.png')}}" class="img-circle" alt="User Image">
             </div>
-            
+
             <div class="pull-left info">
                 <p>Welcome</p>
             </div>
@@ -69,7 +69,7 @@
 
             <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-folder"></i> <span>Transaktion</span>
+                  <i class="fa fa-folder"></i> <span>Transaction</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
@@ -80,13 +80,13 @@
                             <i class="fa fa-th"></i> <span>SPPB</span>
                         </a>
                     </li>
-                    
+
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
                             <i class="fa fa-th"></i> <span>Invoice</span>
                         </a>
                     </li>
-                    
+
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Report</span>
@@ -145,7 +145,7 @@
                     </li>
                 </ul>
             </li>
-            
+
         </ul>
     </section>
     <!-- /.sidebar -->

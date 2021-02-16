@@ -28,6 +28,7 @@ class CustomerController extends SettingAjaxController
             'npwp' => $request['npwp'],
             'ktp' => $request['ktp'],
             'bod' => $request['bod'],
+            'ppn' => $request['ppn'],
             'id_branch' => Auth::user()->id_branch,
         ];
 
@@ -62,6 +63,7 @@ class CustomerController extends SettingAjaxController
         $data->npwp    = $request['npwp'];
         $data->ktp    = $request['ktp'];
         $data->bod    = $request['bod'];
+        $data->ppn    = $request['ppn'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Customer Success', 'stat' => 'Success']);

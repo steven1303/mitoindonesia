@@ -193,7 +193,7 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.spbd_detail', [ 'id' => $po_stock->id_spbd, 'po_stat' => 1] ) }}",
+        "ajax": "{{route('local.record.spbd_detail', [ 'id' => $po_stock->id_spbd, 'po_stat' => $po_stock->po_status] ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},

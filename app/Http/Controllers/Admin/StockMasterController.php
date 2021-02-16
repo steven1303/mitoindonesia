@@ -92,6 +92,10 @@ class StockMasterController extends SettingAjaxController
                 $action = "";
                 return $action;
             })
+            ->addColumn('soh', function($data){
+                $soh = $data->stock_movement->sum('in_qty') - $data->stock_movement->sum('out_qty');
+                return $soh;
+            })
             ->addColumn('action', function($data){
                 $stock_movement = "javascript:ajaxLoad('".route('local.stock_movement.index', $data->id)."')";
                 $action = "";

@@ -26,6 +26,7 @@ class VendorController extends SettingAjaxController
             'city' => $request['city'],
             'phone' => $request['phone'],
             'npwp' => $request['npwp'],
+            'ppn' => $request['ppn'],
             'id_branch' => Auth::user()->id_branch,
         ];
 
@@ -58,6 +59,7 @@ class VendorController extends SettingAjaxController
         $data->city = $request['city'];
         $data->phone    = $request['phone'];
         $data->npwp    = $request['npwp'];
+        $data->ppn    = $request['ppn'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Vendor Success', 'stat' => 'Success']);

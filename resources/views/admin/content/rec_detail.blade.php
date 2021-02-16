@@ -64,7 +64,7 @@
                         </div>
                         <div class="box-footer">
                             <button type="button" onclick="open_receipt_Form()" class="btn btn-success">Print</button>
-                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
+                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.rec.index')}}')">Save</button>
                         </div>
                     </form>
                 </div>
@@ -233,7 +233,7 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.po_stock_detail', [ 'id' => $rec->id_po_stock, 'rec_stat' => 1]  ) }}",
+        "ajax": "{{route('local.record.po_stock_detail', [ 'id' => $rec->id_po_stock, 'rec_stat' => $rec->status]  ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
@@ -354,7 +354,7 @@
         success: function(data) {
             success(data.stat, data.message);
             print_receipt("{{ $rec->id }}");
-            ajaxLoad("{{ route('local.po_stock.index') }}");
+            ajaxLoad("{{ route('local.rec.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');

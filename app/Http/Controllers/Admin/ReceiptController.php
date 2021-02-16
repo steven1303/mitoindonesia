@@ -33,6 +33,16 @@ class ReceiptController extends SettingAjaxController
         return view('admin.content.rec_detail')->with($data);
     }
 
+    public function rec_no(){
+        $tanggal = Carbon::now();
+        $format = 'REC/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $po_stock_no = RecStock::where([
+            ['rec_no','like', $format.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count() + 1;
+        return $format.'/'.sprintf("%03d", $po_stock_no);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -87,7 +97,7 @@ class ReceiptController extends SettingAjaxController
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'rec_no' => $request['rec_no'],
+            'rec_no' => $this->rec_no(),
             'id_vendor' => $request['vendor'],
             'id_po_stock' => $request['po_stock'],
             'rec_inv_ven' => $request['rec_inv_ven'],
@@ -155,7 +165,6 @@ class ReceiptController extends SettingAjaxController
     {
 
         $data = RecStock::find($id);
-        $data->rec_no    = $request['rec_no'];
         $data->id_po_stock    = $request['po_stock'];
         $data->id_vendor    = $request['vendor'];
         $data->rec_inv_ven    = $request['rec_inv_ven'];
@@ -216,7 +225,6 @@ class ReceiptController extends SettingAjaxController
         $rec_detail = RecStockDetail::find($id);
         RecStockDetail::destroy($id);
         $po_detail = PoStockDetail::find($rec_detail->id_po_detail);
-        return $po_detail;
         $po_detail->rec_qty = $po_detail->rec_qty - $rec_detail->terima;
         $po_detail->update();
         return response()
@@ -296,6 +304,15 @@ class ReceiptController extends SettingAjaxController
         $data = RecStock::findOrFail($id);
         $data->status = 2;
         $movement = $this->rec_movement($data->receipt_detail);
+
+        $po_stock = PoStock::findOrFail($data->id_po_stock);
+        if($data->po_stock->po_stock_detail->sum('qty') == $data->receipt_detail->sum('terima')){
+            $po_stock->po_status = 5;
+        }else{
+            $po_stock->po_status = 4;
+        }
+        $po_stock->update();
+
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open Receipt Stock Success', 'stat' => 'Success']);

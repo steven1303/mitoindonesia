@@ -22,12 +22,6 @@
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>PO No</label>
-                                    <input type="text" class="form-control" id="po_no" name="po_no" placeholder="Input SPBD No">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
                                     <label>SPBD No</label>
                                     <select class="form-control select2" id="spbd" name="spbd" style="width: 100%;">
                                         <option></option>
@@ -44,7 +38,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input SPBD No">
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="PPN %" readonly>
                                 </div>
                             </div>
                         </div>
@@ -70,6 +64,7 @@
                                 <th>ID</th>
                                 <th>PO No</th>
                                 <th>Date</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -100,6 +95,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'po_no', name: 'po_no'},
             {data: 'po_ord_date', name: 'po_ord_date'},
+            {data: 'status_po_stock', name: 'status_po_stock'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -129,6 +125,7 @@
             var data = e.params.data;
             $('#vendor').val(data.vendor);
             $('#vendor_name').val(data.vendor_name);
+            $('#ppn').val(data.ppn);
         });
 
 	    $('#PoStockForm').validator().on('submit', function (e) {

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Spbd;
 use App\Models\PoStock;
 use App\Models\SpbdDetail;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
 use App\Models\PoStockDetail;
 use App\Models\StockMovement;
@@ -16,7 +18,9 @@ class PoStockController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
+        $data = [
+            // 'po_stock' => $this->po_stock_no()
+        ];
         return view('admin.content.po_stock')->with($data);
     }
 
@@ -27,6 +31,16 @@ class PoStockController extends SettingAjaxController
             'po_stock' => $po_stock
         ];
         return view('admin.content.po_stock_detail')->with($data);
+    }
+
+    public function po_stock_no(){
+        $tanggal = Carbon::now();
+        $format = 'POS/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $po_stock_no = PoStock::where([
+            ['po_no','like', $format.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count() + 1;
+        return $format.'/'.sprintf("%03d", $po_stock_no);
     }
 
     /**
@@ -82,7 +96,7 @@ class PoStockController extends SettingAjaxController
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'po_no' => $request['po_no'],
+            'po_no' => $this->po_stock_no(),
             'id_spbd' => $request['spbd'],
             'id_vendor' => $request['vendor'],
             'po_ord_date' => Carbon::now(),
@@ -147,7 +161,6 @@ class PoStockController extends SettingAjaxController
     {
 
         $data = PoStock::find($id);
-        $data->po_no    = $request['po_no'];
         $data->id_spbd    = $request['spbd'];
         $data->id_vendor    = $request['vendor'];
         $data->ppn    = $request['ppn'];
@@ -213,6 +226,23 @@ class PoStockController extends SettingAjaxController
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('status_po_stock', function($data){
+                $po_status = "";
+                if($data->po_status == 1){
+                    $po_status = "Draft";
+                }elseif ($data->po_status == 2) {
+                    $po_status = "Request";
+                }elseif ($data->po_status == 3) {
+                    $po_status = "Approved";
+                }elseif ($data->po_status == 4) {
+                    $po_status = "Partial";
+                }elseif ($data->po_status == 5) {
+                    $po_status = "Closed";
+                }else {
+                    $po_status = "Reject";
+                }
+                return $po_status;
+            })
             ->addColumn('action', function($data){
                 $po_stock_detail = "javascript:ajaxLoad('".route('local.po_stock.detail.index', $data->id)."')";
                 $action = "";
@@ -222,12 +252,12 @@ class PoStockController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
-                if($data->po_status == 2){
+                elseif ($data->po_status == 2){
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-                if($data->po_status == 3){
+                else{
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
@@ -297,6 +327,9 @@ class PoStockController extends SettingAjaxController
         $data = PoStock::findOrFail($id);
         $data->po_status = 3;
         $movement = $this->po_movement($data->po_stock_detail);
+        $spbd = Spbd::findOrFail($data->id_spbd);
+        $spbd->spbd_status = 4;
+        $spbd->update();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
@@ -325,7 +358,7 @@ class PoStockController extends SettingAjaxController
             $movement = StockMovement::create($data);
             $stock_master = StockMaster::find($detail->id_stock_master);
             $stock_master->harga_modal = $detail->price;
-            $data->update();
+            $stock_master->update();
         }
     }
 
@@ -347,6 +380,10 @@ class PoStockController extends SettingAjaxController
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
             ['po_status','=', 3],
+        ])->orWhere([
+            ['po_no','like','%'.$term.'%'],
+            ['id_branch','=', Auth::user()->id_branch],
+            ['po_status','=', 4],
         ])->get();
 
         $formatted_tags = [];

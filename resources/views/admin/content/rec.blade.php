@@ -20,12 +20,12 @@
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
-                            <div class="col-xs-4">
+                            {{-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Receipt No</label>
                                     <input type="text" class="form-control" id="rec_no" name="rec_no" placeholder="Input Rec No">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>PO Stock No</label>
@@ -199,7 +199,7 @@
             $('#formTitle').text('Edit PO Stock');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            $('#rec_no').val(data.rec_no);
+            // $('#rec_no').val(data.rec_no);
             var newOption = new Option(data.name_po_stock, data.po_stock, true, true);
             $('#po_stock').append(newOption).trigger('change');
             $('#vendor').val(data.id_vendor);

@@ -73,6 +73,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>PPN</label>
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN %">
+                                </div>
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -198,6 +204,7 @@
             $('#npwp').val(data.npwp);
             $('#bod').val(data.bod);
             $('#ktp').val(data.ktp);
+            $('#ppn').val(data.ppn);
         },
         error : function() {
             error('Error', 'Nothing Data');

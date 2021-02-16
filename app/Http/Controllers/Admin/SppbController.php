@@ -196,6 +196,9 @@ class SppbController extends SettingAjaxController
                 if($data->sppb_status == 3){
                     $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }else {
+                    $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
 
                 return $action;

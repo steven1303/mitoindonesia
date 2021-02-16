@@ -56,6 +56,12 @@
                                     <input type="text" class="form-control" id="address2" name="address2" placeholder="Input Address">
                                 </div>
                             </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>PPN</label>
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input NPWP">
+                                </div>
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -177,6 +183,7 @@
             $('#address2').val(data.address2);
             $('#phone').val(data.phone);
             $('#npwp').val(data.npwp);
+            $('#ppn').val(data.ppn);
         },
         error : function() {
             error('Error', 'Nothing Data');

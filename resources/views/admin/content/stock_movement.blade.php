@@ -98,7 +98,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Movement Type</th>
+                                <th>Type</th>
+                                <th>Document</th>
                                 <th>Tanggal</th>
                                 <th>Order</th>
                                 <th>Sell</th>
@@ -131,6 +132,7 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'type', name: 'type'},
+            {data: 'doc_no', name: 'doc_no'},
             {data: 'move_date', name: 'move_date'},
             {data: 'order_qty', name: 'order_qty'},
             {data: 'sell_qty', name: 'sell_qty'},

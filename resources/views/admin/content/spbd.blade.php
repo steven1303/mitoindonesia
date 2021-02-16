@@ -20,12 +20,12 @@
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
-                            <div class="col-xs-4">
+                            {{-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>SPBD No</label>
                                     <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
@@ -175,7 +175,7 @@
             $('#id').val(data.id);
             var newOption = new Option(data.vendor.name, data.id_vendor, true, true);
             $('#vendor').append(newOption).trigger('change');
-            $('#spbd_no').val(data.spbd_no);
+            // $('#spbd_no').val(data.spbd_no);
             $('#datemask').val(data.spbd_date);
         },
         error : function() {

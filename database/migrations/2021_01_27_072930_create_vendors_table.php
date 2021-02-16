@@ -22,6 +22,7 @@ class CreateVendorsTable extends Migration
             $table->string('city');
             $table->string('phone');
             $table->string('npwp');
+            $table->decimal('ppn', 10, 2)->default(0);
             $table->timestamps();
         });
     }
