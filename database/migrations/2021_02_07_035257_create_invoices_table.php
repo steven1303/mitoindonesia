@@ -23,7 +23,7 @@ class CreateInvoicesTable extends Migration
             $table->string('inv_alamatkirim');
             $table->string('mata_uang');
             $table->dateTime('top_date');
-            $table->bigInteger('id_sppb');
+            $table->bigInteger('id_sppb')->default(0);
             $table->string('po_cust');
             $table->decimal('befppn', 10, 2)->default(0);
             $table->decimal('ppn', 10, 2)->default(0);

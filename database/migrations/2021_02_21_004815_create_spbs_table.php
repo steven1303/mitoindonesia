@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSppbsTable extends Migration
+class CreateSpbsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateSppbsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sppbs', function (Blueprint $table) {
+        Schema::create('spbs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('sppb_no');
-            $table->string('sppb_date');
-            $table->bigInteger('id_customer')->default(0);
-            $table->string('sppb_po_cust');
-            $table->integer('sppb_status');
-            $table->string('sppb_user_name');
-            $table->bigInteger('sppb_user_id');
+            $table->string('spb_no');
+            $table->bigInteger('id_vendor')->default(0);
+            $table->dateTime('spb_date');
+            $table->integer('spb_status');
+            $table->string('spb_user_name');
+            $table->bigInteger('spb_user_id');
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateSppbsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sppbs');
+        Schema::dropIfExists('spbs');
     }
 }

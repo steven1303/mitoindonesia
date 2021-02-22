@@ -1,12 +1,12 @@
 <section class="content-header">
     <h1>
-        SPPB  @if($sppb->sppb_status == 1 ) Draft @endif @if($sppb->sppb_status == 2 ) Open @endif
+        SPB  Detail
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPPB</a></li>
-        <li><a href="#">SPPB Draft</a></li>
-        <li class="active"><a href="#">SPPB Detail</a></li>
+        <li><a href="#">SPB</a></li>
+        <li><a href="#">SPB Draft</a></li>
+        <li class="active"><a href="#">SPB Detail</a></li>
     </ol>
 </section>
 <section class="content">
@@ -14,28 +14,22 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">SPPB {{ $sppb->sppb_no }}</h3>
+                    <h3 class="box-title"  id="formTitle">SPB No. {{ $spb->spb_no }} <b>(  @if($spb->spb_status == 1 ) Draft @endif @if($spb->spb_status == 2 ) Open @endif @if($spb->spb_status == 3 ) Approved @endif ) </b></h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SpbdForm" method="POST">
+                    <form role="form" id="SpbForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>SPPB No</label>
-                                    <input type="text" class="form-control" id="sppb_no" name="sppb_no" placeholder="Input SPBD No" readonly value="{{ $sppb->sppb_no }}">
+                                    <label>SPB No</label>
+                                    <input type="text" class="form-control" id="spbd_no" name="spbd_no" readonly value="{{ $spb->spb_no }}">
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Customer</label>
-                                    <input type="text" class="form-control" id="customer" name="customer" placeholder="Input Vendor" readonly value="{{ $sppb->customer->name }}">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>PO Customer</label>
-                                    <input type="text" class="form-control" id="sppb_po_cust" name="sppb_po_cust" placeholder="Input PO Customer" readonly value="{{ $sppb->sppb_po_cust }}">
+                                    <label>Vendor</label>
+                                    <input type="text" class="form-control" id="vendor" name="vendor" readonly value="{{ $spb->vendor->name }}">
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -45,16 +39,16 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" id="datemask" name="spbd_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask value="{{ $sppb->sppb_date }}" readonly>
+                                        <input type="text" id="datemask" name="spbd_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask value="{{ $spb->spb_date }}" readonly>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-                            @if($sppb->sppb_status == 1 )
-                                <button id="btnSave" type="button" onclick="open_sppb_Form()" class="btn btn-success">Open / Request</button>
+                            @if($spb->spb_status == 1 )
+                                <button id="btnSave" type="button" onclick="open_spb_Form()" class="btn btn-success">Open / Request</button>
                             @endif
-                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.sppb.index')}}')">Save</button>
+                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spb.index')}}')">Save</button>
                         </div>
                     </form>
                 </div>
@@ -65,18 +59,19 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">SPPB Detail</h3><br/><br/>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    <h3 class="box-title">SPB Detail</h3><br/><br/>
+                    @if ($spb->spb_status == 1 )
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    @endif
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="sppbDetailTable">
+                    <table class="table table-bordered table-striped"  id="stockMasterTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Stock Master</th>
+                                <th>Keterangan</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
-                                <th>Price</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -91,7 +86,7 @@
 
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
-        <form role="form" id="SpbdDetailForm" method="POST">
+        <form role="form" id="SpbDetailForm" method="POST">
             {{ csrf_field() }} {{ method_field('POST') }}
             <input type="hidden" id="id" name="id">
             <div class="modal-content">
@@ -102,38 +97,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label>Stock No</label>
-                            <select class="form-control select2" id="stock_master" name="stock_master" style="width: 100%;">
-                                <option></option>
-                            </select>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>QTY</label>
-                            <input type="text" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>QTY</label>
+                                <input type="text" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Satuan" readonly>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>Satuan</label>
+                                <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Satuan">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Price">
-                        </div>
-                    </div>
-                    <div class="col-xs-9">
-                        <div class="form-group">
-                            <label>Keterangan</label>
-                            <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
-                        </div>
-                    </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -148,7 +129,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#sppbDetailTable')
+    var table = $('#stockMasterTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -159,69 +140,41 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.sppb_detail', $sppb->id ) }}",
+        "ajax": "{{route('local.record.spb_detail', $spb->id ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'nama_stock', name: 'nama_stock'},
+            {data: 'keterangan', name: 'keterangan'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
-            {data: 'price', name: 'price'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     $(function(){
-        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#stock_master').select2({
-            placeholder: "Select and Search",
-            ajax:{
-                url:"{{route('local.search.stock_master') }}",
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        q: $.trim(params.term)
-                    }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            },
-        })
-
-        $('#stock_master').on('select2:select', function (e) {
-            var data = e.params.data;
-            console.log(data);
-            $('#satuan').val(data.satuan);
-        });
-
-	    $('#SpbdDetailForm').validator().on('submit', function (e) {
+	    $('#SpbDetailForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.sppb.store_detail', $sppb->id) }}";
+				    url = "{{route('local.spb.store_detail', $spb->id) }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('sppb_detail') . '/' }}" + id;
+				    url = "{{ url('spb_detail') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#SpbdDetailForm').serialize(),
+				    data : $('#SpbDetailForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#SpbdDetailForm')[0].reset();
+                            $('#SpbDetailForm')[0].reset();
                             $('#btnSave').text('Submit');
-                            $('#stock_master').val(null).trigger('change');
                             success(data.stat, data.message);
                             $('#modal-input-item').modal('hide')
                         }
@@ -245,7 +198,7 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/edit_detail",
+        url: "{{ url('spb') }}" + '/' + id + "/edit_detail",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -254,12 +207,8 @@
             $('#modal_title').text('Edit Item');
             $('#button_modal').attr('disabled',false);
             $('#id').val(data.id);
-            $('#stock_master').val(data.id_stock_master);
-            var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
-            $('#stock_master').append(newOption).trigger('change');
             $('#qty').val(data.qty);
-            $('#price').val(data.price);
-            $('#satuan').val(data.stock_master.satuan);
+            $('#satuan').val(data.satuan);
             $('#keterangan').val(data.keterangan);
         },
         error : function() {
@@ -268,15 +217,15 @@
         });
     }
 
-    function open_sppb_Form() {
+    function open_spb_Form() {
         $.ajax({
-        url: "{{route('local.sppb.open.index', $sppb->id) }}",
+        url: "{{route('local.spb.open.index', $spb->id) }}",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             success(data.stat, data.message);
-            print_sppb("{{ $sppb->id }}");
-            ajaxLoad("{{ route('local.sppb.index') }}");
+            print_spb( "{{ $spb->id }}" );
+            ajaxLoad("{{ route('local.spb.index') }}");
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -284,13 +233,13 @@
         });
     }
 
-    function print_sppb(id){
-        window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
+    function print_spb(id){
+        window.open("{{ url('spb_print') }}" + '/' + id,"_blank");
     }
 
     function cancel(){
         save_method = 'add';
-        $('#SpbdDetailForm')[0].reset();
+        $('#SpbDetailForm')[0].reset();
         $('#btnSave').text('Submit');
         $('#formTitle').text('Create Stock Adjustment');
         $('#btnSave').attr('disabled',false);
@@ -312,7 +261,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('sppb_detail') }}" + '/' + id,
+                    url : "{{ url('spb_detail') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

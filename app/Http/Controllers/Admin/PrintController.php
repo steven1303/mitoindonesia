@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Spb;
 use App\Models\Spbd;
 use App\Models\Sppb;
 use App\Models\Invoice;
 use App\Models\PoStock;
 use App\Models\RecStock;
+use App\Models\Pelunasan;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade  as PDF;
 use App\Http\Controllers\Controller;
@@ -65,6 +67,28 @@ class PrintController extends Controller
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_invoice',$data);
         return $pdf->stream('print_invoice.pdf');
+        // return view('admin.content.pdf.print_spbd')->with($data);
+    }
+
+    public function print_pelunasan($id)
+    {
+        $pelunasan = Pelunasan::findOrFail($id);
+        $data = [
+            'pelunasan' => $pelunasan
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_pelunasan',$data);
+        return $pdf->stream('print_invoice.pdf');
+        // return view('admin.content.pdf.print_spbd')->with($data);
+    }
+
+    public function print_spb($id)
+    {
+        $spb = Spb::findOrFail($id);
+        $data = [
+            'spb' => $spb
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_spb',$data);
+        return $pdf->stream('print_spb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 }

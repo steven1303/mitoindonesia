@@ -30,6 +30,16 @@ class InvoiceController extends SettingAjaxController
         return view('admin.content.inv_detail')->with($data);
     }
 
+    public function inv_no(){
+        $tanggal = Carbon::now();
+        $format = 'INV/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $inv_no = Invoice::where([
+            ['inv_no','like', $format.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count() + 1;
+        return $format.'/'.sprintf("%03d", $inv_no);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -41,7 +51,6 @@ class InvoiceController extends SettingAjaxController
         $inv = Invoice::findOrFail($id);
         $data = array(
             "id" => $inv->id,
-            "inv_no" => $inv->inv_no,
             "datemask2" => $inv->top_date,
             "sppb" => $inv->id_sppb,
             "sppb_no" => $inv->sppb->sppb_no,
@@ -51,7 +60,6 @@ class InvoiceController extends SettingAjaxController
             "inv_kirimke" => $inv->inv_kirimke,
             "inv_alamatkirim" => $inv->inv_alamatkirim,
             "mata_uang" => $inv->mata_uang,
-            "ppn" => $inv->ppn,
         );
         return json_encode($data);
     }
@@ -85,7 +93,7 @@ class InvoiceController extends SettingAjaxController
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'inv_no' => $request['inv_no'],
+            'inv_no' => $this->inv_no(),
             'id_sppb' => $request['sppb'],
             'id_customer' => $request['customer'],
             'po_cust' => $request['po_cust'],
@@ -95,7 +103,6 @@ class InvoiceController extends SettingAjaxController
             'date' => Carbon::now(),
             'top_date' => $request['top_date'],
             'inv_status' => 1,
-            'ppn' => $request['ppn'],
             'user_id' => Auth::user()->id,
             'user_name' => Auth::user()->name,
         ];
@@ -117,7 +124,7 @@ class InvoiceController extends SettingAjaxController
         $inv = Invoice::findOrFail($id);
         $subtotal = ($request['qty'] * $request['price']) - 0;
         $total_befppn = ($subtotal  - $request['disc'] ) - 0;
-        $total_ppn = ($total_befppn  + (($inv->ppn * $total_befppn) / 100) ) - 0;
+        $total_ppn = ($total_befppn  + (($inv->customer->ppn * $total_befppn) / 100) ) - 0;
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'id_inv' => $id,
@@ -161,7 +168,6 @@ class InvoiceController extends SettingAjaxController
     {
 
         $data = Invoice::find($id);
-        $data->inv_no    = $request['inv_no'];
         $data->id_sppb    = $request['sppb'];
         $data->id_customer    = $request['customer'];
         $data->po_cust    = $request['po_cust'];
@@ -169,7 +175,6 @@ class InvoiceController extends SettingAjaxController
         $data->inv_alamatkirim    = $request['inv_alamatkirim'];
         $data->mata_uang    = $request['mata_uang'];
         $data->top_date    = $request['top_date'];
-        $data->ppn    = $request['ppn'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Invoice Success', 'stat' => 'Success']);
@@ -190,7 +195,7 @@ class InvoiceController extends SettingAjaxController
 
         $subtotal = ($request['qty'] * $request['price']) - 0;
         $total_befppn = ($subtotal  - $request['disc'] ) - 0;
-        $total_ppn = ($total_befppn  + (($data->invoice->ppn * $total_befppn) / 100) ) - 0;
+        $total_ppn = ($total_befppn  + (($data->invoice->customer->ppn * $total_befppn) / 100) ) - 0;
 
         $data->disc    = $request['disc'];
         $data->keterangan    = $request['keterangan'];
@@ -251,12 +256,16 @@ class InvoiceController extends SettingAjaxController
                 }
                 if($data->inv_status == 3){
                     $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
                 return $action;
             })
             ->addColumn('sppb_no', function($data){
                 return $data->sppb->sppb_no;
+            })
+            ->addColumn('total_inv', function($data){
+                return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
+                // return $data->inv_detail->sum('total_ppn');
             })
             ->rawColumns(['action'])->make(true);
     }

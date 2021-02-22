@@ -22,12 +22,6 @@
                         <div class="box-body">
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Invoice No</label>
-                                    <input type="text" class="form-control" id="inv_no" name="inv_no" placeholder="Input Invoice No">
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
                                     <label>TOP Date</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -62,12 +56,6 @@
                                 <div class="form-group">
                                     <label>Mata Uang</label>
                                     <input type="text" class="form-control" id="mata_uang" name="mata_uang" placeholder="Input Mata Uang">
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN">
                                 </div>
                             </div>
                             <div class="col-xs-6">
@@ -138,6 +126,7 @@
             {data: 'inv_no', name: 'inv_no'},
             {data: 'sppb_no', name: 'sppb_no'},
             {data: 'date', name: 'date'},
+            {data: 'total_inv', name: 'total_inv'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -231,7 +220,7 @@
             $('#formTitle').text('Edit Invoice');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            $('#inv_no').val(data.inv_no);
+            // $('#inv_no').val(data.inv_no);
             $('#datemask1').val(data.datemask1);
             $('#datemask2').val(data.datemask2);
             var newOption = new Option(data.sppb_no, data.sppb, true, true);
@@ -242,7 +231,7 @@
             $('#inv_kirimke').val(data.inv_kirimke);
             $('#inv_alamatkirim').val(data.inv_alamatkirim);
             $('#mata_uang').val(data.mata_uang);
-            $('#ppn').val(data.ppn - 0);
+            // $('#ppn').val(data.ppn - 0);
         },
         error : function() {
             error('Error', 'Nothing Data');

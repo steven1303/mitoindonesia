@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create SPPB
+        Create SPB
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPPB</a></li>
-        <li class="active"><a href="#"> Create SPPB</a></li>
+        <li><a href="#">SPBD</a></li>
+        <li class="active"><a href="#"> Create SPB</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,31 +13,19 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create SPPB</h3>
+                    <h3 class="box-title"  id="formTitle">Create SPB</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SppbForm" method="POST">
+                    <form role="form" id="SpbForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
-                            {{-- <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>SPPB No</label>
-                                    <input type="text" class="form-control" id="sppb_no" name="sppb_no" placeholder="Input SPPB No">
-                                </div>
-                            </div> --}}
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Customer</label>
-                                    <select class="form-control select2" id="customer" name="customer" style="width: 100%;">
+                                    <label>Vendor</label>
+                                    <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
                                         <option></option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>PO Customer</label>
-                                    <input type="text" class="form-control" id="sppb_po_cust" name="sppb_po_cust" placeholder="Input PO Customer">
                                 </div>
                             </div>
                         </div>
@@ -54,15 +42,16 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List SPPB</h3>
+                    <h3 class="box-title">List SPB</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="sppbTable">
+                    <table class="table table-bordered table-striped"  id="stockMasterTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>SPPB No</th>
+                                <th>SPB No</th>
                                 <th>Date</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -77,7 +66,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#sppbTable')
+    var table = $('#stockMasterTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -88,21 +77,23 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.sppb') }}",
+        "ajax": "{{route('local.record.spb') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'sppb_no', name: 'sppb_no'},
-            {data: 'sppb_date', name: 'sppb_date'},
+            {data: 'spb_no', name: 'spb_no'},
+            {data: 'spb_date', name: 'spb_date'},
+            {data: 'status_spb', name: 'status_spb'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     $(function(){
+        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#customer').select2({
+        $('#vendor').select2({
             placeholder: "Select and Search",
             ajax:{
-                url:"{{route('local.search.customer') }}",
+                url:"{{route('local.search.vendor') }}",
                 dataType: 'json',
                 data: function (params) {
                     return {
@@ -118,34 +109,34 @@
             },
         })
 
-	    $('#SppbForm').validator().on('submit', function (e) {
+	    $('#SpbForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.sppb.store') }}";
+				    url = "{{route('local.spb.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('sppb') . '/' }}" + id;
+				    url = "{{ url('spb') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#SppbForm').serialize(),
+				    data : $('#SpbForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#SppbForm')[0].reset();
-                            $('#customer').val(null).trigger('change');
+                            $('#SpbForm')[0].reset();
+                            $('#vendor').val(null).trigger('change');
                             $('#btnSave').text('Submit');
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('sppb_detail') }}" + '/' + data.sppb_id);
+                                ajaxLoad("{{ url('spb_detail') }}" + '/' + data.spb_id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -168,17 +159,16 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/edit",
+        url: "{{ url('spb') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit SPBD');
+            $('#formTitle').text('Edit SPB');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            var newOption = new Option(data.customer.name, data.id_customer, true, true);
-            $('#customer').append(newOption).trigger('change');
-            $('#sppb_po_cust').val(data.sppb_po_cust);
+            var newOption = new Option(data.vendor.name, data.id_vendor, true, true);
+            $('#vendor').append(newOption).trigger('change');
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -186,14 +176,14 @@
         });
     }
 
-    function print_sppb(id){
-        window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
+    function print_spbd(id){
+        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
 
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/approve",
+        url: "{{ url('spb') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -208,11 +198,11 @@
 
     function cancel(){
         save_method = 'add';
-        $('#SppbForm')[0].reset();
+        $('#SpbForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
+        $('#formTitle').text('Create SPB');
         $('#btnSave').attr('disabled',false);
-        $('#customer').val(null).trigger('change');
+        $('#vendor').val(null).trigger('change');
         $('input[name=_method]').val('POST');
     }
 
@@ -230,7 +220,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('sppb') }}" + '/' + id,
+                    url : "{{ url('spb') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

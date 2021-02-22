@@ -67,22 +67,22 @@
                         <tr>
                             <td>1.</td>
                             <td>Harga Modal</td>
-                            <td>{{ $stock_detail->harga_modal }}</td>
+                            <td>{{ "Rp. ".number_format($stock_detail->harga_modal,0, ",", ".") }}</td>
                         </tr>
                         <tr>
                             <td>2.</td>
                             <td>Harga rata-rata modal</td>
-                            <td>Harga Modal</td>
+                            <td>{{ "Rp. ".number_format($avg_modal,0, ",", ".") }}</td>
                         </tr>
                         <tr>
                             <td>3.</td>
                             <td>Harga Jual</td>
-                            <td>{{ $stock_detail->harga_jual }}</td>
+                            <td>{{ "Rp. ".number_format($stock_detail->harga_jual,0, ",", ".") }} </td>
                         </tr>
                         <tr>
                             <td>4.</td>
                             <td>Harga rata-rata jual</td>
-                            <td>Harga Jual</td>
+                            <td>{{ "Rp. ".number_format($avg_jual,0, ",", ".") }}</td>
                         </tr>
                     </table>
                 </div>

@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Pelunasan extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id_branch',
+        'pelunasan_no',
+        'id_inv',
+        'balance',
+        'payment_method',
+        'notes',
+        'keterangan',
+        'user_name',
+        'user_id',
+        'status',
+    ];
+
+    public function invoice()
+    {
+    	return $this->belongsTo('App\Models\Invoice','id_inv');
+    }
 }

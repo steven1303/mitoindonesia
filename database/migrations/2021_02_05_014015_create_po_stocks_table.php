@@ -17,7 +17,7 @@ class CreatePoStocksTable extends Migration
             $table->id();
             $table->bigInteger('id_branch');
             $table->string('po_no');
-            $table->bigInteger('id_spbd');
+            $table->bigInteger('id_spbd')->default(0);
             $table->bigInteger('id_vendor');
             $table->dateTime('po_ord_date');
             $table->integer('po_status')->default(1);

@@ -15,6 +15,16 @@ class CreatePelunasansTable extends Migration
     {
         Schema::create('pelunasans', function (Blueprint $table) {
             $table->id();
+            $table->string('pelunasan_no');
+            $table->bigInteger('id_branch');
+            $table->bigInteger('id_inv');
+            $table->decimal('balance', 10, 2)->default(0);
+            $table->bigInteger('payment_method');
+            $table->string('notes')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('user_name');
+            $table->bigInteger('user_id');
+            $table->Integer('status');
             $table->timestamps();
         });
     }

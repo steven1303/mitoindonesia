@@ -43,6 +43,11 @@
                             <i class="fa fa-th"></i> <span>Receipt</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.spb.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPB</span>
+                        </a>
+                    </li>
                  </ul>
             </li>
 
@@ -86,7 +91,11 @@
                             <i class="fa fa-th"></i> <span>Invoice</span>
                         </a>
                     </li>
-
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.pelunasan.index')}}')">
+                            <i class="fa fa-th"></i> <span>Pelunasan</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Report</span>

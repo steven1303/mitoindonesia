@@ -32,12 +32,22 @@ class SppbController extends SettingAjaxController
         return view('admin.content.sppb_detail')->with($data);
     }
 
+    public function sppb_no(){
+        $tanggal = Carbon::now();
+        $format = 'SPPB/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $sppb_no = Sppb::where([
+            ['sppb_no','like', $format.'%'],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count() + 1;
+        return $format.'/'.sprintf("%03d", $sppb_no);
+    }
+
     public function store(Request $request)
     {
         // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
-            'sppb_no' => $request['sppb_no'],
+            'sppb_no' => $this->sppb_no(),
             'sppb_date' => Carbon::now(),
             'id_customer' => $request['customer'],
             'sppb_po_cust' => $request['sppb_po_cust'],
@@ -118,7 +128,6 @@ class SppbController extends SettingAjaxController
     {
 
         $data = Sppb::find($id);
-        $data->sppb_no    = $request['sppb_no'];
         $data->sppb_date    = Carbon::now();
         $data->id_customer    = $request['customer'];
         $data->sppb_po_cust    = $request['sppb_po_cust'];
@@ -188,12 +197,12 @@ class SppbController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
-                if($data->sppb_status == 2){
+                elseif($data->sppb_status == 2){
                     $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-                if($data->sppb_status == 3){
+                elseif($data->sppb_status == 3){
                     $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }else {

@@ -18,7 +18,7 @@ class CreateRecStocksTable extends Migration
             $table->bigInteger('id_branch');
             $table->string('rec_no');
             $table->bigInteger('id_vendor');
-            $table->bigInteger('id_po_stock');
+            $table->bigInteger('id_po_stock')->default(0);
             $table->string('rec_inv_ven');
             $table->dateTime('rec_date');
             $table->decimal('ppn', 10, 2)->default(0);
