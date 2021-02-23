@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create SPBD
+        Create PO Non Stock
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPBD</a></li>
-        <li class="active"><a href="#"> Create SPBD</a></li>
+        <li><a href="#">Ordering</a></li>
+        <li class="active"><a href="#"> Create PO Non Stock</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,25 +13,26 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create SPBD</h3>
+                    <h3 class="box-title"  id="formTitle">Create PO Non Stock</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SpbdForm" method="POST">
+                    <form role="form" id="PoNonStockForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
-                            {{-- <div class="col-xs-4">
+                            <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>SPBD No</label>
-                                    <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
+                                    <label>SPB No</label>
+                                    <select class="form-control select2" id="spb" name="spb" style="width: 100%;">
+                                        <option></option>
+                                    </select>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
-                                    <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
-                                        <option></option>
-                                    </select>
+                                    <input type="text" class="form-control" id="vendor_name" name="vendor_name" placeholder="Vendor Name" readonly>
+                                    <input type="hidden" id="vendor" name="vendor">
                                 </div>
                             </div>
                         </div>
@@ -48,14 +49,14 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List SPBD</h3>
+                    <h3 class="box-title">List PO Stock</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="stockMasterTable">
+                    <table class="table table-bordered table-striped"  id="poStockTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>SPBD No</th>
+                                <th>PO No</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -72,7 +73,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#stockMasterTable')
+    var table = $('#poStockTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -83,23 +84,22 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.spbd') }}",
+        "ajax": "{{route('local.record.po_non_stock') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'spbd_no', name: 'spbd_no'},
-            {data: 'spbd_date', name: 'spbd_date'},
-            {data: 'status_spbd', name: 'status_spbd'},
+            {data: 'po_no', name: 'po_no'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'status_po_stock', name: 'status_po_stock'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     $(function(){
-        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#vendor').select2({
+        $('#spb').select2({
             placeholder: "Select and Search",
             ajax:{
-                url:"{{route('local.search.vendor') }}",
+                url:"{{route('local.search.spb') }}",
                 dataType: 'json',
                 data: function (params) {
                     return {
@@ -115,34 +115,40 @@
             },
         })
 
-	    $('#SpbdForm').validator().on('submit', function (e) {
+        $('#spb').on('select2:select', function (e) {
+            var data = e.params.data;
+            $('#vendor').val(data.vendor);
+            $('#vendor_name').val(data.vendor_name);
+        });
+
+	    $('#PoNonStockForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.spbd.store') }}";
+				    url = "{{route('local.po_non_stock.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('spbd') . '/' }}" + id;
+				    url = "{{ url('po_non_stock') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#SpbdForm').serialize(),
+				    data : $('#PoNonStockForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#SpbdForm')[0].reset();
-                            $('#vendor').val(null).trigger('change');
+                            $('#PoNonStockForm')[0].reset();
                             $('#btnSave').text('Submit');
+                            $('#spb').val(null).trigger('change');
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('spbd_detail') }}" + '/' + data.spbd_id);
+                                ajaxLoad("{{ url('po_stock_detail') }}" + '/' + data.po_id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -165,18 +171,19 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('spbd') }}" + '/' + id + "/edit",
+        url: "{{ url('po_non_stock') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit SPBD');
+            $('#formTitle').text('Edit PO Stock');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
-            var newOption = new Option(data.vendor.name, data.id_vendor, true, true);
-            $('#vendor').append(newOption).trigger('change');
-            // $('#spbd_no').val(data.spbd_no);
-            $('#datemask').val(data.spbd_date);
+            $('#po_no').val(data.po_no);
+            var newOption = new Option(data.name_spb, data.id_spb, true, true);
+            $('#spb').append(newOption).trigger('change');
+            $('#vendor').val(data.id_vendor);
+            $('#vendor_name').val(data.vendor_name);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -185,13 +192,13 @@
     }
 
     function print_spbd(id){
-        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
+        window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
     }
 
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('spbd') }}" + '/' + id + "/approve",
+        url: "{{ url('po_non_stock') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -206,11 +213,11 @@
 
     function cancel(){
         save_method = 'add';
-        $('#SpbdForm')[0].reset();
+        $('#PoNonStockForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Create SPBD');
+        $('#formTitle').text('Create Po Non Stock');
+        $('#spb').val(null).trigger('change');
         $('#btnSave').attr('disabled',false);
-        $('#vendor').val(null).trigger('change');
         $('input[name=_method]').val('POST');
     }
 
@@ -228,7 +235,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('spbd') }}" + '/' + id,
+                    url : "{{ url('po_non_stock') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

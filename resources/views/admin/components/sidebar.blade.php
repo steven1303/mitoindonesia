@@ -48,6 +48,11 @@
                             <i class="fa fa-th"></i> <span>SPB</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.po_non_stock.index')}}')">
+                            <i class="fa fa-th"></i> <span>PO Non Stock</span>
+                        </a>
+                    </li>
                  </ul>
             </li>
 
@@ -66,6 +71,11 @@
                     </li>
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
+                            <i class="fa fa-th"></i> <span>Old Adjustment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Adjustment</span>
                         </a>
                     </li>

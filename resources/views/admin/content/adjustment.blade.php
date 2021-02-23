@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create SPBD
+        Create Adjustment
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPBD</a></li>
-        <li class="active"><a href="#"> Create SPBD</a></li>
+        <li><a href="#">Inventory</a></li>
+        <li class="active"><a href="#"> Create Adjustment</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,31 +13,13 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create SPBD</h3>
+                    <h3 class="box-title"  id="formTitle">Create Adjustment</h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
-                        <input type="hidden" id="id" name="id">
-                        <div class="box-body">
-                            {{-- <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>SPBD No</label>
-                                    <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
-                                </div>
-                            </div> --}}
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Vendor</label>
-                                    <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
-                                        <option></option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                         <div class="box-footer">
-                            <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
-                            <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button>
+                            <button id="btnSave" type="submit" class="btn btn-primary">Create Adjustment</button>
                         </div>
                     </form>
                 </div>
@@ -48,14 +30,14 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List SPBD</h3>
+                    <h3 class="box-title">List Adjustment</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped"  id="stockMasterTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>SPBD No</th>
+                                <th>Document No</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -94,26 +76,7 @@
     });
 
     $(function(){
-        $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
-        $('#vendor').select2({
-            placeholder: "Select and Search",
-            ajax:{
-                url:"{{route('local.search.vendor') }}",
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        q: $.trim(params.term)
-                    }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            },
-        })
 
 	    $('#SpbdForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
@@ -161,28 +124,6 @@
 	    });
     });
 
-    function editForm(id) {
-        save_method = 'edit';
-        $('input[name=_method]').val('PATCH');
-        $.ajax({
-        url: "{{ url('spbd') }}" + '/' + id + "/edit",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data) {
-            $('#btnSave').text('Update');
-            $('#formTitle').text('Edit SPBD');
-            $('#btnSave').attr('disabled',false);
-            $('#id').val(data.id);
-            var newOption = new Option(data.vendor.name, data.id_vendor, true, true);
-            $('#vendor').append(newOption).trigger('change');
-            // $('#spbd_no').val(data.spbd_no);
-            $('#datemask').val(data.spbd_date);
-        },
-        error : function() {
-            error('Error', 'Nothing Data');
-        }
-        });
-    }
 
     function print_spbd(id){
         window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");

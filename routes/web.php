@@ -89,7 +89,7 @@ Route::get('record/search_stock_master', 'App\Http\Controllers\Admin\StockMaster
 Route::get('/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@index')->name('local.stock_movement.index');
 Route::get('record/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@recordStockMovement')->name('local.record.stock_movement');
 
-// Adjustment
+// Adjustment Old
 Route::get('/stock_adj', 'App\Http\Controllers\Admin\StockAdjController@index')->name('local.stock_adj.index');
 Route::post('/stock_adj', 'App\Http\Controllers\Admin\StockAdjController@store')->name('local.stock_adj.store');
 Route::patch('/stock_adj/{id}', 'App\Http\Controllers\Admin\StockAdjController@update')->name('local.stock_adj.update');
@@ -193,6 +193,7 @@ Route::get('/sppb/{id}/approve', 'App\Http\Controllers\Admin\SppbController@appr
 Route::get('/inv/{id}/approve', 'App\Http\Controllers\Admin\InvoiceController@approve')->name('local.inv.approve');
 Route::get('/pelunasan/{id}/approve', 'App\Http\Controllers\Admin\PelunasanController@approve')->name('local.pelunasan.approve');
 Route::get('/spb/{id}/approve', 'App\Http\Controllers\Admin\SpbController@approve')->name('local.spb.approve');
+Route::get('/po_non_stock/{id}/approve', 'App\Http\Controllers\Admin\PoNonStockController@approve')->name('local.po_non_stock.approve');
 
 // Print
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
@@ -202,6 +203,7 @@ Route::get('/sppb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print
 Route::get('/inv_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_inv')->name('local.print.inv');
 Route::get('/pelunasan_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_pelunasan')->name('local.print.pelunasan');
 Route::get('/spb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spb')->name('local.print.spb');
+Route::get('/po_non_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_non_stock')->name('local.print.po_non_stock');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');
@@ -230,3 +232,37 @@ Route::patch('/spb_detail/{id}', 'App\Http\Controllers\Admin\SpbController@updat
 Route::delete('/spb_detail/{id}', 'App\Http\Controllers\Admin\SpbController@destroy_detail')->name('local.spb.delete_detail');
 Route::get('record/spb_detail/{id}/{po_stat?}', 'App\Http\Controllers\Admin\SpbController@recordSpb_detail')->name('local.record.spb_detail');
 Route::get('/spb_open/{id}', 'App\Http\Controllers\Admin\SpbController@spb_open')->name('local.spb.open.index');
+
+// PO Stock
+Route::get('/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@index')->name('local.po_non_stock.index');
+Route::post('/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@store')->name('local.po_non_stock.store');
+Route::get('/po_non_stock/{id}/edit', 'App\Http\Controllers\Admin\PoNonStockController@edit')->name('local.po_non_stock.edit');
+Route::patch('/po_non_stock/{id}', 'App\Http\Controllers\Admin\PoNonStockController@update')->name('local.po_non_stock.update');
+Route::delete('/po_non_stock/{id}', 'App\Http\Controllers\Admin\PoNonStockController@destroy')->name('local.po_non_stock.delete');
+Route::get('record/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@recordPoNonStock')->name('local.record.po_non_stock');
+
+// PO Stock Detail
+Route::get('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@detail')->name('local.po_non_stock.detail.index');
+Route::post('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@store_detail')->name('local.po_non_stock.store_detail');
+Route::get('/po_non_stock_detail/{id}/edit_detail', 'App\Http\Controllers\Admin\PoNonStockController@edit_detail')->name('local.po_non_stock.edit_detail');
+Route::patch('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@update_detail')->name('local.po_non_stock.update_detail');
+Route::delete('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@destroy_detail')->name('local.po_non_stock.delete_detail');
+Route::get('record/po_non_stock_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\PoNonStockController@recordPoNonStock_detail')->name('local.record.po_non_stock_detail');
+Route::get('/po_non_stock_detail_open/{id}', 'App\Http\Controllers\Admin\PoNonStockController@po_stock_open')->name('local.po_non_stock.open.index');
+
+// Adjustment
+Route::get('/adj', 'App\Http\Controllers\Admin\AdjustmentController@index')->name('local.adj.index');
+// Route::post('/adj', 'App\Http\Controllers\Admin\AdjustmentController@store')->name('local.adj.store');
+// Route::patch('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@update')->name('local.adj.update');
+// Route::get('/adj/{id}/edit', 'App\Http\Controllers\Admin\AdjustmentController@edit')->name('local.adj.edit');
+// Route::delete('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy')->name('local.adj.delete');
+// Route::get('record/adj', 'App\Http\Controllers\Admin\AdjustmentController@recordSpbd')->name('local.record.adj');
+
+// SPBD Detail
+Route::get('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@detail')->name('local.adj.detail.index');
+// Route::post('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@store_detail')->name('local.adj.store_detail');
+// Route::get('/adj/{id}/edit_detail', 'App\Http\Controllers\Admin\AdjustmentController@edit_detail')->name('local.adj.edit_detail');
+// Route::patch('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@update_detail')->name('local.adj.update_detail');
+// Route::delete('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy_detail')->name('local.adj.delete_detail');
+// Route::get('record/adj_detail/{id}/{po_stat?}', 'App\Http\Controllers\Admin\AdjustmentController@recordSpbd_detail')->name('local.record.spbd_detail');
+// Route::get('/adj_open/{id}', 'App\Http\Controllers\Admin\AdjustmentController@spbd_open')->name('local.adj.open.index');

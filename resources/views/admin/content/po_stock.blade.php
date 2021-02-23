@@ -4,7 +4,7 @@
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPBD</a></li>
+        <li><a href="#">Ordering</a></li>
         <li class="active"><a href="#"> Create PO Stock</a></li>
     </ol>
 </section>
@@ -223,7 +223,7 @@
         save_method = 'add';
         $('#PoStockForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
+        $('#formTitle').text('Create Po Stock');
         $('#spbd').val(null).trigger('change');
         $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
