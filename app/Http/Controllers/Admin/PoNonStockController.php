@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\SpbDetail;
 use App\Models\PoNonStock;
+use App\Models\Spb;
 use Illuminate\Http\Request;
 use App\Models\PoNonStockDetail;
 use Yajra\DataTables\DataTables;
@@ -57,7 +58,7 @@ class PoNonStockController extends SettingAjaxController
 
         if ($activity->exists) {
             return response()
-                ->json(['code'=>200,'message' => 'Add new PO Non Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id , 'process' => 'edit']);
+                ->json(['code'=>200,'message' => 'Add new PO Non Stock Success' , 'stat' => 'Success', 'po_id' => $activity->id , 'process' => 'add']);
 
         } else {
             return response()
@@ -306,6 +307,9 @@ class PoNonStockController extends SettingAjaxController
     {
         $data = PoNonStock::findOrFail($id);
         $data->po_status = 3;
+        $spb = SPB::findOrFail($data->id_spb);
+        $spb->spb_status = 4;
+        $spb->update();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'PO Non Stock Approve Success', 'stat' => 'Success']);

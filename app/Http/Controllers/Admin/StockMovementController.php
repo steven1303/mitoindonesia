@@ -18,8 +18,14 @@ class StockMovementController extends SettingAjaxController
             ['id_branch', '=', Auth::user()->id_branch]
         ])->first();
 
-        $avg_modal =( $stock_master->stock_movement()->where('order_qty','>', 0)->sum('harga_modal') / $stock_master->stock_movement()->where('order_qty','>', 0)->count() );
-        $avg_jual = $stock_master->stock_movement()->where('sell_qty','>', 0)->sum('harga_jual')  / $stock_master->stock_movement()->where('sell_qty','>', 0)->count();
+        $avg_jual = $stock_master->stock_movement()->where('sell_qty','>', 0)->count();
+        $avg_modal =  $stock_master->stock_movement()->where('order_qty','>', 0)->count();
+        if($avg_modal > 0){
+            $avg_modal = $stock_master->stock_movement()->where('order_qty','>', 0)->sum('harga_modal') / $stock_master->stock_movement()->where('order_qty','>', 0)->count();
+        }
+        if($avg_jual > 0){
+            $avg_jual = $stock_master->stock_movement()->where('sell_qty','>', 0)->sum('harga_jual')  / $stock_master->stock_movement()->where('sell_qty','>', 0)->count();
+        }
         $data = [
             'stock_detail' => $stock_master,
             'avg_modal' => $avg_modal,

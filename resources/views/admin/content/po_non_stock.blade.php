@@ -148,7 +148,7 @@
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('po_stock_detail') }}" + '/' + data.po_id);
+                                ajaxLoad("{{ url('po_non_stock_detail') }}" + '/' + data.po_id);
                             }
                         }
                         if(data.stat == 'Error'){
