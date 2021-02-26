@@ -237,9 +237,9 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
-            {data: 'qty', name: 'qty'},
-            {data: 'price', name: 'price'},
-            {data: 'disc', name: 'disc'},
+            {data: 'selisih', name: 'selisih'},
+            {data: 'price_format', name: 'price_format'},
+            {data: 'disc_format', name: 'disc_format'},
             {data: 'satuan', name: 'satuan'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]

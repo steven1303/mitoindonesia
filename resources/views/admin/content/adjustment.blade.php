@@ -16,7 +16,7 @@
                     <h3 class="box-title"  id="formTitle">Create Adjustment</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SpbdForm" method="POST">
+                    <form role="form" id="AdjForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Create Adjustment</button>
@@ -65,12 +65,12 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.spbd') }}",
+        "ajax": "{{route('local.record.adj') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'spbd_no', name: 'spbd_no'},
-            {data: 'spbd_date', name: 'spbd_date'},
-            {data: 'status_spbd', name: 'status_spbd'},
+            {data: 'adj_no', name: 'adj_no'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'status_adj', name: 'status_adj'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -78,34 +78,26 @@
     $(function(){
 
 
-	    $('#SpbdForm').validator().on('submit', function (e) {
+	    $('#AdjForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
-			    if (save_method == 'add')
-			    {
-				    url = "{{route('local.spbd.store') }}";
-				    $('input[name=_method]').val('POST');
-			    } else {
-				    url = "{{ url('spbd') . '/' }}" + id;
-				    $('input[name=_method]').val('PATCH');
-                }
+                url = "{{route('local.adj.store') }}";
+				$('input[name=_method]').val('POST');
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#SpbdForm').serialize(),
+				    data : $('#AdjForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#SpbdForm')[0].reset();
-                            $('#vendor').val(null).trigger('change');
-                            $('#btnSave').text('Submit');
+                            $('#AdjForm')[0].reset();
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('spbd_detail') }}" + '/' + data.spbd_id);
+                                ajaxLoad("{{ url('adj_detail') }}" + '/' + data.id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -125,14 +117,14 @@
     });
 
 
-    function print_spbd(id){
-        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
+    function print_adj(id){
+        window.open("{{ url('adj_print') }}" + '/' + id,"_blank");
     }
 
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('spbd') }}" + '/' + id + "/approve",
+        url: "{{ url('adj') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -147,7 +139,7 @@
 
     function cancel(){
         save_method = 'add';
-        $('#SpbdForm')[0].reset();
+        $('#AdjForm')[0].reset();
         $('#btnSave').text('Submit');
         $('#formTitle').text('Create SPBD');
         $('#btnSave').attr('disabled',false);
@@ -169,7 +161,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('spbd') }}" + '/' + id,
+                    url : "{{ url('adj') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

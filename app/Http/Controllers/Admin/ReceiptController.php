@@ -139,9 +139,9 @@ class ReceiptController extends SettingAjaxController
 
         $activity = RecStockDetail::create($data);
 
-        $spbd_detail = PoStockDetail::find($request['id_po_detail']);
-        $spbd_detail->rec_qty = $request['terima'];
-        $spbd_detail->update();
+        $po_detail = PoStockDetail::find($request['id_po_detail']);
+        $po_detail->rec_qty = $po_detail->rec_detail->sum('terima');
+        $po_detail->update();
 
 
         if ($activity->exists) {
@@ -192,7 +192,7 @@ class ReceiptController extends SettingAjaxController
         $data->update();
 
         $po_detail = PoStockDetail::find($data->id_po_detail);
-        $po_detail->rec_qty    = $po_detail->rec_qty - $request['terima'];
+        $po_detail->rec_qty = $po_detail->rec_detail->sum('terima');
         $po_detail->update();
 
         return response()
@@ -225,7 +225,7 @@ class ReceiptController extends SettingAjaxController
         $rec_detail = RecStockDetail::find($id);
         RecStockDetail::destroy($id);
         $po_detail = PoStockDetail::find($rec_detail->id_po_detail);
-        $po_detail->rec_qty = $po_detail->rec_qty - $rec_detail->terima;
+        $po_detail->rec_qty = $po_detail->rec_detail->sum('terima');
         $po_detail->update();
         return response()
             ->json(['code'=>200,'message' => 'Receipt Stock item Success Deleted', 'stat' => 'Success']);
@@ -306,13 +306,13 @@ class ReceiptController extends SettingAjaxController
         $movement = $this->rec_movement($data->receipt_detail);
 
         $po_stock = PoStock::findOrFail($data->id_po_stock);
-        // $total_terima = $data->po_stock->po_stock_detail->sum('rec_qty') + $data->receipt_detail->sum('terima');
-        // if($data->po_stock->po_stock_detail->sum('qty') == $total_terima){
-        //     $po_stock->po_status = 5;
-        // }else{
-        //     $po_stock->po_status = 4;
-        // }
-        $po_stock->po_status = 5;
+
+        if($data->po_stock->po_stock_detail->sum('qty') == $data->po_stock->po_stock_detail->sum('rec_qty')){
+            $po_stock->po_status = 6;
+        }else{
+            $po_stock->po_status = 5;
+        }
+        // $po_stock->po_status = 5;
         $po_stock->update();
 
         $data->update();

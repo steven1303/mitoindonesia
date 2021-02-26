@@ -95,7 +95,11 @@
                             <i class="fa fa-th"></i> <span>SPPB</span>
                         </a>
                     </li>
-
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.pricelist.index')}}')">
+                            <i class="fa fa-th"></i> <span>Pricelist</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
                             <i class="fa fa-th"></i> <span>Invoice</span>

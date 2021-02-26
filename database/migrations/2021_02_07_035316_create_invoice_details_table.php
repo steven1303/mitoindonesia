@@ -17,7 +17,7 @@ class CreateInvoiceDetailsTable extends Migration
             $table->id();
             $table->bigInteger('id_branch');
             $table->bigInteger('id_sppb_detail')->default(0);
-            $table->bigInteger('id_inv');
+            $table->bigInteger('id_inv')->unsigned();
             $table->bigInteger('id_stock_master');
             $table->decimal('qty', 10, 2)->default(0);
             $table->decimal('price', 10, 2)->default(0);
@@ -28,6 +28,8 @@ class CreateInvoiceDetailsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->string('inv_detail_status');
             $table->timestamps();
+
+            $table->foreign('id_inv')->references('id')->on('invoices')->onDelete('cascade');
         });
     }
 

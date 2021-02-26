@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\PoStock;
 use App\Models\RecStock;
 use App\Models\Pelunasan;
+use App\Models\Adjustment;
 use App\Models\PoNonStock;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade  as PDF;
@@ -101,6 +102,17 @@ class PrintController extends Controller
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_po_non_stock.pdf');
+        // return view('admin.content.pdf.print_spbd')->with($data);
+    }
+
+    public function print_adj($id)
+    {
+        $adj = Adjustment::findOrFail($id);
+        $data = [
+            'adj' => $adj
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_adj',$data);
+        return $pdf->stream('print_adj.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 }

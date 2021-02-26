@@ -16,7 +16,7 @@ class CreateRecStockDetailsTable extends Migration
         Schema::create('rec_stock_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('id_rec');
+            $table->bigInteger('id_rec')->unsigned();
             $table->bigInteger('id_po_detail')->default(0);
             $table->bigInteger('id_mov_id')->default(0);
             $table->bigInteger('id_stock_master');
@@ -28,6 +28,8 @@ class CreateRecStockDetailsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->string('rec_detail_status');
             $table->timestamps();
+
+            $table->foreign('id_rec')->references('id')->on('rec_stocks')->onDelete('cascade');
         });
     }
 

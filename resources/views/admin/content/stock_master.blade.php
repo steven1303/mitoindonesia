@@ -158,7 +158,7 @@
         dataType: "JSON",
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit Roles');
+            $('#formTitle').text('Edit Stock Master');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
             $('#stock_no').val(data.stock_no);

@@ -171,7 +171,6 @@ class PelunasanController extends SettingAjaxController
                 }else{
                     $action .= '<button id="'. $data->id .'" onclick="print_pelunasan('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
-
                 return $action;
             })
             ->addColumn('invoice_no', function($data){

@@ -16,4 +16,9 @@ class Adjustment extends Model
         'user_name',
         'user_id',
     ];
+
+    public function adj_detail()
+    {
+    	return $this->hasMany('App\Models\AdjustmentDetail','adj_id');
+    }
 }

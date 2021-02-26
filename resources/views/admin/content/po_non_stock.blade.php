@@ -191,8 +191,24 @@
         });
     }
 
-    function print_spbd(id){
+    function print_po_stock(id){
         window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
+    }
+
+    function verify(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('po_non_stock') }}" + '/' + id + "/verify",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
     }
 
     function approve(id) {

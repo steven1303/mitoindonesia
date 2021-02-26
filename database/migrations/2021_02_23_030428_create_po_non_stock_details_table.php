@@ -16,13 +16,15 @@ class CreatePoNonStockDetailsTable extends Migration
         Schema::create('po_non_stock_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('id_po');
+            $table->bigInteger('id_po')->unsigned();
             $table->bigInteger('id_spb_detail')->default(0);
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('disc', 10, 2)->default(0);
             $table->string('keterangan')->nullable();
             $table->string('po_detail_status');
             $table->timestamps();
+
+            $table->foreign('id_po')->references('id')->on('po_non_stocks')->onDelete('cascade');
         });
     }
 

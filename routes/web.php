@@ -85,6 +85,12 @@ Route::delete('/stock_master/{id}', 'App\Http\Controllers\Admin\StockMasterContr
 Route::get('record/stock_master', 'App\Http\Controllers\Admin\StockMasterController@recordStockMaster')->name('local.record.stock_master');
 Route::get('record/search_stock_master', 'App\Http\Controllers\Admin\StockMasterController@searchStockMaster')->name('local.search.stock_master');
 
+// Pricelist
+Route::get('/pricelist', 'App\Http\Controllers\Admin\PricelistController@index')->name('local.pricelist.index');
+Route::get('record/pricelist', 'App\Http\Controllers\Admin\PricelistController@recordPricelist')->name('local.record.pricelist');
+Route::patch('/pricelist/{id}', 'App\Http\Controllers\Admin\PricelistController@update')->name('local.pricelist.update');
+Route::get('/pricelist/{id}/edit', 'App\Http\Controllers\Admin\PricelistController@edit')->name('local.pricelist.edit');
+
 // Stock Movement
 Route::get('/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@index')->name('local.stock_movement.index');
 Route::get('record/stock_movement/{id}', 'App\Http\Controllers\Admin\StockMovementController@recordStockMovement')->name('local.record.stock_movement');
@@ -186,6 +192,10 @@ Route::delete('/rec_detail/{id}', 'App\Http\Controllers\Admin\ReceiptController@
 Route::get('record/rec_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\ReceiptController@recordRec_detail')->name('local.record.rec_detail');
 Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_open')->name('local.rec.open.index');
 
+// Verify
+Route::get('/po_stock/{id}/verify', 'App\Http\Controllers\Admin\PoStockController@verify')->name('local.po_stock.verify');
+Route::get('/po_non_stock/{id}/verify', 'App\Http\Controllers\Admin\PoNonStockController@verify')->name('local.po_non_stock.verify');
+
 // Approval
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');
 Route::get('/po_stock/{id}/approve', 'App\Http\Controllers\Admin\PoStockController@approve')->name('local.po_stock.approve');
@@ -194,6 +204,7 @@ Route::get('/inv/{id}/approve', 'App\Http\Controllers\Admin\InvoiceController@ap
 Route::get('/pelunasan/{id}/approve', 'App\Http\Controllers\Admin\PelunasanController@approve')->name('local.pelunasan.approve');
 Route::get('/spb/{id}/approve', 'App\Http\Controllers\Admin\SpbController@approve')->name('local.spb.approve');
 Route::get('/po_non_stock/{id}/approve', 'App\Http\Controllers\Admin\PoNonStockController@approve')->name('local.po_non_stock.approve');
+Route::get('/adj/{id}/approve', 'App\Http\Controllers\Admin\AdjustmentController@approve')->name('local.adj.approve');
 
 // Print
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
@@ -204,6 +215,7 @@ Route::get('/inv_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_
 Route::get('/pelunasan_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_pelunasan')->name('local.print.pelunasan');
 Route::get('/spb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spb')->name('local.print.spb');
 Route::get('/po_non_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_non_stock')->name('local.print.po_non_stock');
+Route::get('/adj_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_adj')->name('local.print.adj');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');
@@ -252,17 +264,15 @@ Route::get('/po_non_stock_detail_open/{id}', 'App\Http\Controllers\Admin\PoNonSt
 
 // Adjustment
 Route::get('/adj', 'App\Http\Controllers\Admin\AdjustmentController@index')->name('local.adj.index');
-// Route::post('/adj', 'App\Http\Controllers\Admin\AdjustmentController@store')->name('local.adj.store');
-// Route::patch('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@update')->name('local.adj.update');
-// Route::get('/adj/{id}/edit', 'App\Http\Controllers\Admin\AdjustmentController@edit')->name('local.adj.edit');
-// Route::delete('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy')->name('local.adj.delete');
-// Route::get('record/adj', 'App\Http\Controllers\Admin\AdjustmentController@recordSpbd')->name('local.record.adj');
+Route::post('/adj', 'App\Http\Controllers\Admin\AdjustmentController@store')->name('local.adj.store');
+Route::delete('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy')->name('local.adj.delete');
+Route::get('record/adj', 'App\Http\Controllers\Admin\AdjustmentController@recordAdj')->name('local.record.adj');
 
 // SPBD Detail
 Route::get('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@detail')->name('local.adj.detail.index');
-// Route::post('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@store_detail')->name('local.adj.store_detail');
-// Route::get('/adj/{id}/edit_detail', 'App\Http\Controllers\Admin\AdjustmentController@edit_detail')->name('local.adj.edit_detail');
-// Route::patch('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@update_detail')->name('local.adj.update_detail');
-// Route::delete('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy_detail')->name('local.adj.delete_detail');
-// Route::get('record/adj_detail/{id}/{po_stat?}', 'App\Http\Controllers\Admin\AdjustmentController@recordSpbd_detail')->name('local.record.spbd_detail');
-// Route::get('/adj_open/{id}', 'App\Http\Controllers\Admin\AdjustmentController@spbd_open')->name('local.adj.open.index');
+Route::post('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@store_detail')->name('local.adj.store_detail');
+Route::get('/adj/{id}/edit_detail', 'App\Http\Controllers\Admin\AdjustmentController@edit_detail')->name('local.adj.edit_detail');
+Route::patch('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@update_detail')->name('local.adj.update_detail');
+Route::delete('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy_detail')->name('local.adj.delete_detail');
+Route::get('record/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@recordAjd_detail')->name('local.record.adj_detail');
+Route::get('/adj_open/{id}', 'App\Http\Controllers\Admin\AdjustmentController@adj_open')->name('local.adj.open.index');

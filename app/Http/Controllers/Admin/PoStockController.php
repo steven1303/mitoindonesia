@@ -233,10 +233,12 @@ class PoStockController extends SettingAjaxController
                 }elseif ($data->po_status == 2) {
                     $po_status = "Request";
                 }elseif ($data->po_status == 3) {
-                    $po_status = "Approved";
+                    $po_status = "Verified";
                 }elseif ($data->po_status == 4) {
-                    $po_status = "Partial";
+                    $po_status = "Approved";
                 }elseif ($data->po_status == 5) {
+                    $po_status = "Partial";
+                }elseif ($data->po_status == 6) {
                     $po_status = "Closed";
                 }else {
                     $po_status = "Reject";
@@ -254,6 +256,11 @@ class PoStockController extends SettingAjaxController
                 }
                 elseif ($data->po_status == 2){
                     $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
+                elseif ($data->po_status == 3){
+                    $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
@@ -267,16 +274,28 @@ class PoStockController extends SettingAjaxController
     }
 
     public function recordPoStock_detail($id, $rec_stat = NULL){
-        $data = PoStockDetail::where([
-            ['id_branch','=', Auth::user()->id_branch],
-            ['id_po','=', $id],
-        ])->whereRaw('po_stock_details.qty <> po_stock_details.rec_qty')->latest()->get();
+        if($rec_stat == 1){
+            $data = PoStockDetail::where([
+                ['id_branch','=', Auth::user()->id_branch],
+                ['id_po','=', $id],
+            ])->whereRaw('po_stock_details.qty <> po_stock_details.rec_qty')->latest()->get();
+        }else {
+            $data = PoStockDetail::where([
+                ['id_branch','=', Auth::user()->id_branch],
+                ['id_po','=', $id],
+            ])->latest()->get();
+        }
+
         return DataTables::of($data)
-            ->addIndexColumn()->addColumn('price_format', function($data){
+            ->addIndexColumn()
+            ->addColumn('price_format', function($data){
                 return "Rp. ".number_format($data->price,0, ",", ".");
             })
-            ->addIndexColumn()->addColumn('disc_format', function($data){
+            ->addColumn('disc_format', function($data){
                 return "Rp. ".number_format($data->disc,0, ",", ".");
+            })
+            ->addColumn('selisih', function($data){
+                return $data->qty - $data->rec_detail->sum('terima');
             })
             ->addColumn('action', function($data)  use($rec_stat){
                 $action = "";
@@ -325,7 +344,7 @@ class PoStockController extends SettingAjaxController
     public function approve($id)
     {
         $data = PoStock::findOrFail($id);
-        $data->po_status = 3;
+        $data->po_status = 4;
         $movement = $this->po_movement($data->po_stock_detail);
         $spbd = Spbd::findOrFail($data->id_spbd);
         $spbd->spbd_status = 4;
@@ -333,6 +352,21 @@ class PoStockController extends SettingAjaxController
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify($id)
+    {
+        $data = PoStock::findOrFail($id);
+        $data->po_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'PO Stock Verified Success', 'stat' => 'Success']);
     }
 
     public function po_movement($data)
@@ -379,11 +413,11 @@ class PoStockController extends SettingAjaxController
         $tags = PoStock::where([
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 3],
+            ['po_status','=', 4],
         ])->orWhere([
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 4],
+            ['po_status','=', 5],
         ])->get();
 
         $formatted_tags = [];

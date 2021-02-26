@@ -16,7 +16,7 @@ class CreateSppbDetailsTable extends Migration
         Schema::create('sppb_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('sppb_id');
+            $table->bigInteger('sppb_id')->unsigned();
             $table->bigInteger('id_stock_master');
             $table->decimal('inv_qty', 10, 2)->default(0);
             $table->decimal('qty', 10, 2)->default(0);
@@ -24,6 +24,8 @@ class CreateSppbDetailsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->string('sppb_detail_status')->nullable();
             $table->timestamps();
+
+            $table->foreign('sppb_id')->references('id')->on('sppbs')->onDelete('cascade');
         });
     }
 

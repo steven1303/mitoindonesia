@@ -14,7 +14,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }} <b>(  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif @if($po_stock->po_status == 3 ) Approved @endif ) </b></h3>
+                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }} <b>(  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif @if($po_stock->po_status == 3)  Verified @endif  @if($po_stock->po_status == 4 ) Approved @endif ) </b></h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
@@ -230,32 +230,22 @@
     });
 
     function format_decimal_limit(){
-            VMasker(document.getElementById("price")).maskMoney({
-                precision: 0,
-                separator: '.',
-                delimiter: '.',
-                unit: 'Rp',
-            });
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
 
-            VMasker(document.getElementById("disc")).maskMoney({
-                precision: 0,
-                separator: '.',
-                delimiter: '.',
-                unit: 'Rp',
-            });
-        }
+        VMasker(document.getElementById("disc")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
 
     $(function(){
-
-        // var cleaveC = new Cleave('#price', {
-        //     numeral: true,
-        //     numeralThousandsGroupStyle: 'thousand'
-        // });
-        // var cleaveC = new Cleave('#disc', {
-        //     numeral: true,
-        //     numeralThousandsGroupStyle: 'thousand'
-        // });
-
 
         $(".number").keypress(function (e) {
             if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {

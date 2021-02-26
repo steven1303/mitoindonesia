@@ -16,12 +16,14 @@ class CreateSpbDetailsTable extends Migration
         Schema::create('spb_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('spb_id');
+            $table->bigInteger('spb_id')->unsigned();
             $table->string('keterangan');
             $table->decimal('qty', 10, 2)->default(0);
             $table->string('satuan');
             $table->string('spb_detail_status');
             $table->timestamps();
+
+            $table->foreign('spb_id')->references('id')->on('spbs')->onDelete('cascade');
         });
     }
 

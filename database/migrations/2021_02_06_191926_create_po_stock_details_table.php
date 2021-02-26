@@ -16,7 +16,7 @@ class CreatePoStockDetailsTable extends Migration
         Schema::create('po_stock_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->bigInteger('id_po');
+            $table->bigInteger('id_po')->unsigned();
             $table->bigInteger('id_spbd_detail')->default(0);
             $table->bigInteger('id_stock_master');
             $table->decimal('rec_qty', 10, 2)->default(0);
@@ -26,6 +26,8 @@ class CreatePoStockDetailsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->string('po_detail_status');
             $table->timestamps();
+
+            $table->foreign('id_po')->references('id')->on('po_stocks')->onDelete('cascade');
         });
     }
 

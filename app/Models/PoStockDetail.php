@@ -36,4 +36,9 @@ class PoStockDetail extends Model
     {
         return $this->belongsTo('App\Models\SpbdDetail','id_spbd_detail');
     }
+
+    public function rec_detail()
+    {
+    	return $this->hasMany('App\Models\RecStockDetail','id_po_detail');
+    }
 }

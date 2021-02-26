@@ -217,6 +217,8 @@ class PoNonStockController extends SettingAjaxController
                     $po_status = "Draft";
                 }elseif ($data->po_status == 2) {
                     $po_status = "Request";
+                }elseif ($data->po_status == 3) {
+                    $po_status = "Verified";
                 }else{
                     $po_status = "Approved";
                 }
@@ -232,6 +234,11 @@ class PoNonStockController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
                 elseif ($data->po_status == 2){
+                    $action .= '<a href="'.$po_non_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
+                elseif ($data->po_status == 3){
                     $action .= '<a href="'.$po_non_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
@@ -303,10 +310,25 @@ class PoNonStockController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function approve($id)
+    public function verify($id)
     {
         $data = PoNonStock::findOrFail($id);
         $data->po_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'PO Stock Verified Success', 'stat' => 'Success']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = PoNonStock::findOrFail($id);
+        $data->po_status = 4;
         $spb = SPB::findOrFail($data->id_spb);
         $spb->spb_status = 4;
         $spb->update();
