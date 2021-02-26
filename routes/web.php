@@ -174,6 +174,7 @@ Route::patch('/inv_detail/{id}', 'App\Http\Controllers\Admin\InvoiceController@u
 Route::delete('/inv_detail/{id}', 'App\Http\Controllers\Admin\InvoiceController@destroy_detail')->name('local.inv.delete_detail');
 Route::get('record/inv_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\InvoiceController@recordInv_detail')->name('local.record.inv_detail');
 Route::get('/inv_open/{id}', 'App\Http\Controllers\Admin\InvoiceController@inv_open')->name('local.inv.open.index');
+Route::get('/inv_batal/{id}', 'App\Http\Controllers\Admin\InvoiceController@inv_batal')->name('local.inv.batal.index');
 
 // Receipt
 Route::get('/rec', 'App\Http\Controllers\Admin\ReceiptController@index')->name('local.rec.index');

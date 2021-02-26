@@ -63,6 +63,7 @@
                                 <th>ID</th>
                                 <th>SPPB No</th>
                                 <th>Date</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -93,6 +94,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'sppb_no', name: 'sppb_no'},
             {data: 'sppb_date', name: 'sppb_date'},
+            {data: 'status', name: 'status'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });

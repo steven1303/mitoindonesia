@@ -94,7 +94,16 @@ class ReceiptController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        // return $request;
+        $draf = RecStock::where([
+            ['status','=', 1],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count();
+
+        if($draf > 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Submit the previous Draf Receipt First', 'stat' => 'Warning']);
+        }
+
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'rec_no' => $this->rec_no(),
@@ -131,8 +140,8 @@ class ReceiptController extends SettingAjaxController
             'order' => $request['qty'],
             'terima' => $request['terima'],
             'bo' => $request['qty'] - $request['terima'],
-            'price' => $request['price'],
-            'disc' => $request['disc'],
+            'price' => preg_replace('/\D/', '',$request['price']),
+            'disc' => preg_replace('/\D/', '',$request['disc']),
             'keterangan' => $request['keterangan'],
             'rec_detail_status' => 1,
         ];

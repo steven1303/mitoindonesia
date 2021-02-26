@@ -41,7 +41,15 @@ class SpbdController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        // return $request;
+        $spbd_draf = Spbd::where([
+            ['spbd_status','=', 1],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count();
+
+        if($spbd_draf > 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Use the previous Draf SPBD First', 'stat' => 'Warning']);
+        }
         $data = [
             'spbd_no' => $this->spbd_no(),
             'id_branch' => Auth::user()->id_branch,
@@ -242,6 +250,9 @@ class SpbdController extends SettingAjaxController
                 if($data->spbd->spbd_status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                }
+                if($data->spbd->spbd_status == 2){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                 }
                 if($po_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';

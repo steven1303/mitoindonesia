@@ -76,7 +76,7 @@
                                 <th>Stock Master</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
-                                <th>Price</th>
+                                {{-- <th>Price</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -125,7 +125,7 @@
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Price">
+                            <input type="text" class="form-control" id="price" name="price" placeholder="Price" readonly>
                         </div>
                     </div>
                     <div class="col-xs-9">
@@ -165,10 +165,19 @@
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
-            {data: 'price', name: 'price'},
+            // {data: 'status', name: 'status'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
+
+    function format_decimal_limit(){
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
 
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -196,6 +205,8 @@
             var data = e.params.data;
             console.log(data);
             $('#satuan').val(data.satuan);
+            $('#price').val(data.harga_jual - 0);
+            format_decimal_limit();
         });
 
 	    $('#SpbdDetailForm').validator().on('submit', function (e) {
@@ -258,7 +269,7 @@
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
             $('#stock_master').append(newOption).trigger('change');
             $('#qty').val(data.qty);
-            $('#price').val(data.price);
+            // $('#price').val(data.price);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan').val(data.keterangan);
         },

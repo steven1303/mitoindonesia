@@ -135,6 +135,7 @@ class StockMasterController extends SettingAjaxController
                 'text'  => $tag->stock_no,
                 'name'  => $tag->name,
                 'satuan'  => $tag->satuan,
+                'harga_jual' => $tag->harga_jual,
             ];
         }
 

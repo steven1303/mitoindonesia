@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Sppb;
 use App\Models\Invoice;
 use App\Models\SppbDetail;
 use App\Models\StockMaster;
@@ -81,7 +82,7 @@ class InvoiceController extends SettingAjaxController
             "qty" => $inv_detail->qty - 0,
             "satuan" => $inv_detail->stock_master->satuan,
             "keterangan1" => $inv_detail->sppb_detail->keterangan,
-            "price" => $inv_detail->price,
+            "price" => $inv_detail->stock_master->harga_jual,
             "disc" => $inv_detail->disc - 0,
             "keterangan" => $inv_detail->keterangan,
         );
@@ -90,7 +91,16 @@ class InvoiceController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        // return $request;
+        $draf = Invoice::where([
+            ['inv_status','=', 1],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count();
+
+        if($draf > 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Warning']);
+        }
+
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'inv_no' => $this->inv_no(),
@@ -122,7 +132,8 @@ class InvoiceController extends SettingAjaxController
     public function store_detail(Request $request, $id)
     {
         $inv = Invoice::findOrFail($id);
-        $subtotal = ($request['qty'] * $request['price']) - 0;
+        $price = preg_replace('/\D/', '',$request['price']);
+        $subtotal = ($request['qty'] * $price) - 0;
         $total_befppn = ($subtotal  - $request['disc'] ) - 0;
         $total_ppn = ($total_befppn  + (($inv->customer->ppn * $total_befppn) / 100) ) - 0;
         $data = [
@@ -131,7 +142,7 @@ class InvoiceController extends SettingAjaxController
             'id_sppb_detail' => $request['id_sppb_detail'],
             'id_stock_master' => $request['id_stock_master'],
             'qty' => $request['qty'],
-            'price' => $request['price'],
+            'price' => $price,
             'disc' => $request['disc'],
             'subtotal' => $subtotal,
             'total_befppn' => $total_befppn,
@@ -192,8 +203,8 @@ class InvoiceController extends SettingAjaxController
     public function update_detail(Request $request, $id)
     {
         $data = InvoiceDetail::find($id);
-
-        $subtotal = ($request['qty'] * $request['price']) - 0;
+        $price = preg_replace('/\D/', '',$request['price']);
+        $subtotal = ($request['qty'] * $price) - 0;
         $total_befppn = ($subtotal  - $request['disc'] ) - 0;
         $total_ppn = ($total_befppn  + (($data->invoice->customer->ppn * $total_befppn) / 100) ) - 0;
 
@@ -256,7 +267,7 @@ class InvoiceController extends SettingAjaxController
                     }else{
                         $action = "Partial";
                     }
-                    
+
                 }else{
                     $action = "Batal";
                 }
@@ -306,6 +317,9 @@ class InvoiceController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
+                if($data->invoice->inv_status == 2){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                }
                 if($inv_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
                 }
@@ -318,6 +332,10 @@ class InvoiceController extends SettingAjaxController
             ->addColumn('satuan', function($data){
                 $action = $data->stock_master->satuan;
                 return $action;
+            })
+            ->addColumn('format_balance', function($data){
+                // $action = $data->stock_master->satuan;
+                return "Rp. ".number_format($data->price,0, ",", ".");
             })
             ->rawColumns(['action'])->make(true);
     }
@@ -349,6 +367,9 @@ class InvoiceController extends SettingAjaxController
         $data->inv_status = 3;
         $this->inv_movement($data->inv_detail);
         $data->update();
+        $sppd = Sppb::findOrFail($data->id_sppb);
+        $sppd->sppb_status = 4;
+        $sppd->update();
         return response()
             ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
     }

@@ -94,6 +94,15 @@ class PoStockController extends SettingAjaxController
     public function store(Request $request)
     {
         // return $request;
+        $po_draf = PoStock::where([
+            ['po_status','=', 1],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count();
+
+        if($po_draf > 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Use the previous Draf PO Stock First', 'stat' => 'Warning']);
+        }
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'po_no' => $this->po_stock_no(),
@@ -303,6 +312,9 @@ class PoStockController extends SettingAjaxController
                 if($data->po_stock->po_status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                }
+                if($data->po_stock->po_status == 2){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                 }
                 if($rec_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';

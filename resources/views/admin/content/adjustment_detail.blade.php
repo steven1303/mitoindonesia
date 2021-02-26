@@ -42,7 +42,7 @@
                             @if($adj->status == 1 )
                                 <button id="btnSave" type="button" onclick="open_adj_Form()" class="btn btn-success">Open / Request</button>
                             @endif
-                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spbd.index')}}')">Save</button>
+                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.adj.index')}}')">Save</button>
                         </div>
                     </form>
                 </div>

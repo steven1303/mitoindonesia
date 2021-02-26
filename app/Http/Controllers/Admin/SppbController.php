@@ -44,7 +44,16 @@ class SppbController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        // return $request;
+        $draf = Sppb::where([
+            ['sppb_status','=', 1],
+            ['id_branch','=', Auth::user()->id_branch]
+        ])->count();
+
+        if($draf > 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Use the previous Draf SPPB First', 'stat' => 'Warning']);
+        }
+
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'sppb_no' => $this->sppb_no(),
@@ -76,7 +85,7 @@ class SppbController extends SettingAjaxController
             'sppb_id' => $id,
             'id_stock_master' => $request['stock_master'],
             'qty' => $request['qty'],
-            'price' => $request['price'],
+            'price' => preg_replace('/\D/', '',$request['price']),
             'keterangan' => $request['keterangan'],
             'sppb_detail_status' => 1,
         ];
@@ -149,7 +158,7 @@ class SppbController extends SettingAjaxController
         $data = SppbDetail::find($id);
         $data->id_stock_master    = $request['stock_master'];
         $data->qty    = $request['qty'];
-        $data->price    = $request['price'];
+        $data->price    = preg_replace('/\D/', '',$request['price']);
         $data->keterangan    = $request['keterangan'];
         $data->update();
         return response()
@@ -188,6 +197,21 @@ class SppbController extends SettingAjaxController
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('status', function($data){
+                $sppb_status = "";
+                if($data->sppb_status == 1){
+                    $sppb_status = "Draft";
+                }elseif ($data->sppb_status == 2) {
+                    $sppb_status = "Request";
+                }elseif ($data->sppb_status == 3) {
+                    $sppb_status = "Approved";
+                }elseif ($data->sppb_status == 4) {
+                    $sppb_status = "Closed";
+                }else {
+                    $sppb_status = "Reject";
+                }
+                return $sppb_status;
+            })
             ->addColumn('action', function($data){
                 $sppb_detail = "javascript:ajaxLoad('".route('local.sppb.detail.index', $data->id)."')";
                 $action = "";
@@ -236,6 +260,9 @@ class SppbController extends SettingAjaxController
                     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                 }
+                if($data->sppb->sppb_status == 2){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                }
                 if($inv_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
                 }
@@ -244,6 +271,10 @@ class SppbController extends SettingAjaxController
             ->addColumn('nama_stock', function($data){
                 $action = $data->stock_master->name;
                 return $action;
+            })
+            ->addColumn('format_price', function($data){
+                $action = $data->stock_master->name;
+                return "Rp. ".number_format($data->stock_master->harga_jual,0, ",", ".");
             })
             ->addColumn('satuan', function($data){
                 $action = $data->stock_master->satuan;

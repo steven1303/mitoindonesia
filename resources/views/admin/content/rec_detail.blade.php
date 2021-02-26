@@ -245,6 +245,22 @@
         ]
     });
 
+    function format_decimal_limit(){
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+
+        VMasker(document.getElementById("disc")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
+
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -314,6 +330,7 @@
             $('#satuan').val(data.satuan);
             $('#keterangan').val(data.keterangan);
             $('#keterangan1').val(data.keterangan1);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -339,6 +356,7 @@
             $('#qty').val((data.qty - data.rec_qty) - 0);
             $('#satuan').val(data.satuan);
             $('#keterangan1').val(data.keterangan);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');

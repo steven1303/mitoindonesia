@@ -92,8 +92,10 @@
                             </div>
                         </div>
                         <div class="box-footer">
+                            @if($invoice->inv_status == 1 )
                             <button id="btnSave" type="button" onclick="open_inv_Form()" class="btn btn-success">Open / Request</button>
-                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
+                            @endif
+                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.inv.index')}}')">Save</button>
                         </div>
                     </form>
                 </div>
@@ -239,7 +241,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
-            {data: 'price', name: 'price'},
+            {data: 'format_price', name: 'format_price'},
             {data: 'satuan', name: 'satuan'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
@@ -261,12 +263,21 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
-            {data: 'price', name: 'price'},
+            {data: 'format_balance', name: 'format_balance'},
             {data: 'disc', name: 'disc'},
             {data: 'satuan', name: 'satuan'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
+
+    function format_decimal_limit(){
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
 
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -331,11 +342,12 @@
             $('#stock_master').val(data.stock_master);
             $('#id_stock_master').val(data.id_stock_master);
             $('#qty').val(data.qty);
-            $('#price').val(data.price);
+            $('#price').val(data.price - 0);
             $('#disc').val(data.disc);
             $('#satuan').val(data.satuan);
             $('#keterangan').val(data.keterangan);
             $('#keterangan1').val(data.keterangan1);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -358,9 +370,10 @@
             $('#stock_master').val(data.stock_master.stock_no);
             $('#id_stock_master').val(data.id_stock_master);
             $('#qty').val(data.qty);
-            $('#price').val(data.price - 0);
+            $('#price').val(data.stock_master.harga_jual - 0);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan1').val(data.keterangan);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');
