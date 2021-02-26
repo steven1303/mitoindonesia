@@ -240,6 +240,28 @@ class InvoiceController extends SettingAjaxController
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('status_inv', function($data){
+                $action = "";
+                if($data->inv_status == 1){
+                    $action = "Draf";
+                }elseif($data->inv_status == 2){
+                    $action = "Request";
+                }elseif($data->inv_status == 3){
+                    if($data->pelunasan->count() < 1){
+                        $action = "Approved";
+                    }
+                    elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
+                    {
+                        $action = "Closed";
+                    }else{
+                        $action = "Partial";
+                    }
+                    
+                }else{
+                    $action = "Batal";
+                }
+                return $action;
+            })
             ->addColumn('action', function($data){
                 $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.index', $data->id)."')";
                 $action = "";

@@ -95,6 +95,7 @@
                                 <th>SPPB No</th>
                                 <th>Date</th>
                                 <th>total</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -127,6 +128,7 @@
             {data: 'sppb_no', name: 'sppb_no'},
             {data: 'date', name: 'date'},
             {data: 'total_inv', name: 'total_inv'},
+            {data: 'status_inv', name: 'status_inv'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });

@@ -48,10 +48,10 @@ class StockMovementController extends SettingAjaxController
             ->addColumn('action', function($data){
                 $stock_movement = "javascript:ajaxLoad('".route('local.stock_movement.index', $data->id)."')";
                 $action = "";
-                $title = "'".$data->name."'";
-                $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                $action .= '<a href="'.$stock_movement.'" class="btn btn-primary btn-xs"> Info</a> ';
+                // $title = "'".$data->name."'";
+                // $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                // $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                // $action .= '<a href="'.$stock_movement.'" class="btn btn-primary btn-xs"> Info</a> ';
                 return $action;
             })
             ->rawColumns(['action'])->make(true);

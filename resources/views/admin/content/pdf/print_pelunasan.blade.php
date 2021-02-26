@@ -26,8 +26,8 @@
             </tr>
                 <tr>
                     <td>{{ $pelunasan->invoice->inv_no }}</td>
-                    <td>{{ $pelunasan->invoice->inv_detail->sum('total_ppn') }}</td>
-                    <td>{{ $pelunasan->balance }}</td>
+                    <td>Rp. {{ number_format($pelunasan->invoice->inv_detail->sum('total_ppn'),0, ",", ".") }}</td>
+                    <td>Rp. {{ number_format($pelunasan->balance,0, ",", ".") }}</td>
                     <td>
                         @if($pelunasan->payment_method == 1) Cash @endif
                         @if($pelunasan->payment_method == 2) Transfer @endif

@@ -64,7 +64,7 @@
                             <th style="width: 300px">Keterangan</th>
                             <th>Harga</th>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>1.</td>
                             <td>Harga Modal</td>
                             <td>{{ "Rp. ".number_format($stock_detail->harga_modal,0, ",", ".") }}</td>
@@ -73,14 +73,14 @@
                             <td>2.</td>
                             <td>Harga rata-rata modal</td>
                             <td>{{ "Rp. ".number_format($avg_modal,0, ",", ".") }}</td>
-                        </tr>
+                        </tr> -->
                         <tr>
-                            <td>3.</td>
+                            <td>1.</td>
                             <td>Harga Jual</td>
                             <td>{{ "Rp. ".number_format($stock_detail->harga_jual,0, ",", ".") }} </td>
                         </tr>
                         <tr>
-                            <td>4.</td>
+                            <td>2.</td>
                             <td>Harga rata-rata jual</td>
                             <td>{{ "Rp. ".number_format($avg_jual,0, ",", ".") }}</td>
                         </tr>
@@ -105,7 +105,7 @@
                                 <th>Sell</th>
                                 <th>In</th>
                                 <th>Out</th>
-                                <th>Status</th>
+                                <!-- <th>Status</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +138,7 @@
             {data: 'sell_qty', name: 'sell_qty'},
             {data: 'in_qty', name: 'in_qty'},
             {data: 'out_qty', name: 'out_qty'},
-            {data: 'action', name:'action', orderable: false, searchable: false}
+            // {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 </script>
