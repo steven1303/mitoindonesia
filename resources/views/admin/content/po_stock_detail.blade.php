@@ -320,6 +320,7 @@
             $('#satuan').val(data.satuan);
             $('#keterangan').val(data.keterangan);
             $('#keterangan1').val(data.keterangan1);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');
