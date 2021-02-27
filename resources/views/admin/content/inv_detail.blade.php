@@ -277,6 +277,12 @@
             delimiter: '.',
             unit: 'Rp',
         });
+        VMasker(document.getElementById("disc")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
     }
 
     $(function(){
