@@ -133,8 +133,9 @@ class InvoiceController extends SettingAjaxController
     {
         $inv = Invoice::findOrFail($id);
         $price = preg_replace('/\D/', '',$request['price']);
+        $disc = preg_replace('/\D/', '',$request['disc']);
         $subtotal = ($request['qty'] * $price) - 0;
-        $total_befppn = ($subtotal  - $request['disc'] ) - 0;
+        $total_befppn = ($subtotal  - $disc ) - 0;
         $total_ppn = ($total_befppn  + (($inv->customer->ppn * $total_befppn) / 100) ) - 0;
         $data = [
             'id_branch' => Auth::user()->id_branch,
@@ -143,7 +144,7 @@ class InvoiceController extends SettingAjaxController
             'id_stock_master' => $request['id_stock_master'],
             'qty' => $request['qty'],
             'price' => $price,
-            'disc' => $request['disc'],
+            'disc' => $disc,
             'subtotal' => $subtotal,
             'total_befppn' => $total_befppn,
             'total_ppn' => $total_ppn,
@@ -204,11 +205,12 @@ class InvoiceController extends SettingAjaxController
     {
         $data = InvoiceDetail::find($id);
         $price = preg_replace('/\D/', '',$request['price']);
+        $disc = preg_replace('/\D/', '',$request['disc']);
         $subtotal = ($request['qty'] * $price) - 0;
-        $total_befppn = ($subtotal  - $request['disc'] ) - 0;
+        $total_befppn = ($subtotal  - $disc ) - 0;
         $total_ppn = ($total_befppn  + (($data->invoice->customer->ppn * $total_befppn) / 100) ) - 0;
 
-        $data->disc    = $request['disc'];
+        $data->disc    = $disc;
         $data->keterangan    = $request['keterangan'];
         $data->update();
         return response()
