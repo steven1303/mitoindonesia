@@ -17,12 +17,16 @@ class CreateVendorsTable extends Migration
             $table->id();
             $table->bigInteger('id_branch');
             $table->string('name');
+            $table->string('email')->nullable();
             $table->string('address1');
             $table->string('address2');
             $table->string('city');
             $table->string('phone');
+            $table->string('pic')->nullable();
+            $table->string('telp')->nullable();
             $table->string('npwp');
             $table->decimal('ppn', 10, 2)->default(0);
+            $table->Integer('status_ppn')->default(0);
             $table->timestamps();
         });
     }

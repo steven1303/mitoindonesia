@@ -21,6 +21,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->bigInteger('id_role');
             $table->bigInteger('id_branch');
+            $table->Integer('status_akses')->default(0);
             $table->timestamps();
         });
 

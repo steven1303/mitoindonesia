@@ -18,15 +18,21 @@ class VendorController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        // return $request;
+        $ppn_status = 0;
+        if($request->has('status_ppn')){
+            $ppn_status = 1;
+        }
         $data = [
             'name' => $request['name'],
+            'email' => $request['email'],
             'address1' => $request['address1'],
             'address2' => $request['address2'],
             'city' => $request['city'],
             'phone' => $request['phone'],
+            'pic' => $request['pic'],
+            'telp' => $request['telp'],
             'npwp' => $request['npwp'],
-            'ppn' => $request['ppn'],
+            'status_ppn' => $ppn_status,
             'id_branch' => Auth::user()->id_branch,
         ];
 
@@ -51,7 +57,10 @@ class VendorController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
+        $ppn_status = 0;
+        if($request->has('status_ppn')){
+            $ppn_status = 1;
+        }
         $data = Vendor::find($id);
         $data->name    = $request['name'];
         $data->address1    = $request['address1'];
@@ -59,7 +68,10 @@ class VendorController extends SettingAjaxController
         $data->city = $request['city'];
         $data->phone    = $request['phone'];
         $data->npwp    = $request['npwp'];
-        $data->ppn    = $request['ppn'];
+        $data->pic = $request['pic'];
+        $data->telp = $request['telp'];
+        $data->email = $request['email'];
+        $data->status_ppn = $ppn_status;
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Vendor Success', 'stat' => 'Success']);

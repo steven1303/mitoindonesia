@@ -26,10 +26,22 @@
                                     <input type="text" class="form-control" id="stock_no" name="stock_no" placeholder="Input Stock Number">
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-5">
                                 <div class="form-group">
                                     <label>Stock Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Input Stock Name">
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>Maximal SOH</label>
+                                    <input type="number" class="form-control" id="min_soh" name="min_soh" placeholder="Input Min SOH">
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>Minimal SOH</label>
+                                    <input type="number" class="form-control" id="max_soh" name="max_soh" placeholder="Input Max SOH">
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -165,6 +177,8 @@
             $('#name').val(data.name);
             $('#bin').val(data.bin);
             $('#satuan').val(data.satuan);
+            $('#min_soh').val(data.min_soh - 0);
+            $('#max_soh').val(data.max_soh - 0);
         },
         error : function() {
             error('Error', 'Nothing Data');

@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            @if($sppb->sppb_status == 1 )
+                            @if($sppb->sppb_status == 1 || $sppb->sppb_status == 2 )
                                 <button id="btnSave" type="button" onclick="open_sppb_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.sppb.index')}}')">Save</button>
@@ -66,7 +66,9 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">SPPB Detail</h3><br/><br/>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    @if($sppb->sppb_status == 1 || $sppb->sppb_status == 2 )
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                    @endif
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped"  id="sppbDetailTable">
@@ -113,7 +115,7 @@
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>QTY</label>
-                            <input type="text" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                            <input type="number" class="form-control" id="qty" name="qty" placeholder="Input QTY">
                         </div>
                     </div>
                     <div class="col-xs-3">
@@ -269,9 +271,10 @@
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
             $('#stock_master').append(newOption).trigger('change');
             $('#qty').val(data.qty);
-            // $('#price').val(data.price);
+            $('#price').val(data.stock_master.harga_jual - 0);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan').val(data.keterangan);
+            format_decimal_limit();
         },
         error : function() {
             error('Error', 'Nothing Data');

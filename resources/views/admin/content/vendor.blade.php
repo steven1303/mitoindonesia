@@ -34,8 +34,8 @@
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>Phone Number</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Input Phone">
+                                    <label>Email (Optional)</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Input Email">
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -58,8 +58,27 @@
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input NPWP">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Input Phone">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>Telp (Optional)</label>
+                                    <input type="text" class="form-control" id="telp" name="telp" placeholder="Input Telp">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>PIC (Optional)</label>
+                                    <input type="text" class="form-control" id="pic" name="pic" placeholder="Input PIC">
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="status_ppn" name="status_ppn"> PPN 10%
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +202,14 @@
             $('#address2').val(data.address2);
             $('#phone').val(data.phone);
             $('#npwp').val(data.npwp);
-            $('#ppn').val(data.ppn);
+            $('#pic').val(data.pic);
+            $('#telp').val(data.telp);
+            $('#email').val(data.email);
+            if(data.status_ppn == 1){
+                document.getElementById('status_ppn').checked  = true;
+            }else{
+                document.getElementById('status_ppn').checked  = false;
+            }
         },
         error : function() {
             error('Error', 'Nothing Data');

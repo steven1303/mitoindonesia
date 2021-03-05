@@ -24,6 +24,8 @@ class StockMasterController extends SettingAjaxController
             'name' => $request['name'],
             'bin' => $request['bin'],
             'satuan' => $request['satuan'],
+            'min_soh' => $request['min_soh'],
+            'max_soh' => $request['max_soh'],
             'id_branch' => Auth::user()->id_branch,
         ];
 
@@ -66,6 +68,8 @@ class StockMasterController extends SettingAjaxController
         $data->name    = $request['name'];
         $data->bin    = $request['bin'];
         $data->satuan    = $request['satuan'];
+        $data->min_soh    = $request['min_soh'];
+        $data->max_soh    = $request['max_soh'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit Stock Master Success', 'stat' => 'Success']);

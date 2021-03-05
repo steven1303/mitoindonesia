@@ -19,10 +19,14 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('address1');
             $table->string('address2');
+            $table->string('email')->nullable();
             $table->string('city');
+            $table->string('pic')->nullable();
+            $table->string('telp')->nullable();
             $table->string('phone');
             $table->string('npwp');
-            $table->decimal('ppn', 10, 2)->default(0);
+            $table->decimal('ppn', 10, 2)->default(0); // No used
+            $table->Integer('status_ppn')->default(0);
             $table->string('ktp');
             $table->string('bod');
             $table->timestamps();

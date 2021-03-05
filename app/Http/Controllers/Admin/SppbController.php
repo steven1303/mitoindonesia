@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\StoreDetailSppbRequest;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class SppbController extends SettingAjaxController
@@ -77,7 +78,7 @@ class SppbController extends SettingAjaxController
         }
     }
 
-    public function store_detail(Request $request, $id)
+    public function store_detail(StoreDetailSppbRequest $request, $id)
     {
         // return $request;
         $data = [

@@ -34,32 +34,32 @@
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
+                                    <label>Email (Optional)</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Input Email">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
                                     <label>Phone Number</label>
                                     <input type="text" class="form-control" id="phone" name="phone" placeholder="Input Phone">
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>KTP</label>
-                                    <input type="text" class="form-control" id="ktp" name="ktp" placeholder="Input KTP">
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label>Address 1</label>
-                                    <input type="text" class="form-control" id="address1" name="address1" placeholder="Input Address">
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label>Address 2</label>
-                                    <input type="text" class="form-control" id="address2" name="address2" placeholder="Input Address">
+                                    <label>Telp (Optional)</label>
+                                    <input type="text" class="form-control" id="telp" name="telp" placeholder="Input Telp">
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>NPWP</label>
-                                    <input type="text" class="form-control" id="npwp" name="npwp" placeholder="Input NPWP">
+                                    <label>PIC (Optional)</label>
+                                    <input type="text" class="form-control" id="pic" name="pic" placeholder="Input PIC">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>KTP</label>
+                                    <input type="text" class="form-control" id="ktp" name="ktp" placeholder="Input KTP">
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -73,10 +73,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input PPN %">
+                                    <label>Address 1</label>
+                                    <input type="text" class="form-control" id="address1" name="address1" placeholder="Input Address">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Address 2</label>
+                                    <input type="text" class="form-control" id="address2" name="address2" placeholder="Input Address">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>NPWP</label>
+                                    <input type="text" class="form-control" id="npwp" name="npwp" placeholder="Input NPWP">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="status_ppn" name="status_ppn"> PPN 10%
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +223,14 @@
             $('#npwp').val(data.npwp);
             $('#bod').val(data.bod);
             $('#ktp').val(data.ktp);
-            $('#ppn').val(data.ppn);
+            $('#pic').val(data.pic);
+            $('#telp').val(data.telp);
+            $('#email').val(data.email);
+            if(data.status_ppn == 1){
+                document.getElementById('status_ppn').checked  = true;
+            }else{
+                document.getElementById('status_ppn').checked  = false;
+            }
         },
         error : function() {
             error('Error', 'Nothing Data');

@@ -10,6 +10,19 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','id_branch','address1','address2','city','phone','npwp','ktp','bod','ppn'
+        'name',
+        'id_branch',
+        'address1',
+        'address2',
+        'email',
+        'city',
+        'pic',
+        'telp',
+        'phone',
+        'npwp',
+        'ktp',
+        'bod',
+        'ppn',
+        'status_ppn'
     ];
 }

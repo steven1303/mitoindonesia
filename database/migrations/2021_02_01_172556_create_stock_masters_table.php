@@ -20,6 +20,8 @@ class CreateStockMastersTable extends Migration
             $table->string('bin');
             $table->string('name');
             $table->string('satuan')->nullable();
+            $table->decimal('min_soh', 15, 2)->default(0);
+            $table->decimal('max_soh', 15, 2)->default(0);
             $table->decimal('harga_modal', 15, 2)->default(0);
             $table->decimal('harga_jual', 15, 2)->default(0);
             $table->timestamps();
