@@ -22,6 +22,8 @@ class CreatePoNonStocksTable extends Migration
             $table->integer('po_status')->default(1);
             $table->string('user_name');
             $table->bigInteger('user_id');
+            $table->dateTime('po_open')->nullable();
+            $table->dateTime('po_print')->nullable();
             $table->timestamps();
         });
     }

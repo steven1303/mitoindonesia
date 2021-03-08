@@ -67,7 +67,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">SPPB Detail</h3><br/><br/>
                     @if($sppb->sppb_status == 1 || $sppb->sppb_status == 2 )
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item" onclick="cancel()">Add Items</button>
                     @endif
                 </div>
                 <div class="box-body">
@@ -92,7 +92,7 @@
 </section>
 
 <div class="modal fade" id="modal-input-item">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form role="form" id="SpbdDetailForm" method="POST">
             {{ csrf_field() }} {{ method_field('POST') }}
             <input type="hidden" id="id" name="id">
@@ -104,38 +104,43 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label>Stock No</label>
-                            <select class="form-control select2" id="stock_master" name="stock_master" style="width: 100%;">
-                                <option></option>
-                            </select>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Stock No</label>
+                                <select class="form-control select2" id="stock_master" name="stock_master" style="width: 100%;">
+                                    <option></option>
+                                </select>
+                                <span class="text-danger error-text stock_master_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>QTY</label>
+                                <input type="number" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                                <span class="text-danger error-text qty_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>Satuan</label>
+                                <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Satuan" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>QTY</label>
-                            <input type="number" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                    <div class="row">
+                        {{-- <div class="col-xs-3">
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="text" class="form-control" id="price" name="price" placeholder="Price" readonly>
+                                <span class="text-danger error-text price_error"></span>
+                            </div>
+                        </div> --}}
+                        <div class="col-xs-9">
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" class="form-control" id="satuan" name="satuan" placeholder="Satuan" readonly>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Price" readonly>
-                        </div>
-                    </div>
-                    <div class="col-xs-9">
-                        <div class="form-group">
-                            <label>Keterangan</label>
-                            <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
-                        </div>
-                    </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -207,7 +212,7 @@
             var data = e.params.data;
             console.log(data);
             $('#satuan').val(data.satuan);
-            $('#price').val(data.harga_jual - 0);
+            // $('#price').val(data.harga_jual - 0);
             format_decimal_limit();
         });
 
@@ -226,6 +231,9 @@
 				    url : url,
 				    type : "POST",
 				    data : $('#SpbdDetailForm').serialize(),
+                    beforeSend:function(){
+                        $(document).find('span.error-text').text('');
+                    },
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
@@ -245,8 +253,18 @@
                             error(data.stat, data.message);
                         }
 				    },
-				    error : function(){
-					    error('Error', 'Oops! Something Error! Try to reload your page first...');
+				    error : function(data){
+                        if(data.status == 422){
+                            if(data.responseJSON.errors.qty !== undefined){
+                                $('span.qty_error').text(data.responseJSON.errors.qty[0]);
+                            }
+                            if(data.responseJSON.errors.id_stock_master !== undefined)
+                            {
+                                $('span.stock_master_error').text(data.responseJSON.errors.stock_master[0]);
+                            }
+                        }else{
+                            error('Error', 'Oops! Something Error! Try to reload your page first...');
+                        }
 				    }
 			    });
 			    return false;
@@ -261,6 +279,9 @@
         url: "{{ url('sppb') }}" + '/' + id + "/edit_detail",
         type: "GET",
         dataType: "JSON",
+        beforeSend:function(){
+            $(document).find('span.error-text').text('');
+        },
         success: function(data) {
             $('#modal-input-item').modal('show');
             $('#button_modal').text('Update');
@@ -270,8 +291,8 @@
             $('#stock_master').val(data.id_stock_master);
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
             $('#stock_master').append(newOption).trigger('change');
-            $('#qty').val(data.qty);
-            $('#price').val(data.stock_master.harga_jual - 0);
+            $('#qty').val(data.qty - 0);
+            // $('#price').val(data.stock_master.harga_jual - 0);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan').val(data.keterangan);
             format_decimal_limit();
@@ -309,7 +330,9 @@
         $('#formTitle').text('Create Stock Adjustment');
         $('#btnSave').attr('disabled',false);
         $('#stock_master').val(null).trigger('change');
+        $('#button_modal').text('Save Changes');
         $('input[name=_method]').val('POST');
+        $(document).find('span.error-text').text('');
     }
 
     function deleteData(id, title){

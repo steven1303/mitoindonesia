@@ -23,6 +23,8 @@ class CreateSppbsTable extends Migration
             $table->integer('sppb_status');
             $table->string('sppb_user_name');
             $table->bigInteger('sppb_user_id');
+            $table->dateTime('sppb_open')->nullable();
+            $table->dateTime('sppb_print')->nullable();
             $table->timestamps();
         });
     }

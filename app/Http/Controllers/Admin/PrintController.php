@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Spb;
 use App\Models\Spbd;
 use App\Models\Sppb;
@@ -20,6 +21,8 @@ class PrintController extends Controller
     public function print_spbd($id)
     {
         $spbd = Spbd::findOrFail($id);
+        $spbd->spbd_print = Carbon::now();
+        $spbd->update();
         $data = [
             'spbd' => $spbd
         ];
@@ -31,6 +34,8 @@ class PrintController extends Controller
     public function print_po_stock($id)
     {
         $po_stock = PoStock::findOrFail($id);
+        $po_stock->po_print = Carbon::now();
+        $po_stock->update();
         $data = [
             'po_stock' => $po_stock
         ];
@@ -42,6 +47,8 @@ class PrintController extends Controller
     public function print_receipt($id)
     {
         $rec = RecStock::findOrFail($id);
+        $rec->rec_print = Carbon::now();
+        $rec->update();
         $data = [
             'rec' => $rec
         ];
@@ -53,6 +60,8 @@ class PrintController extends Controller
     public function print_sppb($id)
     {
         $sppb = Sppb::findOrFail($id);
+        $sppb->sppb_print = Carbon::now();
+        $sppb->update();
         $data = [
             'sppb' => $sppb
         ];
@@ -86,6 +95,8 @@ class PrintController extends Controller
     public function print_spb($id)
     {
         $spb = Spb::findOrFail($id);
+        $spb->spb_print = Carbon::now();
+        $spb->update();
         $data = [
             'spb' => $spb
         ];
@@ -97,6 +108,8 @@ class PrintController extends Controller
     public function print_po_non_stock($id)
     {
         $po_stock = PoNonStock::findOrFail($id);
+        $po_stock->po_print = Carbon::now();
+        $po_stock->update();
         $data = [
             'po_stock' => $po_stock
         ];

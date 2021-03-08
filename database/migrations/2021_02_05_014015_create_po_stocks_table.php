@@ -24,6 +24,8 @@ class CreatePoStocksTable extends Migration
             $table->decimal('ppn', 10, 2)->default(0);
             $table->string('spbd_user_name');
             $table->bigInteger('spbd_user_id');
+            $table->dateTime('po_open')->nullable();
+            $table->dateTime('po_print')->nullable();
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Rules\Admin\QtySppbRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDetailSppbRequest extends FormRequest
+class UpdateDetailSppbRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

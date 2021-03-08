@@ -25,6 +25,8 @@ class CreateRecStocksTable extends Migration
             $table->integer('status')->default(1);
             $table->string('user_name');
             $table->bigInteger('user_id');
+            $table->dateTime('rec_open')->nullable();
+            $table->dateTime('rec_print')->nullable();
             $table->timestamps();
         });
     }

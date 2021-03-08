@@ -14,6 +14,7 @@ use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\StoreDetailSppbRequest;
+use App\Http\Requests\Admin\UpdateDetailSppbRequest;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class SppbController extends SettingAjaxController
@@ -80,13 +81,12 @@ class SppbController extends SettingAjaxController
 
     public function store_detail(StoreDetailSppbRequest $request, $id)
     {
-        // return $request;
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'sppb_id' => $id,
             'id_stock_master' => $request['stock_master'],
             'qty' => $request['qty'],
-            'price' => preg_replace('/\D/', '',$request['price']),
+            // 'price' => intval(preg_replace('/,.*|[^0-9]/', '',$request['price'])),
             'keterangan' => $request['keterangan'],
             'sppb_detail_status' => 1,
         ];
@@ -153,7 +153,7 @@ class SppbController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_detail(Request $request, $id)
+    public function update_detail(UpdateDetailSppbRequest $request, $id)
     {
         // return $request;
         $data = SppbDetail::find($id);
@@ -331,6 +331,7 @@ class SppbController extends SettingAjaxController
     {
         $data = Sppb::findOrFail($id);
         $data->sppb_status = 2;
+        $data->sppb_open = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open SPPB Success', 'stat' => 'Success']);

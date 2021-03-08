@@ -106,7 +106,7 @@
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label>QTY</label>
-                                <input type="text" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                                <input type="number" class="form-control" id="qty" name="qty" placeholder="Input QTY">
                             </div>
                         </div>
                         <div class="col-xs-3">

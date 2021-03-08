@@ -22,6 +22,8 @@ class CreateSpbdsTable extends Migration
             $table->integer('spbd_status');
             $table->string('spbd_user_name');
             $table->bigInteger('spbd_user_id');
+            $table->dateTime('spbd_open')->nullable();
+            $table->dateTime('spbd_print')->nullable();
             $table->timestamps();
         });
     }

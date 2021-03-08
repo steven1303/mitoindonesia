@@ -22,4 +22,9 @@ class SpbDetail extends Model
     {
         return $this->belongsTo('App\Models\Spb','spb_id');
     }
+
+    public function getQtyAttribute($qty)
+    {
+        return $qty - 0;
+    }
 }

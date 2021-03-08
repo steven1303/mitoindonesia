@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            @if($spbd->spbd_status == 1 ) 
+                            @if($spbd->spbd_status == 1 )
                                 <button id="btnSave" type="button" onclick="open_spbd_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spbd.index')}}')">Save</button>
@@ -109,7 +109,7 @@
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>QTY</label>
-                            <input type="text" class="form-control" id="qty" name="qty" placeholder="Input QTY">
+                            <input type="number" class="form-control" id="qty" name="qty" placeholder="Input QTY">
                         </div>
                     </div>
                     <div class="col-xs-3">

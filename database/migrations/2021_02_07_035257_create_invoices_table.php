@@ -31,6 +31,8 @@ class CreateInvoicesTable extends Migration
             $table->string('user_name');
             $table->bigInteger('user_id');
             $table->integer('inv_status')->default(1);
+            $table->dateTime('inv_open')->nullable();
+            $table->dateTime('inv_print')->nullable();
             $table->timestamps();
         });
     }

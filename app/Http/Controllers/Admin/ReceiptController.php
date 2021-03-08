@@ -111,7 +111,7 @@ class ReceiptController extends SettingAjaxController
             'id_po_stock' => $request['po_stock'],
             'rec_inv_ven' => $request['rec_inv_ven'],
             'rec_date' => Carbon::now(),
-            'ppn' => $request['ppn'],
+            'ppn' => preg_replace('/\D/', '',$request['ppn']),
             'status' => 1,
             'user_id' => Auth::user()->id,
             'user_name' => Auth::user()->name,
@@ -312,6 +312,7 @@ class ReceiptController extends SettingAjaxController
     {
         $data = RecStock::findOrFail($id);
         $data->status = 2;
+        $data->rec_open = Carbon::now();
         $movement = $this->rec_movement($data->receipt_detail);
 
         $po_stock = PoStock::findOrFail($data->id_po_stock);

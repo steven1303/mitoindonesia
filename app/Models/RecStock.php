@@ -20,6 +20,8 @@ class RecStock extends Model
         'status',
         'user_id',
         'user_name',
+        'rec_open',
+        'rec_print',
     ];
 
     public function po_stock()
@@ -35,5 +37,10 @@ class RecStock extends Model
     public function receipt_detail()
     {
     	return $this->hasMany('App\Models\RecStockDetail','id_rec');
+    }
+
+    public function getPpnAttribute($ppn)
+    {
+        return $ppn - 0;
     }
 }

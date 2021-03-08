@@ -18,6 +18,8 @@ class Sppb extends Model
         'sppb_status',
         'sppb_user_name',
         'sppb_user_id',
+        'sppb_open',
+        'sppb_print',
     ];
 
     public function customer()

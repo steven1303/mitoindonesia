@@ -140,6 +140,7 @@ class StockMasterController extends SettingAjaxController
                 'name'  => $tag->name,
                 'satuan'  => $tag->satuan,
                 'harga_jual' => $tag->harga_jual,
+                'harga_modal' => $tag->harga_modal,
             ];
         }
 

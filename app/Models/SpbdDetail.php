@@ -14,6 +14,7 @@ class SpbdDetail extends Model
         'spbd_id',
         'id_stock_master',
         'qty',
+        'po_qty',
         'keterangan',
         'spbd_detail_status',
     ];
@@ -26,5 +27,15 @@ class SpbdDetail extends Model
     public function spbd()
     {
         return $this->belongsTo('App\Models\Spbd','spbd_id');
+    }
+
+    public function getQtyAttribute($qty)
+    {
+        return $qty - 0;
+    }
+
+    public function getPoQtyAttribute($po_qty)
+    {
+        return $po_qty - 0;
     }
 }

@@ -58,7 +58,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control"  value="{{ $rec->ppn }}" readonly>
+                                    <input type="text" class="form-control"  id="rec_ppn" value="{{ $rec->ppn }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -259,9 +259,17 @@
             delimiter: '.',
             unit: 'Rp',
         });
+
+        VMasker(document.getElementById("rec_ppn")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
     }
 
     $(function(){
+        format_decimal_limit();
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
 	    $('#RecDetailForm').validator().on('submit', function (e) {

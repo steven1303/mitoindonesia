@@ -110,7 +110,6 @@ class PoStockController extends SettingAjaxController
             'id_vendor' => $request['vendor'],
             'po_ord_date' => Carbon::now(),
             'po_status' => 1,
-            'ppn' => $request['ppn'],
             'spbd_user_id' => Auth::user()->id,
             'spbd_user_name' => Auth::user()->name,
         ];
@@ -172,7 +171,6 @@ class PoStockController extends SettingAjaxController
         $data = PoStock::find($id);
         $data->id_spbd    = $request['spbd'];
         $data->id_vendor    = $request['vendor'];
-        $data->ppn    = $request['ppn'];
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit PO Stock Success', 'stat' => 'Success']);
@@ -342,6 +340,11 @@ class PoStockController extends SettingAjaxController
     {
         $data = PoStock::findOrFail($id);
         $data->po_status = 2;
+        $data->ppn = 0;
+        $data->po_open = Carbon::now();
+        if($data->vendor->status_ppn == 1){
+            $data->ppn = $data->po_stock_detail->sum('total') * 0.1;
+        }
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open PO Stock Success', 'stat' => 'Success']);
@@ -440,7 +443,7 @@ class PoStockController extends SettingAjaxController
                 'text'  => $tag->po_no,
                 'vendor'  => $tag->id_vendor,
                 'vendor_name'  => $tag->vendor->name,
-                'ppn'  => $tag->ppn - 0,
+                'ppn'  => $tag->ppn,
             ];
         }
 

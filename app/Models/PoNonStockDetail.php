@@ -28,4 +28,14 @@ class PoNonStockDetail extends Model
     {
         return $this->belongsTo('App\Models\PoNonStock','id_po');
     }
+
+    public function getPriceAttribute($price)
+    {
+        return $price - 0;
+    }
+
+    public function getDiscAttribute($disc)
+    {
+        return $disc - 0;
+    }
 }

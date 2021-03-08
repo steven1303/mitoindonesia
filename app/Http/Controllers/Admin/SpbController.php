@@ -307,6 +307,7 @@ class SpbController extends SettingAjaxController
     {
         $data = Spb::findOrFail($id);
         $data->spb_status = 2;
+        $data->spb_open = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open SPB Success', 'stat' => 'Success']);

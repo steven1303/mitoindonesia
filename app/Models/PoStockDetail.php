@@ -41,4 +41,29 @@ class PoStockDetail extends Model
     {
     	return $this->hasMany('App\Models\RecStockDetail','id_po_detail');
     }
+
+    public function getQtyAttribute($qty)
+    {
+        return $qty - 0;
+    }
+
+    public function getTotalAttribute($qty)
+    {
+        return $this->qty * $this->price;
+    }
+
+    public function getRecQtyAttribute($rec_qty)
+    {
+        return $rec_qty - 0;
+    }
+
+    public function getPriceAttribute($price)
+    {
+        return $price - 0;
+    }
+
+    public function getDiscAttribute($disc)
+    {
+        return $disc - 0;
+    }
 }

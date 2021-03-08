@@ -36,5 +36,10 @@ class PoStock extends Model
     	return $this->hasMany('App\Models\PoStockDetail','id_po');
     }
 
+    public function getPpnAttribute($ppn)
+    {
+        return $ppn - 0;
+    }
+
 
 }

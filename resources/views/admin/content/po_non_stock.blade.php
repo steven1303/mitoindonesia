@@ -192,7 +192,7 @@
     }
 
     function print_po_stock(id){
-        window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
+        window.open("{{ url('po_non_stock_print') }}" + '/' + id,"_blank");
     }
 
     function verify(id) {

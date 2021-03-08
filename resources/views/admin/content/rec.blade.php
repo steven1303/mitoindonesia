@@ -112,6 +112,15 @@
         ]
     });
 
+    function format_decimal_limit(){
+        VMasker(document.getElementById("ppn")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
+
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -139,6 +148,7 @@
             $('#vendor').val(data.vendor);
             $('#vendor_name').val(data.vendor_name);
             $('#ppn').val(data.ppn);
+            format_decimal_limit();
         });
 
 	    $('#RecForm').validator().on('submit', function (e) {
@@ -223,7 +233,7 @@
         $('#RecForm')[0].reset();
         $('#btnSave').text('Submit');
         $('#formTitle').text('Create Stock Adjustment');
-        $('#spbd').val(null).trigger('change');
+        $('#po_stock').val(null).trigger('change');
         $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
     }

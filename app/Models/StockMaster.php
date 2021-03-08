@@ -30,4 +30,24 @@ class StockMaster extends Model
     	return $this->belongsTo('App\Models\Branch','id_branch');
     }
 
+    public function getHargaModalAttribute($harga_modal)
+    {
+        return $harga_modal - 0;
+    }
+
+    public function getHargaJualAttribute($harga_jual)
+    {
+        return $harga_jual - 0;
+    }
+
+    public function getMinSohAttribute($min_soh)
+    {
+        return $min_soh - 0;
+    }
+
+    public function getMaxSohAttribute($max_soh)
+    {
+        return $max_soh - 0;
+    }
+
 }

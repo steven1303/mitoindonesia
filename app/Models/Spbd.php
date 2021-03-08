@@ -17,6 +17,8 @@ class Spbd extends Model
         'spbd_status',
         'spbd_user_name',
         'spbd_user_id',
+        'spbd_open',
+        'spbd_print',
     ];
 
     public function vendor()
@@ -28,4 +30,5 @@ class Spbd extends Model
     {
     	return $this->hasMany('App\Models\SpbdDetail','spbd_id');
     }
+
 }

@@ -29,4 +29,19 @@ class SppbDetail extends Model
     {
         return $this->belongsTo('App\Models\Sppb','sppb_id');
     }
+
+    public function getQtyAttribute($qty)
+    {
+        return $qty - 0;
+    }
+
+    public function getPriceAttribute($price)
+    {
+        return $price - 0;
+    }
+
+    public function getInvQtyAttribute($inv_qty)
+    {
+        return $inv_qty - 0;
+    }
 }

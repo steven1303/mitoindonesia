@@ -17,6 +17,8 @@ class PoNonStock extends Model
         'po_status',
         'user_name',
         'user_id',
+        'po_open',
+        'po_print',
     ];
 
     public function spb()

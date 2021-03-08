@@ -35,7 +35,7 @@
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input Vendor" readonly value="{{ $po_stock->ppn - 0 }} %">
+                                    <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input Vendor" readonly value="@if($po_stock->vendor->status_ppn == 1) 10 @else 0 @endif %">
                                 </div>
                             </div>
                             <div class="col-xs-2">

@@ -35,4 +35,39 @@ class StockMovement extends Model
     {
     	return $this->belongsTo('App\Models\Branch','id_branch');
     }
+
+    public function getSohQtyAttribute()
+    {
+        return $this->in_qty - $this->out_qty;
+    }
+
+    public function getOrderQtyAttribute($order_qty)
+    {
+        return $order_qty - 0;
+    }
+
+    public function getSellQtyAttribute($sell_qty)
+    {
+        return $sell_qty - 0;
+    }
+
+    public function getInQtyAttribute($in_qty)
+    {
+        return $in_qty - 0;
+    }
+
+    public function getOutQtyAttribute($out_qty)
+    {
+        return $out_qty - 0;
+    }
+
+    public function getHargaModalAttribute($harga_modal)
+    {
+        return $harga_modal - 0;
+    }
+
+    public function getHargaJualAttribute($harga_jual)
+    {
+        return $harga_jual - 0;
+    }
 }

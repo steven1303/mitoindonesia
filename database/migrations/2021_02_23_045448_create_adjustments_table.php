@@ -20,6 +20,8 @@ class CreateAdjustmentsTable extends Migration
             $table->integer('status');
             $table->string('user_name');
             $table->bigInteger('user_id');
+            $table->dateTime('adj_open')->nullable();
+            $table->dateTime('adj_print')->nullable();
             $table->timestamps();
         });
     }

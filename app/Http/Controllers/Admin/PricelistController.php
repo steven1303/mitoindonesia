@@ -39,7 +39,8 @@ class PricelistController extends SettingAjaxController
     {
 
         $data = StockMaster::find($id);
-        $data->harga_modal    = preg_replace('/\D/', '',$request['harga_modal']);
+        // $data->harga_modal    = preg_replace('/\D/', '',$request['harga_modal']);
+        $data->harga_modal    = intval(preg_replace('/,.*|[^0-9]/', '',$request['harga_modal']));
         $data->harga_jual    = preg_replace('/\D/', '',$request['harga_jual']);
         $data->update();
         return response()

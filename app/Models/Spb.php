@@ -17,6 +17,8 @@ class Spb extends Model
         'spb_status',
         'spb_user_name',
         'spb_user_id',
+        'spb_open',
+        'spb_print'
     ];
 
     public function vendor()

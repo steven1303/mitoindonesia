@@ -25,6 +25,8 @@ class CreatePelunasansTable extends Migration
             $table->string('user_name');
             $table->bigInteger('user_id');
             $table->Integer('status');
+            $table->dateTime('pelunasan_open')->nullable();
+            $table->dateTime('pelunasan_print')->nullable();
             $table->timestamps();
         });
     }

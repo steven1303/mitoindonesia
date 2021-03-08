@@ -310,6 +310,7 @@ class PoNonStockController extends SettingAjaxController
     {
         $data = PoNonStock::findOrFail($id);
         $data->po_status = 2;
+        $data->po_open = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open PO Non Stock Success', 'stat' => 'Success']);

@@ -216,8 +216,10 @@
 
         $('#stock_master').on('select2:select', function (e) {
             var data = e.params.data;
-            console.log(data);
             $('#satuan').val(data.satuan);
+            $('#harga_jual').val(data.harga_jual - 0);
+            $('#harga_modal').val(data.harga_modal - 0);
+            format_decimal_limit();
         });
 
 	    $('#AdjDetailForm').validator().on('submit', function (e) {

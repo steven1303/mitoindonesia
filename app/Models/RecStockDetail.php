@@ -38,4 +38,29 @@ class RecStockDetail extends Model
     {
         return $this->belongsTo('App\Models\PoStockDetail','id_po_detail');
     }
+
+    public function getOrderAttribute($order)
+    {
+        return $order - 0;
+    }
+
+    public function getTerimaAttribute($terima)
+    {
+        return $terima - 0;
+    }
+
+    public function getBoAttribute($bo)
+    {
+        return $bo - 0;
+    }
+
+    public function getPriceAttribute($price)
+    {
+        return $price - 0;
+    }
+
+    public function getDiscAttribute($disc)
+    {
+        return $disc - 0;
+    }
 }
