@@ -51,7 +51,7 @@
                     <h3 class="box-title">List SPBD</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="stockMasterTable">
+                    <table class="table table-bordered table-striped"  id="SpbdTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -72,7 +72,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#stockMasterTable')
+    var table = $('#SpbdTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,

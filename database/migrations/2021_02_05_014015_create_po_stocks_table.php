@@ -16,7 +16,7 @@ class CreatePoStocksTable extends Migration
         Schema::create('po_stocks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('po_no');
+            $table->string('po_no')->unique();
             $table->bigInteger('id_spbd')->default(0);
             $table->bigInteger('id_vendor');
             $table->dateTime('po_ord_date');

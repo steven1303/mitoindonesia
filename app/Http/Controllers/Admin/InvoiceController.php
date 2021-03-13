@@ -136,7 +136,10 @@ class InvoiceController extends SettingAjaxController
         $disc = preg_replace('/\D/', '',$request['disc']);
         $subtotal = ($request['qty'] * $price) - 0;
         $total_befppn = ($subtotal  - $disc ) - 0;
-        $total_ppn = ($total_befppn  + (($inv->customer->ppn * $total_befppn) / 100) ) - 0;
+        $total_ppn = $total_befppn;
+        if($inv->customer->status_ppn == 1){
+            $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+        }
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'id_inv' => $id,
@@ -208,8 +211,10 @@ class InvoiceController extends SettingAjaxController
         $disc = preg_replace('/\D/', '',$request['disc']);
         $subtotal = ($request['qty'] * $price) - 0;
         $total_befppn = ($subtotal  - $disc ) - 0;
-        $total_ppn = ($total_befppn  + (($data->invoice->customer->ppn * $total_befppn) / 100) ) - 0;
-
+        $total_ppn = $total_befppn;
+        if($inv->customer->status_ppn == 1){
+            $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+        }
         $data->disc    = $disc;
         $data->keterangan    = $request['keterangan'];
         $data->update();
@@ -260,6 +265,8 @@ class InvoiceController extends SettingAjaxController
                 }elseif($data->inv_status == 2){
                     $action = "Request";
                 }elseif($data->inv_status == 3){
+                    $action = "Request";
+                }elseif($data->inv_status == 4){
                     if($data->pelunasan->count() < 1){
                         $action = "Approved";
                     }
@@ -286,10 +293,15 @@ class InvoiceController extends SettingAjaxController
                 }
                 if($data->inv_status == 2){
                     $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
                 if($data->inv_status == 3){
+                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                }
+                if($data->inv_status == 4){
                     $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                 }
@@ -300,7 +312,6 @@ class InvoiceController extends SettingAjaxController
             })
             ->addColumn('total_inv', function($data){
                 return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
-                // return $data->inv_detail->sum('total_ppn');
             })
             ->rawColumns(['action'])->make(true);
     }
@@ -336,7 +347,6 @@ class InvoiceController extends SettingAjaxController
                 return $action;
             })
             ->addColumn('format_balance', function($data){
-                // $action = $data->stock_master->satuan;
                 return "Rp. ".number_format($data->price,0, ",", ".");
             })
             ->rawColumns(['action'])->make(true);
@@ -352,6 +362,11 @@ class InvoiceController extends SettingAjaxController
     {
         $data = Invoice::findOrFail($id);
         $data->inv_status = 2;
+        $data->ppn = 0;
+        $data->inv_open = Carbon::now();
+        if($data->customer->status_ppn == 1){
+            $data->ppn = $data->inv_detail->sum('total') * 0.1;
+        }
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Request Invoice Success', 'stat' => 'Success']);
@@ -363,10 +378,25 @@ class InvoiceController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function approve($id)
+    public function verify($id)
     {
         $data = Invoice::findOrFail($id);
         $data->inv_status = 3;
+        $data->update();
+        return response()
+            ->json(['code'=>200,'message' => 'Invoice Verified Success', 'stat' => 'Success']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        $data = Invoice::findOrFail($id);
+        $data->inv_status = 4;
         $this->inv_movement($data->inv_detail);
         $data->update();
         $sppd = Sppb::findOrFail($data->id_sppb);
@@ -383,7 +413,6 @@ class InvoiceController extends SettingAjaxController
                 'id_stock_master' => $detail->id_stock_master,
                 'id_branch' => $detail->id_branch,
                 'move_date' => $detail->invoice->date,
-                // 'bin' => "-",
                 'type' => 'INV',
                 'doc_no' => $detail->invoice->inv_no,
                 'order_qty' => 0,

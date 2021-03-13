@@ -101,6 +101,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="javascript:ajaxLoad('{{route('local.po_internal.index')}}')">
+                            <i class="fa fa-th"></i> <span>PO Internal</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
                             <i class="fa fa-th"></i> <span>Invoice</span>
                         </a>

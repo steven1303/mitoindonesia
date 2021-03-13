@@ -47,9 +47,9 @@ class PoStockDetail extends Model
         return $qty - 0;
     }
 
-    public function getTotalAttribute($qty)
+    public function getTotalAttribute()
     {
-        return $this->qty * $this->price;
+        return ($this->qty * $this->price) - $this->disc;
     }
 
     public function getRecQtyAttribute($rec_qty)

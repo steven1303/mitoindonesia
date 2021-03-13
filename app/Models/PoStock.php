@@ -19,6 +19,8 @@ class PoStock extends Model
         'ppn',
         'spbd_user_name',
         'spbd_user_id',
+        'po_open',
+        'po_print',
     ];
 
     public function spbd()

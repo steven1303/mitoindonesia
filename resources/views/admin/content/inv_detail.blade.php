@@ -87,7 +87,7 @@
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn" value="{{ $invoice->customer->ppn - 0 }}" readonly>
+                                    <input type="text" class="form-control" id="ppn" name="ppn" value="{{ $invoice->ppn - 0 }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +190,7 @@
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="text" class="form-control" id="price" name="price" placeholder="Price" readonly>
+                                <input type="text" class="form-control" id="price" name="price" placeholder="Price">
                             </div>
                         </div>
                         <div class="col-xs-3">

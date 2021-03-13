@@ -127,7 +127,7 @@ class PelunasanController extends SettingAjaxController
     public function recordInvPelunasan(){
         $data = Invoice::where([
             ['id_branch','=', Auth::user()->id_branch],
-            ['inv_status','=', 3],
+            ['inv_status','=', 4],
         ])->latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
@@ -135,7 +135,7 @@ class PelunasanController extends SettingAjaxController
                 $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.index', $data->id)."')";
                 $action = "";
                 $total_tagihan = $data->inv_detail->sum('total_ppn') - $data->pelunasan->sum('balance') - 0;
-                if($data->inv_status == 3 && $total_tagihan != 0){
+                if($data->inv_status == 4 && $total_tagihan != 0){
                     $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
                 }
                 return $action;

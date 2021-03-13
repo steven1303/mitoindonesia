@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InvoiceDetail extends Model
+class PoInternalDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id_branch',
-        'id_sppb_detail',
-        'id_inv',
+        'id_po',
         'id_stock_master',
         'qty',
         'price',
         'disc',
-        'subtotal',
-        'total_befppn',
-        'total_ppn',
         'keterangan',
-        'inv_detail_status',
+        'po_detail_status',
     ];
 
     public function stock_master()
@@ -29,24 +25,19 @@ class InvoiceDetail extends Model
         return $this->belongsTo('App\Models\StockMaster','id_stock_master');
     }
 
-    public function invoice()
+    public function po_internal()
     {
-        return $this->belongsTo('App\Models\Invoice','id_inv');
-    }
-
-    public function sppb_detail()
-    {
-        return $this->belongsTo('App\Models\SppbDetail','id_sppb_detail');
-    }
-
-    public function getQtyAttribute($qty)
-    {
-        return $qty - 0;
+        return $this->belongsTo('App\Models\PoInternal','id_po');
     }
 
     public function getTotalAttribute()
     {
         return ($this->qty * $this->price) - $this->disc;
+    }
+
+    public function getQtyAttribute($qty)
+    {
+        return $qty - 0;
     }
 
     public function getPriceAttribute($price)

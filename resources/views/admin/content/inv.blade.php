@@ -245,6 +245,22 @@
         window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
     }
 
+    function verify(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('inv') }}" + '/' + id + "/verify",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+
     function approve(id) {
         save_method = 'edit';
         $.ajax({

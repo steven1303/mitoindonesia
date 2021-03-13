@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        Create SPPB
+        Create PO Internal
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">SPPB</a></li>
-        <li class="active"><a href="#"> Create SPPB</a></li>
+        <li><a href="#">Transaction</a></li>
+        <li class="active"><a href="#"> Create PO Internal</a></li>
     </ol>
 </section>
 <section class="content">
@@ -13,10 +13,10 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create SPPB</h3>
+                    <h3 class="box-title"  id="formTitle">Create PO Internal</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SppbForm" method="POST">
+                    <form role="form" id="PoInternalForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
@@ -26,24 +26,6 @@
                                     <select class="form-control select2" id="customer" name="customer" style="width: 100%;">
                                         <option></option>
                                     </select>
-                                    <span class="text-danger error-text customer_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>PO Customer</label>
-                                    <input type="text" class="form-control" id="sppb_po_cust" name="sppb_po_cust" placeholder="Input PO Customer">
-                                    <span class="text-danger error-text sppb_po_cust_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label>PO Status</label>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" id="status_po_internal" name="status_po_internal"> With PO Internal
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -60,14 +42,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List SPPB</h3>
+                    <h3 class="box-title">List PO Internal</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="sppbTable">
+                    <table class="table table-bordered table-striped"  id="poStockTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>SPPB No</th>
+                                <th>PO No</th>
+                                <th>SPPB</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -84,7 +67,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#sppbTable')
+    var table = $('#poStockTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -95,12 +78,13 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.sppb') }}",
+        "ajax": "{{route('local.record.po_internal') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'sppb_no', name: 'sppb_no'},
-            {data: 'sppb_date', name: 'sppb_date'},
-            {data: 'status', name: 'status'},
+            {data: 'po_no', name: 'po_no'},
+            {data: 'doc_no', name: 'doc_no'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'status_po_internal', name: 'status_po_internal'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -126,34 +110,35 @@
             },
         })
 
-	    $('#SppbForm').validator().on('submit', function (e) {
+	    $('#PoInternalForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.sppb.store') }}";
+				    url = "{{route('local.po_internal.store') }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('sppb') . '/' }}" + id;
+				    url = "{{ url('po_internal') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#SppbForm').serialize(),
+				    data : $('#PoInternalForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#SppbForm')[0].reset();
-                            $('#customer').val(null).trigger('change');
+                            $('#formTitle').text('Create PO Internal');
+                            $('#PoInternalForm')[0].reset();
                             $('#btnSave').text('Submit');
+                            $('#customer').val(null).trigger('change');
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('sppb_detail') }}" + '/' + data.sppb_id);
+                                ajaxLoad("{{ url('po_internal_detail') }}" + '/' + data.po_id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -163,18 +148,8 @@
                             error(data.stat, data.message);
                         }
 				    },
-				    error : function(data){
-                        if(data.status == 422){
-                            if(data.responseJSON.errors.customer !== undefined){
-                                $('span.customer_error').text(data.responseJSON.errors.customer[0]);
-                            }
-                            if(data.responseJSON.errors.sppb_po_cust !== undefined)
-                            {
-                                $('span.sppb_po_cust_error').text(data.responseJSON.errors.sppb_po_cust[0]);
-                            }
-                        }else{
-                            error('Error', 'Oops! Something Error! Try to reload your page first...');
-                        }
+				    error : function(){
+					    error('Error', 'Oops! Something Error! Try to reload your page first...');
 				    }
 			    });
 			    return false;
@@ -186,25 +161,17 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/edit",
+        url: "{{ url('po_internal') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
-        beforeSend:function(){
-            $(document).find('span.error-text').text('');
-        },
         success: function(data) {
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit SPBD');
+            $('#formTitle').text('Edit PO Internal');
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
             var newOption = new Option(data.customer.name, data.id_customer, true, true);
             $('#customer').append(newOption).trigger('change');
-            $('#sppb_po_cust').val(data.sppb_po_cust);
-            if(data.po_cust_status == 1){
-                document.getElementById('status_po_internal').checked  = true;
-            }else{
-                document.getElementById('status_po_internal').checked  = false;
-            }
+            $('#spbd').append(newOption).trigger('change');
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -212,14 +179,14 @@
         });
     }
 
-    function print_sppb(id){
-        window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
+    function print_po_internal(id){
+        window.open("{{ url('po_internal_print') }}" + '/' + id,"_blank");
     }
 
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/approve",
+        url: "{{ url('po_internal') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -234,13 +201,12 @@
 
     function cancel(){
         save_method = 'add';
-        $('#SppbForm')[0].reset();
+        $('#PoInternalForm')[0].reset();
         $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
+        $('#formTitle').text('Create Po Internal');
         $('#customer').val(null).trigger('change');
+        $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
-        $(document).find('span.error-text').text('');
     }
 
     function deleteData(id, title){
@@ -257,7 +223,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('sppb') }}" + '/' + id,
+                    url : "{{ url('po_internal') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

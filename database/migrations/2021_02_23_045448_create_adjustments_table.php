@@ -16,7 +16,7 @@ class CreateAdjustmentsTable extends Migration
         Schema::create('adjustments', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('adj_no');
+            $table->string('adj_no')->unique();
             $table->integer('status');
             $table->string('user_name');
             $table->bigInteger('user_id');

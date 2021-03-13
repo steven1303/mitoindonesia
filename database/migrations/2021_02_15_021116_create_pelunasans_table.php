@@ -15,7 +15,7 @@ class CreatePelunasansTable extends Migration
     {
         Schema::create('pelunasans', function (Blueprint $table) {
             $table->id();
-            $table->string('pelunasan_no');
+            $table->string('pelunasan_no')->unique();
             $table->bigInteger('id_branch');
             $table->bigInteger('id_inv');
             $table->decimal('balance', 10, 2)->default(0);

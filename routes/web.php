@@ -196,6 +196,7 @@ Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_o
 // Verify
 Route::get('/po_stock/{id}/verify', 'App\Http\Controllers\Admin\PoStockController@verify')->name('local.po_stock.verify');
 Route::get('/po_non_stock/{id}/verify', 'App\Http\Controllers\Admin\PoNonStockController@verify')->name('local.po_non_stock.verify');
+Route::get('/inv/{id}/verify', 'App\Http\Controllers\Admin\InvoiceController@verify')->name('local.inv.verify');
 
 // Approval
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');
@@ -206,6 +207,7 @@ Route::get('/pelunasan/{id}/approve', 'App\Http\Controllers\Admin\PelunasanContr
 Route::get('/spb/{id}/approve', 'App\Http\Controllers\Admin\SpbController@approve')->name('local.spb.approve');
 Route::get('/po_non_stock/{id}/approve', 'App\Http\Controllers\Admin\PoNonStockController@approve')->name('local.po_non_stock.approve');
 Route::get('/adj/{id}/approve', 'App\Http\Controllers\Admin\AdjustmentController@approve')->name('local.adj.approve');
+Route::get('/po_internal/{id}/approve', 'App\Http\Controllers\Admin\PoInternalController@approve')->name('local.po_internal.approve');
 
 // Print
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
@@ -217,6 +219,7 @@ Route::get('/pelunasan_print/{id}', 'App\Http\Controllers\Admin\PrintController@
 Route::get('/spb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spb')->name('local.print.spb');
 Route::get('/po_non_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_non_stock')->name('local.print.po_non_stock');
 Route::get('/adj_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_adj')->name('local.print.adj');
+Route::get('/po_internal_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_internal')->name('local.print.po_internal');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');
@@ -269,7 +272,7 @@ Route::post('/adj', 'App\Http\Controllers\Admin\AdjustmentController@store')->na
 Route::delete('/adj/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy')->name('local.adj.delete');
 Route::get('record/adj', 'App\Http\Controllers\Admin\AdjustmentController@recordAdj')->name('local.record.adj');
 
-// SPBD Detail
+// Adjustment Detail
 Route::get('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@detail')->name('local.adj.detail.index');
 Route::post('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@store_detail')->name('local.adj.store_detail');
 Route::get('/adj/{id}/edit_detail', 'App\Http\Controllers\Admin\AdjustmentController@edit_detail')->name('local.adj.edit_detail');
@@ -277,3 +280,20 @@ Route::patch('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentControlle
 Route::delete('/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@destroy_detail')->name('local.adj.delete_detail');
 Route::get('record/adj_detail/{id}', 'App\Http\Controllers\Admin\AdjustmentController@recordAjd_detail')->name('local.record.adj_detail');
 Route::get('/adj_open/{id}', 'App\Http\Controllers\Admin\AdjustmentController@adj_open')->name('local.adj.open.index');
+
+// PO Internal
+Route::get('/po_internal', 'App\Http\Controllers\Admin\PoInternalController@index')->name('local.po_internal.index');
+Route::post('/po_internal', 'App\Http\Controllers\Admin\PoInternalController@store')->name('local.po_internal.store');
+Route::get('/po_internal/{id}/edit', 'App\Http\Controllers\Admin\PoInternalController@edit')->name('local.po_internal.edit');
+Route::patch('/po_internal/{id}', 'App\Http\Controllers\Admin\PoInternalController@update')->name('local.po_internal.update');
+Route::delete('/po_internal/{id}', 'App\Http\Controllers\Admin\PoInternalController@destroy')->name('local.po_internal.delete');
+Route::get('record/po_internal', 'App\Http\Controllers\Admin\PoInternalController@recordPoInternal')->name('local.record.po_internal');
+
+// SPPB Detail
+Route::get('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@detail')->name('local.po_internal.detail.index');
+Route::post('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@store_detail')->name('local.po_internal.store_detail');
+Route::get('/po_internal/{id}/edit_detail', 'App\Http\Controllers\Admin\PoInternalController@edit_detail')->name('local.po_internal.edit_detail');
+Route::patch('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@update_detail')->name('local.po_internal.update_detail');
+Route::delete('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@destroy_detail')->name('local.po_internal.delete_detail');
+Route::get('record/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@recordPoInternal_detail')->name('local.record.po_internal_detail');
+Route::get('/po_internal_open/{id}', 'App\Http\Controllers\Admin\PoInternalController@po_internal_open')->name('local.po_internal.open.index');

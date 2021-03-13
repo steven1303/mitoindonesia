@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Spbd;
 
 use App\Models\Sppb;
+use App\Models\PoInternal;
 use App\Models\SpbdDetail;
 use App\Models\SppbDetail;
 use App\Models\StockMaster;
@@ -13,6 +14,8 @@ use Illuminate\Http\Request;
 use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\StoreSppbRequest;
+use App\Http\Requests\Admin\UpdateSppbRequest;
 use App\Http\Requests\Admin\StoreDetailSppbRequest;
 use App\Http\Requests\Admin\UpdateDetailSppbRequest;
 use App\Http\Controllers\Admin\SettingAjaxController;
@@ -44,8 +47,9 @@ class SppbController extends SettingAjaxController
         return $format.'/'.sprintf("%03d", $sppb_no);
     }
 
-    public function store(Request $request)
+    public function store(StoreSppbRequest $request)
     {
+
         $draf = Sppb::where([
             ['sppb_status','=', 1],
             ['id_branch','=', Auth::user()->id_branch]
@@ -56,6 +60,11 @@ class SppbController extends SettingAjaxController
                 ->json(['code'=>200,'message' => 'Use the previous Draf SPPB First', 'stat' => 'Warning']);
         }
 
+        $status_po_internal = 0;
+        if($request->has('status_po_internal')){
+            $status_po_internal = 1;
+        }
+
         $data = [
             'id_branch' => Auth::user()->id_branch,
             'sppb_no' => $this->sppb_no(),
@@ -63,6 +72,7 @@ class SppbController extends SettingAjaxController
             'id_customer' => $request['customer'],
             'sppb_po_cust' => $request['sppb_po_cust'],
             'sppb_status' => 1,
+            'po_cust_status' => $status_po_internal,
             'sppb_user_name' => Auth::user()->name,
             'sppb_user_id' => Auth::user()->id,
         ];
@@ -134,13 +144,17 @@ class SppbController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSppbRequest $request, $id)
     {
-
+        $status_po_internal = 0;
+        if($request->has('status_po_internal')){
+            $status_po_internal = 1;
+        }
         $data = Sppb::find($id);
         $data->sppb_date    = Carbon::now();
         $data->id_customer    = $request['customer'];
         $data->sppb_po_cust    = $request['sppb_po_cust'];
+        $data->po_cust_status    = $status_po_internal;
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Edit SPPB Success', 'stat' => 'Success']);
@@ -332,6 +346,13 @@ class SppbController extends SettingAjaxController
         $data = Sppb::findOrFail($id);
         $data->sppb_status = 2;
         $data->sppb_open = Carbon::now();
+        if($data->po_cust_status == 1){
+            $po_internal = PoInternal::where('po_no',$data->sppb_po_cust)
+                ->update([
+                    'po_status' => 4,
+                    'doc_no' => $data->sppb_no,
+                    ]);
+        }
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open SPPB Success', 'stat' => 'Success']);

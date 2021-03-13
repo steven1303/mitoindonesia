@@ -26,6 +26,8 @@ class Invoice extends Model
         'user_name',
         'user_id',
         'inv_status',
+        'inv_open',
+        'inv_print',
     ];
 
     public function sppb()
@@ -46,5 +48,10 @@ class Invoice extends Model
     public function pelunasan()
     {
     	return $this->hasMany('App\Models\Pelunasan','id_inv');
+    }
+
+    public function getPpnAttribute($ppn)
+    {
+        return $ppn - 0;
     }
 }

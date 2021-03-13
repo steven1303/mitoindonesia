@@ -27,6 +27,7 @@ class CreateStockMovementsTable extends Migration
             $table->decimal('harga_modal', 15, 2)->default(0);
             $table->decimal('harga_jual', 15, 2)->default(0);
             $table->string('user');
+            $table->integer('status')->default(0);
             $table->string('ket')->nullable();
             $table->timestamps();
         });

@@ -16,11 +16,12 @@ class CreateSppbsTable extends Migration
         Schema::create('sppbs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('sppb_no');
+            $table->string('sppb_no')->unique();
             $table->string('sppb_date');
             $table->bigInteger('id_customer')->default(0);
             $table->string('sppb_po_cust');
             $table->integer('sppb_status');
+            $table->integer('po_cust_status')->default(0);
             $table->string('sppb_user_name');
             $table->bigInteger('sppb_user_id');
             $table->dateTime('sppb_open')->nullable();

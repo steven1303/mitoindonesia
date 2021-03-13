@@ -16,7 +16,7 @@ class CreateSpbsTable extends Migration
         Schema::create('spbs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('spb_no');
+            $table->string('spb_no')->unique();
             $table->bigInteger('id_vendor')->default(0);
             $table->dateTime('spb_date');
             $table->integer('spb_status');

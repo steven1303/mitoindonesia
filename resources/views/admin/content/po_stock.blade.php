@@ -35,12 +35,12 @@
                                     <input type="hidden" id="vendor" name="vendor">
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                            {{-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>PPN</label>
                                     <input type="text" class="form-control" id="ppn" name="ppn" placeholder="PPN %" readonly>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -125,7 +125,7 @@
             var data = e.params.data;
             $('#vendor').val(data.vendor);
             $('#vendor_name').val(data.vendor_name);
-            $('#ppn').val(data.ppn);
+            // $('#ppn').val(data.ppn);
         });
 
 	    $('#PoStockForm').validator().on('submit', function (e) {
@@ -191,7 +191,7 @@
             $('#spbd').append(newOption).trigger('change');
             $('#vendor').val(data.id_vendor);
             $('#vendor_name').val(data.vendor_name);
-            $('#ppn').val(data.ppn);
+            // $('#ppn').val(data.ppn);
         },
         error : function() {
             error('Error', 'Nothing Data');

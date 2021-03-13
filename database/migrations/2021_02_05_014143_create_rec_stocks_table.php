@@ -16,7 +16,7 @@ class CreateRecStocksTable extends Migration
         Schema::create('rec_stocks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
-            $table->string('rec_no');
+            $table->string('rec_no')->unique();
             $table->bigInteger('id_vendor');
             $table->bigInteger('id_po_stock')->default(0);
             $table->string('rec_inv_ven');
