@@ -265,7 +265,7 @@ class InvoiceController extends SettingAjaxController
                 }elseif($data->inv_status == 2){
                     $action = "Request";
                 }elseif($data->inv_status == 3){
-                    $action = "Request";
+                    $action = "Verified";
                 }elseif($data->inv_status == 4){
                     if($data->pelunasan->count() < 1){
                         $action = "Approved";

@@ -49,8 +49,20 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
+                                    <label>Total Before PPN</label>
+                                    <input type="text" class="form-control" id="total_before_ppn" readonly>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
                                     <label>PPN</label>
                                     <input type="text" class="form-control" id="ppn" name="ppn" placeholder="Input % PPN" readonly>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Total</label>
+                                    <input type="text" class="form-control" id="total" readonly>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +125,19 @@
     });
 
     function format_decimal_limit(){
+        VMasker(document.getElementById("total_before_ppn")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
         VMasker(document.getElementById("ppn")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+        VMasker(document.getElementById("total")).maskMoney({
             precision: 0,
             separator: '.',
             delimiter: '.',
@@ -147,7 +171,9 @@
             var data = e.params.data;
             $('#vendor').val(data.vendor);
             $('#vendor_name').val(data.vendor_name);
+            $('#total_before_ppn').val(data.total_bef_ppn);
             $('#ppn').val(data.ppn);
+            $('#total').val(data.total);
             format_decimal_limit();
         });
 

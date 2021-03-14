@@ -444,6 +444,8 @@ class PoStockController extends SettingAjaxController
                 'vendor'  => $tag->id_vendor,
                 'vendor_name'  => $tag->vendor->name,
                 'ppn'  => $tag->ppn,
+                'total_bef_ppn' => $tag->po_stock_detail->sum('total'),
+                'total' => $tag->po_stock_detail->sum('total') + $tag->ppn,
             ];
         }
 

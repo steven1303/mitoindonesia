@@ -20,11 +20,12 @@ class CreatePelunasansTable extends Migration
             $table->bigInteger('id_inv');
             $table->decimal('balance', 10, 2)->default(0);
             $table->bigInteger('payment_method');
-            $table->string('notes')->nullable();
+            $table->dateTime('pelunasan_date');
             $table->string('keterangan')->nullable();
             $table->string('user_name');
             $table->bigInteger('user_id');
             $table->Integer('status');
+            $table->string('notes')->nullable();
             $table->dateTime('pelunasan_open')->nullable();
             $table->dateTime('pelunasan_print')->nullable();
             $table->timestamps();

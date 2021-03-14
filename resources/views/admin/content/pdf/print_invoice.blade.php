@@ -38,6 +38,14 @@
                     <td>{{ ($detail->qty * $detail->price) - $detail->disc }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td colspan="7"> PPN </td>
+                <td> {{ $inv->ppn }} </td>
+            </tr>
+            <tr>
+                <td colspan="7"> Total Invoice </td>
+                <td> {{ $inv->inv_detail->sum('total_ppn') }} </td>
+            </tr>
             </tbody>
             </table>
         <br/>

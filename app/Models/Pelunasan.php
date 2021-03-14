@@ -15,6 +15,7 @@ class Pelunasan extends Model
         'id_inv',
         'balance',
         'payment_method',
+        'pelunasan_date',
         'notes',
         'keterangan',
         'user_name',

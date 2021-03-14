@@ -111,8 +111,13 @@
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <label>Note</label>
-                                <input type="text" class="form-control" id="note" name="note" placeholder="Input Note" >
+                                <label>Tanggal Bayar</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="pelunasan_date" name="pelunasan_date" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-6">
@@ -203,6 +208,9 @@
     }
 
     $(function(){
+
+        $('#pelunasan_date').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
+
         $('#PelunasanForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
@@ -288,6 +296,7 @@
             $('#sisa').val(data.inv_sisa);
             $('#balance').val(data.balance);
             $('#payment').val(data.payment);
+            $('#pelunasan_date').val(data.pelunasan_date);
             $('#note').val(data.note);
             $('#keterangan').val(data.keterangan);
             format_decimal_limit();

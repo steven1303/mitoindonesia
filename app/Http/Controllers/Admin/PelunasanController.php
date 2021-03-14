@@ -48,6 +48,7 @@ class PelunasanController extends SettingAjaxController
             "inv_sisa" => $pelunasan->invoice->inv_detail->sum('total_ppn') - $pelunasan->invoice->pelunasan->sum('balance'),
             "balance" => $pelunasan->balance - 0,
             "payment" => $pelunasan->payment_method,
+            "pelunasan_date" => $pelunasan->pelunasan_date,
             "note" => $pelunasan->notes,
             "keterangan" => $pelunasan->keterangan,
         );
@@ -72,7 +73,7 @@ class PelunasanController extends SettingAjaxController
             'id_inv' => $request['id_invoice'],
             'balance' => preg_replace('/\D/', '',$request['balance']),
             'payment_method' => $request['payment'],
-            'notes' => $request['note'],
+            'pelunasan_date' => $request['pelunasan_date'],
             'keterangan' => $request['keterangan'],
             'user_name' => Auth::user()->name,
             'user_id' => Auth::user()->id,
@@ -104,7 +105,7 @@ class PelunasanController extends SettingAjaxController
         $data = Pelunasan::find($id);
         $data->balance    =  preg_replace('/\D/', '',$request['balance']);
         $data->payment_method    = $request['payment'];
-        $data->notes    = $request['note'];
+        $data->pelunasan_date    = $request['pelunasan_date'];
         $data->keterangan    = $request['keterangan'];
         $data->update();
         return response()

@@ -123,7 +123,7 @@
 </section>
 
 <div class="modal fade" id="modal-input-item">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form role="form" id="RecDetailForm" method="POST">
             {{ csrf_field() }} {{ method_field('POST') }}
             <input type="hidden" id="id" name="id">
@@ -154,6 +154,7 @@
                             <div class="form-group">
                                 <label>terima</label>
                                 <input type="text" class="form-control" id="terima" name="terima" placeholder="QTY">
+                                <span class="text-danger error-text terima_error"></span>
                             </div>
                         </div>
                         <div class="col-xs-3">
@@ -287,6 +288,9 @@
 				    url : url,
 				    type : "POST",
 				    data : $('#RecDetailForm').serialize(),
+                    beforeSend:function(){
+                        $(document).find('span.error-text').text('');
+                    },
 				    success : function(data) {
                         table.ajax.reload();
                         table1.ajax.reload();
@@ -306,8 +310,15 @@
                             error(data.stat, data.message);
                         }
 				    },
-				    error : function(){
-					    error('Error', 'Oops! Something Error! Try to reload your page first...');
+				    error : function(data){
+                        if(data.status == 422){
+                            if(data.responseJSON.errors.terima !== undefined){
+                                $('span.terima_error').text(data.responseJSON.errors.terima[0]);
+                            }
+                        }else{
+                            error('Error', 'Oops! Something Error! Try to reload your page first...');
+                        }
+					    // error('Error', 'Oops! Something Error! Try to reload your page first...');
 				    }
 			    });
 			    return false;
@@ -322,6 +333,9 @@
         url: "{{ url('rec_detail') }}" + '/' + id + "/edit_detail",
         type: "GET",
         dataType: "JSON",
+        beforeSend:function(){
+            $(document).find('span.error-text').text('');
+        },
         success: function(data) {
             $('#modal-input-item').modal('show');
             $('#btnSave').text('Update');
@@ -352,6 +366,9 @@
         url: "{{ url('po_stock_detail') }}" + '/' + id + "/edit_detail",
         type: "GET",
         dataType: "JSON",
+        beforeSend:function(){
+            $(document).find('span.error-text').text('');
+        },
         success: function(data) {
             $('#modal-input-item').modal('show');
             $('#formTitle').text('Add Item');
@@ -377,6 +394,9 @@
         url: "{{route('local.rec.open.index', $rec->id) }}",
         type: "GET",
         dataType: "JSON",
+        beforeSend:function(){
+            $(document).find('span.error-text').text('');
+        },
         success: function(data) {
             success(data.stat, data.message);
             print_receipt("{{ $rec->id }}");

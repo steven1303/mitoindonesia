@@ -15,6 +15,7 @@ use App\Models\RecStockDetail;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
+use App\Http\Requests\Admin\StoreDetailReceiptRequest;
 
 class ReceiptController extends SettingAjaxController
 {
@@ -129,7 +130,7 @@ class ReceiptController extends SettingAjaxController
         }
     }
 
-    public function store_detail(Request $request, $id)
+    public function store_detail(StoreDetailReceiptRequest $request, $id)
     {
         // return $request;
         $data = [
