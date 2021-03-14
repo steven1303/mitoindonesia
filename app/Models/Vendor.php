@@ -23,4 +23,9 @@ class Vendor extends Model
         'ppn',
         'status_ppn',
     ];
+
+    public function po_stock()
+    {
+    	return $this->hasMany('App\Models\PoStock','id_vendor');
+    }
 }

@@ -68,6 +68,9 @@ Route::get('/customer/{id}/edit', 'App\Http\Controllers\Admin\CustomerController
 Route::delete('/customer/{id}', 'App\Http\Controllers\Admin\CustomerController@destroy')->name('local.customer.delete');
 Route::get('record/customer', 'App\Http\Controllers\Admin\CustomerController@recordCustomer')->name('local.record.customer');
 Route::get('record/search_customer', 'App\Http\Controllers\Admin\CustomerController@searchCustomer')->name('local.search.customer');
+Route::get('/customer/{id}/info', 'App\Http\Controllers\Admin\CustomerController@info')->name('local.customer.info');
+Route::get('/customer/{id}/invoice', 'App\Http\Controllers\Admin\CustomerController@invoice')->name('local.customer.inv');
+
 // Vendor
 Route::get('/vendor', 'App\Http\Controllers\Admin\VendorController@index')->name('local.vendor.index');
 Route::post('/vendor', 'App\Http\Controllers\Admin\VendorController@store')->name('local.vendor.store');
@@ -76,6 +79,9 @@ Route::get('/vendor/{id}/edit', 'App\Http\Controllers\Admin\VendorController@edi
 Route::delete('/vendor/{id}', 'App\Http\Controllers\Admin\VendorController@destroy')->name('local.vendor.delete');
 Route::get('record/vendor', 'App\Http\Controllers\Admin\VendorController@recordVendor')->name('local.record.vendor');
 Route::get('record/search_vendor', 'App\Http\Controllers\Admin\VendorController@searchVendor')->name('local.search.vendor');
+Route::get('/vendor/{id}/info', 'App\Http\Controllers\Admin\VendorController@info')->name('local.vendor.info');
+Route::get('/vendor/{id}/po_stock', 'App\Http\Controllers\Admin\VendorController@po_stock')->name('local.vendor.po_stock');
+
 // Stock Master
 Route::get('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@index')->name('local.stock_master.index');
 Route::post('/stock_master', 'App\Http\Controllers\Admin\StockMasterController@store')->name('local.stock_master.store');

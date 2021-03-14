@@ -16,6 +16,15 @@ class VendorController extends SettingAjaxController
         return view('admin.content.vendor')->with($data);
     }
 
+    public function info($id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $data = [
+            'vendor' => $vendor
+        ];
+        return view('admin.content.vendor_info')->with($data);
+    }
+
     public function store(Request $request)
     {
         $ppn_status = 0;
@@ -107,11 +116,52 @@ class VendorController extends SettingAjaxController
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
+                $vendor_detail = "javascript:ajaxLoad('".route('local.vendor.info', $data->id)."')";
                 $action = "";
                 $title = "'".$data->name."'";
                 $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button>';
+                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                $action .= '<a href="'.$vendor_detail.'" class="btn btn-warning btn-xs"> Info</a> ';
                 return $action;
+            })
+            ->rawColumns(['action'])->make(true);
+    }
+
+    public function po_stock($id){
+        $data = Vendor::findOrFail($id);
+        return DataTables::of($data->po_stock)
+            ->addIndexColumn()
+            ->addColumn('status', function($data){
+                $po_status = "";
+                if($data->po_status == 1){
+                    $po_status = "Draft";
+                }elseif ($data->po_status == 2) {
+                    $po_status = "Request";
+                }elseif ($data->po_status == 3) {
+                    $po_status = "Verified";
+                }elseif ($data->po_status == 4) {
+                    $po_status = "Approved";
+                }elseif ($data->po_status == 5) {
+                    $po_status = "Partial";
+                }elseif ($data->po_status == 6) {
+                    $po_status = "Closed";
+                }else {
+                    $po_status = "Reject";
+                }
+                return $po_status;
+            })
+            ->addColumn('action', function($data){
+                $action = "";
+                return $action;
+            })
+            ->addColumn('item', function($data){
+                return $data->po_stock_detail->count();
+            })
+            ->addColumn('spbd_no', function($data){
+                return $data->spbd->spbd_no;
+            })
+            ->addColumn('total_harga', function($data){
+                return "Rp. ".number_format(($data->po_stock_detail->sum('total') + $data->ppn),0, ",", ".");
             })
             ->rawColumns(['action'])->make(true);
     }

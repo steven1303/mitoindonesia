@@ -16,6 +16,15 @@ class CustomerController extends SettingAjaxController
         return view('admin.content.customer')->with($data);
     }
 
+    public function info($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $data = [
+            'customer' => $customer
+        ];
+        return view('admin.content.customer_info')->with($data);
+    }
+
     public function store(Request $request)
     {
         $ppn_status = 0;
@@ -111,11 +120,54 @@ class CustomerController extends SettingAjaxController
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
+                $invoice_detail = "javascript:ajaxLoad('".route('local.customer.info', $data->id)."')";
                 $action = "";
                 $title = "'".$data->name."'";
                 $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button>';
+                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Info</a> ';
                 return $action;
+            })
+            ->rawColumns(['action'])->make(true);
+    }
+
+    public function invoice($id){
+        $data = Customer::findOrFail($id);
+        return DataTables::of($data->invoice)
+            ->addIndexColumn()
+            ->addColumn('status', function($data){
+                $action = "";
+                if($data->inv_status == 1){
+                    $action = "Draf";
+                }elseif($data->inv_status == 2){
+                    $action = "Request";
+                }elseif($data->inv_status == 3){
+                    $action = "Verified";
+                }elseif($data->inv_status == 4){
+                    if($data->pelunasan->count() < 1){
+                        $action = "Approved";
+                    }
+                    elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
+                    {
+                        $action = "Closed";
+                    }else{
+                        $action = "Partial";
+                    }
+
+                }else{
+                    $action = "Batal";
+                }
+                return $action;
+            })
+            ->addColumn('action', function($data){
+                $action = "";
+                return $action;
+            })
+            ->addColumn('total_harga', function($data){
+                return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
+            })
+            ->addColumn('item', function($data){
+                return $data->inv_detail->count();
             })
             ->rawColumns(['action'])->make(true);
     }

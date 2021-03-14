@@ -25,4 +25,9 @@ class Customer extends Model
         'ppn',
         'status_ppn'
     ];
+
+    public function invoice()
+    {
+    	return $this->hasMany('App\Models\Invoice','id_customer');
+    }
 }

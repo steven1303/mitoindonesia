@@ -243,6 +243,7 @@ class AdjustmentController extends SettingAjaxController
     {
         $data = Adjustment::findOrFail($id);
         $data->status = 2;
+        $data->adj_open = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Open Adjustment Success', 'stat' => 'Success']);

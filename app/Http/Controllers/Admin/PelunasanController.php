@@ -196,6 +196,7 @@ class PelunasanController extends SettingAjaxController
     {
         $data = Pelunasan::findOrFail($id);
         $data->status = 2;
+        $data->pelunasan_open = Carbon::now();
         $data->update();
         return response()
             ->json(['code'=>200,'message' => 'Pelunasan Approve Success', 'stat' => 'Success']);

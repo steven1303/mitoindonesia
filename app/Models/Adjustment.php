@@ -15,6 +15,8 @@ class Adjustment extends Model
         'status',
         'user_name',
         'user_id',
+        'adj_open',
+        'adj_print',
     ];
 
     public function adj_detail()

@@ -87,6 +87,8 @@ class PrintController extends Controller
     public function print_pelunasan($id)
     {
         $pelunasan = Pelunasan::findOrFail($id);
+        $pelunasan->pelunasan_print = Carbon::now();
+        $pelunasan->update();
         $data = [
             'pelunasan' => $pelunasan
         ];
@@ -123,6 +125,8 @@ class PrintController extends Controller
     public function print_adj($id)
     {
         $adj = Adjustment::findOrFail($id);
+        $adj->adj_print = Carbon::now();
+        $adj->update();
         $data = [
             'adj' => $adj
         ];
