@@ -11,7 +11,7 @@
         (SPBD)
     </h3>
         Kepada : <br/>
-        Bagian General Affairs<br/>
+        Bagian General Affairs atau bagaian gudang<br/>
         <br/>
         Untuk kepentingan ketersediaan stock dan penjualan barang dagang perusahaan dengan ini kami mohon untuk dapat disediakan Barang sebagai berikut:<br/>
         <br/>
