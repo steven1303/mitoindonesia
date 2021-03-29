@@ -84,7 +84,7 @@
         </div>
     </div>
 </section>
-
+@canany(['spbd.store', 'spbd.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="SpbdDetailForm" method="POST">
@@ -134,7 +134,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -160,6 +160,7 @@
         ]
     });
 
+    @canany(['spbd.store', 'spbd.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -231,6 +232,17 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#SpbdDetailForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#stock_master').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('spbd.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -256,7 +268,8 @@
         }
         });
     }
-
+    @endcan
+    @can('spbd.open', Auth::user())
     function open_spbd_Form() {
         $.ajax({
         url: "{{route('local.spbd.open.index', $spbd->id) }}",
@@ -272,21 +285,13 @@
         }
         });
     }
-
+    @endcan
+    @can('spbd.print', Auth::user())
     function print_spbd(id){
         window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#SpbdDetailForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#stock_master').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('spbd.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -329,4 +334,5 @@
             }
         });
     }
+    @endcan
 </script>

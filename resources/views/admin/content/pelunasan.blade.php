@@ -59,7 +59,7 @@
         </div>
     </div>
 </section>
-
+@canany(['pelunasan.store', 'pelunasan.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="PelunasanForm" method="POST">
@@ -136,7 +136,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -206,7 +206,7 @@
             unit: 'Rp',
         });
     }
-
+    @canany(['pelunasan.store', 'pelunasan.update'], Auth::user())
     $(function(){
 
         $('#pelunasan_date').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -306,11 +306,13 @@
         }
         });
     }
-
+    @endcanany
+    @can('pelunasan.print', Auth::user())
     function print_pelunasan(id){
         window.open("{{ url('pelunasan_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('pelunasan.approve', Auth::user())
     function approve(id) {
         $.ajax({
         url: "{{ url('pelunasan') }}" + '/' + id + "/approve",
@@ -327,7 +329,8 @@
         }
         });
     }
-
+    @endcan
+    @can('pelunasan.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -371,5 +374,5 @@
             }
         });
     }
-
+    @endcan
 </script>

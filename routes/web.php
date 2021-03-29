@@ -28,6 +28,9 @@ Route::get('/', 'App\Http\Controllers\Admin\DashboardController@index')->name('l
 
 // Route AjaxSettings
 
+Route::get('/admin/profile', 'App\Http\Controllers\Admin\AdminController@profile')->name('local.admin.profile');
+Route::patch('/admin/profile/{id}', 'App\Http\Controllers\Admin\AdminController@update_profile')->name('local.profile.update');
+
 // Admin
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@index')->name('local.admin.index');
 Route::post('/admin', 'App\Http\Controllers\Admin\AdminController@store')->name('local.admin.store');
@@ -41,8 +44,10 @@ Route::get('/role', 'App\Http\Controllers\Admin\RoleController@index')->name('lo
 Route::post('/role', 'App\Http\Controllers\Admin\RoleController@store')->name('local.role.store');
 Route::patch('/role/{id}', 'App\Http\Controllers\Admin\RoleController@update')->name('local.role.update');
 Route::get('/role/{id}/edit', 'App\Http\Controllers\Admin\RoleController@edit')->name('local.role.edit');
+Route::get('/role/{id}/show', 'App\Http\Controllers\Admin\RoleController@show')->name('local.role.show');
 Route::delete('/role/{id}', 'App\Http\Controllers\Admin\RoleController@destroy')->name('local.role.delete');
 Route::get('record/role', 'App\Http\Controllers\Admin\RoleController@recordRole')->name('local.record.role');
+Route::post('/rolePermission','App\Http\Controllers\Admin\RoleController@updatePermission')->name('local.update.rolePermission');
 
 // Permission
 Route::get('/permission', 'App\Http\Controllers\Admin\PermissionController@index')->name('local.permission.index');
@@ -303,3 +308,15 @@ Route::patch('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalC
 Route::delete('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@destroy_detail')->name('local.po_internal.delete_detail');
 Route::get('record/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@recordPoInternal_detail')->name('local.record.po_internal_detail');
 Route::get('/po_internal_open/{id}', 'App\Http\Controllers\Admin\PoInternalController@po_internal_open')->name('local.po_internal.open.index');
+
+// Pembatalan
+Route::get('/pembatalan', 'App\Http\Controllers\Admin\PembatalanController@index')->name('local.pembatalan.index');
+Route::get('record/pembatalan', 'App\Http\Controllers\Admin\PembatalanController@recordPembatalan')->name('local.record.pembatalan');
+Route::post('/pembatalan/{type}', 'App\Http\Controllers\Admin\PembatalanController@store')->name('local.pembatalan.store');
+Route::delete('/pembatalan/{id}', 'App\Http\Controllers\Admin\PembatalanController@destroy')->name('local.pembatalan.delete');
+Route::get('/pembatalan/{id}/approve', 'App\Http\Controllers\Admin\PembatalanController@approve')->name('local.pembatalan.approve');
+
+// Search Pembatalan
+Route::get('pembatalan/search_po_stock', 'App\Http\Controllers\Admin\PembatalanController@searchPoStock')->name('local.pembatalan.search.po_stock');
+Route::get('pembatalan/search_po_non_stock', 'App\Http\Controllers\Admin\PembatalanController@searchPoNonStock')->name('local.pembatalan.search.po_non_stock');
+Route::get('pembatalan/search_inv', 'App\Http\Controllers\Admin\PembatalanController@searchInvoice')->name('local.pembatalan.search.inv');

@@ -90,7 +90,7 @@
         </div>
     </div>
 </section>
-
+@canany(['sppb.store', 'sppb.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog modal-lg">
         <form role="form" id="SpbdDetailForm" method="POST">
@@ -151,7 +151,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -185,7 +185,7 @@
             unit: 'Rp',
         });
     }
-
+    @canany(['sppb.store', 'sppb.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -272,6 +272,20 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#SpbdDetailForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#stock_master').val(null).trigger('change');
+        $('#button_modal').text('Save Changes');
+        $('input[name=_method]').val('POST');
+        $(document).find('span.error-text').text('');
+    }
+
+    @endcanany
+    @can('sppb.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -301,7 +315,8 @@
         }
         });
     }
-
+    @endcan
+    @can('sppb.open', Auth::user())
     function open_sppb_Form() {
         $.ajax({
         url: "{{route('local.sppb.open.index', $sppb->id) }}",
@@ -317,23 +332,13 @@
         }
         });
     }
-
+    @endcan
+    @can('sppb.print', Auth::user())
     function print_sppb(id){
         window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#SpbdDetailForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#stock_master').val(null).trigger('change');
-        $('#button_modal').text('Save Changes');
-        $('input[name=_method]').val('POST');
-        $(document).find('span.error-text').text('');
-    }
-
+    @endcan
+    @can('sppb.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -376,4 +381,5 @@
             }
         });
     }
+    @endcan
 </script>

@@ -152,7 +152,7 @@
         </div>
     </div>
 </section>
-
+@canany(['invoice.store', 'invoice.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="PoDetailForm" method="POST">
@@ -221,7 +221,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -284,7 +284,7 @@
             unit: 'Rp',
         });
     }
-
+    @canany(['invoice.store', 'invoice.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -330,7 +330,31 @@
 		    }
 	    });
     });
-
+    function addItem(id) {
+        save_method = 'add';
+        $.ajax({
+        url: "{{ url('sppb') }}" + '/' + id + "/edit_detail",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            $('#modal-input-item').modal('show');
+            $('#btnSave').text('Update');
+            $('#formTitle').text('Add Item');
+            $('#btnSave').attr('disabled',false);
+            $('#id_sppb_detail').val(data.id);
+            $('#stock_master').val(data.stock_master.stock_no);
+            $('#id_stock_master').val(data.id_stock_master);
+            $('#qty').val(data.qty);
+            $('#price').val(data.stock_master.harga_jual - 0);
+            $('#satuan').val(data.stock_master.satuan);
+            $('#keterangan1').val(data.keterangan);
+            format_decimal_limit();
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -360,33 +384,17 @@
         }
         });
     }
-
-    function addItem(id) {
+    function cancel(){
         save_method = 'add';
-        $.ajax({
-        url: "{{ url('sppb') }}" + '/' + id + "/edit_detail",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data) {
-            $('#modal-input-item').modal('show');
-            $('#btnSave').text('Update');
-            $('#formTitle').text('Add Item');
-            $('#btnSave').attr('disabled',false);
-            $('#id_sppb_detail').val(data.id);
-            $('#stock_master').val(data.stock_master.stock_no);
-            $('#id_stock_master').val(data.id_stock_master);
-            $('#qty').val(data.qty);
-            $('#price').val(data.stock_master.harga_jual - 0);
-            $('#satuan').val(data.stock_master.satuan);
-            $('#keterangan1').val(data.keterangan);
-            format_decimal_limit();
-        },
-        error : function() {
-            error('Error', 'Nothing Data');
-        }
-        });
+        $('#PoDetailForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#stock_master').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
     }
-
+    @endcanany
+    @can('invoice.open', Auth::user())
     function open_inv_Form() {
         $.ajax({
         url: "{{route('local.inv.open.index', $invoice->id) }}",
@@ -402,21 +410,12 @@
         }
         });
     }
-
+    @can('invoice.print', Auth::user())
     function print_inv(id){
         window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#PoDetailForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#stock_master').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('invoice.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -460,4 +459,5 @@
             }
         });
     }
+    @endcan
 </script>

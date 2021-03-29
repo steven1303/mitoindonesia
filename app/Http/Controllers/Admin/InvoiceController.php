@@ -18,17 +18,23 @@ class InvoiceController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.inv')->with($data);
+        if(Auth::user()->can('invoice.view')){
+            $data = [];
+            return view('admin.content.inv')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function detail($id)
     {
-        $inv = Invoice::findOrFail($id);
-        $data = [
-            'invoice' => $inv
-        ];
-        return view('admin.content.inv_detail')->with($data);
+        if(Auth::user()->can('invoice.view')){
+            $inv = Invoice::findOrFail($id);
+            $data = [
+                'invoice' => $inv
+            ];
+            return view('admin.content.inv_detail')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function inv_no(){
@@ -49,20 +55,23 @@ class InvoiceController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $inv = Invoice::findOrFail($id);
-        $data = array(
-            "id" => $inv->id,
-            "datemask2" => $inv->top_date,
-            "sppb" => $inv->id_sppb,
-            "sppb_no" => $inv->sppb->sppb_no,
-            "customer_name" => $inv->sppb->customer->name,
-            "customer" => $inv->id_customer,
-            "po_cust" => $inv->po_cust,
-            "inv_kirimke" => $inv->inv_kirimke,
-            "inv_alamatkirim" => $inv->inv_alamatkirim,
-            "mata_uang" => $inv->mata_uang,
-        );
-        return json_encode($data);
+        if(Auth::user()->can('invoice.update')){
+            $inv = Invoice::findOrFail($id);
+            $data = array(
+                "id" => $inv->id,
+                "datemask2" => $inv->top_date,
+                "sppb" => $inv->id_sppb,
+                "sppb_no" => $inv->sppb->sppb_no,
+                "customer_name" => $inv->sppb->customer->name,
+                "customer" => $inv->id_customer,
+                "po_cust" => $inv->po_cust,
+                "inv_kirimke" => $inv->inv_kirimke,
+                "inv_alamatkirim" => $inv->inv_alamatkirim,
+                "mata_uang" => $inv->mata_uang,
+            );
+            return json_encode($data);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -73,103 +82,112 @@ class InvoiceController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        $inv_detail = InvoiceDetail::findOrFail($id);
-        $data = array(
-            "id" => $inv_detail->id,
-            "id_sppb_detail" => $inv_detail->id_sppb_detail,
-            "id_stock_master" => $inv_detail->id_stock_master,
-            "stock_master" => $inv_detail->stock_master->name,
-            "qty" => $inv_detail->qty - 0,
-            "satuan" => $inv_detail->stock_master->satuan,
-            "keterangan1" => $inv_detail->sppb_detail->keterangan,
-            "price" => $inv_detail->stock_master->harga_jual,
-            "disc" => $inv_detail->disc - 0,
-            "keterangan" => $inv_detail->keterangan,
-        );
-        return json_encode($data);
+        if(Auth::user()->can('invoice.update')){
+            $inv_detail = InvoiceDetail::findOrFail($id);
+            $data = array(
+                "id" => $inv_detail->id,
+                "id_sppb_detail" => $inv_detail->id_sppb_detail,
+                "id_stock_master" => $inv_detail->id_stock_master,
+                "stock_master" => $inv_detail->stock_master->name,
+                "qty" => $inv_detail->qty - 0,
+                "satuan" => $inv_detail->stock_master->satuan,
+                "keterangan1" => $inv_detail->sppb_detail->keterangan,
+                "price" => $inv_detail->stock_master->harga_jual,
+                "disc" => $inv_detail->disc - 0,
+                "keterangan" => $inv_detail->keterangan,
+            );
+            return json_encode($data);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     public function store(Request $request)
     {
-        $draf = Invoice::where([
-            ['inv_status','=', 1],
-            ['id_branch','=', Auth::user()->id_branch]
-        ])->count();
+        if(Auth::user()->can('invoice.store')){
+            $draf = Invoice::where([
+                ['inv_status','=', 1],
+                ['id_branch','=', Auth::user()->id_branch]
+            ])->count();
 
-        if($draf > 0){
-            return response()
-                ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Warning']);
+            if($draf > 0){
+                return response()
+                    ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Warning']);
+            }
+
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'inv_no' => $this->inv_no(),
+                'id_sppb' => $request['sppb'],
+                'id_customer' => $request['customer'],
+                'po_cust' => $request['po_cust'],
+                'inv_kirimke' => $request['inv_kirimke'],
+                'inv_alamatkirim' => $request['inv_alamatkirim'],
+                'mata_uang' => $request['mata_uang'],
+                'date' => Carbon::now(),
+                'top_date' => $request['top_date'],
+                'inv_status' => 1,
+                'user_id' => Auth::user()->id,
+                'user_name' => Auth::user()->name,
+            ];
+
+            $activity = Invoice::create($data);
+
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Invoice Success' , 'stat' => 'Success', 'inv_id' => $activity->id, 'process' => 'add']);
+
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Invoice Store', 'stat' => 'Error']);
+            }
         }
-
-        $data = [
-            'id_branch' => Auth::user()->id_branch,
-            'inv_no' => $this->inv_no(),
-            'id_sppb' => $request['sppb'],
-            'id_customer' => $request['customer'],
-            'po_cust' => $request['po_cust'],
-            'inv_kirimke' => $request['inv_kirimke'],
-            'inv_alamatkirim' => $request['inv_alamatkirim'],
-            'mata_uang' => $request['mata_uang'],
-            'date' => Carbon::now(),
-            'top_date' => $request['top_date'],
-            'inv_status' => 1,
-            'user_id' => Auth::user()->id,
-            'user_name' => Auth::user()->name,
-        ];
-
-        $activity = Invoice::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Invoice Success' , 'stat' => 'Success', 'inv_id' => $activity->id, 'process' => 'add']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Invoice Store', 'stat' => 'Error']);
-        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     public function store_detail(Request $request, $id)
     {
-        $inv = Invoice::findOrFail($id);
-        $price = preg_replace('/\D/', '',$request['price']);
-        $disc = preg_replace('/\D/', '',$request['disc']);
-        $subtotal = ($request['qty'] * $price) - 0;
-        $total_befppn = ($subtotal  - $disc ) - 0;
-        $total_ppn = $total_befppn;
-        if($inv->customer->status_ppn == 1){
-            $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+        if(Auth::user()->can('invoice.store')){
+            $inv = Invoice::findOrFail($id);
+            $price = preg_replace('/\D/', '',$request['price']);
+            $disc = preg_replace('/\D/', '',$request['disc']);
+            $subtotal = ($request['qty'] * $price) - 0;
+            $total_befppn = ($subtotal  - $disc ) - 0;
+            $total_ppn = $total_befppn;
+            if($inv->customer->status_ppn == 1){
+                $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+            }
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'id_inv' => $id,
+                'id_sppb_detail' => $request['id_sppb_detail'],
+                'id_stock_master' => $request['id_stock_master'],
+                'qty' => $request['qty'],
+                'price' => $price,
+                'disc' => $disc,
+                'subtotal' => $subtotal,
+                'total_befppn' => $total_befppn,
+                'total_ppn' => $total_ppn,
+                'keterangan' => $request['keterangan'],
+                'inv_detail_status' => 1,
+            ];
+
+            $activity = InvoiceDetail::create($data);
+
+            $spbd_detail = SppbDetail::find($request['id_sppb_detail']);
+            $spbd_detail->inv_qty = $request['qty'];
+            $spbd_detail->update();
+
+
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new item PO Stock Success', 'stat' => 'Success', 'process' => 'update']);
+
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error item PO Stock Store', 'stat' => 'Error']);
+            }
         }
-        $data = [
-            'id_branch' => Auth::user()->id_branch,
-            'id_inv' => $id,
-            'id_sppb_detail' => $request['id_sppb_detail'],
-            'id_stock_master' => $request['id_stock_master'],
-            'qty' => $request['qty'],
-            'price' => $price,
-            'disc' => $disc,
-            'subtotal' => $subtotal,
-            'total_befppn' => $total_befppn,
-            'total_ppn' => $total_ppn,
-            'keterangan' => $request['keterangan'],
-            'inv_detail_status' => 1,
-        ];
-
-        $activity = InvoiceDetail::create($data);
-
-        $spbd_detail = SppbDetail::find($request['id_sppb_detail']);
-        $spbd_detail->inv_qty = $request['qty'];
-        $spbd_detail->update();
-
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new item PO Stock Success', 'stat' => 'Success', 'process' => 'update']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error item PO Stock Store', 'stat' => 'Error']);
-        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -181,18 +199,20 @@ class InvoiceController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
-        $data = Invoice::find($id);
-        $data->id_sppb    = $request['sppb'];
-        $data->id_customer    = $request['customer'];
-        $data->po_cust    = $request['po_cust'];
-        $data->inv_kirimke    = $request['inv_kirimke'];
-        $data->inv_alamatkirim    = $request['inv_alamatkirim'];
-        $data->mata_uang    = $request['mata_uang'];
-        $data->top_date    = $request['top_date'];
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Edit Invoice Success', 'stat' => 'Success']);
+        if(Auth::user()->can('invoice.update')){
+            $data = Invoice::find($id);
+            $data->id_sppb    = $request['sppb'];
+            $data->id_customer    = $request['customer'];
+            $data->po_cust    = $request['po_cust'];
+            $data->inv_kirimke    = $request['inv_kirimke'];
+            $data->inv_alamatkirim    = $request['inv_alamatkirim'];
+            $data->mata_uang    = $request['mata_uang'];
+            $data->top_date    = $request['top_date'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Invoice Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
 
@@ -206,20 +226,23 @@ class InvoiceController extends SettingAjaxController
      */
     public function update_detail(Request $request, $id)
     {
-        $data = InvoiceDetail::find($id);
-        $price = preg_replace('/\D/', '',$request['price']);
-        $disc = preg_replace('/\D/', '',$request['disc']);
-        $subtotal = ($request['qty'] * $price) - 0;
-        $total_befppn = ($subtotal  - $disc ) - 0;
-        $total_ppn = $total_befppn;
-        if($inv->customer->status_ppn == 1){
-            $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+        if(Auth::user()->can('invoice.update')){
+            $data = InvoiceDetail::find($id);
+            $price = preg_replace('/\D/', '',$request['price']);
+            $disc = preg_replace('/\D/', '',$request['disc']);
+            $subtotal = ($request['qty'] * $price) - 0;
+            $total_befppn = ($subtotal  - $disc ) - 0;
+            $total_ppn = $total_befppn;
+            if($inv->customer->status_ppn == 1){
+                $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+            }
+            $data->disc    = $disc;
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Item Invoice Success', 'stat' => 'Success']);
         }
-        $data->disc    = $disc;
-        $data->keterangan    = $request['keterangan'];
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Edit Item Invoice Success', 'stat' => 'Success']);
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -230,9 +253,12 @@ class InvoiceController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Invoice::destroy($id);
-        return response()
-            ->json(['code'=>200,'message' => 'Invoice Success Deleted', 'stat' => 'Success']);
+        if(Auth::user()->can('invoice.delete')){
+            Invoice::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Success Deleted', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -256,6 +282,7 @@ class InvoiceController extends SettingAjaxController
         $data = Invoice::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status_inv', function($data){
@@ -267,43 +294,72 @@ class InvoiceController extends SettingAjaxController
                 }elseif($data->inv_status == 3){
                     $action = "Verified";
                 }elseif($data->inv_status == 4){
-                    if($data->pelunasan->count() < 1){
-                        $action = "Approved";
-                    }
-                    elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
-                    {
-                        $action = "Closed";
-                    }else{
-                        $action = "Partial";
-                    }
-
-                }else{
+                    $action = "Approved";
+                }elseif($data->inv_status == 5){
+                    $action = "Partial";
+                }elseif($data->inv_status == 6){
+                    $action = "Closed";
+                }
+                // elseif($data->inv_status == 4){
+                //     if($data->pelunasan->count() < 1){
+                //         $action = "Approved";
+                //     }
+                //     elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
+                //     {
+                //         $action = "Closed";
+                //     }else{
+                //         $action = "Partial";
+                //     }
+                // }
+                else{
                     $action = "Batal";
                 }
                 return $action;
             })
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.index', $data->id)."')";
                 $action = "";
                 $title = "'".$data->inv_no."'";
                 if($data->inv_status == 1){
-                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('invoice.view')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
+                    }
+                    if($access->can('invoice.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('invoice.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 if($data->inv_status == 2){
-                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('invoice.view')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('invoice.verify')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    }
+                    if($access->can('invoice.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 if($data->inv_status == 3){
-                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('invoice.view')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('invoice.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    }
+                    if($access->can('invoice.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
-                if($data->inv_status == 4){
-                    $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                if($data->inv_status == 4 || $data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7){
+                    if($access->can('invoice.view')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('invoice.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 return $action;
             })
@@ -321,17 +377,24 @@ class InvoiceController extends SettingAjaxController
             ['id_branch','=', Auth::user()->id_branch],
             ['id_inv','=', $id],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data)  use($inv_stat){
+            ->addColumn('action', function($data)  use($inv_stat, $access){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
                 if($data->invoice->inv_status == 1){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('invoice.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('invoice.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 if($data->invoice->inv_status == 2){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    if($access->can('invoice.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
                 }
                 if($inv_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
@@ -360,16 +423,19 @@ class InvoiceController extends SettingAjaxController
      */
     public function inv_open($id)
     {
-        $data = Invoice::findOrFail($id);
-        $data->inv_status = 2;
-        $data->ppn = 0;
-        $data->inv_open = Carbon::now();
-        if($data->customer->status_ppn == 1){
-            $data->ppn = $data->inv_detail->sum('total') * 0.1;
+        if(Auth::user()->can('invoice.open')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 2;
+            $data->ppn = 0;
+            $data->inv_open = Carbon::now();
+            if($data->customer->status_ppn == 1){
+                $data->ppn = $data->inv_detail->sum('total') * 0.1;
+            }
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Request Invoice Success', 'stat' => 'Success']);
         }
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Request Invoice Success', 'stat' => 'Success']);
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -380,11 +446,14 @@ class InvoiceController extends SettingAjaxController
      */
     public function verify($id)
     {
-        $data = Invoice::findOrFail($id);
-        $data->inv_status = 3;
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Invoice Verified Success', 'stat' => 'Success']);
+        if(Auth::user()->can('invoice.verify')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 3;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Verified Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -395,15 +464,18 @@ class InvoiceController extends SettingAjaxController
      */
     public function approve($id)
     {
-        $data = Invoice::findOrFail($id);
-        $data->inv_status = 4;
-        $this->inv_movement($data->inv_detail);
-        $data->update();
-        $sppd = Sppb::findOrFail($data->id_sppb);
-        $sppd->sppb_status = 4;
-        $sppd->update();
-        return response()
-            ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
+        if(Auth::user()->can('invoice.approve')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 4;
+            $this->inv_movement($data->inv_detail);
+            $data->update();
+            $sppd = Sppb::findOrFail($data->id_sppb);
+            $sppd->sppb_status = 4;
+            $sppd->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     public function inv_movement($data)

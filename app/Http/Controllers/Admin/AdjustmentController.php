@@ -15,17 +15,23 @@ class AdjustmentController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.adjustment')->with($data);
+        if(Auth::user()->can('adjustment.view')){
+            $data = [];
+            return view('admin.content.adjustment')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function detail($id)
     {
-        $adj = Adjustment::findOrFail($id);
-        $data = [
-            'adj' => $adj
-        ];
-        return view('admin.content.adjustment_detail')->with($data);
+        if(Auth::user()->can('adjustment.view')){
+            $adj = Adjustment::findOrFail($id);
+            $data = [
+                'adj' => $adj
+            ];
+            return view('admin.content.adjustment_detail')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function adj_no(){
@@ -40,59 +46,64 @@ class AdjustmentController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        $draf = Adjustment::where([
-            ['status','=', 1],
-            ['id_branch','=', Auth::user()->id_branch]
-        ])->count();
+        if(Auth::user()->can('adjustment.store')){
+            $draf = Adjustment::where([
+                ['status','=', 1],
+                ['id_branch','=', Auth::user()->id_branch]
+            ])->count();
 
-        if($draf > 0){
-            return response()
-                ->json(['code'=>200,'message' => 'Use the previous Draf Adjustment First', 'stat' => 'Warning']);
+            if($draf > 0){
+                return response()
+                    ->json(['code'=>200,'message' => 'Use the previous Draf Adjustment First', 'stat' => 'Warning']);
+            }
+            $data = [
+                'adj_no' => $this->adj_no(),
+                'id_branch' => Auth::user()->id_branch,
+                'user_id' => Auth::user()->id,
+                'user_name' => Auth::user()->name,
+                'status' => 1,
+            ];
+
+            $activity = Adjustment::create($data);
+
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Adjustment Success' , 'stat' => 'Success', 'id' => $activity->id, 'process' => 'add']);
+
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Adjustment Store', 'stat' => 'Error']);
+            }
         }
-        $data = [
-            'adj_no' => $this->adj_no(),
-            'id_branch' => Auth::user()->id_branch,
-            'user_id' => Auth::user()->id,
-            'user_name' => Auth::user()->name,
-            'status' => 1,
-        ];
-
-        $activity = Adjustment::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Adjustment Success' , 'stat' => 'Success', 'id' => $activity->id, 'process' => 'add']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Adjustment Store', 'stat' => 'Error']);
-        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     public function store_detail(Request $request, $id)
     {
-        // return $request;
-        $data = [
-            'id_branch' => Auth::user()->id_branch,
-            'adj_id' => $id,
-            'id_stock_master' => $request['stock_master'],
-            'in_qty' => $request['in_qty'],
-            'out_qty' => $request['out_qty'],
-            'harga_modal' => preg_replace('/\D/', '',$request['harga_modal']),
-            'harga_jual' => preg_replace('/\D/', '',$request['harga_jual']),
-            'keterangan' => $request['keterangan'],
-        ];
+        if(Auth::user()->can('adjustment.store')){
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'adj_id' => $id,
+                'id_stock_master' => $request['stock_master'],
+                'in_qty' => $request['in_qty'],
+                'out_qty' => $request['out_qty'],
+                'harga_modal' => preg_replace('/\D/', '',$request['harga_modal']),
+                'harga_jual' => preg_replace('/\D/', '',$request['harga_jual']),
+                'keterangan' => $request['keterangan'],
+            ];
 
-        $activity = AdjustmentDetail::create($data);
+            $activity = AdjustmentDetail::create($data);
 
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new item Adjustment Success', 'stat' => 'Success', 'process' => 'update']);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new item Adjustment Success', 'stat' => 'Success', 'process' => 'update']);
 
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error item Adjustment Store', 'stat' => 'Error']);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error item Adjustment Store', 'stat' => 'Error']);
+            }
         }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -103,8 +114,11 @@ class AdjustmentController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        $data = AdjustmentDetail::with('stock_master')->findOrFail($id);
-        return $data;
+        if(Auth::user()->can('adjustment.update')){
+            $data = AdjustmentDetail::with('stock_master')->findOrFail($id);
+            return $data;
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -116,17 +130,19 @@ class AdjustmentController extends SettingAjaxController
      */
     public function update_detail(Request $request, $id)
     {
-        // return $request;
-        $data = AdjustmentDetail::find($id);
-        $data->id_stock_master    = $request['stock_master'];
-        $data->in_qty    = $request['in_qty'];
-        $data->out_qty    = $request['out_qty'];
-        $data->harga_modal    = preg_replace('/\D/', '',$request['harga_modal']);
-        $data->harga_jual    = preg_replace('/\D/', '',$request['harga_jual']);
-        $data->keterangan    = $request['keterangan'];
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Edit Item Adjustment Success', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.update')){
+            $data = AdjustmentDetail::find($id);
+            $data->id_stock_master    = $request['stock_master'];
+            $data->in_qty    = $request['in_qty'];
+            $data->out_qty    = $request['out_qty'];
+            $data->harga_modal    = preg_replace('/\D/', '',$request['harga_modal']);
+            $data->harga_jual    = preg_replace('/\D/', '',$request['harga_jual']);
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Item Adjustment Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -137,9 +153,12 @@ class AdjustmentController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Adjustment::destroy($id);
-        return response()
-            ->json(['code'=>200,'message' => 'Adjustment Success Deleted', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.delete')){
+            Adjustment::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Adjustment Success Deleted', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -159,6 +178,7 @@ class AdjustmentController extends SettingAjaxController
         $data = Adjustment::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status_adj', function($data){
@@ -172,24 +192,40 @@ class AdjustmentController extends SettingAjaxController
                 }
                 return $status;
             })
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $adj_detail = "javascript:ajaxLoad('".route('local.adj.detail.index', $data->id)."')";
                 $adj_approve = "javascript:ajaxLoad('".route('local.spbd.approve', $data->id)."')";
                 $action = "";
                 $title = "'".$data->adj_no."'";
                 if($data->status == 1){
-                    $action .= '<a href="'.$adj_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('adjustment.view')){
+                        $action .= '<a href="'.$adj_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
+                    }
+                    if($access->can('adjustment.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('adjustment.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 elseif($data->status == 2){
-                    $action .= '<a href="'.$adj_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('adjustment.view')){
+                        $action .= '<a href="'.$adj_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('adjustment.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    }
+                    if($access->can('adjustment.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 else{
-                    $action .= '<a href="'.$adj_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_adj('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('adjustment.view')){
+                        $action .= '<a href="'.$adj_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('adjustment.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_adj('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
 
                 return $action;
@@ -202,17 +238,24 @@ class AdjustmentController extends SettingAjaxController
             ['id_branch','=', Auth::user()->id_branch],
             ['adj_id','=', $id],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
                 if($data->adj->status == 1){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('adjustment.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('adjustment.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 if($data->adj->status == 2){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    if($access->can('adjustment.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
                 }
                 return $action;
             })
@@ -241,12 +284,15 @@ class AdjustmentController extends SettingAjaxController
      */
     public function adj_open($id)
     {
-        $data = Adjustment::findOrFail($id);
-        $data->status = 2;
-        $data->adj_open = Carbon::now();
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Open Adjustment Success', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.open')){
+            $data = Adjustment::findOrFail($id);
+            $data->status = 2;
+            $data->adj_open = Carbon::now();
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Open Adjustment Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
      /**
@@ -257,12 +303,15 @@ class AdjustmentController extends SettingAjaxController
      */
     public function approve($id)
     {
-        $data = Adjustment::findOrFail($id);
-        $data->status = 3;
-        $movement = $this->po_movement($data->adj_detail);
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Adjustment Approve Success', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.approve')){
+            $data = Adjustment::findOrFail($id);
+            $data->status = 3;
+            $movement = $this->po_movement($data->adj_detail);
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Adjustment Approve Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     public function po_movement($data)

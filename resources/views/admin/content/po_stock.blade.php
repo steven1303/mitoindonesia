@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['po.stock.store', 'po.stock.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -51,6 +52,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -100,6 +102,7 @@
         ]
     });
 
+    @canany(['po.stock.store', 'po.stock.update'], Auth::user())
     $(function(){
 
         $('#spbd').select2({
@@ -173,7 +176,17 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#PoStockForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Po Stock');
+        $('#spbd').val(null).trigger('change');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('po.stock.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -198,11 +211,13 @@
         }
         });
     }
-
+    @endcan
+    @can('po.stock.print', Auth::user())
     function print_po_stock(id){
         window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('po.stock.verify', Auth::user())
     function verify(id) {
         save_method = 'edit';
         $.ajax({
@@ -218,7 +233,8 @@
         }
         });
     }
-
+    @endcan
+    @can('po.stock.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -234,17 +250,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#PoStockForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Po Stock');
-        $('#spbd').val(null).trigger('change');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('po.stock.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -287,4 +294,5 @@
             }
         });
     }
+    @endcan
 </script>

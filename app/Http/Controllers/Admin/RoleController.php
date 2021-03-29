@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class RoleController extends SettingAjaxController
@@ -12,27 +14,50 @@ class RoleController extends SettingAjaxController
     //
     public function index()
     {
-        $data = [];
-        return view('admin.content.role')->with($data);
+        if(Auth::user()->can('role.view')){
+            $data = [];
+            return view('admin.content.role')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function store(Request $request)
     {
-        // return $request;
-        $data = [
-            'role_name' => $request['role_name'],
-        ];
-
-        $activity = Role::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Roles Success', 'stat' => 'Success']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Roles Store', 'stat' => 'Error']);
+        if(Auth::user()->can('role.store')){
+            $data = [
+                'role_name' => $request['role_name'],
+            ];
+            $activity = Role::create($data);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Roles Success', 'stat' => 'Success']);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Roles Store', 'stat' => 'Error']);
+            }
         }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Roles Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        if(Auth::user()->can('role.permission')){
+            $roles = Role::find($id);
+            $permission = Permission::all();
+            $data = [
+                'role'          => $roles,
+                'permissions'    => $permission,
+            ];
+            return view('admin.content.permission_role')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     /**
@@ -44,12 +69,15 @@ class RoleController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
-        $data = Role::find($id);
-        $data->role_name    = $request['role_name'];
-        $data->update();
+        if(Auth::user()->can('role.update')){
+            $data = Role::find($id);
+            $data->role_name    = $request['role_name'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Roles Success', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Edit Roles Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error Roles Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -60,8 +88,12 @@ class RoleController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $data = Role::findOrFail($id);
-        return $data;
+        if(Auth::user()->can('role.update')){
+            $data = Role::findOrFail($id);
+            return $data;
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Roles Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -72,22 +104,52 @@ class RoleController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Role::destroy($id);
+        if(Auth::user()->can('role.delete')){
+            Role::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Roles Success Deleted', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Roles Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error Roles Access Denied', 'stat' => 'Error']);
     }
 
     public function recordRole(){
+        if(Auth::user()->can('role.view')){
         $data = Role::all();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $action = "";
                 $title = "'".$data->role_name."'";
-                $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button>';
+                $sidebar = "javascript:ajaxLoad('".route('local.role.show', $data->id)."')";
+                if($access->can('role.update')){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                }
+                if($access->can('role.delete')){
+                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                }
+                if($access->can('role.permission')){
+                    $action .= '<a href="'.$sidebar.'" class="btn btn-primary btn-xs"> Permission</a> ';
+                }
                 return $action;
             })
             ->rawColumns(['action'])->make(true);
+        }
+        return response()
+        ->json(['code'=>200,'message' => 'Error Admin Roles Denied', 'stat' => 'Error']);
+    }
+
+    public function updatePermission(Request $request)
+    {
+        if(Auth::user()->can('role.permission')){
+            $roles = Role::find($request->id);
+            $roles->update();
+            $roles->permissions()->sync($request->permission);
+            return response()
+                    ->json(['code'=>200,'message' => 'Update Access Success', 'stat' => 'Success']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Roles Access Denied', 'stat' => 'Error']);
     }
 }

@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['invoice.store', 'invoice.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -80,6 +81,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -132,7 +134,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['invoice.store', 'invoice.update'], Auth::user())
     $(function(){
         $('#datemask1').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
         $('#datemask2').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -209,7 +211,17 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#InvoiceForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Invoice');
+        $('#btnSave').attr('disabled',false);
+        $('#sppb').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('invoice.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -240,11 +252,13 @@
         }
         });
     }
-
+    @endcan
+    @can('invoice.print', Auth::user())
     function print_inv(id){
         window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('invoice.verify', Auth::user())
     function verify(id) {
         save_method = 'edit';
         $.ajax({
@@ -260,7 +274,8 @@
         }
         });
     }
-
+    @endcan
+    @can('invoice.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -276,17 +291,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#InvoiceForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Invoice');
-        $('#btnSave').attr('disabled',false);
-        $('#sppb').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('invoice.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -329,4 +335,5 @@
             }
         });
     }
+    @endcan
 </script>

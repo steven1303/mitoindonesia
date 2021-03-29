@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['sppb.store', 'sppb.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -56,6 +57,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -104,7 +106,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['sppb.store', 'sppb.update'], Auth::user())
     $(function(){
 
         $('#customer').select2({
@@ -181,7 +183,18 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#SppbForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#customer').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+        $(document).find('span.error-text').text('');
+    }
+    @endcanany
+    @can('sppb.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -211,11 +224,13 @@
         }
         });
     }
-
+    @endcan
+    @can('sppb.print', Auth::user())
     function print_sppb(id){
         window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('sppb.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -231,18 +246,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#SppbForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#customer').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-        $(document).find('span.error-text').text('');
-    }
-
+    @endcan
+    @can('sppb.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -285,4 +290,5 @@
             }
         });
     }
+    @endcan
 </script>

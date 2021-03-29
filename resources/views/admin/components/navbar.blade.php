@@ -36,7 +36,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="javascript:ajaxLoad('{{route('local.admin.profile')}}')" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{ route('local.admin.logout') }}" class="btn btn-default btn-flat">Sign out</a>
@@ -44,7 +44,7 @@
                         </li>
                     </ul>
                 </li>
-                <!-- Control Sidebar Toggle Button 
+                <!-- Control Sidebar Toggle Button
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>-->

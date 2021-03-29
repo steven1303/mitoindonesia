@@ -121,7 +121,7 @@
         </div>
     </div>
 </section>
-
+@canany(['receipt.store', 'receipt.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog modal-lg">
         <form role="form" id="RecDetailForm" method="POST">
@@ -197,7 +197,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -268,7 +268,7 @@
             unit: 'Rp',
         });
     }
-
+    @canany(['receipt.store', 'receipt.update'], Auth::user())
     $(function(){
         format_decimal_limit();
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -325,7 +325,17 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#RecDetailForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#stock_master').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('receipt.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -359,7 +369,8 @@
         }
         });
     }
-
+    @endcan
+    @can('receipt.store', Auth::user())
     function addItem(id) {
         save_method = 'add';
         $.ajax({
@@ -388,7 +399,8 @@
         }
         });
     }
-
+    @endcan
+    @can('receipt.open', Auth::user())
     function open_receipt_Form() {
         $.ajax({
         url: "{{route('local.rec.open.index', $rec->id) }}",
@@ -407,21 +419,13 @@
         }
         });
     }
-
+    @endcan
+    @can('receipt.print', Auth::user())
     function print_receipt(id){
         window.open("{{ url('receipt_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#RecDetailForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#stock_master').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('receipt.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -465,4 +469,5 @@
             }
         });
     }
+    @endcan
 </script>

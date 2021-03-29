@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['receipt.store', 'receipt.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -75,6 +76,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -144,6 +146,8 @@
             unit: 'Rp',
         });
     }
+
+    @canany(['receipt.store', 'receipt.update'], Auth::user())
 
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
@@ -223,6 +227,18 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#RecForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#po_stock').val(null).trigger('change');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+
+    @endcanany
+    @can('receipt.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -249,21 +265,13 @@
         }
         });
     }
-
+    @endcan
+    @can('receipt.print', Auth::user())
     function print_receipt(id){
         window.open("{{ url('receipt_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#RecForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#po_stock').val(null).trigger('change');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('receipt.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -306,4 +314,5 @@
             }
         });
     }
+    @endcan
 </script>

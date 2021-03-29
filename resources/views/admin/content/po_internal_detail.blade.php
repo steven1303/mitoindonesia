@@ -84,7 +84,7 @@
         </div>
     </div>
 </section>
-
+@canany(['po.internal.store', 'po.internal.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog modal-lg">
         <form role="form" id="PoInternalDetailForm" method="POST">
@@ -149,7 +149,7 @@
         </form>
     </div>
 </div>
-
+@endcanany
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
@@ -191,7 +191,7 @@
             unit: 'Rp',
         });
     }
-
+    @canany(['po.internal.store', 'po.internal.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -277,7 +277,18 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#PoInternalDetailForm')[0].reset();
+        $('#formTitle').text('Create Stock Adjustment');
+        $('#btnSave').attr('disabled',false);
+        $('#stock_master').val(null).trigger('change');
+        $('#button_modal').text('Save Changes');
+        $('input[name=_method]').val('POST');
+        $(document).find('span.error-text').text('');
+    }
+    @endcanany
+    @can('po.internal.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -309,7 +320,8 @@
         }
         });
     }
-
+    @endcan
+    @can('po.internal.open', Auth::user())
     function open_po_internal_Form() {
         $.ajax({
             url: "{{route('local.po_internal.open.index', $po_internal->id) }}",
@@ -325,22 +337,13 @@
             }
         });
     }
-
+    @endcan
+    @can('po.internal.print', Auth::user())
     function print_po_internal(id){
         window.open("{{ url('po_internal_print') }}" + '/' + id,"_blank");
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#PoInternalDetailForm')[0].reset();
-        $('#formTitle').text('Create Stock Adjustment');
-        $('#btnSave').attr('disabled',false);
-        $('#stock_master').val(null).trigger('change');
-        $('#button_modal').text('Save Changes');
-        $('input[name=_method]').val('POST');
-        $(document).find('span.error-text').text('');
-    }
-
+    @endcan
+    @can('po.internal.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -383,4 +386,5 @@
             }
         });
     }
+    @endcan
 </script>

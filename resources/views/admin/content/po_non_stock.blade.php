@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['po.non.stock.store', 'po.non.stock.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -45,6 +46,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -93,7 +95,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['po.non.stock.store', 'po.non.stock.update'], Auth::user())
     $(function(){
 
         $('#spb').select2({
@@ -167,6 +169,17 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#PoNonStockForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Po Non Stock');
+        $('#spb').val(null).trigger('change');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('po.non.stock.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -190,11 +203,13 @@
         }
         });
     }
-
+    @endcan
+    @can('po.non.stock.print', Auth::user())
     function print_po_stock(id){
         window.open("{{ url('po_non_stock_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('po.non.stock.verify', Auth::user())
     function verify(id) {
         save_method = 'edit';
         $.ajax({
@@ -210,7 +225,8 @@
         }
         });
     }
-
+    @endcan
+    @can('po.non.stock.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -226,17 +242,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#PoNonStockForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Po Non Stock');
-        $('#spb').val(null).trigger('change');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('po.non.stock.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -279,4 +286,5 @@
             }
         });
     }
+    @endcan
 </script>

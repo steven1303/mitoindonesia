@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['po.internal.store', 'po.internal.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -38,6 +39,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -88,7 +90,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['po.internal.store', 'po.internal.update'], Auth::user())
     $(function(){
 
         $('#customer').select2({
@@ -156,7 +158,17 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#PoInternalForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create Po Internal');
+        $('#customer').val(null).trigger('change');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('po.internal.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -178,11 +190,13 @@
         }
         });
     }
-
+    @endcan
+    @can('po.internal.print', Auth::user())
     function print_po_internal(id){
         window.open("{{ url('po_internal_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('po.internal.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -198,17 +212,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#PoInternalForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Po Internal');
-        $('#customer').val(null).trigger('change');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('po.internal.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -251,4 +256,5 @@
             }
         });
     }
+    @endcan
 </script>

@@ -14,17 +14,23 @@ class SpbController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.spb')->with($data);
+        if(Auth::user()->can('spb.view')){
+            $data = [];
+            return view('admin.content.spb')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function detail($id)
     {
-        $spb = Spb::findOrFail($id);
-        $data = [
-            'spb' => $spb
-        ];
-        return view('admin.content.spb_detail')->with($data);
+        if(Auth::user()->can('spb.view')){
+            $spb = Spb::findOrFail($id);
+            $data = [
+                'spb' => $spb
+            ];
+            return view('admin.content.spb_detail')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function spb_no(){
@@ -39,60 +45,63 @@ class SpbController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        $draf = Spb::where([
-            ['spb_status','=', 1],
-            ['id_branch','=', Auth::user()->id_branch]
-        ])->count();
+        if(Auth::user()->can('spb.store')){
+            $draf = Spb::where([
+                ['spb_status','=', 1],
+                ['id_branch','=', Auth::user()->id_branch]
+            ])->count();
+            if($draf > 0){
+                return response()
+                    ->json(['code'=>200,'message' => 'Use the previous Draf SPB First', 'stat' => 'Warning']);
+            }
+            $data = [
+                'spb_no' => $this->spb_no(),
+                'id_branch' => Auth::user()->id_branch,
+                'id_vendor' => $request['vendor'],
+                'spb_date' => Carbon::now(),
+                'spb_user_id' => Auth::user()->id,
+                'spb_user_name' => Auth::user()->name,
+                'spb_status' => 1,
+            ];
+            $activity = Spb::create($data);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new SPB Success' , 'stat' => 'Success', 'spb_id' => $activity->id, 'process' => 'add']);
 
-        if($draf > 0){
-            return response()
-                ->json(['code'=>200,'message' => 'Use the previous Draf SPB First', 'stat' => 'Warning']);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error SPB Store', 'stat' => 'Error']);
+            }
         }
-
-        $data = [
-            'spb_no' => $this->spb_no(),
-            'id_branch' => Auth::user()->id_branch,
-            'id_vendor' => $request['vendor'],
-            'spb_date' => Carbon::now(),
-            'spb_user_id' => Auth::user()->id,
-            'spb_user_name' => Auth::user()->name,
-            'spb_status' => 1,
-        ];
-
-        $activity = Spb::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new SPB Success' , 'stat' => 'Success', 'spb_id' => $activity->id, 'process' => 'add']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error SPB Store', 'stat' => 'Error']);
-        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     public function store_detail(Request $request, $id)
     {
-        // return $request;
-        $data = [
-            'id_branch' => Auth::user()->id_branch,
-            'spb_id' => $id,
-            'keterangan' => $request['keterangan'],
-            'qty' => $request['qty'],
-            'satuan' => $request['satuan'],
-            'spb_detail_status' => 1,
-        ];
+        if(Auth::user()->can('spb.store')){
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'spb_id' => $id,
+                'keterangan' => $request['keterangan'],
+                'qty' => $request['qty'],
+                'satuan' => $request['satuan'],
+                'spb_detail_status' => 1,
+            ];
 
-        $activity = SpbDetail::create($data);
+            $activity = SpbDetail::create($data);
 
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new item SPB Success', 'stat' => 'Success', 'process' => 'update']);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new item SPB Success', 'stat' => 'Success', 'process' => 'update']);
 
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error item SPB Store', 'stat' => 'Error']);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error item SPB Store', 'stat' => 'Error']);
+            }
         }
+        return response()
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -103,8 +112,12 @@ class SpbController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $data = Spb::with('vendor')->findOrFail($id);
-        return $data;
+        if(Auth::user()->can('spb.update')){
+            $data = Spb::with('vendor')->findOrFail($id);
+            return $data;
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
      /**
@@ -115,8 +128,12 @@ class SpbController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        $data = SpbDetail::findOrFail($id);
-        return $data;
+        if(Auth::user()->can('spb.update')){
+            $data = SpbDetail::findOrFail($id);
+            return $data;
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -128,12 +145,15 @@ class SpbController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
-        $data = Spb::find($id);
-        $data->id_vendor    = $request['vendor'];
-        $data->update();
+        if(Auth::user()->can('spb.update')){
+            $data = Spb::find($id);
+            $data->id_vendor    = $request['vendor'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit SPB Success', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Edit SPB Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -145,14 +165,17 @@ class SpbController extends SettingAjaxController
      */
     public function update_detail(Request $request, $id)
     {
-        // return $request;
-        $data = SpbDetail::find($id);
-        $data->keterangan    = $request['keterangan'];
-        $data->qty    = $request['qty'];
-        $data->satuan    = $request['satuan'];
-        $data->update();
+        if(Auth::user()->can('spb.update')){
+            $data = SpbDetail::find($id);
+            $data->keterangan    = $request['keterangan'];
+            $data->qty    = $request['qty'];
+            $data->satuan    = $request['satuan'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Item SPB Success', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Edit Item SPB Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -163,9 +186,13 @@ class SpbController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Spb::destroy($id);
+        if(Auth::user()->can('spb.delete')){
+            Spb::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'SPB Success Deleted', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'SPB Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -185,6 +212,7 @@ class SpbController extends SettingAjaxController
         $data = Spb::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status_spb', function($data){
@@ -202,23 +230,39 @@ class SpbController extends SettingAjaxController
                 }
                 return $spb_status;
             })
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $spb_detail = "javascript:ajaxLoad('".route('local.spb.detail.index', $data->id)."')";
                 $action = "";
                 $title = "'".$data->spb_no."'";
                 if($data->spb_status == 1){
-                    $action .= '<a href="'.$spb_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('spb.view')){
+                        $action .= '<a href="'.$spb_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
+                    }
+                    if($access->can('spb.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('spb.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 elseif($data->spb_status == 2){
-                    $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('spb.view')){
+                        $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('spb.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    }
+                    if($access->can('spb.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_spb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 else{
-                    $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    $action .= '<button id="'. $data->id .'" onclick="print_spb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('spb.view')){
+                        $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('spb.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_spb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
 
                 return $action;
@@ -239,17 +283,24 @@ class SpbController extends SettingAjaxController
                 ['spb_id','=', $id],
             ])->latest()->get();
         }
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data)  use($po_stat){
+            ->addColumn('action', function($data)  use($po_stat, $access){
                 $action = "";
                 $title = "'".$data->keterangan."'";
                 if($data->spb->spb_status == 1){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($access->can('spb.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('spb.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 if($data->spb->spb_status == 2){
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    if($access->can('spb.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
                 }
                 if($po_stat == 1){
                     $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
@@ -305,12 +356,16 @@ class SpbController extends SettingAjaxController
      */
     public function spb_open($id)
     {
-        $data = Spb::findOrFail($id);
-        $data->spb_status = 2;
-        $data->spb_open = Carbon::now();
-        $data->update();
+        if(Auth::user()->can('spb.open')){
+            $data = Spb::findOrFail($id);
+            $data->spb_status = 2;
+            $data->spb_open = Carbon::now();
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Open SPB Success', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Open SPB Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
      /**
@@ -321,10 +376,14 @@ class SpbController extends SettingAjaxController
      */
     public function approve($id)
     {
-        $data = Spb::findOrFail($id);
-        $data->spb_status = 3;
-        $data->update();
+        if(Auth::user()->can('spb.approve')){
+            $data = Spb::findOrFail($id);
+            $data->spb_status = 3;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPB Approve Success', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'SPB Approve Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 }

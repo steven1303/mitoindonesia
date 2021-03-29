@@ -14,21 +14,26 @@ class PelunasanController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.pelunasan')->with($data);
+        if(Auth::user()->can('pelunasan.view')){
+            $data = [];
+            return view('admin.content.pelunasan')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function add_pelunasan($id)
     {
-        $inv = Invoice::findOrFail($id);
-        $data = array(
-            "id" => $inv->id,
-            "inv_no" => $inv->inv_no,
-            "inv_total" => $inv->inv_detail->sum('total_ppn'),
-            "inv_sisa" => $inv->inv_detail->sum('total_ppn') - $inv->pelunasan->sum('balance'),
-        );
-        return json_encode($data);
-        return true;
+        if(Auth::user()->can('pelunasan.store')){
+            $inv = Invoice::findOrFail($id);
+            $data = array(
+                "id" => $inv->id,
+                "inv_no" => $inv->inv_no,
+                "inv_total" => $inv->inv_detail->sum('total_ppn'),
+                "inv_sisa" => $inv->inv_detail->sum('total_ppn') - $inv->pelunasan->sum('balance'),
+            );
+            return json_encode($data);
+            return true;
+        }
     }
 
     /**
@@ -39,20 +44,23 @@ class PelunasanController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $pelunasan = Pelunasan::findOrFail($id);
-        $data = array(
-            "id" => $pelunasan->id,
-            "id_invoice" => $pelunasan->id_inv,
-            "inv_no" => $pelunasan->invoice->inv_no,
-            "inv_total" => $pelunasan->invoice->inv_detail->sum('total_ppn'),
-            "inv_sisa" => $pelunasan->invoice->inv_detail->sum('total_ppn') - $pelunasan->invoice->pelunasan->sum('balance'),
-            "balance" => $pelunasan->balance - 0,
-            "payment" => $pelunasan->payment_method,
-            "pelunasan_date" => $pelunasan->pelunasan_date,
-            "note" => $pelunasan->notes,
-            "keterangan" => $pelunasan->keterangan,
-        );
-        return json_encode($data);
+        if(Auth::user()->can('pelunasan.update')){
+            $pelunasan = Pelunasan::findOrFail($id);
+            $data = array(
+                "id" => $pelunasan->id,
+                "id_invoice" => $pelunasan->id_inv,
+                "inv_no" => $pelunasan->invoice->inv_no,
+                "inv_total" => $pelunasan->invoice->inv_detail->sum('total_ppn'),
+                "inv_sisa" => $pelunasan->invoice->inv_detail->sum('total_ppn') - $pelunasan->invoice->pelunasan->sum('balance'),
+                "balance" => $pelunasan->balance - 0,
+                "payment" => $pelunasan->payment_method,
+                "pelunasan_date" => $pelunasan->pelunasan_date,
+                "note" => $pelunasan->notes,
+                "keterangan" => $pelunasan->keterangan,
+            );
+            return json_encode($data);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Pelunasan Access Denied', 'stat' => 'Error']);
     }
 
     public function pelunasan_no(){
@@ -67,29 +75,29 @@ class PelunasanController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        $data = [
-            'id_branch' => Auth::user()->id_branch,
-            'pelunasan_no' => $this->pelunasan_no(),
-            'id_inv' => $request['id_invoice'],
-            'balance' => preg_replace('/\D/', '',$request['balance']),
-            'payment_method' => $request['payment'],
-            'pelunasan_date' => $request['pelunasan_date'],
-            'keterangan' => $request['keterangan'],
-            'user_name' => Auth::user()->name,
-            'user_id' => Auth::user()->id,
-            'status' => 1,
-        ];
-
-        $activity = Pelunasan::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Pelunasan Success' , 'stat' => 'Success', 'inv_id' => $activity->id ]);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Pelunasan Store', 'stat' => 'Error']);
+        if(Auth::user()->can('pelunasan.store')){
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'pelunasan_no' => $this->pelunasan_no(),
+                'id_inv' => $request['id_invoice'],
+                'balance' => preg_replace('/\D/', '',$request['balance']),
+                'payment_method' => $request['payment'],
+                'pelunasan_date' => $request['pelunasan_date'],
+                'keterangan' => $request['keterangan'],
+                'user_name' => Auth::user()->name,
+                'user_id' => Auth::user()->id,
+                'status' => 1,
+            ];
+            $activity = Pelunasan::create($data);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Pelunasan Success' , 'stat' => 'Success', 'inv_id' => $activity->id ]);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Pelunasan Store', 'stat' => 'Error']);
+            }
         }
+        return response()->json(['code'=>200,'message' => 'Error Pelunasan Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -101,15 +109,17 @@ class PelunasanController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
-        $data = Pelunasan::find($id);
-        $data->balance    =  preg_replace('/\D/', '',$request['balance']);
-        $data->payment_method    = $request['payment'];
-        $data->pelunasan_date    = $request['pelunasan_date'];
-        $data->keterangan    = $request['keterangan'];
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Edit Pelunasan Success', 'stat' => 'Success']);
+        if(Auth::user()->can('pelunasan.update')){
+            $data = Pelunasan::find($id);
+            $data->balance    =  preg_replace('/\D/', '',$request['balance']);
+            $data->payment_method    = $request['payment'];
+            $data->pelunasan_date    = $request['pelunasan_date'];
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Pelunasan Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Pelunasan Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -120,24 +130,38 @@ class PelunasanController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Pelunasan::destroy($id);
-        return response()
-            ->json(['code'=>200,'message' => 'Pelunasan Success Deleted', 'stat' => 'Success']);
+        if(Auth::user()->can('pelunasan.delete')){
+            Pelunasan::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Pelunasan Success Deleted', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Pelunasan Access Denied', 'stat' => 'Error']);
     }
 
     public function recordInvPelunasan(){
         $data = Invoice::where([
             ['id_branch','=', Auth::user()->id_branch],
             ['inv_status','=', 4],
+        ])->orWhere([
+            ['id_branch','=', Auth::user()->id_branch],
+            ['inv_status','=', 5],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.index', $data->id)."')";
                 $action = "";
                 $total_tagihan = $data->inv_detail->sum('total_ppn') - $data->pelunasan->sum('balance') - 0;
                 if($data->inv_status == 4 && $total_tagihan != 0){
-                    $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
+                    if($access->can('pelunasan.store')){
+                        $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
+                    }
+                }
+                if($data->inv_status == 5 && $total_tagihan != 0){
+                    if($access->can('pelunasan.store')){
+                        $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
+                    }
                 }
                 return $action;
             })
@@ -146,12 +170,10 @@ class PelunasanController extends SettingAjaxController
             })
             ->addColumn('total_inv', function($data){
                 return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
-                // return $data->inv_detail->sum('total_ppn');
             })
             ->addColumn('total_pelunasan', function($data){
                 $total_tagihan = $data->inv_detail->sum('total_ppn') - $data->pelunasan->sum('balance');
                 return "Rp. ".number_format($total_tagihan, 0, ",", ".");
-                // return $data->inv_detail->sum('total_ppn');
             })
             ->rawColumns(['action'])->make(true);
     }
@@ -160,17 +182,26 @@ class PelunasanController extends SettingAjaxController
         $data = Pelunasan::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $action = "";
                 if($data->status == 1){
                     $title = "'".$data->pelunasan_no."'";
-                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-primary btn-xs"> Approve</button> ';
+                    if($access->can('pelunasan.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('pelunasan.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
+                    if($access->can('pelunasan.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-primary btn-xs"> Approve</button> ';
+                    }
                 }else{
-                    $action .= '<button id="'. $data->id .'" onclick="print_pelunasan('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    if($access->can('pelunasan.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_pelunasan('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 return $action;
             })
@@ -194,11 +225,21 @@ class PelunasanController extends SettingAjaxController
      */
     public function approve($id)
     {
-        $data = Pelunasan::findOrFail($id);
-        $data->status = 2;
-        $data->pelunasan_open = Carbon::now();
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Pelunasan Approve Success', 'stat' => 'Success']);
+        if(Auth::user()->can('pelunasan.approve')){
+            $data = Pelunasan::findOrFail($id);
+            $data->status = 2;
+            if($data->invoice->inv_detail->sum('total_ppn') == $data->invoice->pelunasan->sum('balance') ){
+                $data->invoice->inv_status = 6;
+                $data->invoice->update();
+            }else{
+                $data->invoice->inv_status = 5;
+                $data->invoice->update();
+            }
+            $data->pelunasan_open = Carbon::now();
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Pelunasan Approve Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Pelunasan Access Denied', 'stat' => 'Error']);
     }
 }

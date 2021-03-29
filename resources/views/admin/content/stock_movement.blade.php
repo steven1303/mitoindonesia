@@ -20,31 +20,31 @@
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
                         <li>
-                            <a href="#">{{ $stock_detail->branch->name }} <span class="pull-right badge bg-blue">{{ $stock_detail->stock_movement->sum('in_qty') - $stock_detail->stock_movement->sum('out_qty') }}</span></a>
+                            <a href="#">{{ $stock_detail->branch->name }} <span class="pull-right badge bg-blue">{{ $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('in_qty') - $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('out_qty') }}</span></a>
                         </li>
                     </ul>
                     <div class="row">
                         <div class="col-sm-3 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('order_qty') }}</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('order_qty') - 0 }}</h5>
                                 <span class="description-text">Order</span>
                             </div>
                         </div>
                         <div class="col-sm-3 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('sell_qty') }}</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('sell_qty') - 0 }}</h5>
                                 <span class="description-text">Sell</span>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('in_qty') }}</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('in_qty') - 0 }}</h5>
                                 <span class="description-text">In</span>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $stock_detail->stock_movement->sum('out_qty') }}</h5>
+                                <h5 class="description-header">{{ $stock_detail->stock_movement()->where([['order_qty','>', 0],['status','=', 0]])->sum('out_qty') - 0 }}</h5>
                                 <span class="description-text">Out</span>
                             </div>
                         </div>
@@ -105,6 +105,7 @@
                                 <th>Sell</th>
                                 <th>In</th>
                                 <th>Out</th>
+                                <th>Status</th>
                                 <!-- <th>Status</th> -->
                             </tr>
                         </thead>
@@ -138,7 +139,7 @@
             {data: 'sell_qty', name: 'sell_qty'},
             {data: 'in_qty', name: 'in_qty'},
             {data: 'out_qty', name: 'out_qty'},
-            // {data: 'action', name:'action', orderable: false, searchable: false}
+            {data: 'status_desc', name: 'status_desc'},
         ]
     });
 </script>

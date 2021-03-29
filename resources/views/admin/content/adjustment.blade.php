@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['adjustment.store', 'adjustment.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -26,6 +27,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -74,10 +76,8 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['adjustment.store', 'adjustment.update'], Auth::user())
     $(function(){
-
-
 	    $('#AdjForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
@@ -115,12 +115,22 @@
 		    }
 	    });
     });
-
-
+    function cancel(){
+        save_method = 'add';
+        $('#AdjForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create SPBD');
+        $('#btnSave').attr('disabled',false);
+        $('#vendor').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('adjustment.print', Auth::user())
     function print_adj(id){
         window.open("{{ url('adj_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('adjustment.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -136,17 +146,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#AdjForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create SPBD');
-        $('#btnSave').attr('disabled',false);
-        $('#vendor').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('adjustment.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -189,4 +190,5 @@
             }
         });
     }
+    @endcan
 </script>

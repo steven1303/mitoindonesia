@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['stock.master.store', 'stock.master.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -66,6 +67,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -118,7 +120,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['stock.master.store', 'stock.master.update'], Auth::user())
     $(function(){
 	    $('#stockMasterForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
@@ -161,6 +163,16 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#stockMasterForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Add Roles');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('stock.master.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -185,16 +197,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#stockMasterForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Add Roles');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('stock.master.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -237,4 +241,5 @@
             }
         });
     }
+    @endcan
 </script>

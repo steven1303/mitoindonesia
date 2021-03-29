@@ -27,4 +27,9 @@ class Admin extends Authenticatable
     {
     	return $this->belongsTo('App\Models\Branch','id_branch');
     }
+
+    public function roles()
+    {
+        return $this->hasOne('App\Models\Role','id','id_role');
+    }
 }

@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['spb.store', 'spb.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -38,6 +39,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -86,7 +88,7 @@
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
-
+    @canany(['spb.store', 'spb.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
 
@@ -154,7 +156,17 @@
 		    }
 	    });
     });
-
+    function cancel(){
+        save_method = 'add';
+        $('#SpbForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Create SPB');
+        $('#btnSave').attr('disabled',false);
+        $('#vendor').val(null).trigger('change');
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('spb.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -175,11 +187,13 @@
         }
         });
     }
-
+    @endcan
+    @can('spb.print', Auth::user())
     function print_spbd(id){
         window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
-
+    @endcan
+    @can('spb.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -195,17 +209,8 @@
         }
         });
     }
-
-    function cancel(){
-        save_method = 'add';
-        $('#SpbForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create SPB');
-        $('#btnSave').attr('disabled',false);
-        $('#vendor').val(null).trigger('change');
-        $('input[name=_method]').val('POST');
-    }
-
+    @endcan
+    @can('spb.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -248,4 +253,5 @@
             }
         });
     }
+    @endcan
 </script>

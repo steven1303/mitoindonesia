@@ -15,40 +15,45 @@ class StockAdjController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.stock_adjustment')->with($data);
+        if(Auth::user()->can('adjustment.old')){
+            $data = [];
+            return view('admin.content.stock_adjustment')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function store(Request $request)
     {
-        // return $request;
-        $data = [
-            'id_stock_master' => $request['stock_master'],
-            'id_branch' => Auth::user()->id_branch,
-            'move_date' => Carbon::now(),
-            // 'bin' => "-",
-            'type' => 'ADJ',
-            'doc_no' => 'Adjusment',
-            'order_qty' => 0,
-            'sell_qty' => 0,
-            'in_qty' => $request['in_qty'],
-            'out_qty' => $request['out_qty'],
-            'harga_modal' => $request['harga_modal'],
-            'harga_jual' => $request['harga_jual'],
-            'user' => Auth::user()->name,
-            'ket' => $request['ket'],
-        ];
+        if(Auth::user()->can('adjustment.old')){
+            $data = [
+                'id_stock_master' => $request['stock_master'],
+                'id_branch' => Auth::user()->id_branch,
+                'move_date' => Carbon::now(),
+                // 'bin' => "-",
+                'type' => 'ADJ',
+                'doc_no' => 'Adjusment',
+                'order_qty' => 0,
+                'sell_qty' => 0,
+                'in_qty' => $request['in_qty'],
+                'out_qty' => $request['out_qty'],
+                'harga_modal' => $request['harga_modal'],
+                'harga_jual' => $request['harga_jual'],
+                'user' => Auth::user()->name,
+                'ket' => $request['ket'],
+            ];
 
-        $activity = StockMovement::create($data);
+            $activity = StockMovement::create($data);
 
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Stock Adjusment Success', 'stat' => 'Success']);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Stock Adjusment Success', 'stat' => 'Success']);
 
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Stock Adjusment Store', 'stat' => 'Error']);
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Stock Adjusment Store', 'stat' => 'Error']);
+            }
         }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -59,8 +64,11 @@ class StockAdjController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $data = StockMovement::with('stock_master')->findOrFail($id);
-        return $data;
+        if(Auth::user()->can('adjustment.old')){
+            $data = StockMovement::with('stock_master')->findOrFail($id);
+            return $data;
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -72,21 +80,23 @@ class StockAdjController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-
-        $data = StockMovement::find($id);
-        $data->id_stock_master    = $request['stock_master'];
-        // $data->bin    = $request['bin'];
-        $data->order_qty    = 0;
-        $data->sell_qty    = 0;
-        $data->in_qty    = $request['in_qty'];
-        $data->out_qty    = $request['out_qty'];
-        $data->harga_modal    = $request['harga_modal'];
-        $data->harga_jual    = $request['harga_jual'];
-        $data->user    =  Auth::user()->name;
-        $data->ket    =  $request['ket'].' (Revisi '.Carbon::now().')';
-        $data->update();
-        return response()
-            ->json(['code'=>200,'message' => 'Edit Stock Adjusment Success', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.old')){
+            $data = StockMovement::find($id);
+            $data->id_stock_master    = $request['stock_master'];
+            // $data->bin    = $request['bin'];
+            $data->order_qty    = 0;
+            $data->sell_qty    = 0;
+            $data->in_qty    = $request['in_qty'];
+            $data->out_qty    = $request['out_qty'];
+            $data->harga_modal    = $request['harga_modal'];
+            $data->harga_jual    = $request['harga_jual'];
+            $data->user    =  Auth::user()->name;
+            $data->ket    =  $request['ket'].' (Revisi '.Carbon::now().')';
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Stock Adjusment Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -97,9 +107,12 @@ class StockAdjController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        StockMovement::destroy($id);
-        return response()
-            ->json(['code'=>200,'message' => 'Stock Adjusment Success Deleted', 'stat' => 'Success']);
+        if(Auth::user()->can('adjustment.old')){
+            StockMovement::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Stock Adjusment Success Deleted', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
     }
 
     public function recordStockAdjustment(){

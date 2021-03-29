@@ -10,6 +10,7 @@
 </section>
 <section class="content">
     <div class="row">
+        @canany(['admin.store', 'admin.update'], Auth::user())
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
@@ -69,6 +70,7 @@
                 </div>
             </div>
         </div>
+        @endcanany
     </div>
     <div class="row">
         <div class="col-xs-12">
@@ -121,6 +123,7 @@
         ]
     });
 
+    @canany(['admin.store', 'admin.update'], Auth::user())
     $(function(){
 	    $('#adminForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
@@ -163,6 +166,17 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#adminForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Add Admin');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+
+    @can('admin.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -186,16 +200,9 @@
         }
         });
     }
+    @endcan
 
-    function cancel(){
-        save_method = 'add';
-        $('#adminForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Add Admin');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @can('admin.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -238,4 +245,5 @@
             }
         });
     }
+    @endcan
 </script>

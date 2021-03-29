@@ -104,7 +104,7 @@
         </div>
     </div>
 </section>
-
+@canany(['po.non.stock.store', 'po.non.stock.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="PoNonDetailForm" method="POST">
@@ -166,6 +166,7 @@
         </form>
     </div>
 </div>
+@endcanany
 
 <script type="text/javascript">
     var save_method;
@@ -215,21 +216,22 @@
     });
 
     function format_decimal_limit(){
-            VMasker(document.getElementById("price")).maskMoney({
-                precision: 0,
-                separator: '.',
-                delimiter: '.',
-                unit: 'Rp',
-            });
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
 
-            VMasker(document.getElementById("disc")).maskMoney({
-                precision: 0,
-                separator: '.',
-                delimiter: '.',
-                unit: 'Rp',
-            });
-        }
+        VMasker(document.getElementById("disc")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
 
+    @canany(['po.non.stock.store', 'po.non.stock.update'], Auth::user())
     $(function(){
 
         $(".number").keypress(function (e) {
@@ -406,4 +408,5 @@
             }
         });
     }
+    @endcanany
 </script>

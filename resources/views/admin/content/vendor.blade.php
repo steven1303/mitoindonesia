@@ -9,6 +9,7 @@
     </ol>
 </section>
 <section class="content">
+    @canany(['vendor.store', 'vendor.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -91,6 +92,7 @@
             </div>
         </div>
     </div>
+    @endcanany
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -142,6 +144,7 @@
         ]
     });
 
+    @canany(['vendor.store', 'vendor.update'], Auth::user())
     $(function(){
 	    $('#vendorForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
@@ -184,6 +187,16 @@
 	    });
     });
 
+    function cancel(){
+        save_method = 'add';
+        $('#vendorForm')[0].reset();
+        $('#btnSave').text('Submit');
+        $('#formTitle').text('Add Branch');
+        $('#btnSave').attr('disabled',false);
+        $('input[name=_method]').val('POST');
+    }
+    @endcanany
+    @can('vendor.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -216,16 +229,9 @@
         }
         });
     }
+    @endcan
 
-    function cancel(){
-        save_method = 'add';
-        $('#vendorForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Add Branch');
-        $('#btnSave').attr('disabled',false);
-        $('input[name=_method]').val('POST');
-    }
-
+    @can('vendor.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',
@@ -268,4 +274,5 @@
             }
         });
     }
+    @endcan
 </script>

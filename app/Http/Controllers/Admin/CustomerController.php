@@ -12,51 +12,59 @@ class CustomerController extends SettingAjaxController
 {
     public function index()
     {
-        $data = [];
-        return view('admin.content.customer')->with($data);
+        if(Auth::user()->can('customer.view')){
+            $data = [];
+            return view('admin.content.customer')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function info($id)
     {
-        $customer = Customer::findOrFail($id);
-        $data = [
-            'customer' => $customer
-        ];
-        return view('admin.content.customer_info')->with($data);
+        if(Auth::user()->can('customer.info')){
+            $customer = Customer::findOrFail($id);
+            $data = [
+                'customer' => $customer
+            ];
+            return view('admin.content.customer_info')->with($data);
+        }
+        return view('admin.components.403');
     }
 
     public function store(Request $request)
     {
-        $ppn_status = 0;
-        if($request->has('status_ppn')){
-            $ppn_status = 1;
+        if(Auth::user()->can('customer.store')){
+            $ppn_status = 0;
+            if($request->has('status_ppn')){
+                $ppn_status = 1;
+            }
+            $data = [
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'address1' => $request['address1'],
+                'address2' => $request['address2'],
+                'city' => $request['city'],
+                'phone' => $request['phone'],
+                'npwp' => $request['npwp'],
+                'ktp' => $request['ktp'],
+                'bod' => $request['bod'],
+                'pic' => $request['pic'],
+                'telp' => $request['telp'],
+                'status_ppn' => $ppn_status,
+                'id_branch' => Auth::user()->id_branch,
+            ];
+            $activity = Customer::create($data);
+            if ($activity->exists) {
+                return response()
+                    ->json(['code'=>200,'message' => 'Add new Customer Success', 'stat' => 'Success']);
+
+            } else {
+                return response()
+                    ->json(['code'=>200,'message' => 'Error Customer Store', 'stat' => 'Error']);
+            }
         }
-        $data = [
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'address1' => $request['address1'],
-            'address2' => $request['address2'],
-            'city' => $request['city'],
-            'phone' => $request['phone'],
-            'npwp' => $request['npwp'],
-            'ktp' => $request['ktp'],
-            'bod' => $request['bod'],
-            'pic' => $request['pic'],
-            'telp' => $request['telp'],
-            'status_ppn' => $ppn_status,
-            'id_branch' => Auth::user()->id_branch,
-        ];
-
-        $activity = Customer::create($data);
-
-        if ($activity->exists) {
-            return response()
-                ->json(['code'=>200,'message' => 'Add new Customer Success', 'stat' => 'Success']);
-
-        } else {
-            return response()
-                ->json(['code'=>200,'message' => 'Error Customer Store', 'stat' => 'Error']);
-        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -68,26 +76,30 @@ class CustomerController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-        $ppn_status = 0;
-        if($request->has('status_ppn')){
-            $ppn_status = 1;
+        if(Auth::user()->can('customer.update')){
+            $ppn_status = 0;
+            if($request->has('status_ppn')){
+                $ppn_status = 1;
+            }
+            $data = Customer::find($id);
+            $data->name    = $request['name'];
+            $data->address1    = $request['address1'];
+            $data->address2   = $request['address2'];
+            $data->city = $request['city'];
+            $data->phone    = $request['phone'];
+            $data->npwp    = $request['npwp'];
+            $data->ktp    = $request['ktp'];
+            $data->bod    = $request['bod'];
+            $data->pic = $request['pic'];
+            $data->telp = $request['telp'];
+            $data->email = $request['email'];
+            $data->status_ppn = $ppn_status;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Customer Success', 'stat' => 'Success']);
         }
-        $data = Customer::find($id);
-        $data->name    = $request['name'];
-        $data->address1    = $request['address1'];
-        $data->address2   = $request['address2'];
-        $data->city = $request['city'];
-        $data->phone    = $request['phone'];
-        $data->npwp    = $request['npwp'];
-        $data->ktp    = $request['ktp'];
-        $data->bod    = $request['bod'];
-        $data->pic = $request['pic'];
-        $data->telp = $request['telp'];
-        $data->email = $request['email'];
-        $data->status_ppn = $ppn_status;
-        $data->update();
         return response()
-            ->json(['code'=>200,'message' => 'Edit Customer Success', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -98,8 +110,12 @@ class CustomerController extends SettingAjaxController
      */
     public function edit($id)
     {
-        $data = Customer::findOrFail($id);
-        return $data;
+        if(Auth::user()->can('customer.update')){
+            $data = Customer::findOrFail($id);
+            return $data;
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -110,66 +126,85 @@ class CustomerController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        Customer::destroy($id);
+        if(Auth::user()->can('customer.delete')){
+            Customer::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Customer Success Deleted', 'stat' => 'Success']);
+        }
         return response()
-            ->json(['code'=>200,'message' => 'Customer Success Deleted', 'stat' => 'Success']);
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     public function recordCustomer(){
-        $data = Customer::where('id_branch','=', Auth::user()->id_branch)->get();
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function($data){
-                $invoice_detail = "javascript:ajaxLoad('".route('local.customer.info', $data->id)."')";
-                $action = "";
-                $title = "'".$data->name."'";
-                $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Info</a> ';
-                return $action;
-            })
-            ->rawColumns(['action'])->make(true);
+        if(Auth::user()->can('customer.view')){
+            $data = Customer::where('id_branch','=', Auth::user()->id_branch)->get();
+            $access =  Auth::user();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($data) use($access){
+                    $invoice_detail = "javascript:ajaxLoad('".route('local.customer.info', $data->id)."')";
+                    $action = "";
+                    $title = "'".$data->name."'";
+                    if($access->can('customer.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('customer.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
+                    if($access->can('customer.info')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Info</a> ';
+                    }
+                    return $action;
+                })
+                ->rawColumns(['action'])->make(true);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     public function invoice($id){
-        $data = Customer::findOrFail($id);
-        return DataTables::of($data->invoice)
-            ->addIndexColumn()
-            ->addColumn('status', function($data){
-                $action = "";
-                if($data->inv_status == 1){
-                    $action = "Draf";
-                }elseif($data->inv_status == 2){
-                    $action = "Request";
-                }elseif($data->inv_status == 3){
-                    $action = "Verified";
-                }elseif($data->inv_status == 4){
-                    if($data->pelunasan->count() < 1){
-                        $action = "Approved";
-                    }
-                    elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
-                    {
-                        $action = "Closed";
-                    }else{
-                        $action = "Partial";
-                    }
+        if(Auth::user()->can('customer.info')){
+            $data = Customer::findOrFail($id);
+            return DataTables::of($data->invoice)
+                ->addIndexColumn()
+                ->addColumn('status', function($data){
+                    $action = "";
+                    if($data->inv_status == 1){
+                        $action = "Draf";
+                    }elseif($data->inv_status == 2){
+                        $action = "Request";
+                    }elseif($data->inv_status == 3){
+                        $action = "Verified";
+                    }elseif($data->inv_status == 4){
+                        if($data->pelunasan->count() < 1){
+                            $action = "Approved";
+                        }
+                        elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
+                        {
+                            $action = "Closed";
+                        }else{
+                            $action = "Partial";
+                        }
 
-                }else{
-                    $action = "Batal";
-                }
-                return $action;
-            })
-            ->addColumn('action', function($data){
-                $action = "";
-                return $action;
-            })
-            ->addColumn('total_harga', function($data){
-                return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
-            })
-            ->addColumn('item', function($data){
-                return $data->inv_detail->count();
-            })
-            ->rawColumns(['action'])->make(true);
+                    }else{
+                        $action = "Batal";
+                    }
+                    return $action;
+                })
+                ->addColumn('action', function($data){
+                    $action = "";
+                    return $action;
+                })
+                ->addColumn('total_harga', function($data){
+                    return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
+                })
+                ->addColumn('item', function($data){
+                    return $data->inv_detail->count();
+                })
+                ->rawColumns(['action'])->make(true);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Customer Access Denied', 'stat' => 'Error']);
     }
 
     /**

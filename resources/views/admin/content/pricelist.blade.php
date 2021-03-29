@@ -39,7 +39,7 @@
         </div>
     </div>
 </section>
-
+@can('pricelist.update', Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="PriceListForm" method="POST">
@@ -88,6 +88,7 @@
         </form>
     </div>
 </div>
+@endcan
 
 <script type="text/javascript">
     var save_method;
@@ -118,6 +119,7 @@
         ]
     });
 
+    @can('pricelist.update', Auth::user())
     function format_decimal_limit(){
         VMasker(document.getElementById("harga_modal")).maskMoney({
             precision: 0,
@@ -200,5 +202,5 @@
         $('#btnSave').text('Submit');
         $('#btnSave').attr('disabled',false);
     }
-
+    @endcan
 </script>

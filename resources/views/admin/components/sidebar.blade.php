@@ -28,31 +28,41 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    @can('spbd.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.spbd.index')}}')">
                             <i class="fa fa-th"></i> <span>SPBD</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('po.stock.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_stock.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Stock</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('receipt.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.rec.index')}}')">
                             <i class="fa fa-th"></i> <span>Receipt</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('spb.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.spb.index')}}')">
                             <i class="fa fa-th"></i> <span>SPB</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('po.non.stock.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_non_stock.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Non Stock</span>
                         </a>
                     </li>
+                    @endcan
                  </ul>
             </li>
 
@@ -64,21 +74,27 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    @can('stock.master.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_master.index')}}')">
                             <i class="fa fa-th"></i> <span>Stock Master</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('adjustment.old', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Old Adjustment</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('adjustment.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.adj.index')}}')">
                             <i class="fa fa-th"></i> <span>Adjustment</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </li>
 
@@ -90,36 +106,43 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    @can('sppb.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
                             <i class="fa fa-th"></i> <span>SPPB</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('pricelist.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.pricelist.index')}}')">
                             <i class="fa fa-th"></i> <span>Pricelist</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('po.internal.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_internal.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Internal</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('invoice.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
                             <i class="fa fa-th"></i> <span>Invoice</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('pelunasan.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.pelunasan.index')}}')">
                             <i class="fa fa-th"></i> <span>Pelunasan</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')">
-                            <i class="fa fa-th"></i> <span>Report</span>
-                        </a>
-                    </li>
+                    @endcan
+                        <li><a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')"><i class="fa fa-th"></i> <span>Report</span></a></li>
+
                 </ul>
             </li>
             <li class="treeview">
@@ -130,16 +153,27 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    @can('customer.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.customer.index')}}')">
                             <i class="fa fa-th"></i> <span>Customer</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('vendor.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.vendor.index')}}')">
                             <i class="fa fa-th"></i> <span>Vendor</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('pembatalan.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.pembatalan.index')}}')">
+                            <i class="fa fa-th"></i> <span>Pembatalan</span>
+                        </a>
+                    </li>
+                    @endcan
                 </ul>
             </li>
 
@@ -151,26 +185,34 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
+                    @can('branch.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.branch.index')}}')">
                             <i class="fa fa-th"></i> <span>Branch</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('admin.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.admin.index')}}')">
                             <i class="fa fa-th"></i> <span>Admin</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('role.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.role.index')}}')">
                             <i class="fa fa-th"></i> <span>Roles</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('permission.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.permission.index')}}')">
                             <i class="fa fa-th"></i> <span>Permission</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </li>
 
