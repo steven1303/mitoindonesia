@@ -2,7 +2,8 @@
 <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script> --}}
+<script src="{{asset('js/validator.min.js')}}"></script>
 <script src="{{url('bower_components/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{url('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{url('js/input-mask/jquery.inputmask.js')}}"></script>
