@@ -341,9 +341,14 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            success(data.stat, data.message);
-            print_po_stock("{{ $po_stock->id }}");
-            ajaxLoad("{{ route('local.po_non_stock.index') }}");
+            if(data.stat == 'Success'){
+                print_po_stock("{{ $po_stock->id }}");
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.po_non_stock.index') }}");
+            }
+            if(data.stat == 'Error'){
+                error(data.stat, data.message);
+            }            
         },
         error : function() {
             error('Error', 'Nothing Data');

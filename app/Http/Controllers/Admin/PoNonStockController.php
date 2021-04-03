@@ -65,9 +65,9 @@ class PoNonStockController extends SettingAjaxController
                     ->json(['code'=>200,'message' => 'Use the previous Draf PO Non Stock First', 'stat' => 'Warning']);
             }
 
-            if($draf > 0){
+            if($spb > 0){
                 return response()
-                    ->json(['code'=>200,'message' => 'Use the SPB already used', 'stat' => 'Warning']);
+                    ->json(['code'=>200,'message' => 'The SPB already used', 'stat' => 'Warning']);
             }
 
             $data = [
@@ -385,7 +385,7 @@ class PoNonStockController extends SettingAjaxController
             $data = PoNonStock::findOrFail($id);
             if($data->po_non_stock_detail->count() != $data->spb->spb_detail->count())
             {
-                response()->json(['code'=>200,'message' => 'Error, have SPB item not added...', 'stat' => 'Error']);
+                return response()->json(['code'=>200,'message' => 'Error, have SPB item not added...', 'stat' => 'Error']);
             }
             $data->po_status = 2;
             $data->po_open = Carbon::now();
