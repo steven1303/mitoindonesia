@@ -65,6 +65,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>PO No</th>
+                                <th>SPBD No</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -96,6 +97,7 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'po_no', name: 'po_no'},
+            {data: 'no_spbd', name: 'no_spbd'},
             {data: 'po_ord_date', name: 'po_ord_date'},
             {data: 'status_po_stock', name: 'status_po_stock'},
             {data: 'action', name:'action', orderable: false, searchable: false}

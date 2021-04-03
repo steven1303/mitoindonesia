@@ -300,6 +300,9 @@ class PoInternalController extends SettingAjaxController
                     if($access->can('po.internal.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
+                    if($access->can('po.internal.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 return $action;
             })

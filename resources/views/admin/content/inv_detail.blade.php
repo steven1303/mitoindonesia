@@ -130,7 +130,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">SPBD item</h3><br/><br/>
+                    <h3 class="box-title">SPPB item</h3><br/><br/>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped"  id="invSppbTable">
@@ -401,15 +401,22 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            success(data.stat, data.message);
-            print_inv("{{ $invoice->id }}");
-            ajaxLoad("{{ route('local.inv.index') }}");
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                print_inv("{{ $invoice->id }}");
+                ajaxLoad("{{ route('local.inv.index') }}");
+            }
+            if(data.stat == "Error"){
+                error(data.stat, data.message);
+            }
+            
         },
         error : function() {
             error('Error', 'Nothing Data');
         }
         });
     }
+    @endcan
     @can('invoice.print', Auth::user())
     function print_inv(id){
         window.open("{{ url('inv_print') }}" + '/' + id,"_blank");

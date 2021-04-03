@@ -92,7 +92,7 @@ class InvoiceController extends SettingAjaxController
                 "qty" => $inv_detail->qty - 0,
                 "satuan" => $inv_detail->stock_master->satuan,
                 "keterangan1" => $inv_detail->sppb_detail->keterangan,
-                "price" => $inv_detail->stock_master->harga_jual,
+                "price" => $inv_detail->price,
                 "disc" => $inv_detail->disc - 0,
                 "keterangan" => $inv_detail->keterangan,
             );
@@ -109,9 +109,19 @@ class InvoiceController extends SettingAjaxController
                 ['id_branch','=', Auth::user()->id_branch]
             ])->count();
 
+            $sppb = Invoice::where([
+                ['id_sppb','=', $request['sppb']],
+                ['id_branch','=', Auth::user()->id_branch]
+            ])->count();
+
+            if($sppb > 0){
+                return response()
+                    ->json(['code'=>200,'message' => 'SPPB is already used', 'stat' => 'Error']);
+            }
+
             if($draf > 0){
                 return response()
-                    ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Warning']);
+                    ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Error']);
             }
 
             $data = [
@@ -233,9 +243,10 @@ class InvoiceController extends SettingAjaxController
             $subtotal = ($request['qty'] * $price) - 0;
             $total_befppn = ($subtotal  - $disc ) - 0;
             $total_ppn = $total_befppn;
-            if($inv->customer->status_ppn == 1){
+            if($data->invoice->customer->status_ppn == 1){
                 $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
             }
+            $data->price    = $price;
             $data->disc    = $disc;
             $data->keterangan    = $request['keterangan'];
             $data->update();
@@ -425,6 +436,10 @@ class InvoiceController extends SettingAjaxController
     {
         if(Auth::user()->can('invoice.open')){
             $data = Invoice::findOrFail($id);
+            if($data->sppb->sppb_detail->count() != $data->inv_detail->count())
+            {
+                return response()->json(['code'=>200,'message' => 'SPBD Invoice still have detail not added.', 'stat' => 'Error']);
+            }
             $data->inv_status = 2;
             $data->ppn = 0;
             $data->inv_open = Carbon::now();

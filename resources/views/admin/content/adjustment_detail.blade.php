@@ -54,7 +54,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Adjustment Detail</h3><br/><br/>
-                    @if ($adj->status == 1 )
+                    @if ($adj->status == 1 || $adj->status == 2 )
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
                     @endif
                 </div>
@@ -311,9 +311,16 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            success(data.stat, data.message);
-            print_adj( "{{ $adj->id }}" );
-            ajaxLoad("{{ route('local.adj.index') }}");
+            if(data.stat == 'Success')
+            {
+                success(data.stat, data.message);
+                print_adj( "{{ $adj->id }}" );
+                ajaxLoad("{{ route('local.adj.index') }}");
+            }
+            if(data.stat == 'Error')
+            {
+                error(data.stat, data.message);
+            }
         },
         error : function() {
             error('Error', 'Nothing Data');

@@ -194,15 +194,12 @@ class AdjustmentController extends SettingAjaxController
             })
             ->addColumn('action', function($data) use($access){
                 $adj_detail = "javascript:ajaxLoad('".route('local.adj.detail.index', $data->id)."')";
-                $adj_approve = "javascript:ajaxLoad('".route('local.spbd.approve', $data->id)."')";
+                $adj_approve = "javascript:ajaxLoad('".route('local.adj.approve', $data->id)."')";
                 $action = "";
                 $title = "'".$data->adj_no."'";
                 if($data->status == 1){
                     if($access->can('adjustment.view')){
-                        $action .= '<a href="'.$adj_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
-                    }
-                    if($access->can('adjustment.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                        $action .= '<a href="'.$adj_detail.'" class="btn btn-info btn-xs"> Edit</a> ';
                     }
                     if($access->can('adjustment.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
@@ -216,7 +213,7 @@ class AdjustmentController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
                     if($access->can('adjustment.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                        $action .= '<button id="'. $data->id .'" onclick="print_adj('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
                 }
                 else{
@@ -256,6 +253,9 @@ class AdjustmentController extends SettingAjaxController
                     if($access->can('adjustment.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
+                    if($access->can('adjustment.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 return $action;
             })
@@ -286,6 +286,10 @@ class AdjustmentController extends SettingAjaxController
     {
         if(Auth::user()->can('adjustment.open')){
             $data = Adjustment::findOrFail($id);
+            if($data->adj_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error Adjustment not have detail', 'stat' => 'Error']);
+            }
             $data->status = 2;
             $data->adj_open = Carbon::now();
             $data->update();

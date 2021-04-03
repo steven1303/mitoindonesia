@@ -60,7 +60,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">SPBD Detail</h3><br/><br/>
-                    @if ($spbd->spbd_status == 1 )
+                    @if ($spbd->spbd_status == 1 || $spbd->spbd_status == 2 )
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
                     @endif
                 </div>

@@ -329,7 +329,7 @@
             dataType: "JSON",
             success: function(data) {
                 success(data.stat, data.message);
-                print_sppb("{{ $po_internal->id }}");
+                print_po_internal("{{ $po_internal->id }}");
                 ajaxLoad("{{ route('local.po_internal.index') }}");
             },
             error : function() {

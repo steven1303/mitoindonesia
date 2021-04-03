@@ -193,7 +193,7 @@ class SppbController extends SettingAjaxController
             $data = SppbDetail::find($id);
             $data->id_stock_master    = $request['stock_master'];
             $data->qty    = $request['qty'];
-            $data->price    = preg_replace('/\D/', '',$request['price']);
+            // $data->price    = preg_replace('/\D/', '',$request['price']);
             $data->keterangan    = $request['keterangan'];
             $data->update();
             return response()
@@ -322,11 +322,16 @@ class SppbController extends SettingAjaxController
                     if($access->can('sppb.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
+                    if($access->can('sppb.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
                 }
                 if($data->sppb->sppb_status == 2){
                     if($access->can('sppb.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('sppb.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
                 if($inv_stat == 1){
@@ -453,7 +458,7 @@ class SppbController extends SettingAjaxController
 
             $movement = StockMovement::create($data);
             $stock_master = StockMaster::find($detail->id_stock_master);
-            $stock_master->harga_jual = $detail->price;
+            // $stock_master->harga_jual = $detail->price;
             $stock_master->update();
         }
     }

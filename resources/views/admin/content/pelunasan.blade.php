@@ -23,7 +23,7 @@
                                 <th>Invoice No</th>
                                 <th>Date</th>
                                 <th>total</th>
-                                <th>Pelunasan</th>
+                                <th>Sisa</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -47,7 +47,7 @@
                                 <th>Pelunasan No</th>
                                 <th>Invoice No</th>
                                 <th>Date</th>
-                                <th>Balance</th>
+                                <th>Bayar</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -95,8 +95,8 @@
                         </div>
                         <div class="col-xs-4">
                             <div class="form-group">
-                                <label>Balance</label>
-                                <input type="text" class="form-control" id="balance" name="balance" placeholder="Balance" oninput="format_decimal_limit()">
+                                <label>Bayar</label>
+                                <input type="text" class="form-control" id="balance" name="balance" placeholder="Bayar" oninput="format_decimal_limit()">
                             </div>
                         </div>
                         <div class="col-xs-3">

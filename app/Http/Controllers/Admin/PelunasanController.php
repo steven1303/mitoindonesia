@@ -65,7 +65,7 @@ class PelunasanController extends SettingAjaxController
 
     public function pelunasan_no(){
         $tanggal = Carbon::now();
-        $format = 'CRN/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $format = 'CR/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
         $pelunasan_no = Pelunasan::where([
             ['pelunasan_no','like', $format.'%'],
             ['id_branch','=', Auth::user()->id_branch]
