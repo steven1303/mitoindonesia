@@ -55,10 +55,21 @@ class PoNonStockController extends SettingAjaxController
                 ['id_branch','=', Auth::user()->id_branch]
             ])->count();
 
+            $spb = PoNonStock::where([
+                ['id_spb','=', $request['spb']],
+                ['id_branch','=', Auth::user()->id_branch]
+            ])->count();
+
             if($draf > 0){
                 return response()
                     ->json(['code'=>200,'message' => 'Use the previous Draf PO Non Stock First', 'stat' => 'Warning']);
             }
+
+            if($draf > 0){
+                return response()
+                    ->json(['code'=>200,'message' => 'Use the SPB already used', 'stat' => 'Warning']);
+            }
+
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'po_no' => $this->po_non_stock_no(),
@@ -262,6 +273,9 @@ class PoNonStockController extends SettingAjaxController
                 }
                 return $po_status;
             })
+            ->addColumn('no_spb', function($data){
+                return $data->spb->spb_no;
+            })
             ->addColumn('action', function($data)  use($access){
                 $po_non_stock_detail = "javascript:ajaxLoad('".route('local.po_non_stock.detail.index', $data->id)."')";
                 $action = "";
@@ -369,6 +383,10 @@ class PoNonStockController extends SettingAjaxController
     {
         if(Auth::user()->can('po.non.stock.open')){
             $data = PoNonStock::findOrFail($id);
+            if($data->po_non_stock_detail->count() != $data->spb->spb_detail->count())
+            {
+                response()->json(['code'=>200,'message' => 'Error, have SPB item not added...', 'stat' => 'Error']);
+            }
             $data->po_status = 2;
             $data->po_open = Carbon::now();
             $data->update();
