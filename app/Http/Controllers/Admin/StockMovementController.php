@@ -60,6 +60,15 @@ class StockMovementController extends SettingAjaxController
                     }
                     return $action;
                 })
+                ->addColumn('keterangan_desc', function($data){
+                    $action = "";
+                    if($data->status == 0){
+                        $action = "Accept";
+                    }else{
+                        $action = "Reject";
+                    }
+                    return $action;
+                })
                 ->addColumn('action', function($data){
                     $action = "";
                     return $action;

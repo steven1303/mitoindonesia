@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            @if($spb->spb_status == 1 )
+                            @if($spb->spb_status == 1 || $spb->spb_status == 2 )
                                 <button id="btnSave" type="button" onclick="open_spb_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spb.index')}}')">Save</button>
@@ -60,7 +60,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">SPB Detail</h3><br/><br/>
-                    @if ($spb->spb_status == 1 )
+                    @if ($spb->spb_status == 1 $spb->spb_status == 2 )
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input-item">Add Items</button>
                     @endif
                 </div>
