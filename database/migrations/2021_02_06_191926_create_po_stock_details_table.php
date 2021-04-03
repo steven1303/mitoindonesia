@@ -21,8 +21,8 @@ class CreatePoStockDetailsTable extends Migration
             $table->bigInteger('id_stock_master');
             $table->decimal('rec_qty', 10, 2)->default(0);
             $table->decimal('qty', 10, 2)->default(0);
-            $table->decimal('price', 10, 2)->default(0);
-            $table->decimal('disc', 10, 2)->default(0);
+            $table->decimal('price', 20, 2)->default(0);
+            $table->decimal('disc', 20, 2)->default(0);
             $table->string('keterangan')->nullable();
             $table->string('po_detail_status');
             $table->timestamps();

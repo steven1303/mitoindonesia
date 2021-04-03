@@ -18,7 +18,7 @@ class CreatePelunasansTable extends Migration
             $table->string('pelunasan_no')->unique();
             $table->bigInteger('id_branch');
             $table->bigInteger('id_inv');
-            $table->decimal('balance', 10, 2)->default(0);
+            $table->decimal('balance', 20, 2)->default(0);
             $table->bigInteger('payment_method');
             $table->dateTime('pelunasan_date');
             $table->string('keterangan')->nullable();

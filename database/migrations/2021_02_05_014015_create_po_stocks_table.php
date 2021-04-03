@@ -21,7 +21,7 @@ class CreatePoStocksTable extends Migration
             $table->bigInteger('id_vendor');
             $table->dateTime('po_ord_date');
             $table->integer('po_status')->default(1);
-            $table->decimal('ppn', 10, 2)->default(0);
+            $table->decimal('ppn', 20, 2)->default(0);
             $table->string('spbd_user_name');
             $table->bigInteger('spbd_user_id');
             $table->dateTime('po_open')->nullable();

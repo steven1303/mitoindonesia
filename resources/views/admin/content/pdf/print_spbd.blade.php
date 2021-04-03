@@ -10,7 +10,7 @@
     <h3 style="text-align: center;">SURAT PERMINTAAN BARANG DAGANG<br/>
         (SPBD)
     </h3>
-        Kepada : <br/>
+        Kepada : {{ $spbd->vendor->city }} <br/>
         Bagian General Affairs atau bagaian gudang<br/>
         <br/>
         Untuk kepentingan ketersediaan stock dan penjualan barang dagang perusahaan dengan ini kami mohon untuk dapat disediakan Barang sebagai berikut:<br/>

@@ -20,8 +20,8 @@ class CreateAdjustmentDetailsTable extends Migration
             $table->bigInteger('id_stock_master');
             $table->decimal('in_qty', 10, 2)->default(0);
             $table->decimal('out_qty', 10, 2)->default(0);
-            $table->decimal('harga_modal', 15, 2)->default(0);
-            $table->decimal('harga_jual', 15, 2)->default(0);
+            $table->decimal('harga_modal', 20, 2)->default(0);
+            $table->decimal('harga_jual', 20, 2)->default(0);
             $table->string('keterangan')->nullable();
             $table->timestamps();
 

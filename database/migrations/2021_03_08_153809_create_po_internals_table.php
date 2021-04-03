@@ -20,7 +20,7 @@ class CreatePoInternalsTable extends Migration
             $table->bigInteger('id_customer');
             $table->string('doc_no')->nullable();
             $table->integer('po_status')->default(1);
-            $table->decimal('ppn', 10, 2)->default(0);
+            $table->decimal('ppn', 20, 2)->default(0);
             $table->string('po_user_name');
             $table->bigInteger('po_user_id');
             $table->dateTime('po_open')->nullable();
