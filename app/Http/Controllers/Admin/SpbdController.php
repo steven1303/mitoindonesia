@@ -377,6 +377,10 @@ class SpbdController extends SettingAjaxController
     {
         if(Auth::user()->can('spbd.open')){
             $data = Spbd::findOrFail($id);
+            if($data->spbd_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, SPBD item empty...', 'stat' => 'Error']);
+            }
             $data->spbd_status = 2;
             $data->spbd_open = Carbon::now();
             $data->update();

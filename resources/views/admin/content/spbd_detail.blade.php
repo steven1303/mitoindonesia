@@ -276,9 +276,15 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            success(data.stat, data.message);
-            print_spbd( "{{ $spbd->id }}" );
-            ajaxLoad("{{ route('local.spbd.index') }}");
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){                
+                success(data.stat, data.message);
+                print_spbd( "{{ $spbd->id }}" );
+                ajaxLoad("{{ route('local.spbd.index') }}");
+            }           
         },
         error : function() {
             error('Error', 'Nothing Data');

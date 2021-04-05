@@ -361,6 +361,10 @@ class SpbController extends SettingAjaxController
     {
         if(Auth::user()->can('spb.open')){
             $data = Spb::findOrFail($id);
+            if($data->spb_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, SPB item empty...', 'stat' => 'Error']);
+            }
             $data->spb_status = 2;
             $data->spb_open = Carbon::now();
             $data->update();
