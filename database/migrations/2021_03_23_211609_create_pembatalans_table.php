@@ -21,6 +21,7 @@ class CreatePembatalansTable extends Migration
             $table->unsignedBigInteger('pembatalan_type');
             $table->string('doc_no');
             $table->string('user_name');
+            $table->string('keterangan');
             $table->bigInteger('user_id');
             $table->dateTime('po_open')->nullable();
             $table->dateTime('po_print')->nullable();

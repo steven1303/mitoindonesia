@@ -11,7 +11,8 @@ class StockMaster extends Model
 
     protected $fillable = [
         'stock_no',
-        'name','bin',
+        'name',
+        'bin',
         'harga_modal',
         'harga_jual',
         'id_branch',

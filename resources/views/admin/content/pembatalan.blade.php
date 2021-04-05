@@ -38,6 +38,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>Keterangan PO Stock</label>
+                                    <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                                </div>
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -60,6 +66,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>Keterangan PO Non Stock</label>
+                                    <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                                </div>
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -80,6 +92,12 @@
                                     <select class="form-control select2" id="invoice_no" name="invoice_no" style="width: 100%;">
                                         <option></option>
                                     </select>
+                                </div>                                
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>Keterangan Invoice</label>
+                                    <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
                                 </div>
                             </div>
                         </div>

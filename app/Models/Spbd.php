@@ -31,4 +31,9 @@ class Spbd extends Model
     	return $this->hasMany('App\Models\SpbdDetail','spbd_id');
     }
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
 }

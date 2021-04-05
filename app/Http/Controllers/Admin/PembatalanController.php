@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\Spbd;
 use App\Models\Sppb;
+use App\Models\Spb;
 use App\Models\Invoice;
 use App\Models\PoStock;
 use App\Models\Pembatalan;
@@ -155,6 +156,7 @@ class PembatalanController extends SettingAjaxController
             'pembatalan_no' => $this->pembatalan_no(),
             'pembatalan_type' => $type,
             'doc_no' => $doc_no,
+            'keterangan' => $request['keterangan'],
             'status' => 1,
             'user_id' => Auth::user()->id,
             'user_name' => Auth::user()->name,
@@ -277,7 +279,15 @@ class PembatalanController extends SettingAjaxController
         $po_non_stock = PoNonStock::where([
             ['po_no','=', $no_po ],
             ['id_branch','=', Auth::user()->id_branch],
-        ])->update(['po_status' => 5]);
+        ])->first();
+
+        $spb = Spb::where([
+            ['spb_no', '=', $po_non_stock->spb->spb_no],
+            ['id_branch','=', Auth::user()->id_branch],
+        ])->update(['spb_status' => 5]);
+
+        $po_non_stock->po_status = 5;
+        $po_non_stock->update();
     }
 
     public function pembatalan_invoice($no_inv, $pembatalan_no)

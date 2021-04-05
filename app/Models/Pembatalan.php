@@ -15,6 +15,7 @@ class Pembatalan extends Model
         'pembatalan_type',
         'doc_no',
         'user_name',
+        'keterangan',
         'user_id',
         'po_open',
         'po_print',
