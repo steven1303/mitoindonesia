@@ -96,7 +96,7 @@ class PrintController extends Controller
             'pelunasan' => $pelunasan
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_pelunasan',$data);
-        return $pdf->stream('print_invoice.pdf');
+        return $pdf->setPaper('a4', 'landscape')->stream('print_pelunasan.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 
