@@ -107,8 +107,6 @@
                                 <th>ID</th>
                                 <th>Stock Master</th>
                                 <th>QTY</th>
-                                <th>price</th>
-                                <th>disc</th>
                                 <th>Satuan</th>
                                 <th>Action</th>
                             </tr>
@@ -128,6 +126,8 @@
             {{ csrf_field() }} {{ method_field('POST') }}
             <input type="hidden" id="id" name="id">
             <input type="hidden" id="id_po_detail" name="id_po_detail">
+            <input type="hidden" class="form-control" id="disc" name="disc" readonly>
+            <input type="hidden" class="form-control" id="price" name="price" readonly>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -161,18 +161,6 @@
                             <div class="form-group">
                                 <label>Satuan</label>
                                 <input type="text" class="form-control" id="satuan" name="satuan" readonly>
-                            </div>
-                        </div>
-                        <div class="col-xs-4">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" class="form-control" id="price" name="price" readonly>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                                <label>Discount</label>
-                                <input type="text" class="form-control" id="disc" name="disc" readonly>
                             </div>
                         </div>
                         <div class="col-xs-5">
@@ -239,8 +227,8 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'selisih', name: 'selisih'},
-            {data: 'price_format', name: 'price_format'},
-            {data: 'disc_format', name: 'disc_format'},
+            // {data: 'price_format', name: 'price_format'},
+            // {data: 'disc_format', name: 'disc_format'},
             {data: 'satuan', name: 'satuan'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]

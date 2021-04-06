@@ -147,7 +147,7 @@
                     <td style="height: 25px;"></td>
                 </tr>
                 <tr>
-                    <td colspan="2">{{ $spb->branch->city }},  {{ date("d/m/Y", strtotime($spb->spbd_open)) }}</td>
+                    <td colspan="2">{{ $spb->branch->city }},  {{ date("d/m/Y", strtotime($spb->spb_open)) }}</td>
                 </tr>
             </tbody>
         </table>

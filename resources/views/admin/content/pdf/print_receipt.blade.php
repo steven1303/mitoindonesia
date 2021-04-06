@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -76,14 +76,6 @@
                  </tr>
             </tbody>
         </table>
-       
-
-
-
-
-     
-            
-<!--
     
   </tr>
   <tr>
@@ -117,7 +109,7 @@
     </table></td>
   </tr>
 
--->
+
 
         
         <br/>
@@ -127,4 +119,192 @@
         <br/>
         &nbsp;
 </body>
+</html>-->
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <title>Document</title>
+      </head>
+      <body style="border-style: groove;" width="1200px" >
+      <table width="100%" border = "1">
+        <tbody>
+           <tr>
+                  <td colspan="3">
+                      <img src="{{asset('img/PT_Mito_png.png')}}" width="120px" style="float:left">
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td style="text-align: right;"></td>
+            </tr>
+  
+<tr>
+<td></td>
+<td>
+<table>
+<tbody>
+<tr>
+<td width="31"></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td colspan="2" style="font-size: 20px; font-weight: bold; text-align: center;">STOCK RECEIPT</td>
+<td colspan="2"> Branch : Pekanbaru</td>
+</tr>
+<tr>
+<td ></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2">Nomor</td>
+<td>: …...........................</td>
+<td >Supplier Name</td>
+<td colspan="2">: …...........................</td>
+</tr>
+<tr>
+<td colspan="2">Tanggal Terima</td>
+<td>: …...........................</td>
+<td>Alamat</td>
+<td colspan="2">: …...........................</td>
+</tr>
+<tr>
+<td colspan="2">Nomor PO</td>
+<td>: …...........................</td>
+<td >Telepon</td>
+<td colspan="2">: …...........................</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>No.</td>
+<td>Kode Stock</td>
+<td>Deskripsi</td>
+<td>Qty Order</td>
+<td>Qty Terima</td>
+<td>Qty BO</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td colspan="3">Note : …..........................................................</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" border="1">Di Buat Oleh :</td>
+<td>Di Setujui Oleh :</td>
+<td colspan="2" >Total Stock Terima   :</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td colspan="2">Total Qty Terima      :</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td colspan="2">Total Qty BO            :</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2">….....................</td>
+<td>.....................</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+      <div style="position: absolute; bottom: -13; right: 0;"></div>
+  </body>
 </html>

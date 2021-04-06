@@ -55,7 +55,8 @@ class PrintController extends Controller
             'rec' => $rec
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_receipt',$data);
-        return $pdf->setPaper('a4', 'landscape')->stream('print_receipt.pdf');
+        // return $pdf->setPaper('a4', 'landscape')->stream('print_receipt.pdf');
+        return $pdf->stream('print_receipt.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 
