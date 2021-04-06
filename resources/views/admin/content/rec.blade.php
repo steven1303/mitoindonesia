@@ -44,8 +44,8 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group">
-                                    <label>Invoice Customer</label>
-                                    <input type="text" class="form-control" id="rec_inv_ven" name="rec_inv_ven" placeholder="Invoice Customer">
+                                    <label>Invoice Vendor</label>
+                                    <input type="textt" class="form-control" id="rec_inv_ven" name="rec_inv_ven" placeholder="Invoice Vendor">
                                 </div>
                             </div>
                             <div class="col-xs-4">

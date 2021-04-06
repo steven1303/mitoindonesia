@@ -130,71 +130,30 @@
           <title>Document</title>
       </head>
       <body style="border-style: groove;" width="1200px" >
-      <table width="100%" border = "1">
+      <table width="95%" style="margin: auto; border-collapse: collapse;" >
         <tbody>
-           <tr>
+           <tr colspan="3">
                   <td colspan="3">
                       <img src="{{asset('img/PT_Mito_png.png')}}" width="120px" style="float:left">
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td style="height: 45px;"></td>
+                  <td style="height: 45px;"></td>
                   <td style="text-align: right;"></td>
             </tr>
-  
-<tr>
-<td></td>
-<td>
-<table>
-<tbody>
-<tr>
-<td width="31"></td>
-</tr>
-</tbody>
-</table>
-</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td colspan="2" style="font-size: 20px; font-weight: bold; text-align: center;">STOCK RECEIPT</td>
-<td colspan="2"> Branch : Pekanbaru</td>
-</tr>
-<tr>
-<td ></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td colspan="2" style="font-size: 20px; font-weight: bold; text-align: center;">STOCK RECEIPT</td>
+              <td colspan="2"> Branch : Pekanbaru</td>
+            </tr>
+  <tr>
+  <td style="height: 10px;"></td>
+  <td style="height: 10px;"></td>
+  <td style="height: 10px;"></td>
+  <td style="height: 10px;"></td>
+  <td style="height: 10px;"></td>
+  <td style="height: 10px;"></td>
+  </tr>
 <tr>
 <td colspan="2">Nomor</td>
 <td>: …...........................</td>
@@ -221,25 +180,26 @@
 <td></td>
 <td></td>
 </tr>
+<tr style="border: 1px solid black;">
+<td style="border: 1px solid black;">No.</td>
+<td style="border: 1px solid black;">Kode Stock</td>
+<td style="border: 1px solid black;">Deskripsi</td>
+<td style="border: 1px solid black;">Qty Order</td>
+<td style="border: 1px solid black;">Qty Terima</td>
+<td style="border: 1px solid black;">Qty BO</td>
+</tr>
+
 <tr>
-<td>No.</td>
-<td>Kode Stock</td>
-<td>Deskripsi</td>
-<td>Qty Order</td>
-<td>Qty Terima</td>
-<td>Qty BO</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td colspan="3">Note : …..........................................................</td>
+<td></td>
 <td></td>
 <td></td>
 </tr>

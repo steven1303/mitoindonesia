@@ -66,6 +66,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>produk</th>
                                 <th>Keterangan</th>
                                 <th>QTY</th>
                                 <th>price</th>
@@ -90,6 +91,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>produk</th>
                                 <th>Keterangan</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
@@ -185,6 +187,7 @@
         "ajax": "{{route('local.record.spb_detail', [ 'id' => $po_stock->id_spb, 'po_stat' => $po_stock->po_status] ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            {data: 'product', name: 'product'},
             {data: 'keterangan', name: 'keterangan'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
