@@ -75,7 +75,7 @@
             </tr>
         <tr>
             <td colspan="8" style="font-size: 20px; font-weight: bold; text-align: center;" >BUKTI PENERIMAAN PEMBAYARAN</td>
-            <td colspan="2">Branch : Pekanbaru</td>
+            <td colspan="2">Branch : {{ $sppb->branch->city }}</td>
         </tr>
         <tr>
             <td style="height: 5px;" width="5%"></td>
@@ -90,7 +90,7 @@
             <td></td>
         </tr>
         <tr>
-            <td colspan="4">Nomor  : {{ $pelunasan->invoice->inv_no }}</td>
+            <td colspan="4">Nomor  : {{ $pelunasan->pelunasan_no }}</td>
             <td></td>
             <td></td>
             <td></td>

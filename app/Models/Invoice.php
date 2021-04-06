@@ -30,6 +30,11 @@ class Invoice extends Model
         'inv_print',
     ];
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
     public function sppb()
     {
     	return $this->belongsTo('App\Models\Sppb','id_sppb');
