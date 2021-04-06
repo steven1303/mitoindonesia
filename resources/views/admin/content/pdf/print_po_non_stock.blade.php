@@ -210,7 +210,7 @@
         </tr>
         <tr>
             <td colspan="3">Purchasing</td>
-            <td colspan="3">Direktur</td>
+            <td colspan="3">GM / Direktur</td>
             <td></td>
             <td></td>
             <td></td>

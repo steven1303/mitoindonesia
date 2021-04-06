@@ -16,9 +16,10 @@ use App\Models\PoInternal;
 use App\Models\PoNonStock;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade  as PDF;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\SettingsController;
 
-class PrintController extends Controller
+class PrintController extends SettingsController
 {
     public function print_spbd($id)
     {
@@ -108,7 +109,17 @@ class PrintController extends Controller
         $data = [
             'spb' => $spb
         ];
-        $pdf = PDF::loadView('admin.content.pdf.print_spb',$data);
+        if(Auth::user()->id_branch == 1)
+        {   
+            $pdf = PDF::loadView('admin.content.pdf.print_spb_pekanbaru',$data);
+            return $pdf->stream('print_spb.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_spb_medan',$data);
+            return $pdf->stream('print_spb.pdf');
+        }
+        $pdf = PDF::loadView('admin.content.pdf.print_spb_default',$data);
         return $pdf->stream('print_spb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
