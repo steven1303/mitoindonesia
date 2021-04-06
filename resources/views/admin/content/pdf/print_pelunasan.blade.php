@@ -151,6 +151,18 @@
             <td colspan="2" style="border: 1px solid black; text-align: center;">Rp. {{ number_format( ($pelunasan->balance),0, ",", ".") }}</td>
         </tr>
         <tr>
+            <td style="height: 30px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td ></td>
+            <td ></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
             <td></td>
             <td></td>
             <td></td>
