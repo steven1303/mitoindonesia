@@ -71,7 +71,7 @@ class PrintController extends SettingsController
             'sppb' => $sppb
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_sppb',$data);
-        return $pdf->stream('print_sppb.pdf');
+        return $pdf->setPaper('a4', 'landscape')->stream('print_sppb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 
@@ -110,7 +110,7 @@ class PrintController extends SettingsController
             'spb' => $spb
         ];
         if(Auth::user()->id_branch == 1)
-        {   
+        {
             $pdf = PDF::loadView('admin.content.pdf.print_spb_pekanbaru',$data);
             return $pdf->stream('print_spb.pdf');
         }

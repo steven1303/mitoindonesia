@@ -32,4 +32,9 @@ class Sppb extends Model
     {
     	return $this->hasMany('App\Models\SppbDetail','sppb_id');
     }
+
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
 }
