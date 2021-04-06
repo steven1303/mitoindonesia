@@ -149,7 +149,7 @@
         <tbody>
         <tr>
             <td colspan="3">Dibuat Oleh,</td>
-            <td colspan="3">Disetujui Oleh,</td>
+            <td colspan="3"></td>
             <td colspan="2">Total            :</td>
             <td colspan="3">{{ "Rp. ".number_format( ($po_internal->po_internal_detail->sum("total")),0, ",", ".") }}</td>
         </tr>
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td colspan="3">(…...............................)</td>
-            <td colspan="3">(…...............................)</td>
+            <td colspan="3"></td>
             <td></td>
             <td></td>
             <td></td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td colspan="3">Purchasing</td>
-            <td colspan="3">Manager</td>
+            <td colspan="3"></td>
             <td></td>
             <td></td>
             <td></td>
