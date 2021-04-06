@@ -27,4 +27,9 @@ class Pelunasan extends Model
     {
     	return $this->belongsTo('App\Models\Invoice','id_inv');
     }
+
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
 }

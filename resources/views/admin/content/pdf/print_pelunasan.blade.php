@@ -75,7 +75,7 @@
             </tr>
         <tr>
             <td colspan="8" style="font-size: 20px; font-weight: bold; text-align: center;" >BUKTI PENERIMAAN PEMBAYARAN</td>
-            <td colspan="2">Branch : {{ $sppb->branch->city }}</td>
+            <td colspan="2">Branch : {{ $pelunasan->branch->city }}</td>
         </tr>
         <tr>
             <td style="height: 5px;" width="5%"></td>
