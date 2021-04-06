@@ -11,6 +11,7 @@ use App\Models\PoStock;
 use App\Models\RecStock;
 use App\Models\Pelunasan;
 use App\Models\Adjustment;
+use App\Models\Pembatalan;
 use App\Models\PoInternal;
 use App\Models\PoNonStock;
 use Illuminate\Http\Request;
@@ -147,5 +148,17 @@ class PrintController extends Controller
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_po_internal',$data);
         return $pdf->stream('print_adj.pdf');
+    }
+
+    public function print_pembatalan($id)
+    {
+        $pembatalan = Pembatalan::findOrFail($id);
+        $pembatalan->po_print = Carbon::now();
+        $pembatalan->update();
+        $data = [
+            'pembatalan' => $pembatalan
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_pembatalan',$data);
+        return $pdf->stream('print_pembatalan.pdf');
     }
 }

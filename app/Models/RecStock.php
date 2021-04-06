@@ -39,6 +39,11 @@ class RecStock extends Model
     	return $this->hasMany('App\Models\RecStockDetail','id_rec');
     }
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
     public function getPpnAttribute($ppn)
     {
         return $ppn - 0;

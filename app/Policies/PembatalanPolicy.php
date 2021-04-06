@@ -58,4 +58,14 @@ class PembatalanPolicy
         }
         return false;
     }
+
+    public function print(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'pembatalan-print'){
+                return true;
+            }
+        }
+        return false;
+    }
 }

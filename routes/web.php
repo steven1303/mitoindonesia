@@ -231,6 +231,7 @@ Route::get('/spb_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_
 Route::get('/po_non_stock_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_non_stock')->name('local.print.po_non_stock');
 Route::get('/adj_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_adj')->name('local.print.adj');
 Route::get('/po_internal_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_internal')->name('local.print.po_internal');
+Route::get('/pembatalan_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_pembatalan')->name('local.print.pembatalan');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');

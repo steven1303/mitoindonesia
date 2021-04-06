@@ -909,6 +909,14 @@ class CreatePermissionsTable extends Migration
             ],
             [
                 'id' => 111,
+                'for' => 'Pembatalan',
+                'name' => 'pembatalan-print',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'id' => 112,
                 'for' => 'Admins',
                 'name' => 'admin-branch',
                 'created_at' => date('Y-m-d H:i:s'),

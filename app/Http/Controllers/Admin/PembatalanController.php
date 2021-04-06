@@ -188,6 +188,7 @@ class PembatalanController extends SettingAjaxController
         $data = Pembatalan::where([
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
+        $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('status_pembatalan', function($data){
@@ -218,12 +219,17 @@ class PembatalanController extends SettingAjaxController
                 $action = date("d M Y", strtotime($data->created_at));
                 return $action;
             })
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data) use($access){
                 $action = "";
                 $title = "'".$data->pembatalan_no."'";
                 if($data->status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                }
+                if($data->status == 2){
+                    if($access->can('pembatalan.print')){
+                        $action .= '<button id="'. $data->id .'" onclick="print_pembatalan('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    }
                 }
                 return $action;
             })
@@ -240,6 +246,7 @@ class PembatalanController extends SettingAjaxController
     {
         $data = Pembatalan::findOrFail($id);
         $data->status = 2;
+        $data->po_open = Carbon::now();
         if($data->pembatalan_type == 1){
             $this->pembatalan_po_stock($data->doc_no, $data->pembatalan_no);
         }

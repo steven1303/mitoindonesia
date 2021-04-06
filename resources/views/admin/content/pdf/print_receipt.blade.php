@@ -53,30 +53,30 @@
 
                 <tr>
                     <td style="text-align: center;"><p>DIPERIKSA OLEH </p>
-                 
+
                         <p>__________________________________ <br/> </p>
                     </td>
 
                     <td style="text-align: center;"><p>DISETUJUI OLEH </p>
-                  
+
                          <p>__________________________________ <br/></p>
                      </td>
                  </tr>
                  <tr>
                     <td style="text-align: center;">
                         <p>DIPERIKSA OLEH </p>
-                 
+
                         <p>__________________________________ <br/> </p>
                     </td>
 
                     <td style="text-align: center;"><p>DISETUJUI OLEH </p>
-                  
+
                          <p>__________________________________ <br/></p>
                      </td>
                  </tr>
             </tbody>
         </table>
-    
+
   </tr>
   <tr>
     <td colspan="3" align="right" valign="top" style="border:1px solid; padding:5px">&nbsp;</td>
@@ -98,12 +98,12 @@
                   <p>&nbsp;</p>
                 <p>__________________________________ </p></td>
             </tr>
-            
-            
+
+
         </table></td>
         <td valign="top" style="border:solid 1px"><table width="100%" border="0" cellspacing="2" cellpadding="2">
-      
-            
+
+
         </table></td>
       </tr>
     </table></td>
@@ -111,7 +111,7 @@
 
 
 
-        
+
         <br/>
         &nbsp;<br/>
         <br/>
@@ -144,127 +144,141 @@
               <td></td>
               <td></td>
               <td colspan="2" style="font-size: 20px; font-weight: bold; text-align: center;">STOCK RECEIPT</td>
-              <td colspan="2"> Branch : Pekanbaru</td>
+              <td colspan="2"> Branch : {{ $rec->branch->city }}</td>
             </tr>
-  <tr>
-  <td style="height: 10px;"></td>
-  <td style="height: 10px;"></td>
-  <td style="height: 10px;"></td>
-  <td style="height: 10px;"></td>
-  <td style="height: 10px;"></td>
-  <td style="height: 10px;"></td>
-  </tr>
-<tr>
-<td colspan="2">Nomor</td>
-<td>: …...........................</td>
-<td >Supplier Name</td>
-<td colspan="2">: …...........................</td>
-</tr>
-<tr>
-<td colspan="2">Tanggal Terima</td>
-<td>: …...........................</td>
-<td>Alamat</td>
-<td colspan="2">: …...........................</td>
-</tr>
-<tr>
-<td colspan="2">Nomor PO</td>
-<td>: …...........................</td>
-<td >Telepon</td>
-<td colspan="2">: …...........................</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr style="border: 1px solid black;">
-<td style="border: 1px solid black;">No.</td>
-<td style="border: 1px solid black;">Kode Stock</td>
-<td style="border: 1px solid black;">Deskripsi</td>
-<td style="border: 1px solid black;">Qty Order</td>
-<td style="border: 1px solid black;">Qty Terima</td>
-<td style="border: 1px solid black;">Qty BO</td>
-</tr>
-
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="3">Note : …..........................................................</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" border="1">Di Buat Oleh :</td>
-<td>Di Setujui Oleh :</td>
-<td colspan="2" >Total Stock Terima   :</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td colspan="2">Total Qty Terima      :</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td colspan="2">Total Qty BO            :</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2">….....................</td>
-<td>.....................</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-      <div style="position: absolute; bottom: -13; right: 0;"></div>
-  </body>
+            <tr>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Nomor</td>
+                <td>: {{ $rec->rec_no }}</td>
+                <td >Supplier Name</td>
+                <td colspan="2">: {{ $rec->vendor->name }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">Tanggal Terima</td>
+                <td>: {{ date("d/m/Y", strtotime($rec->rec_date)) }}</td>
+                <td>Alamat</td>
+                <td colspan="2">: {{ $rec->vendor->address1 }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">Nomor PO</td>
+                <td>: {{ $rec->po_stock->po_no }}</td>
+                <td></td>
+                <td colspan="2"> @if ($rec->vendor->address2 != "") : {{ $rec->vendor->address2 }}@else : ............................  @endif</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td></td>
+                <td >Telepon</td>
+                <td colspan="2">: {{ $rec->vendor->telp }}</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td></td>
+                <td >phone</td>
+                <td colspan="2">: {{ $rec->vendor->phone }}</td>
+            </tr>
+            <tr>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+                <td style="height: 10px;"></td>
+            </tr>
+            <tr style="border: 1px solid black; text-align: center;">
+                <td style="border: 1px solid black;">No.</td>
+                <td style="border: 1px solid black;">Kode Stock</td>
+                <td style="border: 1px solid black;">Deskripsi</td>
+                <td style="border: 1px solid black;">Qty Order</td>
+                <td style="border: 1px solid black;">Qty Terima</td>
+                <td style="border: 1px solid black;">Qty BO</td>
+            </tr>
+            @foreach ($rec->receipt_detail as $detail)
+                <tr style="border: 1px solid black; text-align: center;">
+                    <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->stock_master->stock_no }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->stock_master->name }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->order }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->terima }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->bo }}</td>
+                </tr>
+            @endforeach
+            @for ($i = $rec->receipt_detail->count(); $i < 23; $i++)
+            <tr style="border: 1px solid black; height: 20px;">
+                <td style="border: 1px solid black; height: 20px;"></td>
+                <td style="border: 1px solid black; height: 20px;"></td>
+                <td style="border: 1px solid black; height: 20px;"></td>
+                <td style="border: 1px solid black; height: 20px;"></td>
+                <td style="border: 1px solid black; height: 20px;"></td>
+                <td style="border: 1px solid black; height: 20px;"></td>
+            </tr>
+            @endfor
+            <tr>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+            </tr>
+            <tr>
+                <td colspan="3">Note : …..........................................................</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
+            </tr>
+            <tr>
+                <td colspan="2" border="1">Di Buat Oleh :</td>
+                <td>Di Setujui Oleh :</td>
+                <td colspan="2" >Total Qty Order        :</td>
+                <td style="text-align: left">{{ $rec->receipt_detail->sum('order') }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="2">Total Qty Terima      :</td>
+                <td style="text-align: left">{{ $rec->receipt_detail->sum('terima') }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="2">Total Qty BO            :</td>
+                <td style="text-align: left">{{ $rec->receipt_detail->sum('bo') }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">….....................</td>
+                <td>.....................</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="position: absolute; bottom: -13; right: 0;">{{ $rec->rec_print->isoFormat('DD / MM / Y, h:m:s') }}</div>
+    </body>
 </html>

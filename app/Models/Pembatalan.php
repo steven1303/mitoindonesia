@@ -22,4 +22,24 @@ class Pembatalan extends Model
         'status',
     ];
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
+    public function po_non_stock()
+    {
+    	return $this->belongsTo('App\Models\PoNonStock','doc_no','po_no');
+    }
+
+    public function po_stock()
+    {
+    	return $this->belongsTo('App\Models\PoStock','doc_no','po_no');
+    }
+
+    public function invoice()
+    {
+    	return $this->belongsTo('App\Models\Invoice','doc_no','inv_no');
+    }
+
 }
