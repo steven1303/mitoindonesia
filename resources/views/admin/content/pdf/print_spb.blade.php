@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
-    <h3 style="text-align: center;">SURAT PERMINTAAN BARANG<br/>
+    <body>
+    {{-- <h3 style="text-align: center;">SURAT PERMINTAAN BARANG<br/>
         (SPB)
     </h3>
         Kepada : <br/>
@@ -44,6 +44,141 @@
         <br/>
         Medan, {{$spb->created_at}}
         <br/>
-        &nbsp;
-</body>
+        &nbsp; --}}
+        <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="{{asset('img/PT_Mito_png.png')}}" width="120px" style="float:left">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;">Branch : {{ $spb->branch->city }}</td>
+                </tr>
+                <tr>
+                    <td style="height: 50px;"></td>
+                    <td style="height: 50px;"></td>
+                    <td style="height: 50px;"></td>
+                    <td style="height: 50px;"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="font-size: 20px; font-weight: bold;">SURAT PERMINTAAN BARANG</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="font-size: 20px; font-weight: bold;">(SPB)</td>
+                </tr>
+                <tr>
+                    <td style="height: 20px;" width="7%"></td>
+                    <td style="height: 20px;" width="30%"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="20%"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Kepada :</td>
+                    <td colspan="2" style="text-align: right;">Nomor : {{ $spb->spb_no }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Bagian General Affairs</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: left;">Untuk kepentingan operasional perusahaan dengan ini kami mohon untuk dapat disediakan inventaris</td>
+                </tr>
+                <tr>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                    <td style="height: 20px;"></td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">No</td>
+                    <td style="border: 1px solid black;">Nama Barang</td>
+                    <td style="border: 1px solid black;">Qty</td>
+                    <td style="border: 1px solid black;">Vendor</td>
+                </tr>
+                @foreach ($spb->spb_detail as $detail)
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>
+                    <td style="border: 1px solid black;">{{ $detail->spb->vendor->name }}</td>
+                </tr>
+                @endforeach
+                @for ($i = $spb->spb_detail->count(); $i < 16; $i++)
+                <tr style="border: 1px solid black; height: 20px;">
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                    <td style="border: 1px solid black; height: 20px;"></td>
+                </tr>
+                @endfor
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table  width="95%" style="margin: auto; ">
+            <tbody>
+                <tr>
+                    <td style="width: 50px;">Notes:</td>
+                    <td>...............................................................</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>...............................................................</td>
+                </tr>
+                <tr>
+                    <td style="height: 25px;"></td>
+                    <td style="height: 25px;"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ $spb->branch->city }},  {{ date("d/m/Y", strtotime($spb->spbd_open)) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="margin: auto; text-align: center; border: 1px solid black; border-collapse: collapse;" width="95%" height="10px">
+            <tbody>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">Pemohon,</td>
+                    <td colspan="2" style="border: 1px solid black;">Diketahui oleh,</td>
+                    <td style="border: 1px solid black;">Disetujui oleh,</td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="height: 100px; border: 1px solid black;"></td>
+                    <td style="height: 100px; border: 1px solid black;"></td>
+                    <td style="height: 100px; border: 1px solid black;"></td>
+                    <td style="height: 100px; border: 1px solid black;"></td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">(…..................................)</td>
+                    <td style="border: 1px solid black;">(….......................)</td>
+                    <td style="border: 1px solid black;">(........................)</td>
+                    <td style="border: 1px solid black;">(…................................)</td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">Pemohon</td>
+                    <td style="border: 1px solid black;">Manager</td>
+                    <td style="border: 1px solid black;">GA</td>
+                    <td style="border: 1px solid black;">Direktur Utama/GM</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="position: absolute; bottom: -13; right: 0;">{{ $spb->spb_print->isoFormat('DD / MM / Y, h:m:s') }}</div>
+    </body>
 </html>

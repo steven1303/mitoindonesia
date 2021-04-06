@@ -87,7 +87,7 @@
                 <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
             </tr>
             @endforeach
-            @for ($i = $spbd->spbd_detail->count(); $i < 19; $i++)
+            @for ($i = $spbd->spbd_detail->count(); $i < 16; $i++)
             <tr style="border: 1px solid black; height: 20px;">
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>

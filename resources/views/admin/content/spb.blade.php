@@ -189,8 +189,8 @@
     }
     @endcan
     @can('spb.print', Auth::user())
-    function print_spbd(id){
-        window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
+    function print_spb(id){
+        window.open("{{ url('spb_print') }}" + '/' + id,"_blank");
     }
     @endcan
     @can('spb.approve', Auth::user())
