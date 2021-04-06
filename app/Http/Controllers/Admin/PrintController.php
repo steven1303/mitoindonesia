@@ -121,7 +121,8 @@ class PrintController extends Controller
             'po_stock' => $po_stock
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock',$data);
-        return $pdf->setPaper('a4', 'landscape')->stream('print_po_non_stock.pdf');
+        return $pdf->stream('print_po_non_stock.pdf');
+        // return $pdf->setPaper('a4', 'landscape')->stream('print_po_non_stock.pdf');
     }
 
     public function print_adj($id)

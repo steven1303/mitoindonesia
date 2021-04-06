@@ -83,6 +83,7 @@ class SpbController extends SettingAjaxController
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'spb_id' => $id,
+                'product' => $request['product'],
                 'keterangan' => $request['keterangan'],
                 'qty' => $request['qty'],
                 'satuan' => $request['satuan'],
@@ -167,6 +168,7 @@ class SpbController extends SettingAjaxController
     {
         if(Auth::user()->can('spb.update')){
             $data = SpbDetail::find($id);
+            $data->product    = $request['product'];
             $data->keterangan    = $request['keterangan'];
             $data->qty    = $request['qty'];
             $data->satuan    = $request['satuan'];

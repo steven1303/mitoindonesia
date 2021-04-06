@@ -17,6 +17,7 @@ class CreateSpbDetailsTable extends Migration
             $table->id();
             $table->bigInteger('id_branch');
             $table->bigInteger('spb_id')->unsigned();
+            $table->string('product');
             $table->string('keterangan');
             $table->decimal('qty', 10, 2)->default(0);
             $table->string('satuan');

@@ -12,6 +12,7 @@ class PoNonStockDetail extends Model
     protected $fillable = [
         'id_branch',
         'id_po',
+        'product',
         'id_spb_detail',
         'price',
         'disc',
@@ -37,5 +38,9 @@ class PoNonStockDetail extends Model
     public function getDiscAttribute($disc)
     {
         return $disc - 0;
+    }
+    public function getTotalAttribute()
+    {
+        return ($this->spb_detail->qty * $this->price) - $this->disc;
     }
 }

@@ -122,8 +122,8 @@
                     <div class="row">
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <label>Keterangan SPB</label>
-                                <input type="text" class="form-control" id="keterangan1" name="keterangan1" placeholder="Input keterangan" readonly>
+                                <label>product</label>
+                                <input type="text" class="form-control" id="product" name="product" placeholder="Input product" readonly>
                             </div>
                         </div>
                         <div class="col-xs-3">
@@ -152,8 +152,8 @@
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <label>Keterangan PO Non Stock</label>
-                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                                <label>Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan" readonly>
                             </div>
                         </div>
                     </div>
@@ -206,6 +206,7 @@
         "ajax": "{{route('local.record.po_non_stock_detail', $po_stock->id ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            {data: 'product', name: 'product'},
             {data: 'keterangan_spb', name: 'keterangan_spb'},
             {data: 'qty', name: 'qty'},
             {data: 'price_format', name: 'price_format'},
@@ -299,12 +300,12 @@
             $('#btnSave').attr('disabled',false);
             $('#id').val(data.id);
             $('#id_spb_detail').val(data.id_spb_detail);
+            $('#product').val(data.product);
             $('#qty').val(data.qty);
             $('#price').val(data.price);
             $('#disc').val(data.disc);
             $('#satuan').val(data.satuan);
             $('#keterangan').val(data.keterangan);
-            $('#keterangan1').val(data.keterangan1);
             format_decimal_limit();
         },
         error : function() {
@@ -325,9 +326,10 @@
             $('#formTitle').text('Add Item');
             $('#btnSave').attr('disabled',false);
             $('#id_spb_detail').val(data.id);
+            $('#product').val(data.product);
             $('#qty').val(data.qty);
             $('#satuan').val(data.satuan);
-            $('#keterangan1').val(data.keterangan);
+            $('#keterangan').val(data.keterangan);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -348,7 +350,7 @@
             }
             if(data.stat == 'Error'){
                 error(data.stat, data.message);
-            }            
+            }
         },
         error : function() {
             error('Error', 'Nothing Data');

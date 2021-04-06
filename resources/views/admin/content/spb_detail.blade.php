@@ -69,6 +69,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Produk</th>
                                 <th>Keterangan</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
@@ -97,7 +98,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Produk</label>
+                                <input type="text" class="form-control" id="product" name="product" placeholder="Input product">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
                             <div class="form-group">
                                 <label>Keterangan</label>
                                 <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
@@ -143,6 +150,7 @@
         "ajax": "{{route('local.record.spb_detail', $spb->id ) }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
+            {data: 'product', name: 'product'},
             {data: 'keterangan', name: 'keterangan'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
@@ -219,6 +227,7 @@
             $('#id').val(data.id);
             $('#qty').val(data.qty);
             $('#satuan').val(data.satuan);
+            $('#product').val(data.product);
             $('#keterangan').val(data.keterangan);
         },
         error : function() {
@@ -238,7 +247,7 @@
             {
                 error(data.stat, data.message);
             }
-            if(data.stat == "Success"){                
+            if(data.stat == "Success"){
                 success(data.stat, data.message);
                 print_spb( "{{ $spb->id }}" );
                 ajaxLoad("{{ route('local.spb.index') }}");

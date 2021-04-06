@@ -12,6 +12,7 @@ class SpbDetail extends Model
     protected $fillable = [
         'id_branch',
         'spb_id',
+        'product',
         'keterangan',
         'qty',
         'satuan',

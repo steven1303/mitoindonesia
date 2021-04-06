@@ -101,6 +101,7 @@ class PoNonStockController extends SettingAjaxController
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'id_po' => $id,
+                'product' => $request['product'],
                 'id_spb_detail' => $request['id_spb_detail'],
                 'price' => preg_replace('/\D/', '',$request['price']),
                 'disc' => preg_replace('/\D/', '',$request['disc']),
@@ -168,7 +169,7 @@ class PoNonStockController extends SettingAjaxController
                 "qty" => $po->spb_detail->qty,
                 "satuan" => $po->spb_detail->satuan,
                 "keterangan" => $po->keterangan,
-                "keterangan1" => $po->spb_detail->keterangan,
+                "product" => $po->product,
                 'price' =>$po->price - 0,
                 'disc' => $po->disc - 0,
             );

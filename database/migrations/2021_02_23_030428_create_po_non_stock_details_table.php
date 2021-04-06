@@ -18,6 +18,7 @@ class CreatePoNonStockDetailsTable extends Migration
             $table->bigInteger('id_branch');
             $table->bigInteger('id_po')->unsigned();
             $table->bigInteger('id_spb_detail')->default(0);
+            $table->string('product');
             $table->decimal('price', 20, 2)->default(0);
             $table->decimal('disc', 20, 2)->default(0);
             $table->string('keterangan')->nullable();
