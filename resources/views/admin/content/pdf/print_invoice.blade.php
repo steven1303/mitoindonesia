@@ -69,7 +69,7 @@
           <title>Document</title>
       </head>
       <body style="border-style: groove;" width="1200px" >
-      <table border="1" width="98%" style="margin: auto; border-collapse: collapse;" >
+      <table width="98%" style="margin: auto; border-collapse: collapse;" >
         <tbody><tr>
                   <td colspan="3">
                       <img src="{{asset('img/PT_Mito_png.png')}}" width="120px" style="float:left">
@@ -80,7 +80,8 @@
                   <td style="text-align: right;"></td>
             </tr>
 <tr>
-<td colspan="7" style="font-size: 20px; font-weight: bold; text-align: center;">INVOICE</td>
+<td></td>
+<td colspan="4" style="font-size: 20px; font-weight: bold; text-align: center;">INVOICE</td>
 <td colspan="2">Branch : Pekanbaru</td>
 </tr>
 <tr>
@@ -94,23 +95,23 @@
 </tr>
 <tr>
 <td>Nomor</td>
-<td>: INVOICE-MEI/2021/012</td>
+<td>: .............</td>
 <td></td>
 <td></td>
 <td>Pengiriman</td>
-<td colspan="2">: Medan</td>
+<td colspan="2">: .............</td>
 </tr>
 <tr>
 <td>Tanggal</td>
-<td>: 10 MARET 2021</td>
+<td>: .............</td>
 <td></td>
 <td></td>
 <td>Alamat</td>
-<td colspan="2">: CV. TERATAI</td>
+<td colspan="2">:.............</td>
 </tr>
 <tr>
 <td>Kepada</td>
-<td>: CV TERATAI</td>
+<td>: .............</td>
 <td></td>
 <td></td>
 <td></td>
@@ -123,7 +124,7 @@
 <td></td>
 <td></td>
 <td>Mata Uang</td>
-<td colspan="2">: Rupiah</td>
+<td colspan="2">: .............</td>
 </tr>
 <tr>
 <td></td>
@@ -131,200 +132,20 @@
 <td></td>
 <td></td>
 <td>Terms</td>
-<td colspan="2">: 30 Hari</td>
+<td colspan="2">: .............</td>
 </tr>
 <tr>
-<td>No</td>
-<td>Deskripsi</td>
-<td>Jumlah</td>
-<td>Unit</td>
-<td>Harga @</td>
-<td>Disc</td>
-<td>Sub Total</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td style="border: 1px solid black;">No</td>
+<td style="border: 1px solid black;">Deskripsi</td>
+<td style="border: 1px solid black;">Jumlah</td>
+<td style="border: 1px solid black;">Unit</td>
+<td style="border: 1px solid black;">Harga @</td>
+<td style="border: 1px solid black;">Disc</td>
+<td style="border: 1px solid black;">Sub Total</td>
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>PO No : 05/PO- TR-Mito/III/2021</td>
+<td>PO No : ...............</td>
 <td></td>
 <td></td>
 <td></td>
@@ -347,7 +168,7 @@
 <td></td>
 </tr>
 <tr>
-<td colspan="4"> Lima puluh delapan juta tiga ratus ribu rupiah</td>
+<td colspan="4"> ...............</td>
 <td>Tax</td>
 <td></td>
 <td></td>
