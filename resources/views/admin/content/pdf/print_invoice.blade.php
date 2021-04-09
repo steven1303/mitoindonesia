@@ -191,7 +191,7 @@
                 <td>Rp. {{ number_format($inv->inv_detail->sum('total_befppn'),0, ",", ".") }}</td>
             </tr>
             <tr>
-                <td colspan="4"> ...............</td>
+                <td colspan="4"> {{ $terbilang }}</td>
                 <td colspan="2">Tax</td>
                 <td>Rp. {{ number_format($inv->ppn ,0, ",", ".") }} </td>
             </tr>

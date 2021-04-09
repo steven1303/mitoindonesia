@@ -251,6 +251,9 @@ class SpbController extends SettingAjaxController
                     if($access->can('spb.view')){
                         $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
+                    if($access->can('spb.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
                     if($access->can('spb.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }

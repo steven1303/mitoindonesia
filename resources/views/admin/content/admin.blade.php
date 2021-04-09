@@ -117,8 +117,8 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'name', name: 'name'},
             {data: 'username', name: 'username'},
-            {data: 'id_role', name: 'id_role'},
-            {data: 'id_branch', name: 'id_branch'},
+            {data: 'role_name', name: 'role_name'},
+            {data: 'branch_name', name: 'branch_name'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });

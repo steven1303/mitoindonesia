@@ -93,10 +93,13 @@
                                 <input type="text" class="form-control" id="sisa" name="sisa" placeholder="Sisa Invoice" oninput="format_decimal_limit()" readonly>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label>Bayar</label>
                                 <input type="text" class="form-control" id="balance" name="balance" placeholder="Bayar" oninput="format_decimal_limit()">
+                                <span class="text-danger error-text balance_error"></span>
                             </div>
                         </div>
                         <div class="col-xs-3">
@@ -120,6 +123,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-xs-6">
                             <div class="form-group">
                                 <label>Keterangan</label>
@@ -246,8 +251,18 @@
                             error(data.stat, data.message);
                         }
 				    },
-				    error : function(){
-					    error('Error', 'Oops! Something Error! Try to reload your page first...');
+				    error : function(data){
+					    if(data.status == 422){
+                            if(data.responseJSON.errors.qty !== undefined){
+                                $('span.qty_error').text(data.responseJSON.errors.qty[0]);
+                            }
+                            if(data.responseJSON.errors.balance !== undefined)
+                            {
+                                $('span.balance_error').text(data.responseJSON.errors.balance[0]);
+                            }
+                        }else{
+                            error('Error', 'Oops! Something Error! Try to reload your page first...');
+                        }
 				    }
 			    });
 			    return false;

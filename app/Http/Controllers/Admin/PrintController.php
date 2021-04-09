@@ -17,6 +17,7 @@ use App\Models\PoNonStock;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade  as PDF;
 use Illuminate\Support\Facades\Auth;
+use Riskihajar\Terbilang\Facades\Terbilang;
 use App\Http\Controllers\Admin\SettingsController;
 
 class PrintController extends SettingsController
@@ -79,9 +80,11 @@ class PrintController extends SettingsController
     {
         $inv = Invoice::findOrFail($id);
         $inv->inv_print = Carbon::now();
+        $terbilang = Terbilang::make($inv->inv_detail->sum('total_ppn'), ' rupiah', 'senilai ');
         $inv->update();
         $data = [
-            'inv' => $inv
+            'inv' => $inv,
+            'terbilang' => $terbilang
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_invoice',$data);
         return $pdf->stream('print_invoice.pdf');

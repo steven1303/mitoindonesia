@@ -8,6 +8,8 @@ use App\Models\Pelunasan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\StorePelunasanRequest;
+use App\Http\Requests\Admin\UpdatePelunasanRequest;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
 class PelunasanController extends SettingAjaxController
@@ -73,7 +75,7 @@ class PelunasanController extends SettingAjaxController
         return $format.'/'.sprintf("%03d", $pelunasan_no);
     }
 
-    public function store(Request $request)
+    public function store(StorePelunasanRequest $request)
     {
         if(Auth::user()->can('pelunasan.store')){
             $data = [
@@ -107,7 +109,7 @@ class PelunasanController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePelunasanRequest $request, $id)
     {
         if(Auth::user()->can('pelunasan.update')){
             $data = Pelunasan::find($id);

@@ -158,7 +158,12 @@
             <td></td>
             <td></td>
             <td colspan="2" rowspan="2">PPN             :</td>
-            <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->ppn),0, ",", ".") }}</td>
+            @if ($po_stock->vendor->status_ppn == 1)
+                <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.1),0, ",", ".") }}</td>
+            @else
+            <td colspan="3" rowspan="2">{{ "Rp. ".number_format( (0),0, ",", ".") }}</td>
+            @endif
+
         </tr>
         <tr>
             <td></td>
@@ -176,7 +181,11 @@
             <td></td>
             <td></td>
             <td colspan="2" rowspan="2">Grand Total :</td>
-            <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total") + $po_stock->ppn),0, ",", ".") }}</td>
+            @if ($po_stock->vendor->status_ppn == 1)
+                <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total") + ($po_stock->po_non_stock_detail->sum("total") * 0.1)),0, ",", ".") }}</td>
+            @else
+            <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total")),0, ",", ".") }}</td>
+            @endif
         </tr>
         <tr>
             <td></td>

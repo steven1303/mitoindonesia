@@ -118,6 +118,12 @@ class AdminController extends SettingAjaxController
             $access =  Auth::user();
             return DataTables::of($admin)
                 ->addIndexColumn()
+                ->addColumn('role_name', function($admin){
+                    return $admin->roles->role_name;
+                })
+                ->addColumn('branch_name', function($admin){
+                    return $admin->branch->name;
+                })
                 ->addColumn('action', function($admin)  use($access){
                     $action = "";
                     $title = "'".$admin->username."'";
