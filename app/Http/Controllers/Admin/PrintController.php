@@ -15,6 +15,7 @@ use App\Models\Pembatalan;
 use App\Models\PoInternal;
 use App\Models\PoNonStock;
 use Illuminate\Http\Request;
+use App\Models\TransferBranch;
 use Barryvdh\DomPDF\Facade  as PDF;
 use Illuminate\Support\Facades\Auth;
 use Riskihajar\Terbilang\Facades\Terbilang;
@@ -161,7 +162,7 @@ class PrintController extends SettingsController
             'po_internal' => $po_internal
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_po_internal',$data);
-        return $pdf->stream('print_adj.pdf');
+        return $pdf->stream('print_po_internal.pdf');
     }
 
     public function print_pembatalan($id)
@@ -174,5 +175,17 @@ class PrintController extends SettingsController
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_pembatalan',$data);
         return $pdf->stream('print_pembatalan.pdf');
+    }
+
+    public function print_transfer($id)
+    {
+        $transfer = TransferBranch::findOrFail($id);
+        $transfer->transfer_print = Carbon::now();
+        $transfer->update();
+        $data = [
+            'transfer' => $transfer
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_transfer',$data);
+        return $pdf->stream('print_transfer.pdf');
     }
 }

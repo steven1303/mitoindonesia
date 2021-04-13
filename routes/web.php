@@ -219,6 +219,7 @@ Route::get('/spb/{id}/approve', 'App\Http\Controllers\Admin\SpbController@approv
 Route::get('/po_non_stock/{id}/approve', 'App\Http\Controllers\Admin\PoNonStockController@approve')->name('local.po_non_stock.approve');
 Route::get('/adj/{id}/approve', 'App\Http\Controllers\Admin\AdjustmentController@approve')->name('local.adj.approve');
 Route::get('/po_internal/{id}/approve', 'App\Http\Controllers\Admin\PoInternalController@approve')->name('local.po_internal.approve');
+Route::get('/transfer/{id}/approve', 'App\Http\Controllers\Admin\TransferBranchController@approve')->name('local.transfer.approve');
 
 // Print
 Route::get('/spbd_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_spbd')->name('local.print.spbd');
@@ -232,6 +233,7 @@ Route::get('/po_non_stock_print/{id}', 'App\Http\Controllers\Admin\PrintControll
 Route::get('/adj_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_adj')->name('local.print.adj');
 Route::get('/po_internal_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_po_internal')->name('local.print.po_internal');
 Route::get('/pembatalan_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_pembatalan')->name('local.print.pembatalan');
+Route::get('/transfer_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_transfer')->name('local.print.transfer');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');
@@ -321,3 +323,21 @@ Route::get('/pembatalan/{id}/approve', 'App\Http\Controllers\Admin\PembatalanCon
 Route::get('pembatalan/search_po_stock', 'App\Http\Controllers\Admin\PembatalanController@searchPoStock')->name('local.pembatalan.search.po_stock');
 Route::get('pembatalan/search_po_non_stock', 'App\Http\Controllers\Admin\PembatalanController@searchPoNonStock')->name('local.pembatalan.search.po_non_stock');
 Route::get('pembatalan/search_inv', 'App\Http\Controllers\Admin\PembatalanController@searchInvoice')->name('local.pembatalan.search.inv');
+
+
+// Transfer Branch
+Route::get('/transfer', 'App\Http\Controllers\Admin\TransferBranchController@index')->name('local.transfer.index');
+Route::post('/transfer', 'App\Http\Controllers\Admin\TransferBranchController@store')->name('local.transfer.store');
+Route::get('/transfer/{id}/edit', 'App\Http\Controllers\Admin\TransferBranchController@edit')->name('local.transfer.edit');
+Route::patch('/transfer/{id}', 'App\Http\Controllers\Admin\TransferBranchController@update')->name('local.transfer.update');
+Route::delete('/transfer/{id}', 'App\Http\Controllers\Admin\TransferBranchController@destroy')->name('local.transfer.delete');
+Route::get('record/transfer', 'App\Http\Controllers\Admin\TransferBranchController@recordTransfer')->name('local.record.transfer');
+
+// Transfer Branch Detail
+Route::get('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@detail')->name('local.transfer.detail.index');
+Route::post('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@store_detail')->name('local.transfer.store_detail');
+Route::get('/transfer/{id}/edit_detail', 'App\Http\Controllers\Admin\TransferBranchController@edit_detail')->name('local.transfer.edit_detail');
+Route::patch('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@update_detail')->name('local.transfer.update_detail');
+Route::delete('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@destroy_detail')->name('local.transfer.delete_detail');
+Route::get('record/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@recordTransfer_detail')->name('local.record.transfer_detail');
+Route::get('/transfer_open/{id}', 'App\Http\Controllers\Admin\TransferBranchController@transfer_open')->name('local.transfer.open.index');

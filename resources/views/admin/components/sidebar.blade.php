@@ -64,7 +64,7 @@
                     </li>
                     @endcan
                     <li>
-                        <a href="javascript:ajaxLoad('{{route('local.po_non_stock.index')}}')">
+                        <a href="javascript:ajaxLoad('{{route('local.transfer.index')}}')">
                             <i class="fa fa-th"></i> <span>Transfer</span>
                         </a>
                     </li>
