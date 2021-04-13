@@ -55,8 +55,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Invoice No</th>
                                 <th>Po Customer</th>
+                                <th>SPBD No</th>
                                 <th>Item</th>
                                 <th>Total harga</th>
                                 <th>Status</th>

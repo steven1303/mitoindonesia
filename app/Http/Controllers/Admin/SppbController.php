@@ -275,9 +275,11 @@ class SppbController extends SettingAjaxController
                     if($access->can('sppb.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
+                    // fungsi untuk hilangkan print sebelum approval
                     if($access->can('sppb.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    } 
+                    // fungsi untuk hilangkan print sebelum approval
                 }
                 elseif($data->sppb_status == 3){
                     if($access->can('sppb.view')){
@@ -401,6 +403,10 @@ class SppbController extends SettingAjaxController
     {
         if(Auth::user()->can('sppb.open')){
             $data = Sppb::findOrFail($id);
+            if($data->sppb_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, SPPB item empty...', 'stat' => 'Error']);
+            }
             $data->sppb_status = 2;
             $data->sppb_open = Carbon::now();
             if($data->po_cust_status == 1){

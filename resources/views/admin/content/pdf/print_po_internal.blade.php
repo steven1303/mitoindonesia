@@ -96,14 +96,15 @@
                 <td style="height: 20px;"></td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: left;">No PO : {{ $po_internal->po_no }}</td>
+                <td colspan="3" style="text-align: left;" colspan="2">Dari : {{ $po_internal->customer->name }}</td>
+                <!-- <td colspan="3" style="text-align: left;">No PO : {{ $po_internal->po_no }}</td> -->
                 <td></td>
                 <td style="text-align: left;" colspan="2" >Kepada Yth : PT. Mito Energi Indonesia</td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_internal->po_open)) }}</td>
                 <td></td>
-                <td style="text-align: left;" colspan="2">Kota : {{ $po_internal->customer->city }}</td>
+                <td style="text-align: left;" colspan="2">Alamat : {{ $po_internal->branch->address }}</td>
             </tr>
             <tr>
                 <td style="height: 20px;"></td>

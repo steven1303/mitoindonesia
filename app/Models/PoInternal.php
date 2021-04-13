@@ -32,6 +32,11 @@ class PoInternal extends Model
     	return $this->hasMany('App\Models\PoInternalDetail','id_po');
     }
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
     public function getPpnAttribute($ppn)
     {
         return $ppn - 0;

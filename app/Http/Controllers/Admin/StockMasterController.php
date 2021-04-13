@@ -113,7 +113,8 @@ class StockMasterController extends SettingAjaxController
                     return $action;
                 })
                 ->addColumn('soh', function($data){
-                    $soh = $data->stock_movement->sum('in_qty') - $data->stock_movement->sum('out_qty');
+                    // $soh = $data->stock_movement->where(['status','=', 0])->sum('in_qty') - $data->stock_movement->where(['status','=', 0])->sum('out_qty');
+                    $soh = $data->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $data->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty');
                     return $soh;
                 })
                 ->addColumn('action', function($data)  use($access){

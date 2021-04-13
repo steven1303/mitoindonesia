@@ -403,7 +403,7 @@
         success: function(data) {
             if(data.stat == "Success"){
                 success(data.stat, data.message);
-                print_inv("{{ $invoice->id }}");
+                print_inv("{{ $invoice->id }}"); // fungsi untuk hilangkan print sebelum approval
                 ajaxLoad("{{ route('local.inv.index') }}");
             }
             if(data.stat == "Error"){

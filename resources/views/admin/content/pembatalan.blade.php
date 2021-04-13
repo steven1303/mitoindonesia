@@ -92,8 +92,18 @@
                                     <select class="form-control select2" id="invoice_no" name="invoice_no" style="width: 100%;">
                                         <option></option>
                                     </select>
-                                </div>                                
-                            </div>
+                                </div>                               
+                            </div>                            
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label></label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="status_sppb" name="status_sppb"> SPPB Batal
+                                         </label>
+                                    </div>
+                                </div>
+                            </div> 
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label>Keterangan Invoice</label>

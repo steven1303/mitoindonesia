@@ -323,9 +323,15 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            success(data.stat, data.message);
-            print_sppb("{{ $sppb->id }}");
-            ajaxLoad("{{ route('local.sppb.index') }}");
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){                
+                success(data.stat, data.message);
+                print_sppb("{{ $sppb->id }}"); // fungsi untuk hilangkan print sebelum aproval
+                ajaxLoad("{{ route('local.sppb.index') }}");
+            }  
         },
         error : function() {
             error('Error', 'Nothing Data');

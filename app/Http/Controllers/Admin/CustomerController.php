@@ -176,16 +176,11 @@ class CustomerController extends SettingAjaxController
                     }elseif($data->inv_status == 3){
                         $action = "Verified";
                     }elseif($data->inv_status == 4){
-                        if($data->pelunasan->count() < 1){
-                            $action = "Approved";
-                        }
-                        elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
-                        {
-                            $action = "Closed";
-                        }else{
-                            $action = "Partial";
-                        }
-
+                        $action = "Approved";
+                    }elseif($data->inv_status == 5){
+                        $action = "Partial";
+                    }elseif($data->inv_status == 6){
+                        $action = "Closed";
                     }else{
                         $action = "Batal";
                     }

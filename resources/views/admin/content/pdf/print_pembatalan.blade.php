@@ -95,7 +95,7 @@
             </tr>
             @endfor
         @endif
-        @if ($pembatalan->pembatalan_type == 3)
+        @if ($pembatalan->pembatalan_type == 3 || $pembatalan->pembatalan_type == 4)
           @foreach ($pembatalan->invoice->inv_detail as $detail)
                 <tr style="border: 1px solid black; text-align: center;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>

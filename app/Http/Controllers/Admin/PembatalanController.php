@@ -139,12 +139,16 @@ class PembatalanController extends SettingAjaxController
         ])->count();
         $doc_no = "";
         if($type == 1){
+
             $doc_no = $request['po_stock_no'];
         }
         if ($type == 2) {
             $doc_no = $request['po_non_stock_no'];
         }
         if ($type == 3) {
+            if($request->has('status_sppb')){
+                $type = 4;
+            }
             $doc_no = $request['invoice_no'];
         }
         if($pembatalan_draf > 10){
@@ -213,6 +217,9 @@ class PembatalanController extends SettingAjaxController
                 if ($data->pembatalan_type == 3) {
                     $type = "Invoice";
                 }
+                if ($data->pembatalan_type == 4) {
+                    $type = "Invoice & SPPB";
+                }
                 return $type;
             })
             ->addColumn('tanggal', function($data){
@@ -255,6 +262,9 @@ class PembatalanController extends SettingAjaxController
         }
         if($data->pembatalan_type == 3){
             $this->pembatalan_invoice($data->doc_no, $data->pembatalan_no);
+        }
+        if($data->pembatalan_type == 4){
+            $this->pembatalan_invoice_sppb($data->doc_no, $data->pembatalan_no);
         }
         $data->update();
         return response()
@@ -304,8 +314,32 @@ class PembatalanController extends SettingAjaxController
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
         $inv->inv_status = 7;
-        $inv->update();
+        $inv->update();        
+        
+        $sppb = Sppb::where([
+            ['sppb_no','=', $inv->sppb->sppb_no ],
+            ['id_branch','=', Auth::user()->id_branch],
+        ])->first();
+        $sppb->sppb_status = 3;
+        $sppb->sppb_detail()->update(['inv_qty' => 0 ]);
+        $sppb->update();
 
+        $stock_movement_inv = StockMovement::where([
+            ['doc_no','=', $no_inv ],
+            ['id_branch','=', Auth::user()->id_branch],
+        ])->update(['status' => 1, 'ket' => $pembatalan_no]);
+    }
+
+    public function pembatalan_invoice_sppb($no_inv, $pembatalan_no)
+    {
+        $inv = Invoice::where([
+            ['inv_no','=', $no_inv ],
+            ['id_branch','=', Auth::user()->id_branch],
+        ])->first();
+        $inv->inv_status = 7;
+        $inv->update();
+        
+        
         $sppb = Sppb::where([
             ['sppb_no','=', $inv->sppb->sppb_no ],
             ['id_branch','=', Auth::user()->id_branch],

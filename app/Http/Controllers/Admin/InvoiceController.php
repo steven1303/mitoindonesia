@@ -111,7 +111,8 @@ class InvoiceController extends SettingAjaxController
 
             $sppb = Invoice::where([
                 ['id_sppb','=', $request['sppb']],
-                ['id_branch','=', Auth::user()->id_branch]
+                ['id_branch','=', Auth::user()->id_branch],
+                ['inv_status','<>', 7]
             ])->count();
 
             if($sppb > 0){
@@ -311,17 +312,6 @@ class InvoiceController extends SettingAjaxController
                 }elseif($data->inv_status == 6){
                     $action = "Closed";
                 }
-                // elseif($data->inv_status == 4){
-                //     if($data->pelunasan->count() < 1){
-                //         $action = "Approved";
-                //     }
-                //     elseif($data->inv_detail->sum('total_ppn') == $data->pelunasan->sum('balance'))
-                //     {
-                //         $action = "Closed";
-                //     }else{
-                //         $action = "Partial";
-                //     }
-                // }
                 else{
                     $action = "Batal";
                 }
@@ -349,9 +339,11 @@ class InvoiceController extends SettingAjaxController
                     if($access->can('invoice.verify')){
                         $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     }
+                    // fungsi untuk hilangkan print sebelum approval
                     if($access->can('invoice.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
+                    // fungsi untuk hilangkan print sebelum approval
                 }
                 if($data->inv_status == 3){
                     if($access->can('invoice.view')){
@@ -360,9 +352,11 @@ class InvoiceController extends SettingAjaxController
                     if($access->can('invoice.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
+                    // fungsi untuk hilangkan print sebelum approval
                     if($access->can('invoice.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
+                    // fungsi untuk hilangkan print sebelum approval
                 }
                 if($data->inv_status == 4 || $data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7){
                     if($access->can('invoice.view')){
