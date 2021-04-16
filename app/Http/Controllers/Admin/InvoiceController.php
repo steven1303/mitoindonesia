@@ -340,9 +340,9 @@ class InvoiceController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval
-                    if($access->can('invoice.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // if($access->can('invoice.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
                     // fungsi untuk hilangkan print sebelum approval
                 }
                 if($data->inv_status == 3){
@@ -353,9 +353,9 @@ class InvoiceController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval
-                    if($access->can('invoice.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // if($access->can('invoice.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
                     // fungsi untuk hilangkan print sebelum approval
                 }
                 if($data->inv_status == 4 || $data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7){

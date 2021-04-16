@@ -359,7 +359,7 @@
         dataType: "JSON",
         success: function(data) {
             if(data.stat == 'Success'){
-                print_po_stock("{{ $po_stock->id }}");
+                // print_po_stock("{{ $po_stock->id }}"); // fungsi print otomatis
                 success(data.stat, data.message);
                 ajaxLoad("{{ route('local.po_stock.index') }}");
             }

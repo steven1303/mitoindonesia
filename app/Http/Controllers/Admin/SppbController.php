@@ -245,8 +245,10 @@ class SppbController extends SettingAjaxController
                 }elseif ($data->sppb_status == 2) {
                     $sppb_status = "Request";
                 }elseif ($data->sppb_status == 3) {
-                    $sppb_status = "Approved";
+                    $sppb_status = "Verified";
                 }elseif ($data->sppb_status == 4) {
+                    $sppb_status = "Approved";
+                }elseif ($data->sppb_status == 5) {
                     $sppb_status = "Closed";
                 }else {
                     $sppb_status = "Reject";
@@ -273,15 +275,28 @@ class SppbController extends SettingAjaxController
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
                     if($access->can('sppb.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    }
+                    // fungsi untuk hilangkan print sebelum approval
+                    // if($access->can('sppb.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // } 
+                    
+                }
+                elseif($data->sppb_status == 3){
+                    if($access->can('sppb.view')){
+                        $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('sppb.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval
-                    if($access->can('sppb.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    } 
-                    // fungsi untuk hilangkan print sebelum approval
+                    // if($access->can('sppb.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // } 
+                    
                 }
-                elseif($data->sppb_status == 3){
+                elseif($data->sppb_status == 4){
                     if($access->can('sppb.view')){
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -373,7 +388,7 @@ class SppbController extends SettingAjaxController
         $tags = Sppb::where([
             ['sppb_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['sppb_status','=', 3],
+            ['sppb_status','=', 4],
         ])->get();
 
         $formatted_tags = [];
@@ -423,6 +438,24 @@ class SppbController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error SPPB Access Denied', 'stat' => 'Error']);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify($id)
+    {
+        if(Auth::user()->can('sppb.approve')){
+            $data = Sppb::findOrFail($id);
+            $data->sppb_status = 3;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPPB Verify Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error SPPB Access Denied', 'stat' => 'Error']);
+    }
+
      /**
      * Show the form for editing the specified resource.
      *
@@ -433,7 +466,7 @@ class SppbController extends SettingAjaxController
     {
         if(Auth::user()->can('sppb.approve')){
             $data = Sppb::findOrFail($id);
-            $data->sppb_status = 3;
+            $data->sppb_status = 4;
             $this->sppb_movement($data->sppb_detail);
             $data->update();
             return response()

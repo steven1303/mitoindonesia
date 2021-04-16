@@ -249,7 +249,8 @@
             }
             if(data.stat == "Success"){
                 success(data.stat, data.message);
-                print_spb( "{{ $spb->id }}" );
+                // print otomatis setelah request / open
+                // print_spb( "{{ $spb->id }}" );
                 ajaxLoad("{{ route('local.spb.index') }}");
             }
         },

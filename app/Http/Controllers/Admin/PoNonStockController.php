@@ -299,9 +299,10 @@ class PoNonStockController extends SettingAjaxController
                     if($access->can('po.non.stock.verify')){
                         $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     }
-                    if($access->can('po.non.stock.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // fungsi print otomatis pada saat status request
+                    // if($access->can('po.non.stock.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
                 }
                 elseif ($data->po_status == 3){
                     if($access->can('po.non.stock.view')){
@@ -310,9 +311,10 @@ class PoNonStockController extends SettingAjaxController
                     if($access->can('po.non.stock.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
-                    if($access->can('po.non.stock.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                     // fungsi print otomatis pada saat status verify
+                    // if($access->can('po.non.stock.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
                 }
                 else{
                     if($access->can('po.non.stock.view')){

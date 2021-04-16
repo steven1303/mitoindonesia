@@ -231,6 +231,23 @@
     }
     @endcan
     @can('sppb.approve', Auth::user())
+    function verify(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('sppb') }}" + '/' + id + "/verify",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
+    @can('sppb.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
@@ -240,6 +257,8 @@
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);
+            // fungsi otomatis print pada saat approval
+            print_sppb(id);
         },
         error : function() {
             error('Error', 'Nothing Data');

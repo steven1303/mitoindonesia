@@ -264,9 +264,11 @@ class SpbdController extends SettingAjaxController
                     if($access->can('spbd.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
-                    if($access->can('spbd.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // matikan fungsi print saat spbd masih request
+                    // if($access->can('spbd.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
+                    // matikan fungsi print saat spbd masih requests
                 }
                 else{
                     if($access->can('spbd.view')){

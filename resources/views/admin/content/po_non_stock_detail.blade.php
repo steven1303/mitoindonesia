@@ -347,7 +347,8 @@
         dataType: "JSON",
         success: function(data) {
             if(data.stat == 'Success'){
-                print_po_stock("{{ $po_stock->id }}");
+                // fungsi print otomatis pada saat open PO
+                // print_po_stock("{{ $po_stock->id }}");
                 success(data.stat, data.message);
                 ajaxLoad("{{ route('local.po_non_stock.index') }}");
             }

@@ -318,7 +318,7 @@
     @endcan
     @can('sppb.open', Auth::user())
     function open_sppb_Form() {
-        $.ajax({
+        $.ajax({ 
         url: "{{route('local.sppb.open.index', $sppb->id) }}",
         type: "GET",
         dataType: "JSON",
@@ -329,7 +329,7 @@
             }
             if(data.stat == "Success"){                
                 success(data.stat, data.message);
-                print_sppb("{{ $sppb->id }}"); // fungsi untuk hilangkan print sebelum aproval
+                // print_sppb("{{ $sppb->id }}"); // fungsi untuk hilangkan print sebelum aproval
                 ajaxLoad("{{ route('local.sppb.index') }}");
             }  
         },

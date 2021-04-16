@@ -318,9 +318,11 @@ class PoStockController extends SettingAjaxController
                     if($access->can('po.stock.verify')){
                         $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     }
-                    if($access->can('po.stock.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // fungsi print otomatis
+                    // if($access->can('po.stock.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
+                    // fungsi print otomatis
                 }
                 elseif ($data->po_status == 3){
                     if($access->can('po.stock.view')){
@@ -329,9 +331,11 @@ class PoStockController extends SettingAjaxController
                     if($access->can('po.stock.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
-                    if($access->can('po.stock.print')){
-                        $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    }
+                    // // fungsi print otomatis
+                    // if($access->can('po.stock.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
+                    // fungsi print otomatis
                 }
                 else{
                     if($access->can('po.stock.view')){

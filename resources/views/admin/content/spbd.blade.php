@@ -213,6 +213,8 @@
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);
+            // print otomatis setelah approved
+            print_spbd(id);
         },
         error : function() {
             error('Error', 'Nothing Data');

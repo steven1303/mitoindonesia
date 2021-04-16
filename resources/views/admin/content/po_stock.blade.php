@@ -246,6 +246,8 @@
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);
+            // fungsi print otomatis
+            print_po_stock(id);
         },
         error : function() {
             error('Error', 'Nothing Data');

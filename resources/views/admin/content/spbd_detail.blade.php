@@ -282,7 +282,8 @@
             }
             if(data.stat == "Success"){                
                 success(data.stat, data.message);
-                print_spbd( "{{ $spbd->id }}" );
+                // fungsi matikan otomatis print preview pada saat spbd open / request
+                // print_spbd( "{{ $spbd->id }}" );
                 ajaxLoad("{{ route('local.spbd.index') }}");
             }           
         },

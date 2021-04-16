@@ -198,7 +198,7 @@ class PelunasanController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                     if($access->can('pelunasan.approve')){
-                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-primary btn-xs"> Approve</button> ';
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-primary btn-xs"> Verify</button> ';
                     }
                 }else{
                     if($access->can('pelunasan.print')){
