@@ -63,11 +63,7 @@
                         </a>
                     </li>
                     @endcan
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.transfer.index')}}')">
-                            <i class="fa fa-th"></i> <span>Transfer</span>
-                        </a>
-                    </li>
+                    
                  </ul>
             </li>
 
@@ -100,6 +96,11 @@
                         </a>
                     </li>
                     @endcan
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.transfer.index')}}')">
+                            <i class="fa fa-th"></i> <span>Transfer</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -111,13 +112,6 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                    @can('sppb.view', Auth::user())
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
-                            <i class="fa fa-th"></i> <span>SPPB</span>
-                        </a>
-                    </li>
-                    @endcan
                     @can('pricelist.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.pricelist.index')}}')">
@@ -129,6 +123,13 @@
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_internal.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Internal</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('sppb.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
+                            <i class="fa fa-th"></i> <span>SPPB</span>
                         </a>
                     </li>
                     @endcan
@@ -146,7 +147,14 @@
                         </a>
                     </li>
                     @endcan
-                        <li><a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')"><i class="fa fa-th"></i> <span>Report</span></a></li>
+                    @can('pembatalan.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.pembatalan.index')}}')">
+                            <i class="fa fa-th"></i> <span>Pembatalan</span>
+                        </a>
+                    </li>
+                    @endcan
+                    <li><a href="javascript:ajaxLoad('{{route('local.stock_adj.index')}}')"><i class="fa fa-th"></i> <span>Report</span></a></li>
 
                 </ul>
             </li>
@@ -172,13 +180,7 @@
                         </a>
                     </li>
                     @endcan
-                    @can('pembatalan.view', Auth::user())
-                    <li>
-                        <a href="javascript:ajaxLoad('{{route('local.pembatalan.index')}}')">
-                            <i class="fa fa-th"></i> <span>Pembatalan</span>
-                        </a>
-                    </li>
-                    @endcan
+                   
                 </ul>
             </li>
 
