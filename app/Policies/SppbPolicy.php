@@ -69,6 +69,16 @@ class SppbPolicy
         return false;
     }
 
+    public function verify(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'sppb-verify'){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public function approve(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {

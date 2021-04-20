@@ -274,7 +274,7 @@ class SppbController extends SettingAjaxController
                     if($access->can('sppb.view')){
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('sppb.approve')){
+                    if($access->can('sppb.verify')){
                         $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval

@@ -114,6 +114,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('sppb.update', 'App\Policies\SppbPolicy@update');
          Gate::define('sppb.delete', 'App\Policies\SppbPolicy@delete');
          Gate::define('sppb.open', 'App\Policies\SppbPolicy@open');
+         Gate::define('sppb.verify', 'App\Policies\SppbPolicy@verify');
          Gate::define('sppb.approve', 'App\Policies\SppbPolicy@approve');
          Gate::define('sppb.print', 'App\Policies\SppbPolicy@print');
          // Po Internal

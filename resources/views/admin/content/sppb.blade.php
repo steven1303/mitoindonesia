@@ -230,7 +230,7 @@
         window.open("{{ url('sppb_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('sppb.approve', Auth::user())
+    @can('sppb.verify', Auth::user())
     function verify(id) {
         save_method = 'edit';
         $.ajax({
