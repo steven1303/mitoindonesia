@@ -83,7 +83,6 @@
 				    type : "POST",
 				    data : $('#adminForm').serialize(),
 				    success : function(data) {
-                        table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
