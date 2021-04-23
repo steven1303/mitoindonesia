@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button id="btnSave" type="submit" class="btn btn-primary">Create Adjustment</button>
+                        <button id="btnSave" type="submit" class="btn btn-primary">Create Transfer</button>
                         <button type="button" class="btn btn-secondary" onclick="cancel()">Cancel</button>
                     </div>
                 </form>
@@ -197,7 +197,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('adj') }}" + '/' + id,
+                    url : "{{ url('transfer') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {

@@ -161,7 +161,7 @@ class AuthServiceProvider extends ServiceProvider
            Gate::define('transfer.store', 'App\Policies\TransferPolicy@store');
            Gate::define('transfer.update', 'App\Policies\TransferPolicy@update');
            Gate::define('transfer.delete', 'App\Policies\TransferPolicy@delete');
-           Gate::define('transfer.approve', 'App\Policies\TransferPolicy@open');
+           Gate::define('transfer.open', 'App\Policies\TransferPolicy@open');
            Gate::define('transfer.approve', 'App\Policies\TransferPolicy@approve');
            Gate::define('transfer.print', 'App\Policies\TransferPolicy@print');
     }

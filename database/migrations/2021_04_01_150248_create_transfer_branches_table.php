@@ -65,7 +65,7 @@ class CreateTransferBranchesTable extends Migration
             ],
             [
                 'for' => 'Transfer',
-                'name' => 'transfer-accept',
+                'name' => 'transfer-approve',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'stat' => 1,

@@ -326,7 +326,7 @@ class TransferBranchController extends SettingAjaxController
                 ->json(['code'=>200,'message' => 'Request Transfer Success', 'stat' => 'Success']);
         }
         return response()
-            ->json(['code'=>200,'message' => 'Error SPBD Access Denied', 'stat' => 'Error']);
+            ->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
     }
 
      /**

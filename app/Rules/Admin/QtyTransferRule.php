@@ -3,6 +3,7 @@
 namespace App\Rules\Admin;
 
 use App\Models\StockMaster;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\Rule;
 
 class QtyTransferRule implements Rule
