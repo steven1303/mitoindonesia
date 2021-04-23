@@ -156,5 +156,13 @@ class AuthServiceProvider extends ServiceProvider
            Gate::define('pembatalan.po.non.stock', 'App\Policies\PembatalanPolicy@po_non_stock');
            Gate::define('pembatalan.invoice', 'App\Policies\PembatalanPolicy@invoice');
            Gate::define('pembatalan.print', 'App\Policies\PembatalanPolicy@print');
+           // transfer
+           Gate::define('transfer.view', 'App\Policies\TransferPolicy@view');
+           Gate::define('transfer.store', 'App\Policies\TransferPolicy@store');
+           Gate::define('transfer.update', 'App\Policies\TransferPolicy@update');
+           Gate::define('transfer.delete', 'App\Policies\TransferPolicy@delete');
+           Gate::define('transfer.approve', 'App\Policies\TransferPolicy@open');
+           Gate::define('transfer.approve', 'App\Policies\TransferPolicy@approve');
+           Gate::define('transfer.print', 'App\Policies\TransferPolicy@print');
     }
 }
