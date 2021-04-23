@@ -26,6 +26,58 @@ class CreateTransferBranchesTable extends Migration
             $table->dateTime('transfer_print')->nullable();
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert([
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-view',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-store',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-update',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-delete',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-open',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-accept',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'Transfer',
+                'name' => 'transfer-print',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+        ]);
     }
 
     /**

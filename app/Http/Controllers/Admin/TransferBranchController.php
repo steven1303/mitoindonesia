@@ -17,7 +17,7 @@ class TransferBranchController extends SettingAjaxController
 {
     public function index()
     {
-        if(Auth::user()->can('adjustment.view')){
+        if(Auth::user()->can('transfer.view')){
             $branch = Branch::whereNotIn('id', [Auth::user()->id_branch])->get();
             $data = [
                 'branches' => $branch,
@@ -29,7 +29,7 @@ class TransferBranchController extends SettingAjaxController
 
     public function detail($id)
     {
-        if(Auth::user()->can('adjustment.view')){
+        if(Auth::user()->can('transfer.view')){
             $transfer = TransferBranch::findOrFail($id);
             $data = [
                 'transfer' => $transfer
@@ -51,7 +51,7 @@ class TransferBranchController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        if(Auth::user()->can('adjustment.store')){
+        if(Auth::user()->can('transfer.store')){
             $draf = TransferBranch::where([
                 ['transfer_status','=', 1],
                 ['id_branch','=', Auth::user()->id_branch]
@@ -87,7 +87,7 @@ class TransferBranchController extends SettingAjaxController
 
     public function store_detail(StoreTransferDetailRequest $request, $id)
     {
-        if(Auth::user()->can('adjustment.store')){
+        if(Auth::user()->can('transfer.store')){
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'id_transfer' => $id,
@@ -120,7 +120,7 @@ class TransferBranchController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        if(Auth::user()->can('adjustment.update')){
+        if(Auth::user()->can('transfer.update')){
             $data = TransferDetail::with('stock_master')->findOrFail($id);
             return $data;
         }
@@ -135,7 +135,7 @@ class TransferBranchController extends SettingAjaxController
      */
     public function edit($id)
     {
-        if(Auth::user()->can('spb.update')){
+        if(Auth::user()->can('transfer.update')){
             $data = TransferBranch::with('tujuan')->findOrFail($id);
             return $data;
         }
@@ -152,7 +152,7 @@ class TransferBranchController extends SettingAjaxController
      */
     public function update_detail(Request $request, $id)
     {
-        if(Auth::user()->can('adjustment.update')){
+        if(Auth::user()->can('transfer.update')){
             $data = TransferDetail::find($id);
             $data->id_stock_master    = $request['stock_master'];
             $data->qty    = $request['qty'];
@@ -173,12 +173,12 @@ class TransferBranchController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('adjustment.delete')){
+        if(Auth::user()->can('transfer.delete')){
             TransferBranch::destroy($id);
             return response()
                 ->json(['code'=>200,'message' => 'Transfer Success Deleted', 'stat' => 'Success']);
         }
-        return response()->json(['code'=>200,'message' => 'Error Adjustment Access Denied', 'stat' => 'Error']);
+        return response()->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
     }
 
     /**
@@ -225,30 +225,30 @@ class TransferBranchController extends SettingAjaxController
                 $action = "";
                 $title = "'".$data->transfer_no."'";
                 if($data->transfer_status == 1){
-                    if($access->can('adjustment.view')){
+                    if($access->can('transfer.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-warning btn-xs"> Draft</a> ';
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .','.$title.')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
-                    if($access->can('adjustment.delete')){
+                    if($access->can('transfer.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
                 elseif($data->transfer_status == 2){
-                    if($access->can('adjustment.view')){
+                    if($access->can('transfer.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('adjustment.approve')){
+                    if($access->can('transfer.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
-                    if($access->can('adjustment.print')){
+                    if($access->can('transfer.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_transfer('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
                 }
                 else{
-                    if($access->can('adjustment.view')){
+                    if($access->can('transfer.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('adjustment.print')){
+                    if($access->can('transfer.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_transfer('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
                 }
@@ -270,18 +270,18 @@ class TransferBranchController extends SettingAjaxController
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
                 if($data->transfer->transfer_status == 1){
-                    if($access->can('adjustment.update')){
+                    if($access->can('transfer.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
-                    if($access->can('adjustment.delete')){
+                    if($access->can('transfer.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
                 if($data->transfer->transfer_status == 2){
-                    if($access->can('adjustment.update')){
+                    if($access->can('transfer.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
-                    if($access->can('adjustment.delete')){
+                    if($access->can('transfer.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
@@ -312,7 +312,7 @@ class TransferBranchController extends SettingAjaxController
      */
     public function transfer_open($id)
     {
-        if(Auth::user()->can('spbd.open')){
+        if(Auth::user()->can('transfer.open')){
             $data = TransferBranch::findOrFail($id);
             if($data->transfer_detail->count() < 1)
             {
@@ -337,7 +337,7 @@ class TransferBranchController extends SettingAjaxController
      */
     public function approve($id)
     {
-        if(Auth::user()->can('adjustment.approve')){
+        if(Auth::user()->can('transfer.approve')){
             $data = TransferBranch::findOrFail($id);
             $data->transfer_status = 3;
             $movement = $this->po_movement($data->transfer_detail);
@@ -355,7 +355,6 @@ class TransferBranchController extends SettingAjaxController
                 'id_stock_master' => $detail->id_stock_master,
                 'id_branch' => $detail->id_branch,
                 'move_date' => $detail->transfer->created_at,
-                // 'bin' => "-",
                 'type' => 'TR',
                 'doc_no' => $detail->transfer->transfer_no,
                 'order_qty' => 0,
