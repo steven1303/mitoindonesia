@@ -42,7 +42,7 @@
         <br/>
         &nbsp;<br/>
         <br/>
-        Medan, {{$spb->created_at}}
+        Pekanbaru, {{$spb->created_at}}
         <br/>
         &nbsp; --}}
         <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">

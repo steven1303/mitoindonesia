@@ -31,7 +31,7 @@ class PoInternalRule implements Rule
         $po_internal_check = PoInternal::where([
             ['po_no','=', $value],
             ['id_branch','=', Auth::user()->id_branch],
-            ['id_branch','=', $this->customer],
+            ['id_customer','=', $this->customer],
             ['po_status','=', '3' ]
         ])->count();
         if($po_internal_check > 0){

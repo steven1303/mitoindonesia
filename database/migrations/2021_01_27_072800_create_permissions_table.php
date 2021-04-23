@@ -923,6 +923,14 @@ class CreatePermissionsTable extends Migration
                 'updated_at' => date('Y-m-d H:i:s'),
                 'stat' => 1,
             ],
+            [
+                'id' => 113,
+                'for' => 'SPPB',
+                'name' => 'sppb-verify',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
         ]);
 
         DB::table('permission_role')->insert([

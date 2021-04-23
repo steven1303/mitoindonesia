@@ -320,7 +320,7 @@ class PembatalanController extends SettingAjaxController
             ['sppb_no','=', $inv->sppb->sppb_no ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
-        $sppb->sppb_status = 3;
+        $sppb->sppb_status = 4;
         $sppb->sppb_detail()->update(['inv_qty' => 0 ]);
         $sppb->update();
 
@@ -343,7 +343,7 @@ class PembatalanController extends SettingAjaxController
         $sppb = Sppb::where([
             ['sppb_no','=', $inv->sppb->sppb_no ],
             ['id_branch','=', Auth::user()->id_branch],
-        ])->update(['sppb_status' => 5]);
+        ])->update(['sppb_status' => 6]);
 
         $stock_movement_inv = StockMovement::where([
             ['doc_no','=', $no_inv ],

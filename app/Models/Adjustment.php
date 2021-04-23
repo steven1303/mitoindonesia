@@ -19,6 +19,11 @@ class Adjustment extends Model
         'adj_print',
     ];
 
+    public function branch()
+    {
+    	return $this->belongsTo('App\Models\Branch','id_branch');
+    }
+
     public function adj_detail()
     {
     	return $this->hasMany('App\Models\AdjustmentDetail','adj_id');

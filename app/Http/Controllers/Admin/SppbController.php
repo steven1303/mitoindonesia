@@ -251,7 +251,7 @@ class SppbController extends SettingAjaxController
                 }elseif ($data->sppb_status == 5) {
                     $sppb_status = "Closed";
                 }else {
-                    $sppb_status = "Reject";
+                    $sppb_status = "Batal";
                 }
                 return $sppb_status;
             })

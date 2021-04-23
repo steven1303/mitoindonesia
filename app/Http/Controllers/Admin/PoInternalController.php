@@ -327,6 +327,10 @@ class PoInternalController extends SettingAjaxController
     {
         if(Auth::user()->can('po.internal.open')){
             $data = PoInternal::findOrFail($id);
+            if($data->po_internal_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, PO Internal item empty...', 'stat' => 'Error']);
+            }
             $data->po_status = 2;
             $data->ppn = 0;
             $data->po_open = Carbon::now();

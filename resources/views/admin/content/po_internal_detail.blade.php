@@ -328,9 +328,16 @@
             type: "GET",
             dataType: "JSON",
             success: function(data) {
-                success(data.stat, data.message);
-                print_po_internal("{{ $po_internal->id }}");
-                ajaxLoad("{{ route('local.po_internal.index') }}");
+                if(data.stat == "Error")
+                {
+                    error(data.stat, data.message);
+                }
+                if(data.stat == "Success"){
+                    success(data.stat, data.message);
+                    // print otomatis setelah request / open
+                    ajaxLoad("{{ route('local.po_internal.index') }}");
+                    // print_po_internal("{{ $po_internal->id }}");
+                }
             },
             error : function() {
                 error('Error', 'Nothing Data');
