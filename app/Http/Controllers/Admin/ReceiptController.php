@@ -357,6 +357,10 @@ class ReceiptController extends SettingAjaxController
     {
         if(Auth::user()->can('receipt.open')){
             $data = RecStock::findOrFail($id);
+            if($data->receipt_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, have Receipts item not added...', 'stat' => 'Error']);
+            }
             $data->status = 2;
             $data->rec_open = Carbon::now();
             $movement = $this->rec_movement($data->receipt_detail);

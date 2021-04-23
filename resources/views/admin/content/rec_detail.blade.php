@@ -398,9 +398,14 @@
             $(document).find('span.error-text').text('');
         },
         success: function(data) {
-            success(data.stat, data.message);
-            print_receipt("{{ $rec->id }}");
-            ajaxLoad("{{ route('local.rec.index') }}");
+            if(data.stat == 'Success'){
+                // print_receipt("{{ $rec->id }}"); // fungsi print otomatis
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.rec.index') }}");
+            }
+            if(data.stat == 'Error'){
+                error(data.stat, data.message);
+            }
         },
         error : function() {
             error('Error', 'Nothing Data');
