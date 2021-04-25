@@ -44,7 +44,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td >Tanggal Pembayaran </td>
+            <td >Tanggal Jatuh Tempo </td>
             <td>: {{ date("d/m/Y", strtotime( $pelunasan->pelunasan_date )) }}</td>
         </tr>
         <tr>
@@ -106,26 +106,26 @@
         </tr>
        
         <tr>
-            <td style="border: 1px solid black; text-align: center;">1</td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2">{{ $pelunasan->invoice->inv_no }}</td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2">{{ $pelunasan->invoice->po_cust }}</td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2">{{ $pelunasan->invoice->sppb->sppb_no }}</td>
-            <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($pelunasan->invoice->inv_detail->sum('total_ppn'),0, ",", ".") }}</td>
-            <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($pelunasan->balance,0, ",", ".") }}</td>
-            <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format( ($pelunasan->invoice->inv_detail->sum('total_ppn') - $pelunasan->balance ),0, ",", ".") }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;">1</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;" colspan="2">{{ $pelunasan->invoice->inv_no }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;" colspan="2">{{ $pelunasan->invoice->po_cust }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;" colspan="2">{{ $pelunasan->invoice->sppb->sppb_no }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;">Rp. {{ number_format($pelunasan->invoice->inv_detail->sum('total_ppn'),0, ",", ".") }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;">Rp. {{ number_format($pelunasan->balance,0, ",", ".") }}</td>
+            <td style="border: 1px solid black; text-align: center; height: 150px; vertical-align: text-top;">Rp. {{ number_format( ($pelunasan->invoice->inv_detail->sum('total_ppn') - $pelunasan->balance ),0, ",", ".") }}</td>
         </tr>
         
+        <!-- <tr>
+            <td style="border: 1px solid black; text-align: center;"></td>
+            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
+            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
+            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
+            <td style="border: 1px solid black; text-align: center;"></td>
+            <td style="border: 1px solid black; text-align: center;"></td>
+            <td style="border: 1px solid black; text-align: center;"></td>
+        </tr> -->
         <tr>
-            <td style="border: 1px solid black; text-align: center;"></td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
-            <td style="border: 1px solid black; text-align: center;" colspan="2"></td>
-            <td style="border: 1px solid black; text-align: center;"></td>
-            <td style="border: 1px solid black; text-align: center;"></td>
-            <td style="border: 1px solid black; text-align: center;"></td>
-        </tr>
-        <tr>
-            <td colspan="10" style="height: 10px"></td>
+            <td colspan="10" style="height: 30px"></td>
         </tr>
         </tbody>
         </table>
@@ -139,7 +139,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td colspan="2">Pekanbaru, ......</td>
+            <td colspan="2">Pekanbaru, {{ date("d/m/Y", strtotime($pelunasan->pelunasan_open)) }}</td>
             <td></td>
             <td></td>
             <td></td>
