@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!-- {{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,7 +45,7 @@
         Medan, {{$spbd->spbd_date}}
         <br/>
 </body>
-</html> --}}
+</html> --}} -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="text-align: right;">Branch : {{ $sppb->branch->city }}</td>
+                <td ></td>
             </tr>
             <tr>
                 <td style="height: 50px;"></td>
@@ -78,6 +78,9 @@
     </table>
     <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
+            <tr>
+            <td colspan="5" style="text-align: right;">Branch : {{ $sppb->branch->city }}</td>
+            </tr>
             <tr>
                 <td colspan="5" style="font-size: 20px; font-weight: bold;">SURAT PERMOHONAN PENGELUARAN BARANG</td>
             </tr>

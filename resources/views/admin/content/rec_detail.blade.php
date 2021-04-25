@@ -399,7 +399,7 @@
         },
         success: function(data) {
             if(data.stat == 'Success'){
-                // print_receipt("{{ $rec->id }}"); // fungsi print otomatis
+                print_receipt("{{ $rec->id }}"); // fungsi print otomatis
                 success(data.stat, data.message);
                 ajaxLoad("{{ route('local.rec.index') }}");
             }

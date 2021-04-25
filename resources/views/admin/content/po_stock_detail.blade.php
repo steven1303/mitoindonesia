@@ -166,8 +166,8 @@
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <label>Keterangan PO Stock</label>
-                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input keterangan">
+                                <label>Deskripsi</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Input Deskripsi Produk">
                             </div>
                         </div>
                     </div>

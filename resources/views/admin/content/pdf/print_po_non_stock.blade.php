@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!-- {{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -48,7 +48,7 @@
         <br/>
         &nbsp;
 </body>
-</html> --}}
+</html> --}} -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,6 +68,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td style="text-align: right;"></td>
             </tr>
             <tr>
@@ -76,39 +77,37 @@
                 <td style="height: 50px;"></td>
                 <td style="height: 50px;"></td>
                 <td style="height: 50px;"></td>
+                <td style="height: 50px;"></td>
             </tr>
         </tbody>
     </table>
-    <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+    <table width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
                 <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER</td>
             </tr>
             <tr>
                 <td style="height: 20px;" width="5%"></td>
-                <td style="height: 20px;" width="15%"></td>
-                <td style="height: 20px;" width="30%"></td>
-                <td style="height: 20px;" width="10%"></td>
-                <td style="height: 20px;" width="20%"></td>
-                <td style="height: 20px;"></td>
+                <td style="height: 20px;" width="21%"></td>
+                <td style="height: 20px;" width="24%"></td>
+                <td style="height: 20px;" width="14%"></td>
+                <td style="height: 20px;" width="18%"></td>
+                <td style="height: 20px;" width="18%"></td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: left;">No PO : {{ $po_stock->po_no }}</td>
-                <td></td>
-                <td style="text-align: left;" colspan="2" >Kepada Yth : {{ $po_stock->vendor->name }}</td>
+                <td colspan="4" style="text-align: left;">No. PO : {{ $po_stock->po_no }}</td>
+                <td style="text-align: left;" colspan="2" >Kepada Yth : </td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_stock->po_open)) }}</td>
-                <td></td>
-                <td style="text-align: left;" colspan="2">Kota : {{ $po_stock->vendor->city }}</td>
+                <td colspan="4" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_stock->po_open)) }}</td>
+                <td style="text-align: left;" colspan="2" > {{ $po_stock->vendor->name }}</td>
             </tr>
             <tr>
-                <td style="height: 20px;"></td>
-                <td style="height: 20px;"></td>
-                <td style="height: 20px;"></td>
-                <td style="height: 20px;"></td>
-                <td style="height: 20px;"></td>
-                <td style="height: 20px;"></td>
+                <td colspan="4"></td>
+                <td style="text-align: left;" colspan="2">{{ $po_stock->vendor->city }}</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="height: 10px"></td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">No</td>
@@ -121,8 +120,8 @@
             @foreach ($po_stock->po_non_stock_detail as $detail)
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->product }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
+                    <td style="border: 1px solid black; text-align: left">{{ $detail->product }}</td>
+                    <td style="border: 1px solid black; text-align: left">{{ $detail->keterangan }}</td>
                     <td style="border: 1px solid black;">{{ $detail->spb_detail->qty }} {{ $detail->satuan }}</td>
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->price),0, ",", ".") }}</td>
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->spb_detail->qty * $detail->price),0, ",", ".") }}</td>
@@ -159,7 +158,7 @@
             <td></td>
             <td colspan="2" rowspan="2">PPN             :</td>
             @if ($po_stock->vendor->status_ppn == 1)
-                <td colspan="3" rowspan="2">{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.1),0, ",", ".") }}</td>
+                <td colspan="3" rowspan="2" >{{ "Rp. ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.1),0, ",", ".") }}</td>
             @else
             <td colspan="3" rowspan="2">{{ "Rp. ".number_format( (0),0, ",", ".") }}</td>
             @endif

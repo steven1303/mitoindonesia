@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-    <body>
+    <!-- <body  style="border-style: groove;" width="1200px">
     {{-- <h3 style="text-align: center;">SURAT PERMINTAAN BARANG<br/>
         (SPB)
     </h3>
@@ -44,7 +44,7 @@
         <br/>
         Pekanbaru, {{$spb->created_at}}
         <br/>
-        &nbsp; --}}
+        &nbsp; --}} -->
         <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
             <tbody>
                 <tr>
@@ -53,7 +53,8 @@
                     </td>
                     <td></td>
                     <td></td>
-                    <td style="text-align: right;">Branch : {{ $spb->branch->city }}</td>
+                    <td></td>
+                    <!-- <td style="text-align: right;">Branch : {{ $spb->branch->city }}</td> -->
                 </tr>
                 <tr>
                     <td style="height: 50px;"></td>
@@ -66,17 +67,20 @@
         <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
             <tbody>
                 <tr>
+                <td colspan="5" style="text-align: right;">Branch : {{ $spb->branch->city }}</td>
+                </tr>
+                <tr>
                     <td colspan="5" style="font-size: 20px; font-weight: bold;">SURAT PERMINTAAN BARANG</td>
                 </tr>
                 <tr>
                     <td colspan="5" style="font-size: 20px; font-weight: bold;">(SPB)</td>
                 </tr>
                 <tr>
-                    <td style="height: 20px;" width="7%"></td>
+                    <td style="height: 20px;" width="5%"></td>
                     <td style="height: 20px;" width="30%"></td>
                     <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="35%"></td>
                     <td style="height: 20px;" width="20%"></td>
-                    <td style="height: 20px;" width="30%"></td>
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: left;">Kepada :</td>
@@ -89,21 +93,13 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
+                    <td colspan="5" style="height: 10px"></td>
                 </tr>
                 <tr>
                     <td colspan="5" style="text-align: left;">Untuk kepentingan operasional perusahaan dengan ini kami mohon untuk dapat disediakan inventaris</td>
                 </tr>
                 <tr>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
-                    <td style="height: 20px;"></td>
+                <td colspan="5" style="height: 10px"></td>
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">No</td>
@@ -157,6 +153,9 @@
                 <tr>
                     <td colspan="2">{{ $spb->branch->city }},  {{ date("d/m/Y", strtotime($spb->spb_open)) }}</td>
                 </tr>
+                <tr>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
 
@@ -174,10 +173,10 @@
                     <td style="height: 100px; border: 1px solid black;"></td>
                 </tr>
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">(…..................................)</td>
-                    <td style="border: 1px solid black;">(….......................)</td>
-                    <td style="border: 1px solid black;">(........................)</td>
-                    <td style="border: 1px solid black;">(…................................)</td>
+                    <td style="border: 1px solid black;">(..................................)</td>
+                    <td style="border: 1px solid black;">(..................................)</td>
+                    <td style="border: 1px solid black;">(..................................)</td>
+                    <td style="border: 1px solid black;">(….................................)</td>
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">Pemohon</td>

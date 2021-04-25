@@ -36,17 +36,17 @@
                 <td colspan="5" style="font-size: 20px; font-weight: bold;">(SPBD)</td>
             </tr>
             <tr>
-                <td style="height: 20px;" width="7%"></td>
-                <td style="height: 20px;" width="30%"></td>
-                <td style="height: 20px;" width="10%"></td>
+                <td style="height: 20px;" width="5%"></td>
+                <td style="height: 20px;" width="25%"></td>
                 <td style="height: 20px;" width="20%"></td>
-                <td style="height: 20px;"></td>
+                <td style="height: 20px;" width="25%"></td>
+                <td style="height: 20px;" width="25%"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: left;">Kepada :</td>
                 <td></td>
                 <td></td>
-                <td style="text-align: right;">Nomor : {{ $spbd->spbd_no }}</td>
+                <td style="text-align: left;">Nomor : {{ $spbd->spbd_no }}</td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: left;">Bagian General Affairs</td>
@@ -122,6 +122,9 @@
             </tr>
             <tr>
                 <td colspan="2">{{ $spbd->branch->city }},  {{ date("d/m/Y", strtotime($spbd->spbd_open)) }}</td>
+            </tr>
+            <tr>
+                <td></td>
             </tr>
         </tbody>
     </table>
