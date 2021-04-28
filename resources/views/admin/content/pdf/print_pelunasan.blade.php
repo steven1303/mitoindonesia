@@ -139,7 +139,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td colspan="2">Pekanbaru, {{ date("d/m/Y", strtotime($pelunasan->pelunasan_open)) }}</td>
+            <td colspan="2">{{ $pelunasan->branch->city }}, {{ date("d/m/Y", strtotime($pelunasan->pelunasan_open)) }}</td>
             <td></td>
             <td></td>
             <td></td>

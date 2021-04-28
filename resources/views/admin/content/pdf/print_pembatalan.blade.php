@@ -53,7 +53,7 @@
               <td style="border: 1px solid black;">No Document</td>
               <td style="border: 1px solid black;" colspan="2">Deskripsi</td>
               <td style="border: 1px solid black;" width="15%">Qty</td>
-              <td style="border: 1px solid black;" width="25%">SPBD</td>
+              <td style="border: 1px solid black;" width="25%">Dok.Pendukung</td>
           </tr>
           @if ($pembatalan->pembatalan_type == 1)
           @foreach ($pembatalan->po_stock->po_stock_detail as $detail)
@@ -125,7 +125,7 @@
               <td style="height: 20px;"></td>
           </tr>
           <tr>
-              <td colspan="3">Tanggal : {{ date("d/m/Y", strtotime($pembatalan->po_open)) }}</td>
+              <td colspan="3">{{ $pembatalan->branch->city }} : {{ date("d/m/Y", strtotime($pembatalan->po_open)) }}</td>
               <td></td>
               <td></td>
               <td></td>

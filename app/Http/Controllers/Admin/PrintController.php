@@ -31,7 +31,17 @@ class PrintController extends SettingsController
         $data = [
             'spbd' => $spbd
         ];
-        $pdf = PDF::loadView('admin.content.pdf.print_spbd',$data);
+        if(Auth::user()->id_branch == 1)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_spbd_pekanbaru',$data);
+            return $pdf->stream('print_spbd.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_spbd_medan',$data);
+            return $pdf->stream('print_spbd.pdf');
+        }
+        $pdf = PDF::loadView('admin.content.pdf.print_spbd_default',$data);
         return $pdf->stream('print_spbd.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
