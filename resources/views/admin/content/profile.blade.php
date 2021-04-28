@@ -87,7 +87,7 @@
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#adminForm')[0].reset();
+                            // $('#adminForm')[0].reset();
                             $('#btnSave').text('Submit');
                             success(data.stat, data.message);
                         }
