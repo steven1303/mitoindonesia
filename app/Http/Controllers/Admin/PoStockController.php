@@ -242,7 +242,7 @@ class PoStockController extends SettingAjaxController
     public function destroy($id)
     {
         if(Auth::user()->can('po.stock.delete')){
-            PoStock::find($id)->spbd->spbd_detail->update(['po_qty' => 0]);
+            PoStock::find($id)->spbd()->spbd_detail()->update(['po_qty' => 0]);
             PoStock::destroy($id);
             return response()
                 ->json(['code'=>200,'message' => 'PO Stock Success Deleted', 'stat' => 'Success']);
