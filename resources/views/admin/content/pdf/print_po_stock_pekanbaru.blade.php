@@ -30,7 +30,7 @@
     <table width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
-                <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER</td>
+                <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER </td>
             </tr>
             <tr>
                 <td style="height: 20px;" width="5%"></td>
@@ -49,6 +49,9 @@
                 <td colspan="3" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_stock->po_open)) }}</td>
                 <td style="text-align: left;" >Kota </td>
                 <td style="text-align: left;" colspan="2">: {{ $po_stock->vendor->city }}</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align: left;">No.SPBD : {{ $po_stock->spbd->spbd_no }}</td>
             </tr>
             <tr>
                 <td style="height: 20px;"></td>

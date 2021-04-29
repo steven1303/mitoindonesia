@@ -174,16 +174,16 @@
                     <td style="height: 100px; border: 1px solid black;"></td>
                 </tr>
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">(…..................................)</td>
+                    <td style="border: 1px solid black;">(….......................)</td>
                     <td style="border: 1px solid black;">(….......................)</td>
                     <td style="border: 1px solid black;">(........................)</td>
-                    <td style="border: 1px solid black;">(…................................)</td>
+                    <td style="border: 1px solid black;">(….......................)</td>
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">Pemohon</td>
-                    <td style="border: 1px solid black;">Manager</td>
-                    <td style="border: 1px solid black;">GA</td>
-                    <td style="border: 1px solid black;">Direktur Utama/GM</td>
+                    <td style="border: 1px solid black;">Admin</td>
+                    <td style="border: 1px solid black;">HRD & GA</td>
+                    <td style="border: 1px solid black;">Branch Manager</td>
                 </tr>
             </tbody>
         </table>

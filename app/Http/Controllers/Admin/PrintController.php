@@ -54,7 +54,17 @@ class PrintController extends SettingsController
         $data = [
             'po_stock' => $po_stock
         ];
-        $pdf = PDF::loadView('admin.content.pdf.print_po_stock',$data);
+        if(Auth::user()->id_branch == 1)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_stock_pekanbaru',$data);
+            return $pdf->stream('print_po_stock.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_stock_medan',$data);
+            return $pdf->stream('print_po_stock.pdf');
+        }
+        $pdf = PDF::loadView('admin.content.pdf.print_po_stock_default',$data);
         // return $pdf->setPaper('a4', 'landscape')->stream('print_po_stock.pdf');
         return $pdf->stream('print_po_stock.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
@@ -82,6 +92,16 @@ class PrintController extends SettingsController
         $data = [
             'sppb' => $sppb
         ];
+        if(Auth::user()->id_branch == 1)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_sppb_pekanbaru',$data);
+            return $pdf->stream('print_sppb.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_sppb_medan',$data);
+            return $pdf->stream('print_sppb.pdf');
+        }
         $pdf = PDF::loadView('admin.content.pdf.print_sppb',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_sppb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
@@ -146,7 +166,17 @@ class PrintController extends SettingsController
         $data = [
             'po_stock' => $po_stock
         ];
-        $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock',$data);
+        if(Auth::user()->id_branch == 1)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_pekanbaru',$data);
+            return $pdf->stream('print_po_non_stock.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_medan',$data);
+            return $pdf->stream('print_po_non_stock.pdf');
+        }
+        $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_default',$data);
         return $pdf->stream('print_po_non_stock.pdf');
         // return $pdf->setPaper('a4', 'landscape')->stream('print_po_non_stock.pdf');
     }
