@@ -133,7 +133,7 @@ class SpbdController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        if(Auth::user()->can('spbd.update')){
+        if(Auth::user()->can('spbd.update') || Auth::user()->can('po.stock.store')){
             $data = SpbdDetail::with('stock_master')->findOrFail($id);
             return $data;
         }
