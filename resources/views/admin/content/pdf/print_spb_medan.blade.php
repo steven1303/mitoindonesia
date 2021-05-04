@@ -36,8 +36,8 @@
                 <tr>
                     <td style="height: 20px;" width="7%"></td>
                     <td style="height: 20px;" width="30%"></td>
-                    <td style="height: 20px;" width="23%"></td>
-                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="18%"></td>
+                    <td style="height: 20px;" width="15%"></td>
                     <td style="height: 20px;" width="30%"></td>
                 </tr>
                 <tr>
