@@ -76,13 +76,13 @@
                 @foreach ($spb->spb_detail as $detail)
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                    <td colspan="2" style="border: 1px solid black;">{{ $detail->product }}</td>
+                    <td colspan="2" style="border: 1px solid black; text-align: left;">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>
                     <!-- <td style="border: 1px solid black;">{{ $detail->spb->vendor->name }}</td> -->
                     <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
                 </tr>
                 @endforeach
-                @for ($i = $spb->spb_detail->count(); $i < 12; $i++)
+                @for ($i = $spb->spb_detail->count(); $i < 14; $i++)
                 <tr style="border: 1px solid black; height: 20px;">
                     <td style="border: 1px solid black; height: 20px;"></td>
                     <td colspan="2" style="border: 1px solid black; height: 20px;"></td>
