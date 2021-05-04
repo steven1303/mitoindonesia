@@ -7,44 +7,6 @@
     <title>Document</title>
 </head>
     <body>
-    {{-- <h3 style="text-align: center;">SURAT PERMINTAAN BARANG<br/>
-        (SPB)
-    </h3>
-        Kepada : <br/>
-        Bagian General Affairs<br/>
-        <br/>
-        Untuk kepentingan ketersediaan stock dan penjualan barang dagang perusahaan dengan ini kami mohon untuk dapat disediakan Barang sebagai berikut:<br/>
-        <br/>
-        <br/>
-        <table  border="1" width="100%" cellspacing="0" cellpadding="0">
-            <tbody>
-            <tr>
-                <td width="30" height="20" style="text-align: center;">No</td>
-                <td height="20" style="text-align: center;">Keterangan</td>
-                <td height="20" style="text-align: center;">Vendor</td>
-                <td width="60" height="20" style="text-align: center;">QTY</td>
-                <td width="60" height="20" style="text-align: center;">Satuan</td>
-            </tr>
-            @foreach ($spb->spb_detail as $detail)
-                <tr>
-                    <td style="text-align: center;">{{ $loop->iteration }}</td>
-                    <td>{{ $detail->keterangan }}</td>
-                    <td>{{ $detail->spb->vendor->name }}</td>
-                    <td>{{ $detail->qty }}</td>
-                    <td>{{ $detail->satuan }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-            </table>
-        <br/>
-        <br/>
-        <em>Note : Exclude (Harga Belum Termasuk PPN 10%)</em><br/>
-        <br/>
-        &nbsp;<br/>
-        <br/>
-        Medan, {{$spb->created_at}}
-        <br/>
-        &nbsp; --}}
         <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
             <tbody>
                 <tr>
@@ -74,19 +36,18 @@
                 <tr>
                     <td style="height: 20px;" width="7%"></td>
                     <td style="height: 20px;" width="30%"></td>
+                    <td style="height: 20px;" width="23%"></td>
                     <td style="height: 20px;" width="10%"></td>
-                    <td style="height: 20px;" width="20%"></td>
                     <td style="height: 20px;" width="30%"></td>
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: left;">Kepada :</td>
-                    <td colspan="2" style="text-align: right;">Nomor : {{ $spb->spb_no }}</td>
+                    <td colspan="2" style="text-align: left;">Nomor : {{ $spb->spb_no }} </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: left;">Bagian General Affairs</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="3" style="text-align: left;">Bagian General Affairs</td>
+                    <td colspan="2" style="text-align: left;">Vendor : {{ $spb->vendor->name }}</td>
+                    
                 </tr>
                 <tr>
                     <td style="height: 20px;"></td>
@@ -107,33 +68,32 @@
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">No</td>
-                    <td style="border: 1px solid black;">Nama Barang</td>
+                    <td colspan="2" style="border: 1px solid black;">Nama Barang</td>
                     <td style="border: 1px solid black;">Qty</td>
-                    <td style="border: 1px solid black;">Vendor</td>
+                    <!-- <td style="border: 1px solid black;">Vendor</td> -->
                     <td style="border: 1px solid black;">Keterangan</td>
                 </tr>
                 @foreach ($spb->spb_detail as $detail)
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->product }}</td>
+                    <td colspan="2" style="border: 1px solid black;">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->spb->vendor->name }}</td>
+                    <!-- <td style="border: 1px solid black;">{{ $detail->spb->vendor->name }}</td> -->
                     <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
                 </tr>
                 @endforeach
-                @for ($i = $spb->spb_detail->count(); $i < 16; $i++)
+                @for ($i = $spb->spb_detail->count(); $i < 12; $i++)
                 <tr style="border: 1px solid black; height: 20px;">
                     <td style="border: 1px solid black; height: 20px;"></td>
+                    <td colspan="2" style="border: 1px solid black; height: 20px;"></td>
                     <td style="border: 1px solid black; height: 20px;"></td>
-                    <td style="border: 1px solid black; height: 20px;"></td>
-                    <td style="border: 1px solid black; height: 20px;"></td>
+                    <!-- <td style="border: 1px solid black; height: 20px;"></td> -->
                     <td style="border: 1px solid black; height: 20px;"></td>
                 </tr>
                 @endfor
                 <tr>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2" ></td>
                     <td></td>
                     <td></td>
                 </tr>
