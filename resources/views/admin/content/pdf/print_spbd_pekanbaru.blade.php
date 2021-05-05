@@ -78,7 +78,7 @@
             @foreach ($spbd->spbd_detail as $detail)
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                <td style="border: 1px solid black;">{{ $detail->stock_master->name }}</td>
+                <td style="border: 1px solid black; text-align: left">{{ $detail->stock_master->name }}</td>
                 <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->stock_master->satuan }}</td>
                 <td colspan="2" style="border: 1px solid black;">{{ $detail->keterangan }}</td>
             </tr>
