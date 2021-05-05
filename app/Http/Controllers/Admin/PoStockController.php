@@ -83,7 +83,7 @@ class PoStockController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        if(Auth::user()->can('po.stock.update')){
+        if(Auth::user()->can('po.stock.update') || Auth::user()->can('receipt.store')){
             $po = PoStockDetail::findOrFail($id);
             $data = array(
                 "id" => $po->id,

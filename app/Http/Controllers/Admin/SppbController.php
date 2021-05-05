@@ -147,7 +147,7 @@ class SppbController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        if(Auth::user()->can('sppb.update')){
+        if(Auth::user()->can('sppb.update') || Auth::user()->can('invoice.store')){
             $data = SppbDetail::with('stock_master')->findOrFail($id);
             return $data;
         }
@@ -446,7 +446,7 @@ class SppbController extends SettingAjaxController
      */
     public function verify($id)
     {
-        if(Auth::user()->can('sppb.approve')){
+        if(Auth::user()->can('sppb.verify')){
             $data = Sppb::findOrFail($id);
             $data->sppb_status = 3;
             $data->update();
