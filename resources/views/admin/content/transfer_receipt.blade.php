@@ -14,25 +14,37 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create Transfer Stock Branch</h3>
+                    <h3 class="box-title"  id="formTitle">Create Receipt Transfer</h3>
                 </div>
-                <form role="form" id="TransferForm" method="POST">
+                <form role="form" id="TransferReceiptForm" method="POST">
                     <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="id_branch" name="id_branch">
+                    <input type="hidden" id="id_transfer" name="id_transfer">
                     {{ csrf_field() }} {{ method_field('POST') }}
                     <div class="box-body">
                         <div class="col-xs-4">
                             <div class="form-group">
-                                <label>Branch</label>
-                                <select name="branch" class="form-control" id="branch">
-                                    @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                    @endforeach
+                                <label>Transfer No</label>
+                                <select class="form-control select2" id="transfer" name="transfer" style="width: 100%;">
+                                    <option></option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>From Branch</label>
+                                <input type="text" class="form-control" id="branch" name="branch" readonly>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button id="btnSave" type="submit" class="btn btn-primary">Create Transfer</button>
+                        <button id="btnSave" type="submit" class="btn btn-primary">Create</button>
                         <button type="button" class="btn btn-secondary" onclick="cancel()">Cancel</button>
                     </div>
                 </form>
@@ -44,15 +56,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">List Transfer</h3>
+                    <h3 class="box-title">List Transfer Receipt</h3>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped"  id="stockMasterTable">
+                    <table class="table table-bordered table-striped"  id="transferReceiptTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Document No</th>
-                                <th>Ke Branch</th>
+                                <th>From Branch</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -69,7 +81,7 @@
 <script type="text/javascript">
     var save_method;
     save_method = 'add';
-    var table = $('#stockMasterTable')
+    var table = $('#transferReceiptTable')
     .DataTable({
         'paging'      	: true,
         'lengthChange'	: true,
@@ -80,39 +92,66 @@
         "processing"	: true,
         "serverSide"	: true,
         responsive      : true,
-        "ajax": "{{route('local.record.transfer') }}",
+        "ajax": "{{route('local.record.transfer_receipt') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
-            {data: 'transfer_no', name: 'transfer_no'},
+            {data: 'receipt_transfer_no', name: 'receipt_transfer_no'},
             {data: 'branch_name', name: 'branch_name'},
-            {data: 'transfer_date', name: 'transfer_date'},
+            {data: 'receipt_transfer_date', name: 'receipt_transfer_date'},
             {data: 'status_transfer', name: 'status_transfer'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
     @canany(['transfer.store', 'transfer.update'], Auth::user())
     $(function(){
-	    $('#TransferForm').validator().on('submit', function (e) {
+
+        $('#transfer').select2({
+            placeholder: "Select and Search",
+            ajax:{
+                url:"{{route('local.search.transfer') }}",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+        })
+
+        $('#transfer').on('select2:select', function (e) {
+            var data = e.params.data;
+            $('#id_transfer').val(data.id);
+            $('#id_branch').val(data.branch_id);
+            $('#branch').val(data.branch_name);
+        });
+
+	    $('#TransferReceiptForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
-                url = "{{route('local.transfer.store') }}";
+                url = "{{route('local.transfer_receipt.store') }}";
 				$('input[name=_method]').val('POST');
 			    $.ajax({
 				    url : url,
 				    type : "POST",
-				    data : $('#TransferForm').serialize(),
+				    data : $('#TransferReceiptForm').serialize(),
 				    success : function(data) {
                         table.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
                             $('#id').val('');
-                            $('#TransferForm')[0].reset();
+                            $('#TransferReceiptForm')[0].reset();
                             cancel();
                             success(data.stat, data.message);
                             if (data.process == 'add')
                             {
-                                ajaxLoad("{{ url('transfer_detail') }}" + '/' + data.id);
+                                ajaxLoad("{{ url('transfer_receipt_detail') }}" + '/' + data.id);
                             }
                         }
                         if(data.stat == 'Error'){
@@ -132,9 +171,10 @@
     });
     function cancel(){
         save_method = 'add';
-        $('#TransferForm')[0].reset();
-        $('#btnSave').text('Submit');
-        $('#formTitle').text('Create Transfer Stock Branch');
+        $('#TransferReceiptForm')[0].reset();
+        $('#btnSave').text('Create');
+        $('#formTitle').text('Create Receipt Transfer');
+        $('#transfer').val(null).trigger('change');
         $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
     }
@@ -166,7 +206,7 @@
         window.open("{{ url('transfer_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('transfer.approve', Auth::user())
+    @can('adjustment.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({

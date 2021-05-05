@@ -41,7 +41,7 @@ class TransferBranchController extends SettingAjaxController
 
     public function transfer_no(){
         $tanggal = Carbon::now();
-        $format = 'TR/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
+        $format = 'TB/'.Auth::user()->branch->name.'/'.$tanggal->format('y').'/'.$tanggal->format('m');
         $transfer = TransferBranch::where([
             ['transfer_no','like', $format.'%'],
             ['id_branch','=', Auth::user()->id_branch]
@@ -258,17 +258,29 @@ class TransferBranchController extends SettingAjaxController
             ->rawColumns(['action'])->make(true);
     }
 
-    public function recordTransfer_detail($id){
-        $data = TransferDetail::where([
-            ['id_branch','=', Auth::user()->id_branch],
-            ['id_transfer','=', $id],
-        ])->latest()->get();
+    public function recordTransfer_detail($id, $rec_stat = NULL){
+
+        if($rec_stat == 1){
+            $data = TransferDetail::where([
+                ['id_transfer','=', $id],
+            ])->whereRaw('transfer_details.qty <> transfer_details.rec_qty')->latest()->get();
+
+        }else {
+            $data = TransferDetail::where([
+                ['id_branch','=', Auth::user()->id_branch],
+                ['id_transfer','=', $id],
+            ])->latest()->get();
+        }
         $access =  Auth::user();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($data) use($access){
+            ->addColumn('action', function($data) use($rec_stat, $access){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
+
+                if($rec_stat == 1){
+                    $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
+                }
                 if($data->transfer->transfer_status == 1){
                     if($access->can('transfer.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
@@ -372,5 +384,39 @@ class TransferBranchController extends SettingAjaxController
             // $stock_master->harga_modal = $detail->price;
             // $stock_master->update();
         }
+    }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchTransfer(Request $request)
+    {
+        $term = trim($request->q);
+
+        if (empty($term)) {
+            return response()->json([]);
+        }
+
+        $tags = TransferBranch::where([
+            ['transfer_no','like','%'.$term.'%'],
+            ['to_branch','=', Auth::user()->id_branch],
+            ['transfer_status','=', 3],
+        ])->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = [
+                'id'    => $tag->id,
+                'text'  => $tag->transfer_no,
+                'branch_id'  => $tag->id_branch,
+                'branch_name'  => $tag->branch->city,
+            ];
+        }
+
+        return response()->json($formatted_tags);
     }
 }

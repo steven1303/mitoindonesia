@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     @endcan
-                    
+
                  </ul>
             </li>
 
@@ -99,6 +99,11 @@
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.transfer.index')}}')">
                             <i class="fa fa-th"></i> <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.transfer_receipt.index')}}')">
+                            <i class="fa fa-th"></i> <span>Transfer Receipt</span>
                         </a>
                     </li>
                 </ul>
@@ -180,7 +185,7 @@
                         </a>
                     </li>
                     @endcan
-                   
+
                 </ul>
             </li>
 

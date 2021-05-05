@@ -333,6 +333,7 @@ Route::get('/transfer/{id}/edit', 'App\Http\Controllers\Admin\TransferBranchCont
 Route::patch('/transfer/{id}', 'App\Http\Controllers\Admin\TransferBranchController@update')->name('local.transfer.update');
 Route::delete('/transfer/{id}', 'App\Http\Controllers\Admin\TransferBranchController@destroy')->name('local.transfer.delete');
 Route::get('record/transfer', 'App\Http\Controllers\Admin\TransferBranchController@recordTransfer')->name('local.record.transfer');
+Route::get('record/search_transfer', 'App\Http\Controllers\Admin\TransferBranchController@searchTransfer')->name('local.search.transfer');
 
 // Transfer Branch Detail
 Route::get('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@detail')->name('local.transfer.detail.index');
@@ -340,5 +341,22 @@ Route::post('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchC
 Route::get('/transfer/{id}/edit_detail', 'App\Http\Controllers\Admin\TransferBranchController@edit_detail')->name('local.transfer.edit_detail');
 Route::patch('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@update_detail')->name('local.transfer.update_detail');
 Route::delete('/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@destroy_detail')->name('local.transfer.delete_detail');
-Route::get('record/transfer_detail/{id}', 'App\Http\Controllers\Admin\TransferBranchController@recordTransfer_detail')->name('local.record.transfer_detail');
+Route::get('record/transfer_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\TransferBranchController@recordTransfer_detail')->name('local.record.transfer_detail');
 Route::get('/transfer_open/{id}', 'App\Http\Controllers\Admin\TransferBranchController@transfer_open')->name('local.transfer.open.index');
+
+// Transfer Branch
+Route::get('/transfer_receipt', 'App\Http\Controllers\Admin\TransferReceiptController@index')->name('local.transfer_receipt.index');
+Route::post('/transfer_receipt', 'App\Http\Controllers\Admin\TransferReceiptController@store')->name('local.transfer_receipt.store');
+// Route::get('/transfer_receipt/{id}/edit', 'App\Http\Controllers\Admin\TransferReceiptController@edit')->name('local.transfer_receipt.edit');
+// Route::patch('/transfer_receipt/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@update')->name('local.transfer_receipt.update');
+// Route::delete('/transfer_receipt/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@destroy')->name('local.transfer_receipt.delete');
+Route::get('record/transfer_receipt', 'App\Http\Controllers\Admin\TransferReceiptController@recordTransferReceipt')->name('local.record.transfer_receipt');
+
+// // Transfer Branch Detail
+Route::get('/transfer_receipt_detail/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@detail')->name('local.transfer_receipt.detail.index');
+Route::post('/transfer_receipt_detail/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@store_detail')->name('local.transfer_receipt.store_detail');
+// Route::get('/transfer_receipt/{id}/edit_detail', 'App\Http\Controllers\Admin\TransferReceiptController@edit_detail')->name('local.transfer_receipt.edit_detail');
+// Route::patch('/transfer_receipt_detail/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@update_detail')->name('local.transfer_receipt.update_detail');
+// Route::delete('/transfer_receipt_detail/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@destroy_detail')->name('local.transfer_receipt.delete_detail');
+Route::get('record/transfer_receipt_detail/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@recordTransfer_detail')->name('local.record.transfer_receipt_detail');
+// Route::get('/transfer_receipt_open/{id}', 'App\Http\Controllers\Admin\TransferReceiptController@transfer_open')->name('local.transfer_receipt.open.index');

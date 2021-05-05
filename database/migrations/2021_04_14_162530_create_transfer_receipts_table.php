@@ -16,6 +16,7 @@ class CreateTransferReceiptsTable extends Migration
         Schema::create('transfer_receipts', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_branch');
+            $table->bigInteger('id_transfer');
             $table->string('receipt_transfer_no')->unique();
             $table->bigInteger('from_branch');
             $table->dateTime('receipt_transfer_date');
@@ -24,7 +25,7 @@ class CreateTransferReceiptsTable extends Migration
             $table->bigInteger('user_id');
             $table->dateTime('receipt_transfer_open')->nullable();
             $table->dateTime('receipt_transfer_print')->nullable();
-            $table->timestamps();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
 
