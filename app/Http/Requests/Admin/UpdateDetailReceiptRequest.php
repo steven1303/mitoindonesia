@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Rules\Admin\QtyTransferReceiptRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDetailTransferReceiptRequest extends FormRequest
+class UpdateDetailReceiptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class StoreDetailTransferReceiptRequest extends FormRequest
     public function rules()
     {
         return [
-            'terima' => ['required', new QtyTransferReceiptRule($this->input('id_transfer_detail'), 1)],
-            'stock_master' => ['required'],
+            'terima' => ['required', 'lte:'.$this->input('qty')],
         ];
     }
 
@@ -34,7 +32,7 @@ class StoreDetailTransferReceiptRequest extends FormRequest
     {
         return [
             'terima.required' => 'Terima is required',
-            'stock_master.required' => 'Stock Master Code not detected.',
+            'terima.lte' => 'Over than Ordering',
         ];
     }
 }

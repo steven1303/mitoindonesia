@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\StockMovement;
+use App\Models\TransferDetail;
 use App\Models\TransferReceipt;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TransferReceiptDetail;
 use App\Http\Controllers\Admin\SettingAjaxController;
+use App\Http\Requests\Admin\StoreDetailTransferReceiptRequest;
+use App\Http\Requests\Admin\UpdateDetailTransferReceiptRequest;
 
 class TransferReceiptController extends SettingAjaxController
 {
@@ -82,37 +86,151 @@ class TransferReceiptController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error Transfer Receipt Access Denied', 'stat' => 'Error']);
     }
 
-    public function store_detail(StoreDetailReceiptRequest $request, $id)
+    public function store_detail(StoreDetailTransferReceiptRequest $request, $id)
     {
         if(Auth::user()->can('transfer.update')){
             $data = [
                 'id_branch' => Auth::user()->id_branch,
-                'id_rec' => $id,
-                'id_po_detail' => $request['id_po_detail'],
-                'id_stock_master' => $request['id_stock_master'],
-                'order' => $request['qty'],
-                'terima' => $request['terima'],
-                'bo' => $request['qty'] - $request['terima'],
+                'id_receipt_transfer' => $id,
+                'id_transfer_detail' => $request['id_transfer_detail'],
+                'id_stock_master_from' => $request['id_stock_master_from'],
+                'id_stock_master' => $request['stock_master'],
+                'qty' => $request['terima'],
                 'price' => preg_replace('/\D/', '',$request['price']),
-                'disc' => preg_replace('/\D/', '',$request['disc']),
                 'keterangan' => $request['keterangan'],
-                'rec_detail_status' => 1,
+                'transfer_receipt_detail_status' => 1,
             ];
-            $activity = RecStockDetail::create($data);
-            $po_detail = PoStockDetail::find($request['id_po_detail']);
-            $po_detail->rec_qty = $po_detail->rec_detail->sum('terima');
-            $po_detail->update();
+            $activity = TransferReceiptDetail::create($data);
+            $transfer_detail = TransferDetail::find($request['id_transfer_detail']);
+            $transfer_detail->rec_qty = $transfer_detail->rec_detail->sum('qty');
+            $transfer_detail->update();
             if ($activity->exists) {
                 return response()
-                    ->json(['code'=>200,'message' => 'Add new item PO Stock Success', 'stat' => 'Success', 'process' => 'update']);
+                    ->json(['code'=>200,'message' => 'Add new item Transfer Receipt Success', 'stat' => 'Success', 'process' => 'update']);
 
             } else {
                 return response()
-                    ->json(['code'=>200,'message' => 'Error item PO Stock Store', 'stat' => 'Error']);
+                    ->json(['code'=>200,'message' => 'Error item Transfer Receipt Store', 'stat' => 'Error']);
             }
         }
         return response()
             ->json(['code'=>200,'message' => 'Error Receipt Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        if(Auth::user()->can('transfer.update')){
+            $data = TransferReceipt::with('from')->findOrFail($id);
+            return $data;
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_detail($id)
+    {
+        if(Auth::user()->can('transfer.update')){
+            $data = TransferReceiptDetail::with(['stock_master_from','stock_master','transfer_detail'])->findOrFail($id);
+            return $data;
+        }
+        return response()->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        if(Auth::user()->can('transfer.update')){
+            $data = TransferReceipt::find($id);
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Transfer Receipt Success', 'stat' => 'Success']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Transfer Receipt Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_detail(UpdateDetailTransferReceiptRequest $request, $id)
+    {
+        if(Auth::user()->can('transfer.update')){
+            $data = TransferReceiptDetail::find($id);
+            $data->id_stock_master    = $request['stock_master'];
+            $data->qty    = $request['terima'];
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+
+            $transfer_detail = TransferDetail::find($data->id_transfer_detail);
+            $transfer_detail->rec_qty = $transfer_detail->rec_detail->sum('qty');
+            $transfer_detail->update();
+
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Item Transfer Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        if(Auth::user()->can('transfer.delete')){
+            $data = TransferReceipt::find($id);
+            foreach ($data->transfer_receipt_detail as $detail ) {
+                $transfer_detail = TransferDetail::find($detail->id_transfer_detail);
+                $transfer_detail->rec_qty = $transfer_detail->rec_qty - $detail->qty;
+                $transfer_detail->update();
+            }
+            TransferReceipt::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Transfer Success Deleted', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Transfer Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_detail($id)
+    {
+        $transfer_receipt = TransferReceiptDetail::find($id);
+        TransferReceiptDetail::destroy($id);
+        $transfer_detail = TransferDetail::find($transfer_receipt->id_transfer_detail);
+        $transfer_detail->rec_qty = $transfer_detail->rec_qty - $transfer_receipt->qty;
+        $transfer_detail->update();
+        return response()
+            ->json(['code'=>200,'message' => 'Transfer Detail Success Deleted', 'stat' => 'Success']);
     }
 
     public function recordTransferReceipt(){
@@ -145,7 +263,7 @@ class TransferReceiptController extends SettingAjaxController
                 $transfer_approve = "javascript:ajaxLoad('".route('local.transfer.approve', $data->id)."')";
                 $action = "";
                 $title = "'".$data->transfer_no."'";
-                if($data->transfer_status == 1){
+                if($data->receipt_transfer_status == 1){
                     if($access->can('transfer.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-warning btn-xs"> Draft</a> ';
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .','.$title.')" class="btn btn-info btn-xs"> Edit</button> ';
@@ -154,7 +272,7 @@ class TransferReceiptController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
-                elseif($data->transfer_status == 2){
+                elseif($data->receipt_transfer_status == 2){
                     if($access->can('transfer.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -202,7 +320,7 @@ class TransferReceiptController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
-                if($data->transfer->receipt_transfer_status == 2){
+                if($data->transfer_receipt->receipt_transfer_status == 2){
                     if($access->can('transfer.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
@@ -227,5 +345,75 @@ class TransferReceiptController extends SettingAjaxController
                 return $action;
             })
             ->rawColumns(['action'])->make(true);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transfer_receipt_open($id)
+    {
+        if(Auth::user()->can('transfer.open')){
+            $data = TransferReceipt::findOrFail($id);
+            if($data->transfer_receipt_detail->count() < 1)
+            {
+                return response()->json(['code'=>200,'message' => 'Error, Transfer Receipt item empty...', 'stat' => 'Error']);
+            }
+            $data->receipt_transfer_status = 2;
+            $data->receipt_transfer_open = Carbon::now();
+            $data->receipt_transfer_print = Carbon::now();
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Request Transfer Receipt Success', 'stat' => 'Success']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Transfer Receipt Access Denied', 'stat' => 'Error']);
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        if(Auth::user()->can('transfer.approve')){
+            $data = TransferReceipt::findOrFail($id);
+            $data->receipt_transfer_status = 3;
+            $movement = $this->stock_movement($data->transfer_receipt_detail);
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Transfer Receipt Approve Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Approve Access Denied', 'stat' => 'Error']);
+    }
+
+    public function stock_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->transfer_receipt->created_at,
+                'type' => 'TR',
+                'doc_no' => $detail->transfer_receipt->receipt_transfer_no,
+                'order_qty' => 0,
+                'sell_qty' => 0,
+                'in_qty' => $detail->qty,
+                'out_qty' => 0,
+                'harga_modal' =>0,
+                'harga_jual' => 0,
+                'user' => Auth::user()->name,
+                'ket' => 'Transfer Receipt Approved at ('.Carbon::now().')',
+            ];
+
+            $movement = StockMovement::create($data);
+            // $stock_master = StockMaster::find($detail->id_stock_master);
+            // $stock_master->harga_modal = $detail->price;
+            // $stock_master->update();
+        }
     }
 }

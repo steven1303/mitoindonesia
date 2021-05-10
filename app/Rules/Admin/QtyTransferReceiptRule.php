@@ -2,18 +2,27 @@
 
 namespace App\Rules\Admin;
 
+use App\Models\TransferDetail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\Rule;
 
 class QtyTransferReceiptRule implements Rule
 {
+
+    protected $transfer;
+    protected $status;
+    protected $id_transfer_receipt_detail;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($transfer, $status, $id = 0)
     {
-        //
+        $this->transfer = $transfer;
+        $this->status = $status;
+        $this->id_transfer_receipt_detail = $id;
     }
 
     /**
@@ -25,7 +34,27 @@ class QtyTransferReceiptRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+        if($this->status == 2){
+            $data = TransferDetail::where([
+                ['id','=', $this->transfer]
+            ])->first();
+
+            $stock = $data->qty - $data->rec_qty + $data->rec_detail->where('id','=',  $this->id_transfer_receipt_detail)->first()->qty;
+            if($stock >= $value){
+                return true;
+            }
+            return false;
+        }
+        $data = TransferDetail::where([
+            ['id','=', $this->transfer]
+        ])->first();
+
+        // dd($this->status);
+        $stock = $data->qty - $data->rec_qty;
+        if($stock >= $value){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -35,6 +64,6 @@ class QtyTransferReceiptRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Terima Qty Transfer is over.';
     }
 }

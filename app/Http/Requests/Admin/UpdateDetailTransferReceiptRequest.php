@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Rules\Admin\QtyTransferReceiptRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDetailTransferReceiptRequest extends FormRequest
+class UpdateDetailTransferReceiptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class StoreDetailTransferReceiptRequest extends FormRequest
     public function rules()
     {
         return [
-            'terima' => ['required', new QtyTransferReceiptRule($this->input('id_transfer_detail'), 1)],
+            'terima' => ['required', new QtyTransferReceiptRule($this->input('id_transfer_detail'), 2, $this->input('id'))],
             'stock_master' => ['required'],
         ];
     }

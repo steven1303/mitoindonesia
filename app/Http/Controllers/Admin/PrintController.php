@@ -16,6 +16,7 @@ use App\Models\PoInternal;
 use App\Models\PoNonStock;
 use Illuminate\Http\Request;
 use App\Models\TransferBranch;
+use App\Models\TransferReceipt;
 use Barryvdh\DomPDF\Facade  as PDF;
 use Illuminate\Support\Facades\Auth;
 use Riskihajar\Terbilang\Facades\Terbilang;
@@ -228,4 +229,17 @@ class PrintController extends SettingsController
         $pdf = PDF::loadView('admin.content.pdf.print_transfer',$data);
         return $pdf->stream('print_transfer.pdf');
     }
+
+    public function print_transfer_receipt($id)
+    {
+        $transfer = TransferReceipt::findOrFail($id);
+        $transfer->receipt_transfer_print = Carbon::now();
+        $transfer->update();
+        $data = [
+            'transfer' => $transfer
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_transfer_receipt',$data);
+        return $pdf->stream('print_transfer_receipt.pdf');
+    }
+
 }

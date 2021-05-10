@@ -54,7 +54,7 @@
                             @if($transfer->receipt_transfer_status == 1 || $transfer->receipt_transfer_status == 2 )
                                 <button id="btnSave" type="button" onclick="open_transfer_Form()" class="btn btn-success">Request</button>
                             @endif
-                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.transfer.index')}}')">Save</button>
+                            <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.transfer_receipt.index')}}')">Save</button>
                         </div>
                     </form>
                 </div>
@@ -120,7 +120,8 @@
         <form role="form" id="TransferDetailForm" method="POST">
             {{ csrf_field() }} {{ method_field('POST') }}
             <input type="hidden" id="id" name="id">
-            <input type="hidden" id="id_stock_master" name="id_stock_master">
+            <input type="hidden" id="id_stock_master_from" name="id_stock_master_from">
+            <input type="hidden" id="id_transfer_detail" name="id_transfer_detail">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -132,28 +133,36 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label>Stock No</label>
-                            <input type="text" class="form-control" id="stock_master" name="stock_master" placeholder="Stock No">
-                            <span class="text-danger error-text qty_error"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>QTY</label>
-                            <input type="number" class="form-control" id="qty" name="qty" placeholder="QTY Transfer" readonly>
-                            <span class="text-danger error-text qty_error"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label>terima</label>
-                            <input type="number" class="form-control" id="terima" name="terima" placeholder="Input QTY Transfer">
-                            <span class="text-danger error-text qty_error"></span>
+                            <input type="text" class="form-control" id="stock_master_from" name="stock_master_from" placeholder="Stock No" readonly>
+
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
+                            <label>Stock No</label>
+                            <select class="form-control select2" id="stock_master" name="stock_master" style="width: 100%;">
+                                <option></option>
+                            </select>
+                            <span class="text-danger error-text qty_error"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label>QTY</label>
+                            <input type="number" class="form-control" id="qty" name="qty" placeholder="QTY Transfer" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label>terima</label>
+                            <input type="number" class="form-control" id="terima" name="terima" placeholder="Input Terima">
+                            <span class="text-danger error-text terima_error"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
                             <label>Harga</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Input Harga">
+                            <input type="text" class="form-control" id="price" name="price" placeholder="Input Harga" readonly>
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -220,7 +229,7 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'nama_stock', name: 'nama_stock'},
-            {data: 'qty', name: 'qty'},
+            {data: 'sisa', name: 'sisa'},
             {data: 'satuan', name: 'satuan'},
             {data: 'format_harga', name: 'format_harga'},
             {data: 'format_total', name: 'format_total'},
@@ -241,15 +250,40 @@
         format_decimal_limit();
         $('#datemask').inputmask('dd-mm-yyyy', { 'placeholder': 'dd-mm-yyyy' });
 
+        $('#stock_master').select2({
+            placeholder: "Select and Search",
+            ajax:{
+                url:"{{route('local.search.stock_master') }}",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+        })
+
+        $('#stock_master').on('select2:select', function (e) {
+            var data = e.params.data;
+            console.log(data);
+            $('#satuan').val(data.satuan);
+        });
+
 	    $('#TransferDetailForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
 			    if (save_method == 'add')
 			    {
-				    url = "{{route('local.transfer.store_detail', $transfer->id) }}";
+				    url = "{{route('local.transfer_receipt.store_detail', $transfer->id) }}";
 				    $('input[name=_method]').val('POST');
 			    } else {
-				    url = "{{ url('transfer_detail') . '/' }}" + id;
+				    url = "{{ url('transfer_receipt_detail') . '/' }}" + id;
 				    $('input[name=_method]').val('PATCH');
                 }
 			    $.ajax({
@@ -260,7 +294,8 @@
                         $(document).find('span.error-text').text('');
                     },
 				    success : function(data) {
-                        table.ajax.reload();
+                        table1.ajax.reload();
+                        table2.ajax.reload();
                         if(data.stat == 'Success'){
                             save_method = 'add';
                             $('input[name=_method]').val('POST');
@@ -280,8 +315,8 @@
 				    },
 				    error : function(data){
 					    if(data.status == 422){
-                            if(data.responseJSON.errors.qty !== undefined){
-                                $('span.qty_error').text(data.responseJSON.errors.qty[0]);
+                            if(data.responseJSON.errors.terima !== undefined){
+                                $('span.terima_error').text(data.responseJSON.errors.terima[0]);
                             }
                             if(data.responseJSON.errors.id_stock_master !== undefined)
                             {
@@ -317,9 +352,9 @@
             $('#modal-input-item').modal('show');
             $('#formTitle').text('Add Item');
             $('#btnSave').attr('disabled',false);
-            $('#id_po_detail').val(data.id);
-            $('#stock_master').val(data.stock_master.stock_no);
-            $('#id_stock_master').val(data.id_stock_master);
+            $('#id_transfer_detail').val(data.id);
+            $('#stock_master_from').val(data.stock_master.stock_no);
+            $('#id_stock_master_from').val(data.id_stock_master);
             $('#price').val(data.price - 0);
             $('#disc').val(data.disc - 0);
             $('#qty').val((data.qty - data.rec_qty) - 0);
@@ -339,7 +374,7 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('transfer') }}" + '/' + id + "/edit_detail",
+        url: "{{ url('transfer_receipt') }}" + '/' + id + "/edit_detail",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -348,13 +383,16 @@
             $('#modal_title').text('Edit Item');
             $('#button_modal').attr('disabled',false);
             $('#id').val(data.id);
-            // $('#stock_master').val(data.id_stock_master);
+            $('#id_transfer_detail').val(data.id_transfer_detail);
+            $('#stock_master_from').val(data.stock_master.stock_no);
+            $('#id_stock_master_from').val(data.id_stock_master_form);
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
+            $('#qty').val((data.transfer_detail.qty - data.transfer_detail.rec_qty + data.qty) - 0);
             $('#stock_master').append(newOption).trigger('change');
-            $('#qty').val(data.qty);
-            $('#price').val(data.price);
+            $('#price').val(data.price - 0);
+            $('#terima').val(( data.qty) - 0);
             $('#satuan').val(data.stock_master.satuan);
-            $('#keterangan').val(data.keterangan);
+            $('#keterangan1').val(data.keterangan);
             format_decimal_limit();
         },
         error : function() {
@@ -366,7 +404,7 @@
     @can('adjustment.update', Auth::user())
     function open_transfer_Form() {
         $.ajax({
-        url: "{{route('local.transfer.open.index', $transfer->id) }}",
+        url: "{{route('local.transfer_receipt.open.index', $transfer->id) }}",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -374,7 +412,7 @@
             {
                 success(data.stat, data.message);
                 print_transfer( "{{ $transfer->id }}" );
-                ajaxLoad("{{ route('local.transfer.index') }}");
+                ajaxLoad("{{ route('local.transfer_receipt.index') }}");
             }
             if(data.stat == 'Error')
             {
@@ -389,7 +427,7 @@
     @endcan
     @can('adjustment.print', Auth::user())
     function print_transfer(id){
-        window.open("{{ url('transfer_print') }}" + '/' + id,"_blank");
+        window.open("{{ url('transfer_receipt_print') }}" + '/' + id,"_blank");
     }
     @endcan
     @can('adjustment.delete', Auth::user())
@@ -407,11 +445,12 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('transfer_detail') }}" + '/' + id,
+                    url : "{{ url('transfer_receipt_detail') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {
-                        table.ajax.reload();
+                        table1.ajax.reload();
+                        table2.ajax.reload();
                         swal({
                             type: 'success',
                             title: 'Deleted',

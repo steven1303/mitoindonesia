@@ -150,6 +150,26 @@ class TransferBranchController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request, $id)
+    {
+        if(Auth::user()->can('transfer.update')){
+            $data = TransferBranch::find($id);
+            $data->to_branch    = $request['branch'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Transfer Branch Success', 'stat' => 'Success']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error Transfer Branch Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update_detail(Request $request, $id)
     {
         if(Auth::user()->can('transfer.update')){
@@ -313,6 +333,10 @@ class TransferBranchController extends SettingAjaxController
                 $action = $data->stock_master->satuan;
                 return $action;
             })
+            ->addColumn('sisa', function($data){
+                $action = $data->qty - $data->rec_qty;
+                return $action;
+            })
             ->rawColumns(['action'])->make(true);
     }
 
@@ -373,7 +397,7 @@ class TransferBranchController extends SettingAjaxController
                 'sell_qty' => 0,
                 'in_qty' => 0,
                 'out_qty' => $detail->qty,
-                'harga_modal' => $detail->price,
+                'harga_modal' => 0,
                 'harga_jual' => 0,
                 'user' => Auth::user()->name,
                 'ket' => 'Transfer Approved at ('.Carbon::now().')',

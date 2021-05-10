@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\Admin\QtyTransferRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTransferDetailRequest extends FormRequest
@@ -13,7 +14,7 @@ class UpdateTransferDetailRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,16 @@ class UpdateTransferDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'qty' => ['required', new QtyTransferRule($this->input('stock_master'))],
+            'stock_master' => ['required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'qty.required' => 'QTY is required',
+            'stock_master.required' => 'Stock Master is required',
         ];
     }
 }

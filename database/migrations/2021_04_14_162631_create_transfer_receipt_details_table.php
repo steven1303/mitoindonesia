@@ -18,6 +18,7 @@ class CreateTransferReceiptDetailsTable extends Migration
             $table->bigInteger('id_branch');
             $table->bigInteger('id_receipt_transfer')->unsigned();
             $table->bigInteger('id_transfer_detail')->default(0);
+            $table->bigInteger('id_stock_master_from');
             $table->bigInteger('id_stock_master');
             $table->decimal('qty', 10, 2)->default(0);
             $table->decimal('price',20, 2)->default(0);

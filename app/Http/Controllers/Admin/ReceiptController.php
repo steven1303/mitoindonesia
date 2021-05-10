@@ -16,6 +16,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\SettingAjaxController;
 use App\Http\Requests\Admin\StoreDetailReceiptRequest;
+use App\Http\Requests\Admin\UpdateDetailReceiptRequest;
 
 class ReceiptController extends SettingAjaxController
 {
@@ -213,7 +214,7 @@ class ReceiptController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_detail(Request $request, $id)
+    public function update_detail(UpdateDetailReceiptRequest $request, $id)
     {
         if(Auth::user()->can('receipt.update')){
             $data = RecStockDetail::find($id);

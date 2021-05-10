@@ -30,6 +30,11 @@ class TransferDetail extends Model
         return $this->belongsTo('App\Models\TransferBranch','id_transfer');
     }
 
+    public function rec_detail()
+    {
+    	return $this->hasMany('App\Models\TransferReceiptDetail','id_transfer_detail');
+    }
+
     public function getQtyAttribute($qty)
     {
         return $qty - 0;

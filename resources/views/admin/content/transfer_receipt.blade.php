@@ -5,7 +5,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#">Inventory</a></li>
-        <li class="active"><a href="#"> Create Transfer Branch</a></li>
+        <li class="active"><a href="#"> Create Transfer Receipt</a></li>
     </ol>
 </section>
 <section class="content">
@@ -14,7 +14,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">Create Receipt Transfer</h3>
+                    <h3 class="box-title"  id="formTitle">Create Transfer Receipt</h3>
                 </div>
                 <form role="form" id="TransferReceiptForm" method="POST">
                     <input type="hidden" id="id" name="id">
@@ -25,7 +25,7 @@
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label>Transfer No</label>
-                                <select class="form-control select2" id="transfer" name="transfer" style="width: 100%;">
+                                <select class="form-control select2" id="transfer" name="transfer" style="width: 100%;" readonly>
                                     <option></option>
                                 </select>
                             </div>
@@ -134,8 +134,14 @@
 	    $('#TransferReceiptForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();
 		    if (!e.isDefaultPrevented()){
-                url = "{{route('local.transfer_receipt.store') }}";
-				$('input[name=_method]').val('POST');
+                if (save_method == 'add')
+			    {
+                    url = "{{route('local.transfer_receipt.store') }}";
+				    $('input[name=_method]').val('POST');
+			    } else {
+				    url = "{{ url('transfer_receipt') . '/' }}" + id;
+				    $('input[name=_method]').val('PATCH');
+                }
 			    $.ajax({
 				    url : url,
 				    type : "POST",
@@ -175,6 +181,7 @@
         $('#btnSave').text('Create');
         $('#formTitle').text('Create Receipt Transfer');
         $('#transfer').val(null).trigger('change');
+        $("#transfer").prop("disabled", false);
         $('#btnSave').attr('disabled',false);
         $('input[name=_method]').val('POST');
     }
@@ -184,15 +191,19 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-        url: "{{ url('transfer') }}" + '/' + id + "/edit",
+        url: "{{ url('transfer_receipt') }}" + '/' + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
             $('#modal-input-item').modal('show');
             $('#btnSave').text('Update');
-            $('#formTitle').text('Edit Transfer');
+            $('#formTitle').text('Edit Transfer Receipt');
             $('#id').val(data.id);
-            $('#branch').val(data.to_branch);
+            var newOption = new Option(data.receipt_transfer_no, data.id_transfer, true, true);
+            $('#transfer').append(newOption).trigger('change');
+            $("#transfer").prop("disabled", true);
+            $('#branch').val(data.from.city);
+            $('#keterangan').val(data.keterangan);
             format_decimal_limit();
         },
         error : function() {
@@ -203,14 +214,14 @@
     @endcan
     @can('transfer.print', Auth::user())
     function print_transfer(id){
-        window.open("{{ url('transfer_print') }}" + '/' + id,"_blank");
+        window.open("{{ url('transfer_receipt_print') }}" + '/' + id,"_blank");
     }
     @endcan
     @can('adjustment.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('transfer') }}" + '/' + id + "/approve",
+        url: "{{ url('transfer_receipt') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -238,7 +249,7 @@
             if (willDelete.value) {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url : "{{ url('transfer') }}" + '/' + id,
+                    url : "{{ url('transfer_receipt') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {
