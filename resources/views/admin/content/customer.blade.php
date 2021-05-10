@@ -125,6 +125,7 @@
                                 <th>City</th>
                                 <th>NPWP</th>
                                 <th>Phone</th>
+                                <th>Piutang</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -157,6 +158,7 @@
             {data: 'city', name: 'city'},
             {data: 'npwp', name: 'npwp'},
             {data: 'phone', name: 'phone'},
+            {data: 'piutang', name: 'piutang'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });

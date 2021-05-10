@@ -93,7 +93,7 @@ class TransferBranchController extends SettingAjaxController
                 'id_transfer' => $id,
                 'id_stock_master' => $request['stock_master'],
                 'qty' => $request['qty'],
-                'price' => preg_replace('/\D/', '',$request['price']),
+                // 'price' => preg_replace('/\D/', '',$request['price']),
                 'keterangan' => $request['keterangan'],
                 'transfer_detail_status' => 1,
             ];
@@ -175,8 +175,8 @@ class TransferBranchController extends SettingAjaxController
         if(Auth::user()->can('transfer.update')){
             $data = TransferDetail::find($id);
             $data->id_stock_master    = $request['stock_master'];
-            $data->qty    = $request['qty'];
-            $data->price    = preg_replace('/\D/', '',$request['price']);
+            // $data->qty    = $request['qty'];
+            // $data->price    = preg_replace('/\D/', '',$request['price']);
             $data->keterangan    = $request['keterangan'];
             $data->update();
             return response()
@@ -376,7 +376,7 @@ class TransferBranchController extends SettingAjaxController
         if(Auth::user()->can('transfer.approve')){
             $data = TransferBranch::findOrFail($id);
             $data->transfer_status = 3;
-            $movement = $this->po_movement($data->transfer_detail);
+            $movement = $this->transfer_movement($data->transfer_detail);
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'Transfer Approve Success', 'stat' => 'Success']);
@@ -384,14 +384,14 @@ class TransferBranchController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error Approve Access Denied', 'stat' => 'Error']);
     }
 
-    public function po_movement($data)
+    public function transfer_movement($data)
     {
         foreach ($data as $detail ) {
             $data = [
                 'id_stock_master' => $detail->id_stock_master,
                 'id_branch' => $detail->id_branch,
                 'move_date' => $detail->transfer->created_at,
-                'type' => 'TR',
+                'type' => 'TB',
                 'doc_no' => $detail->transfer->transfer_no,
                 'order_qty' => 0,
                 'sell_qty' => 0,

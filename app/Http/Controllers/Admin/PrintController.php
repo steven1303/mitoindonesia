@@ -220,9 +220,11 @@ class PrintController extends SettingsController
 
     public function print_transfer($id)
     {
+        // $transfer = TransferBranch::with('branch')->findOrFail($id);
         $transfer = TransferBranch::findOrFail($id);
         $transfer->transfer_print = Carbon::now();
         $transfer->update();
+        // dd($transfer);
         $data = [
             'transfer' => $transfer
         ];

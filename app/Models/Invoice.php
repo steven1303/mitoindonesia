@@ -53,6 +53,11 @@ class Invoice extends Model
     public function pelunasan()
     {
     	return $this->hasMany('App\Models\Pelunasan','id_inv');
+    }    
+
+    public function getTotalPpnAttribute()
+    {
+        return $this->inv_detail->sum('total_ppn');
     }
 
     public function getPpnAttribute($ppn)

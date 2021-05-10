@@ -64,6 +64,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Document No</th>
+                                <th>Transfer No</th>
                                 <th>From Branch</th>
                                 <th>Date</th>
                                 <th>Status</th>
@@ -96,6 +97,7 @@
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex' },
             {data: 'receipt_transfer_no', name: 'receipt_transfer_no'},
+            {data: 'transfer_no', name: 'transfer_no'},
             {data: 'branch_name', name: 'branch_name'},
             {data: 'receipt_transfer_date', name: 'receipt_transfer_date'},
             {data: 'status_transfer', name: 'status_transfer'},

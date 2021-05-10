@@ -20,6 +20,9 @@
               <td colspan="6" style="font-size: 20px; font-weight: bold; text-align: center;">STOCK TRANSFER</td>
             </tr>
             <tr>
+            <td colspan="5" style="text-align: right;">Branch : {{ $transfer->branch->city }}</td>
+            </tr>
+            <tr>
             <td style="height: 20px;" colspan="6"></td>
             </tr>
             <tr>

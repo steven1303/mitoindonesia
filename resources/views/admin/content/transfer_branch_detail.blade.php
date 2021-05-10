@@ -72,8 +72,6 @@
                                 <th>Stock Master</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
-                                <th>Harga</th>
-                                <th>Total</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -115,12 +113,12 @@
                             <span class="text-danger error-text qty_error"></span>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <!-- <div class="col-xs-6">
                         <div class="form-group">
                             <label>Harga</label>
                             <input type="text" class="form-control" id="price" name="price" placeholder="Input Harga">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label>Satuan</label>
@@ -164,23 +162,12 @@
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
-            {data: 'format_harga', name: 'format_harga'},
-            {data: 'format_total', name: 'format_total'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     @canany(['adjustment.store', 'adjustment.update'], Auth::user())
-    function format_decimal_limit(){
-        VMasker(document.getElementById("price")).maskMoney({
-            precision: 0,
-            separator: '.',
-            delimiter: '.',
-            unit: 'Rp',
-        });
-    }
     $(function(){
-        format_decimal_limit();
         $('#datemask').inputmask('dd-mm-yyyy', { 'placeholder': 'dd-mm-yyyy' });
 
         $('#stock_master').select2({
@@ -290,7 +277,7 @@
             var newOption = new Option(data.stock_master.stock_no, data.id_stock_master, true, true);
             $('#stock_master').append(newOption).trigger('change');
             $('#qty').val(data.qty);
-            $('#price').val(data.price);
+            // $('#price').val(data.price);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan').val(data.keterangan);
             format_decimal_limit();

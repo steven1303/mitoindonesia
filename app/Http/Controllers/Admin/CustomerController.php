@@ -156,6 +156,17 @@ class CustomerController extends SettingAjaxController
                     }
                     return $action;
                 })
+                ->addColumn('piutang', function($data){
+                    // $check = $data->invoice->count();
+                    // $piutang = 0;
+                    // if($check > 0){
+                    //     $piutang = $data->invoice->get()->inv_detail->sum('total_ppn') - $data->invoice->get()->pelunasan->sum('balance');
+                    // }
+                    // if($piutang > 0){
+                    //     $piutang = $piutang - 0;
+                    // }
+                    return "Rp. ".number_format($data->total_ppn,0, ",", ".");
+                })
                 ->rawColumns(['action'])->make(true);
         }
         return response()

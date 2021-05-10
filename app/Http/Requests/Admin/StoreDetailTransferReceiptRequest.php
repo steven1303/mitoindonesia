@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Rules\Admin\QtyTransferReceiptRule;
+use App\Rules\Admin\NoStockMasterRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDetailTransferReceiptRequest extends FormRequest
@@ -24,9 +25,10 @@ class StoreDetailTransferReceiptRequest extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'terima' => ['required', new QtyTransferReceiptRule($this->input('id_transfer_detail'), 1)],
-            'stock_master' => ['required'],
+            'stock_master' => ['required', new NoStockMasterRule($this->input('stock_master_from')) ],
         ];
     }
 

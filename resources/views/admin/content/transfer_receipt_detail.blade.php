@@ -75,8 +75,6 @@
                                 <th>Stock Master</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
-                                <th>Harga</th>
-                                <th>Total</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -101,8 +99,6 @@
                                 <th>Stock Master</th>
                                 <th>QTY</th>
                                 <th>Satuan</th>
-                                <th>Harga</th>
-                                <th>Total</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -132,18 +128,18 @@
                     <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label>Stock No</label>
+                            <label>Stock No branch {{ $transfer->from->city }}</label>
                             <input type="text" class="form-control" id="stock_master_from" name="stock_master_from" placeholder="Stock No" readonly>
 
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label>Stock No</label>
+                            <label>Stock No branch {{ $transfer->branch->city }}</label>
                             <select class="form-control select2" id="stock_master" name="stock_master" style="width: 100%;">
                                 <option></option>
                             </select>
-                            <span class="text-danger error-text qty_error"></span>
+                            <span class="text-danger error-text stock_master_error"></span>
                         </div>
                     </div>
                     <div class="col-xs-4">
@@ -155,14 +151,8 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>terima</label>
-                            <input type="number" class="form-control" id="terima" name="terima" placeholder="Input Terima">
+                            <input type="number" class="form-control" id="terima" name="terima" placeholder="Input Terima" readonly>
                             <span class="text-danger error-text terima_error"></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <label>Harga</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Input Harga" readonly>
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -208,8 +198,6 @@
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'qty', name: 'qty'},
             {data: 'satuan', name: 'satuan'},
-            {data: 'format_harga', name: 'format_harga'},
-            {data: 'format_total', name: 'format_total'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
@@ -231,23 +219,13 @@
             {data: 'nama_stock', name: 'nama_stock'},
             {data: 'sisa', name: 'sisa'},
             {data: 'satuan', name: 'satuan'},
-            {data: 'format_harga', name: 'format_harga'},
-            {data: 'format_total', name: 'format_total'},
             {data: 'action', name:'action', orderable: false, searchable: false}
         ]
     });
 
     @canany(['adjustment.store', 'adjustment.update'], Auth::user())
-    function format_decimal_limit(){
-        VMasker(document.getElementById("price")).maskMoney({
-            precision: 0,
-            separator: '.',
-            delimiter: '.',
-            unit: 'Rp',
-        });
-    }
+    
     $(function(){
-        format_decimal_limit();
         $('#datemask').inputmask('dd-mm-yyyy', { 'placeholder': 'dd-mm-yyyy' });
 
         $('#stock_master').select2({
@@ -318,10 +296,11 @@
                             if(data.responseJSON.errors.terima !== undefined){
                                 $('span.terima_error').text(data.responseJSON.errors.terima[0]);
                             }
-                            if(data.responseJSON.errors.id_stock_master !== undefined)
+                            if(data.responseJSON.errors.stock_master !== undefined)
                             {
                                 $('span.stock_master_error').text(data.responseJSON.errors.stock_master[0]);
                             }
+
                         }else{
                             error('Error', 'Oops! Something Error! Try to reload your page first...');
                         }
@@ -358,6 +337,7 @@
             $('#price').val(data.price - 0);
             $('#disc').val(data.disc - 0);
             $('#qty').val((data.qty - data.rec_qty) - 0);
+            $('#terima').val((data.qty - data.rec_qty) - 0);
             $('#satuan').val(data.stock_master.satuan);
             $('#keterangan1').val(data.keterangan);
             format_decimal_limit();

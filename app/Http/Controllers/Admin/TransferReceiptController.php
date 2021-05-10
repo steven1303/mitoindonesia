@@ -96,7 +96,7 @@ class TransferReceiptController extends SettingAjaxController
                 'id_stock_master_from' => $request['id_stock_master_from'],
                 'id_stock_master' => $request['stock_master'],
                 'qty' => $request['terima'],
-                'price' => preg_replace('/\D/', '',$request['price']),
+                // 'price' => preg_replace('/\D/', '',$request['price']),
                 'keterangan' => $request['keterangan'],
                 'transfer_receipt_detail_status' => 1,
             ];
@@ -180,7 +180,7 @@ class TransferReceiptController extends SettingAjaxController
         if(Auth::user()->can('transfer.update')){
             $data = TransferReceiptDetail::find($id);
             $data->id_stock_master    = $request['stock_master'];
-            $data->qty    = $request['terima'];
+            // $data->qty    = $request['terima'];
             $data->keterangan    = $request['keterangan'];
             $data->update();
 
@@ -257,6 +257,10 @@ class TransferReceiptController extends SettingAjaxController
             })
             ->addColumn('branch_name', function($data){
                 return $data->from->city;
+            })
+            ->addColumn('transfer_no', function($data){
+                $action = $data->transfer->transfer_no;
+                return $action;
             })
             ->addColumn('action', function($data) use($access){
                 $transfer_detail = "javascript:ajaxLoad('".route('local.transfer_receipt.detail.index', $data->id)."')";
@@ -383,6 +387,8 @@ class TransferReceiptController extends SettingAjaxController
         if(Auth::user()->can('transfer.approve')){
             $data = TransferReceipt::findOrFail($id);
             $data->receipt_transfer_status = 3;
+            $data->transfer->transfer_status = 4;
+            $data->transfer->update();
             $movement = $this->stock_movement($data->transfer_receipt_detail);
             $data->update();
             return response()
