@@ -68,7 +68,7 @@ class PricelistController extends SettingAjaxController
                     return $action;
                 })
                 ->addColumn('soh', function($data){
-                    $soh = $data->stock_movement->sum('in_qty') - $data->stock_movement->sum('out_qty');
+                    $soh = $data->stock_movement->sum('in_qty') - $data->stock_movement->where('status','=', 0)->sum('out_qty');
                     return $soh;
                 })
                 ->addColumn('avg_modal_format', function($data){
