@@ -79,7 +79,7 @@
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->qty * $detail->price),0, ",", ".") }}</td>
                 </tr>
             @endforeach
-            @for ($i = $po_stock->po_stock_detail->count(); $i < 22; $i++)
+            @for ($i = $po_stock->po_stock_detail->count(); $i < 18; $i++)
             <tr style="border: 1px solid black; height: 20px;">
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
