@@ -14,6 +14,7 @@ use App\Models\Adjustment;
 use App\Models\Pembatalan;
 use App\Models\PoInternal;
 use App\Models\PoNonStock;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
 use App\Models\TransferBranch;
 use App\Models\TransferReceipt;
@@ -242,6 +243,16 @@ class PrintController extends SettingsController
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_transfer_receipt',$data);
         return $pdf->stream('print_transfer_receipt.pdf');
+    }
+
+    public function print_stock_soh()
+    {
+        $stock_master = StockMaster::where('id_branch','=', Auth::user()->id_branch)->latest()->get();
+        $data = [
+            'stock_master' => $stock_master
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_stock_soh',$data);
+        return $pdf->stream('print_stock_soh.pdf');
     }
 
 }
