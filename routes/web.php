@@ -237,6 +237,7 @@ Route::get('/po_internal_print/{id}', 'App\Http\Controllers\Admin\PrintControlle
 Route::get('/pembatalan_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_pembatalan')->name('local.print.pembatalan');
 Route::get('/transfer_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_transfer')->name('local.print.transfer');
 Route::get('/transfer_receipt_print/{id}', 'App\Http\Controllers\Admin\PrintController@print_transfer_receipt')->name('local.print.transfer_receipt');
+Route::get('stock_master_print', 'App\Http\Controllers\Admin\PrintController@print_stock_soh')->name('local.print.stock_master');
 
 // Pelunasan
 Route::get('pelunasan', 'App\Http\Controllers\Admin\PelunasanController@index')->name('local.pelunasan.index');
