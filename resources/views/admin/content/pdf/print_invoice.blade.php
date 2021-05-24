@@ -32,10 +32,16 @@
             </tbody>
         </table>
 
-        <table width="98%" style="margin: auto; border-collapse: collapse;">
+        <table  width="98%" style="margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
-                    <td colspan="7" style="height: 20px"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="30%"></td>
+                    <td style="height: 20px;" width="30%"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="5%"></td>
+                    <td style="height: 20px;" width="5%"></td>
                 </tr>
                 <tr>
                     <td>Nomor</td>
@@ -82,7 +88,7 @@
                 @foreach ($inv->inv_detail as $detail)
                 <tr>
                     <td style="border: 1px solid black; text-align: center;">{{ $loop->iteration }}</td>
-                    <td style="border: 1px solid black; text-align: center;">{{ $detail->stock_master->name }}</td>
+                    <td style="border: 1px solid black; text-align: left;">{{ $detail->stock_master->name }}</td>
                     <td style="border: 1px solid black; text-align: center;">{{ $detail->qty }}</td>
                     <td style="border: 1px solid black; text-align: center;">{{ $detail->stock_master->satuan }}</td>
                     <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($detail->price,0, ",", ".") }}</td>
