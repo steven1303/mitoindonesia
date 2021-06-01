@@ -237,12 +237,15 @@
     }
     @endcan
     @can('po.stock.approve', Auth::user())
-    function approve(id) {
+    function approve(id,button_id) {
         save_method = 'edit';
         $.ajax({
         url: "{{ url('po_stock') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
+        beforeSend:function(){
+            document.getElementById(button_id).disabled = true;
+        },
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);

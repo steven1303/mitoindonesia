@@ -63,7 +63,11 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="button" onclick="open_receipt_Form()" class="btn btn-success">Print</button>
+                        @if($rec->status == 1 ) 
+                            <button id="button_submit" type="button" onclick="open_receipt_Form()" class="btn btn-success">Print</button>
+                        @else
+                        <!-- <button id="button_submit" type="button" onclick="print_receipt('{{ $rec->id }}')" class="btn btn-success">Print</button> -->
+                        @endif   
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.rec.index')}}')">Save</button>
                         </div>
                     </form>
@@ -395,6 +399,7 @@
         type: "GET",
         dataType: "JSON",
         beforeSend:function(){
+            document.getElementById("button_submit").disabled = true;
             $(document).find('span.error-text').text('');
         },
         success: function(data) {

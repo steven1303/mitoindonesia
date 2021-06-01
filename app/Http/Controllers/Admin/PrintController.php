@@ -239,7 +239,7 @@ class PrintController extends SettingsController
         $transfer->receipt_transfer_print = Carbon::now();
         $transfer->update();
         $data = [
-            'transfer' => $transfer
+            'transfer_receipt' => $transfer
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_transfer_receipt',$data);
         return $pdf->stream('print_transfer_receipt.pdf');

@@ -330,7 +330,8 @@ class PoStockController extends SettingAjaxController
                         $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
                     if($access->can('po.stock.approve')){
-                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                        $id_button = "'approve_".$data->id."'";
+                        $action .= '<button id='. $id_button .' onclick="approve('. $data->id .','.$id_button.')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
                     // // fungsi print otomatis
                     // if($access->can('po.stock.print')){
