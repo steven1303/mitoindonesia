@@ -69,10 +69,20 @@ class PoStockPolicy
         return false;
     }
 
-    public function verify(Admin $user)
+    public function verify1(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'po-stock-verify'){
+            if($permission->name == 'po-stock-verify1'){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function verify2(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'po-stock-verify2'){
                 return true;
             }
         }

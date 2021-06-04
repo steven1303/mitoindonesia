@@ -219,7 +219,7 @@
         window.open("{{ url('po_stock_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('po.stock.verify', Auth::user())
+    @can('po.stock.verify1', Auth::user())
     function verify1(id) {
         save_method = 'edit';
         $.ajax({
@@ -236,7 +236,7 @@
         });
     }
     @endcan
-    @can('po.stock.verify', Auth::user())
+    @can('po.stock.verify2', Auth::user())
     function verify2(id) {
         save_method = 'edit';
         $.ajax({

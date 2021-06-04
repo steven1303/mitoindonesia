@@ -318,7 +318,7 @@ class PoStockController extends SettingAjaxController
                     if($access->can('po.stock.view')){
                         $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('po.stock.verify')){
+                    if($access->can('po.stock.verify1')){
                         $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
                     }
                     // fungsi print otomatis
@@ -331,7 +331,7 @@ class PoStockController extends SettingAjaxController
                     if($access->can('po.stock.view')){
                         $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('po.stock.verify')){
+                    if($access->can('po.stock.verify2')){
                         $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
                     }
                     // fungsi print otomatis
@@ -459,7 +459,7 @@ class PoStockController extends SettingAjaxController
      */
     public function verify1($id)
     {
-        if(Auth::user()->can('po.stock.verify')){
+        if(Auth::user()->can('po.stock.verify1')){
             $data = PoStock::findOrFail($id);
             $data->po_status = 3;
             $data->update();
@@ -478,7 +478,7 @@ class PoStockController extends SettingAjaxController
      */
     public function verify2($id)
     {
-        if(Auth::user()->can('po.stock.verify')){
+        if(Auth::user()->can('po.stock.verify2')){
             $data = PoStock::findOrFail($id);
             $data->po_status = 4;
             $data->update();
