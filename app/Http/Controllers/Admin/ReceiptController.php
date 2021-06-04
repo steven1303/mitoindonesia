@@ -369,9 +369,9 @@ class ReceiptController extends SettingAjaxController
             $po_stock = PoStock::findOrFail($data->id_po_stock);
 
             if($data->po_stock->po_stock_detail->sum('qty') == $data->po_stock->po_stock_detail->sum('rec_qty')){
-                $po_stock->po_status = 6;
+                $po_stock->po_status = 7;
             }else{
-                $po_stock->po_status = 5;
+                $po_stock->po_status = 6;
             }
             // $po_stock->po_status = 5;
             $po_stock->update();

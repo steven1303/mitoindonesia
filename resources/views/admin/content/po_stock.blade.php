@@ -220,10 +220,27 @@
     }
     @endcan
     @can('po.stock.verify', Auth::user())
-    function verify(id) {
+    function verify1(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('po_stock') }}" + '/' + id + "/verify",
+        url: "{{ url('po_stock') }}" + '/' + id + "/verify1",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
+    @can('po.stock.verify', Auth::user())
+    function verify2(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('po_stock') }}" + '/' + id + "/verify2",
         type: "GET",
         dataType: "JSON",
         success: function(data) {

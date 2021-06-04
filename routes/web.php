@@ -205,7 +205,8 @@ Route::get('record/rec_detail/{id}/{rec_stat?}', 'App\Http\Controllers\Admin\Rec
 Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_open')->name('local.rec.open.index');
 
 // Verify
-Route::get('/po_stock/{id}/verify', 'App\Http\Controllers\Admin\PoStockController@verify')->name('local.po_stock.verify');
+Route::get('/po_stock/{id}/verify1', 'App\Http\Controllers\Admin\PoStockController@verify1')->name('local.po_stock.verify1');
+Route::get('/po_stock/{id}/verify2', 'App\Http\Controllers\Admin\PoStockController@verify2')->name('local.po_stock.verify2');
 Route::get('/po_non_stock/{id}/verify', 'App\Http\Controllers\Admin\PoNonStockController@verify')->name('local.po_non_stock.verify');
 Route::get('/sppb/{id}/verify', 'App\Http\Controllers\Admin\SppbController@verify')->name('local.sppb.verify');
 Route::get('/inv/{id}/verify', 'App\Http\Controllers\Admin\InvoiceController@verify')->name('local.inv.verify');

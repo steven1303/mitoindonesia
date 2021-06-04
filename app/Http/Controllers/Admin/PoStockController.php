@@ -282,12 +282,14 @@ class PoStockController extends SettingAjaxController
                 }elseif ($data->po_status == 2) {
                     $po_status = "Request";
                 }elseif ($data->po_status == 3) {
-                    $po_status = "Verified";
+                    $po_status = "Verified 1";
                 }elseif ($data->po_status == 4) {
-                    $po_status = "Approved";
+                    $po_status = "Verified 2";
                 }elseif ($data->po_status == 5) {
-                    $po_status = "Partial";
+                    $po_status = "Approved";
                 }elseif ($data->po_status == 6) {
+                    $po_status = "Partial";
+                }elseif ($data->po_status == 7) {
                     $po_status = "Closed";
                 }else {
                     $po_status = "Reject";
@@ -317,7 +319,7 @@ class PoStockController extends SettingAjaxController
                         $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
                     if($access->can('po.stock.verify')){
-                        $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                        $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
                     }
                     // fungsi print otomatis
                     // if($access->can('po.stock.print')){
@@ -326,6 +328,19 @@ class PoStockController extends SettingAjaxController
                     // fungsi print otomatis
                 }
                 elseif ($data->po_status == 3){
+                    if($access->can('po.stock.view')){
+                        $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('po.stock.verify')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
+                    }
+                    // fungsi print otomatis
+                    // if($access->can('po.stock.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_po_stock('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
+                    // fungsi print otomatis
+                }
+                elseif ($data->po_status == 4){
                     if($access->can('po.stock.view')){
                         $action .= '<a href="'.$po_stock_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -442,18 +457,14 @@ class PoStockController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function approve($id)
+    public function verify1($id)
     {
-        if(Auth::user()->can('po.stock.approve')){
+        if(Auth::user()->can('po.stock.verify')){
             $data = PoStock::findOrFail($id);
-            $data->po_status = 4;
-            $movement = $this->po_movement($data->po_stock_detail);
-            $spbd = Spbd::findOrFail($data->id_spbd);
-            $spbd->spbd_status = 4;
-            $spbd->update();
+            $data->po_status = 3;
             $data->update();
             return response()
-                ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
+                ->json(['code'=>200,'message' => 'PO Stock Verified Success', 'stat' => 'Success']);
         }
         return response()
             ->json(['code'=>200,'message' => 'Error PO Stock Access Denied', 'stat' => 'Error']);
@@ -465,14 +476,37 @@ class PoStockController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function verify($id)
+    public function verify2($id)
     {
         if(Auth::user()->can('po.stock.verify')){
             $data = PoStock::findOrFail($id);
-            $data->po_status = 3;
+            $data->po_status = 4;
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'PO Stock Verified Success', 'stat' => 'Success']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error PO Stock Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        if(Auth::user()->can('po.stock.approve')){
+            $data = PoStock::findOrFail($id);
+            $data->po_status = 5;
+            $movement = $this->po_movement($data->po_stock_detail);
+            $spbd = Spbd::findOrFail($data->id_spbd);
+            $spbd->spbd_status = 4;
+            $spbd->update();
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'PO Stock Approve Success', 'stat' => 'Success']);
         }
         return response()
             ->json(['code'=>200,'message' => 'Error PO Stock Access Denied', 'stat' => 'Error']);
@@ -522,11 +556,11 @@ class PoStockController extends SettingAjaxController
         $tags = PoStock::where([
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 4],
+            ['po_status','=', 5],
         ])->orWhere([
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['po_status','=', 5],
+            ['po_status','=', 6],
         ])->get();
 
         $formatted_tags = [];
