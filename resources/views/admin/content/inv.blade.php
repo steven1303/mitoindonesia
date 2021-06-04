@@ -258,11 +258,28 @@
         window.open("{{ url('inv_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('invoice.verify', Auth::user())
-    function verify(id) {
+    @can('invoice.verify1', Auth::user())
+    function verify1(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('inv') }}" + '/' + id + "/verify",
+        url: "{{ url('inv') }}" + '/' + id + "/verify1",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
+    @can('invoice.verify2', Auth::user())
+    function verify2(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('inv') }}" + '/' + id + "/verify2",
         type: "GET",
         dataType: "JSON",
         success: function(data) {

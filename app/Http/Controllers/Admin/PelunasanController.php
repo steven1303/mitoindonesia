@@ -143,10 +143,10 @@ class PelunasanController extends SettingAjaxController
     public function recordInvPelunasan(){
         $data = Invoice::where([
             ['id_branch','=', Auth::user()->id_branch],
-            ['inv_status','=', 4],
+            ['inv_status','=', 5],
         ])->orWhere([
             ['id_branch','=', Auth::user()->id_branch],
-            ['inv_status','=', 5],
+            ['inv_status','=', 6],
         ])->latest()->get();
         $access =  Auth::user();
         return DataTables::of($data)
@@ -155,12 +155,12 @@ class PelunasanController extends SettingAjaxController
                 $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.index', $data->id)."')";
                 $action = "";
                 $total_tagihan = $data->inv_detail->sum('total_ppn') - $data->pelunasan->sum('balance') - 0;
-                if($data->inv_status == 4 && $total_tagihan != 0){
+                if($data->inv_status == 5 && $total_tagihan != 0){
                     if($access->can('pelunasan.store')){
                         $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
                     }
                 }
-                if($data->inv_status == 5 && $total_tagihan != 0){
+                if($data->inv_status == 6 && $total_tagihan != 0){
                     if($access->can('pelunasan.store')){
                         $action .= '<button id="'. $data->id .'" onclick="addPelunasan('. $data->id .')" class="btn btn-info btn-xs"> Add Pelunasan</button> ';
                     }

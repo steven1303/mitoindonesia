@@ -115,7 +115,8 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('sppb.update', 'App\Policies\SppbPolicy@update');
          Gate::define('sppb.delete', 'App\Policies\SppbPolicy@delete');
          Gate::define('sppb.open', 'App\Policies\SppbPolicy@open');
-         Gate::define('sppb.verify', 'App\Policies\SppbPolicy@verify');
+         Gate::define('sppb.verify1', 'App\Policies\SppbPolicy@verify1');
+         Gate::define('sppb.verify2', 'App\Policies\SppbPolicy@verify2');
          Gate::define('sppb.approve', 'App\Policies\SppbPolicy@approve');
          Gate::define('sppb.print', 'App\Policies\SppbPolicy@print');
          // Po Internal
@@ -132,7 +133,8 @@ class AuthServiceProvider extends ServiceProvider
           Gate::define('invoice.update', 'App\Policies\InvoicePolicy@update');
           Gate::define('invoice.delete', 'App\Policies\InvoicePolicy@delete');
           Gate::define('invoice.open', 'App\Policies\InvoicePolicy@open');
-          Gate::define('invoice.verify', 'App\Policies\InvoicePolicy@verify');
+          Gate::define('invoice.verify1', 'App\Policies\InvoicePolicy@verify1');
+          Gate::define('invoice.verify2', 'App\Policies\InvoicePolicy@verify2');
           Gate::define('invoice.approve', 'App\Policies\InvoicePolicy@approve');
           Gate::define('invoice.print', 'App\Policies\InvoicePolicy@print');
            // Adjustment

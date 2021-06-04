@@ -208,8 +208,10 @@ Route::get('/rec_open/{id}', 'App\Http\Controllers\Admin\ReceiptController@rec_o
 Route::get('/po_stock/{id}/verify1', 'App\Http\Controllers\Admin\PoStockController@verify1')->name('local.po_stock.verify1');
 Route::get('/po_stock/{id}/verify2', 'App\Http\Controllers\Admin\PoStockController@verify2')->name('local.po_stock.verify2');
 Route::get('/po_non_stock/{id}/verify', 'App\Http\Controllers\Admin\PoNonStockController@verify')->name('local.po_non_stock.verify');
-Route::get('/sppb/{id}/verify', 'App\Http\Controllers\Admin\SppbController@verify')->name('local.sppb.verify');
-Route::get('/inv/{id}/verify', 'App\Http\Controllers\Admin\InvoiceController@verify')->name('local.inv.verify');
+Route::get('/sppb/{id}/verify1', 'App\Http\Controllers\Admin\SppbController@verify1')->name('local.sppb.verify1');
+Route::get('/sppb/{id}/verify2', 'App\Http\Controllers\Admin\SppbController@verify2')->name('local.sppb.verify2');
+Route::get('/inv/{id}/verify1', 'App\Http\Controllers\Admin\InvoiceController@verify1')->name('local.inv.verify1');
+Route::get('/inv/{id}/verify2', 'App\Http\Controllers\Admin\InvoiceController@verify2')->name('local.inv.verify2');
 
 // Approval
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');

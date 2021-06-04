@@ -69,10 +69,20 @@ class InvoicePolicy
         return false;
     }
 
-    public function verify(Admin $user)
+    public function verify1(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'invoice-verify'){
+            if($permission->name == 'invoice-verify1'){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function verify2(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'invoice-verify2'){
                 return true;
             }
         }

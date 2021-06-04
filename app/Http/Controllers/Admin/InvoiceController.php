@@ -304,12 +304,14 @@ class InvoiceController extends SettingAjaxController
                 }elseif($data->inv_status == 2){
                     $action = "Request";
                 }elseif($data->inv_status == 3){
-                    $action = "Verified";
+                    $action = "Verified 1";
                 }elseif($data->inv_status == 4){
-                    $action = "Approved";
+                    $action = "Verified 2";
                 }elseif($data->inv_status == 5){
-                    $action = "Partial";
+                    $action = "Approved";
                 }elseif($data->inv_status == 6){
+                    $action = "Partial";
+                }elseif($data->inv_status == 7){
                     $action = "Closed";
                 }
                 else{
@@ -336,8 +338,8 @@ class InvoiceController extends SettingAjaxController
                     if($access->can('invoice.view')){
                         $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('invoice.verify')){
-                        $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    if($access->can('invoice.verify1')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval
                     // if($access->can('invoice.print')){
@@ -346,6 +348,19 @@ class InvoiceController extends SettingAjaxController
                     // fungsi untuk hilangkan print sebelum approval
                 }
                 if($data->inv_status == 3){
+                    if($access->can('invoice.view')){
+                        $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('invoice.verify2')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
+                    }
+                    // fungsi untuk hilangkan print sebelum approval
+                    // if($access->can('invoice.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // }
+                    // fungsi untuk hilangkan print sebelum approval
+                }
+                if($data->inv_status == 4){
                     if($access->can('invoice.view')){
                         $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -358,7 +373,7 @@ class InvoiceController extends SettingAjaxController
                     // }
                     // fungsi untuk hilangkan print sebelum approval
                 }
-                if($data->inv_status == 4 || $data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7){
+                if($data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7 || $data->inv_status == 8){
                     if($access->can('invoice.view')){
                         $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -453,14 +468,32 @@ class InvoiceController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function verify($id)
+    public function verify1($id)
     {
-        if(Auth::user()->can('invoice.verify')){
+        if(Auth::user()->can('invoice.verify1')){
             $data = Invoice::findOrFail($id);
             $data->inv_status = 3;
             $data->update();
             return response()
-                ->json(['code'=>200,'message' => 'Invoice Verified Success', 'stat' => 'Success']);
+                ->json(['code'=>200,'message' => 'Invoice Verified 1 Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify2($id)
+    {
+        if(Auth::user()->can('invoice.verify2')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 4;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Verified 2 Success', 'stat' => 'Success']);
         }
         return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
@@ -475,11 +508,11 @@ class InvoiceController extends SettingAjaxController
     {
         if(Auth::user()->can('invoice.approve')){
             $data = Invoice::findOrFail($id);
-            $data->inv_status = 4;
+            $data->inv_status = 5;
             $this->inv_movement($data->inv_detail);
             $data->update();
             $sppd = Sppb::findOrFail($data->id_sppb);
-            $sppd->sppb_status = 4;
+            $sppd->sppb_status = 5;
             $sppd->update();
             return response()
                 ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);

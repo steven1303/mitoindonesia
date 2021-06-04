@@ -245,10 +245,12 @@ class SppbController extends SettingAjaxController
                 }elseif ($data->sppb_status == 2) {
                     $sppb_status = "Request";
                 }elseif ($data->sppb_status == 3) {
-                    $sppb_status = "Verified";
+                    $sppb_status = "Verified 1";
                 }elseif ($data->sppb_status == 4) {
-                    $sppb_status = "Approved";
+                    $sppb_status = "Verified 2";
                 }elseif ($data->sppb_status == 5) {
+                    $sppb_status = "Approved";
+                }elseif ($data->sppb_status == 6) {
                     $sppb_status = "Closed";
                 }else {
                     $sppb_status = "Batal";
@@ -274,8 +276,8 @@ class SppbController extends SettingAjaxController
                     if($access->can('sppb.view')){
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('sppb.verify')){
-                        $action .= '<button id="'. $data->id .'" onclick="verify('. $data->id .')" class="btn btn-info btn-xs"> Verify</button> ';
+                    if($access->can('sppb.verify1')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
                     }
                     // fungsi untuk hilangkan print sebelum approval
                     // if($access->can('sppb.print')){
@@ -284,6 +286,19 @@ class SppbController extends SettingAjaxController
                     
                 }
                 elseif($data->sppb_status == 3){
+                    if($access->can('sppb.view')){
+                        $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                    }
+                    if($access->can('sppb.verify2')){
+                        $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
+                    }
+                    // fungsi untuk hilangkan print sebelum approval
+                    // if($access->can('sppb.print')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="print_sppb('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                    // } 
+                    
+                }
+                elseif($data->sppb_status == 4){
                     if($access->can('sppb.view')){
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -296,7 +311,7 @@ class SppbController extends SettingAjaxController
                     // } 
                     
                 }
-                elseif($data->sppb_status == 4){
+                elseif($data->sppb_status == 5){
                     if($access->can('sppb.view')){
                         $action .= '<a href="'.$sppb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -388,7 +403,7 @@ class SppbController extends SettingAjaxController
         $tags = Sppb::where([
             ['sppb_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['sppb_status','=', 4],
+            ['sppb_status','=', 5],
         ])->get();
 
         $formatted_tags = [];
@@ -444,14 +459,32 @@ class SppbController extends SettingAjaxController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function verify($id)
+    public function verify1($id)
     {
-        if(Auth::user()->can('sppb.verify')){
+        if(Auth::user()->can('sppb.verify1')){
             $data = Sppb::findOrFail($id);
             $data->sppb_status = 3;
             $data->update();
             return response()
-                ->json(['code'=>200,'message' => 'SPPB Verify Success', 'stat' => 'Success']);
+                ->json(['code'=>200,'message' => 'SPPB Verify1 Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error SPPB Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify2($id)
+    {
+        if(Auth::user()->can('sppb.verify2')){
+            $data = Sppb::findOrFail($id);
+            $data->sppb_status = 4;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPPB Verify2 Success', 'stat' => 'Success']);
         }
         return response()->json(['code'=>200,'message' => 'Error SPPB Access Denied', 'stat' => 'Error']);
     }
@@ -466,7 +499,7 @@ class SppbController extends SettingAjaxController
     {
         if(Auth::user()->can('sppb.approve')){
             $data = Sppb::findOrFail($id);
-            $data->sppb_status = 4;
+            $data->sppb_status = 5;
             $this->sppb_movement($data->sppb_detail);
             $data->update();
             return response()
