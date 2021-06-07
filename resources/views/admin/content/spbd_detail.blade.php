@@ -49,6 +49,11 @@
                                 <button id="btnSave" type="button" onclick="open_spbd_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spbd.index')}}')">Save</button>
+                            @can('spbd.pembatalan', Auth::user())
+                                @if($spbd->spbd_status == 3)                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -342,5 +347,27 @@
         });
     }
     @endcan
-    
+    @can('spbd.pembatalan', Auth::user())
+    function reject()
+    {
+        $.ajax({
+        url: "{{route('local.spbd.pembatalan', $spbd->id) }}",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.spbd.index') }}");
+            }
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
 </script>

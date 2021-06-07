@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Spbd;
+use App\Models\PoStock;
 use App\Models\SpbdDetail;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -261,6 +262,9 @@ class SpbdController extends SettingAjaxController
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
+                    if($access->can('spbd.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
                     if($access->can('spbd.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
@@ -410,5 +414,30 @@ class SpbdController extends SettingAjaxController
         }
         return response()
             ->json(['code'=>200,'message' => 'Error SPBD Access Denied', 'stat' => 'Error']);
+    }
+
+    public function pembatalan($id)
+    {
+        $data = Spbd::findOrFail($id);
+        if($this->pembatalan_check($data))
+        {
+            $data->spbd_status = 2;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPBD Reject Success', 'stat' => 'Success']);
+        }
+        return response()
+                ->json(['code'=>200,'message' => 'PO Stock Sudah ada / SPBD tidak bisa di revisi', 'stat' => 'Error']);
+    }
+
+    public function pembatalan_check($data)
+    {
+        $po_stock = PoStock::where('id_spbd','=', $data->id )->count();
+        if($data->spbd_status == 3 && $po_stock < 1 )
+        {
+            return true;
+        }
+        return false;
+        
     }
 }

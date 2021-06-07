@@ -75,6 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('spbd.open', 'App\Policies\SpbdPolicy@open');
         Gate::define('spbd.approve', 'App\Policies\SpbdPolicy@approve');
         Gate::define('spbd.print', 'App\Policies\SpbdPolicy@print');
+        Gate::define('spbd.pembatalan', 'App\Policies\SpbdPolicy@pembatalan');
          // PO Stock
          Gate::define('po.stock.view', 'App\Policies\PoStockPolicy@view');
          Gate::define('po.stock.store', 'App\Policies\PoStockPolicy@store');
@@ -100,6 +101,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('spb.open', 'App\Policies\SpbPolicy@open');
          Gate::define('spb.approve', 'App\Policies\SpbPolicy@approve');
          Gate::define('spb.print', 'App\Policies\SpbPolicy@print');
+         Gate::define('spb.pembatalan', 'App\Policies\SpbPolicy@pembatalan');
          // PO NonStock
          Gate::define('po.non.stock.view', 'App\Policies\PoNonStockPolicy@view');
          Gate::define('po.non.stock.store', 'App\Policies\PoNonStockPolicy@store');

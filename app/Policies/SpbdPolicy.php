@@ -87,4 +87,13 @@ class SpbdPolicy
         }
         return false;
     }
+    public function pembatalan(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'spbd-pembatalan'){
+                return true;
+            }
+        }
+        return false;
+    }
 }

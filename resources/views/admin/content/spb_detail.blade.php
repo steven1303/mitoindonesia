@@ -49,9 +49,11 @@
                                 <button id="btnSave" type="button" onclick="open_spb_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spb.index')}}')">Save</button> 
-                            @if($spb->spb_status == 3)                                                       
-                            <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
-                            @endif
+                            @can('spb.pembatalan', Auth::user())
+                                @if($spb->spb_status == 3)                                                       
+                                <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -312,6 +314,7 @@
         });
     }
     @endcan
+    @can('spb.pembatalan', Auth::user())
     function reject()
     {
         $.ajax({
@@ -333,4 +336,5 @@
         }
         });
     }
+    @endcan
 </script>

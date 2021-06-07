@@ -122,6 +122,7 @@ Route::get('/spbd/{id}/edit', 'App\Http\Controllers\Admin\SpbdController@edit')-
 Route::delete('/spbd/{id}', 'App\Http\Controllers\Admin\SpbdController@destroy')->name('local.spbd.delete');
 Route::get('record/spbd', 'App\Http\Controllers\Admin\SpbdController@recordSpbd')->name('local.record.spbd');
 Route::get('record/search_spbd', 'App\Http\Controllers\Admin\SpbdController@searchSpbd')->name('local.search.spbd');
+Route::get('/spbd/{id}/pembatalan', 'App\Http\Controllers\Admin\SpbdController@pembatalan')->name('local.spbd.pembatalan');
 
 // SPBD Detail
 Route::get('/spbd_detail/{id}', 'App\Http\Controllers\Admin\SpbdController@detail')->name('local.spbd.detail.index');

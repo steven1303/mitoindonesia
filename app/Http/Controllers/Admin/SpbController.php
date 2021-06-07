@@ -403,16 +403,20 @@ class SpbController extends SettingAjaxController
 
     public function pembatalan($id)
     {
-        $data = Spb::findOrFail($id);
-        if($this->pembatalan_check($data))
-        {
-            $data->spb_status = 2;
-            $data->update();
+        if(Auth::user()->can('spb.pembatalan')){
+            $data = Spb::findOrFail($id);
+            if($this->pembatalan_check($data))
+            {
+                $data->spb_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'SPB Reject Success', 'stat' => 'Success']);
+            }
             return response()
-                ->json(['code'=>200,'message' => 'SPB Reject Success', 'stat' => 'Success']);
+                    ->json(['code'=>200,'message' => 'PO Non Stock Sudah ada / SPB tidak bisa di revisi', 'stat' => 'Error']);
         }
         return response()
-                ->json(['code'=>200,'message' => 'PO Stock Sudah ada / SPB tidak bisa di revisi', 'stat' => 'Error']);
+            ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
     }
 
     public function pembatalan_check($data)
