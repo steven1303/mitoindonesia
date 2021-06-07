@@ -342,4 +342,5 @@
         });
     }
     @endcan
+    
 </script>

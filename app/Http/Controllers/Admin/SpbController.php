@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Spb;
+use App\Models\PoNonStock;
 use App\Models\SpbDetail;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -398,5 +399,30 @@ class SpbController extends SettingAjaxController
         }
         return response()
             ->json(['code'=>200,'message' => 'Error SPB Access Denied', 'stat' => 'Error']);
+    }
+
+    public function pembatalan($id)
+    {
+        $data = Spb::findOrFail($id);
+        if($this->pembatalan_check($data))
+        {
+            $data->spb_status = 2;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPB Reject Success', 'stat' => 'Success']);
+        }
+        return response()
+                ->json(['code'=>200,'message' => 'PO Stock Sudah ada / SPB tidak bisa di revisi', 'stat' => 'Error']);
+    }
+
+    public function pembatalan_check($data)
+    {
+        $po_non_stock = PoNonStock::where('id_spb','=', $data->id )->count();
+        if($data->spb_status == 3 && $po_non_stock < 1 )
+        {
+            return true;
+        }
+        return false;
+        
     }
 }

@@ -260,6 +260,7 @@ Route::get('/spb/{id}/edit', 'App\Http\Controllers\Admin\SpbController@edit')->n
 Route::delete('/spb/{id}', 'App\Http\Controllers\Admin\SpbController@destroy')->name('local.spb.delete');
 Route::get('record/spb', 'App\Http\Controllers\Admin\SpbController@recordSpb')->name('local.record.spb');
 Route::get('record/search_spb', 'App\Http\Controllers\Admin\SpbController@searchSpb')->name('local.search.spb');
+Route::get('/spb/{id}/pembatalan', 'App\Http\Controllers\Admin\SpbController@pembatalan')->name('local.spb.pembatalan');
 
 // SPB Detail
 Route::get('/spb_detail/{id}', 'App\Http\Controllers\Admin\SpbController@detail')->name('local.spb.detail.index');
