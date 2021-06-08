@@ -85,7 +85,7 @@
             </tr>
         </tbody>
     </table>
-    <table border='1' width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+    <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
                 <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER</td>
