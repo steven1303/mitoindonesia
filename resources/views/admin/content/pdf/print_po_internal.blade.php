@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!-- {{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,6 +54,7 @@
         &nbsp;
 </body>
 </html> --}}
+-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,29 +83,30 @@
             </tr>
         </tbody>
     </table>
-    <table  width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+    <table width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
                 <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER</td>
             </tr>
             <tr>
                 <td style="height: 20px;" width="5%"></td>
-                <td style="height: 20px;" width="15%"></td>
+                <td style="height: 20px;" width="25%"></td>
                 <td style="height: 20px;" width="30%"></td>
                 <td style="height: 20px;" width="10%"></td>
-                <td style="height: 20px;" width="20%"></td>
-                <td style="height: 20px;"></td>
+                <td style="height: 20px;" width="15%"></td>
+                <td style="height: 20px;" width="15%"></td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: left;" colspan="2">Dari : {{ $po_internal->customer->name }}</td>
-                <!-- <td colspan="3" style="text-align: left;">No PO : {{ $po_internal->po_no }}</td> -->
-                <td></td>
                 <td style="text-align: left;" colspan="2" >Kepada Yth : PT. Mito Energi Indonesia</td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_internal->po_open)) }}</td>
-                <td></td>
-                <td style="text-align: left;" colspan="2">Alamat : {{ $po_internal->branch->address }}</td>
+                <td style="text-align: left;" colspan="3" rowspan="2" >Alamat : {{ $po_internal->branch->address }}</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: left;">Nomor : {{ $po_internal->po_no }}</td>
+                <td colspan="3"></td>
             </tr>
             <tr>
                 <td style="height: 20px;"></td>
@@ -125,8 +127,8 @@
             @foreach ($po_internal->po_internal_detail as $detail)
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->stock_master->stock_no }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->stock_master->name }}</td>
+                    <td style="border: 1px solid black; text-align: left">{{ $detail->stock_master->stock_no }}</td>
+                    <td style="border: 1px solid black; text-align: left">{{ $detail->stock_master->name }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->price),0, ",", ".") }}</td>
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->qty * $detail->price),0, ",", ".") }}</td>
