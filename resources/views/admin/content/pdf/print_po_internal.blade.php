@@ -72,6 +72,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td style="text-align: right;"></td>
             </tr>
             <tr>
@@ -80,10 +81,11 @@
                 <td style="height: 50px;"></td>
                 <td style="height: 50px;"></td>
                 <td style="height: 50px;"></td>
+                <td style="height: 50px;"></td>
             </tr>
         </tbody>
     </table>
-    <table width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
+    <table border='1' width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
                 <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER</td>
@@ -97,16 +99,15 @@
                 <td style="height: 20px;" width="15%"></td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: left;" colspan="2">Dari : {{ $po_internal->customer->name }}</td>
-                <td style="text-align: left;" colspan="2" >Kepada Yth : PT. Mito Energi Indonesia</td>
+                <td colspan="3" style="text-align: left;" >Dari : {{ $po_internal->customer->name }}</td>
+                <td colspan="3" style="text-align: left;"  >Kepada Yth : PT. Mito Energi Indonesia</td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: left;">Tanggal : {{ date("d/m/Y", strtotime($po_internal->po_open)) }}</td>
                 <td style="text-align: left;" colspan="3" rowspan="2" >Alamat : {{ $po_internal->branch->address }}</td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: left;">Nomor : {{ $po_internal->po_no }}</td>
-                <td colspan="3"></td>
+                <td colspan="6" style="text-align: left;">Nomor : {{ $po_internal->po_no }}</td>
             </tr>
             <tr>
                 <td style="height: 20px;"></td>
