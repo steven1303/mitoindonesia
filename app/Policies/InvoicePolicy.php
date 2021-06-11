@@ -107,4 +107,13 @@ class InvoicePolicy
         }
         return false;
     }
+    public function pembatalan(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'invoice-reject'){
+                return true;
+            }
+        }
+        return false;
+    }
 }

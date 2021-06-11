@@ -160,6 +160,7 @@ Route::get('/sppb/{id}/edit', 'App\Http\Controllers\Admin\SppbController@edit')-
 Route::delete('/sppb/{id}', 'App\Http\Controllers\Admin\SppbController@destroy')->name('local.sppb.delete');
 Route::get('record/sppb', 'App\Http\Controllers\Admin\SppbController@recordSppb')->name('local.record.sppb');
 Route::get('record/search_sppb', 'App\Http\Controllers\Admin\SppbController@searchSppb')->name('local.search.sppb');
+Route::get('/sppb/{id}/pembatalan', 'App\Http\Controllers\Admin\SppbController@pembatalan')->name('local.sppb.pembatalan');
 
 // SPPB Detail
 Route::get('/sppb_detail/{id}', 'App\Http\Controllers\Admin\SppbController@detail')->name('local.sppb.detail.index');
@@ -177,6 +178,7 @@ Route::get('/inv/{id}/edit', 'App\Http\Controllers\Admin\InvoiceController@edit'
 Route::patch('/inv/{id}', 'App\Http\Controllers\Admin\InvoiceController@update')->name('local.inv.update');
 Route::delete('/inv/{id}', 'App\Http\Controllers\Admin\InvoiceController@destroy')->name('local.inv.delete');
 Route::get('record/inv', 'App\Http\Controllers\Admin\InvoiceController@recordInv')->name('local.record.inv');
+Route::get('/inv/{id}/pembatalan', 'App\Http\Controllers\Admin\InvoiceController@pembatalan')->name('local.inv.pembatalan');
 
 // Invoice Detail
 Route::get('/inv_detail/{id}', 'App\Http\Controllers\Admin\InvoiceController@detail')->name('local.inv.detail.index');

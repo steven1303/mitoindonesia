@@ -545,4 +545,22 @@ class InvoiceController extends SettingAjaxController
             $stock_master->update();
         }
     }
+
+    public function pembatalan($id)
+    {
+        if(Auth::user()->can('invoice.reject')){
+            $data = Invoice::findOrFail($id);
+            // status verify 1 & 2
+            if($data->inv_status == 3 ||  $data->inv_status == 4 )
+            {
+                $data->inv_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'Invoice Reject Success', 'stat' => 'Success']);
+            }
+            return response()
+                    ->json(['code'=>200,'message' => 'Invoice Sudah ada / SPPB tidak bisa di revisi', 'stat' => 'Error']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
 }

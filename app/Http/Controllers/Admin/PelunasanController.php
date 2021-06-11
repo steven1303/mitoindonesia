@@ -231,12 +231,12 @@ class PelunasanController extends SettingAjaxController
             $data = Pelunasan::findOrFail($id);
             $data->status = 2;
             if($data->invoice->inv_detail->sum('total_ppn') == $data->invoice->pelunasan->sum('balance') ){
-                $data->invoice->inv_status = 6;
+                $data->invoice->inv_status = 7;
                 $data->invoice->update();
-                $data->invoice->sppb->sppb_status = 5;
+                $data->invoice->sppb->sppb_status = 6;
                 $data->invoice->sppb->update();
             }else{
-                $data->invoice->inv_status = 5;
+                $data->invoice->inv_status = 6;
                 $data->invoice->update();
             }
             $data->pelunasan_open = Carbon::now();

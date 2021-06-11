@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Spbd;
 
 use App\Models\Sppb;
+use App\Models\Invoice;
 use App\Models\PoInternal;
 use App\Models\SpbdDetail;
 use App\Models\SppbDetail;
@@ -533,5 +534,50 @@ class SppbController extends SettingAjaxController
             // $stock_master->harga_jual = $detail->price;
             $stock_master->update();
         }
+    }
+
+    public function pembatalan($id)
+    {
+        if(Auth::user()->can('sppb.pembatalan')){
+            $data = Sppb::findOrFail($id);
+            // status verify 1 & 2
+            if($data->sppb_status == 3 ||  $data->sppb_status == 4 )
+            {
+                $data->sppb_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'SPPB Reject Success', 'stat' => 'Success']);
+            }
+            if($this->pembatalan_check($data))
+            {
+                $data->sppb_status = 7;
+                $data->update();
+                $this->pembatalan_movement($data->sppb_no);
+                return response()
+                    ->json(['code'=>200,'message' => 'SPPB Reject Success', 'stat' => 'Success']);
+            }
+            return response()
+                    ->json(['code'=>200,'message' => 'Invoice Sudah ada / SPPB tidak bisa di revisi', 'stat' => 'Error']);
+        }
+        return response()
+            ->json(['code'=>200,'message' => 'Error SPPB Access Denied', 'stat' => 'Error']);
+    }
+
+    public function pembatalan_check($data)
+    {
+        $invoice = Invoice::where('id_sppb','=', $data->id )->count();
+        if($data->sppb_status == 5 && $invoice < 1 )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public function pembatalan_movement($data)
+    {
+        $stock_movement_sppb = StockMovement::where([
+            ['doc_no','=', $data ],
+            ['id_branch','=', Auth::user()->id_branch],
+        ])->update(['status' => 1, 'ket' => "Pembatalan SPPB"]);
     }
 }

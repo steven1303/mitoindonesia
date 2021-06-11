@@ -121,6 +121,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('sppb.verify2', 'App\Policies\SppbPolicy@verify2');
          Gate::define('sppb.approve', 'App\Policies\SppbPolicy@approve');
          Gate::define('sppb.print', 'App\Policies\SppbPolicy@print');
+         Gate::define('sppb.pembatalan', 'App\Policies\SppbPolicy@pembatalan');
          // Po Internal
          Gate::define('po.internal.view', 'App\Policies\PoInternalPolicy@view');
          Gate::define('po.internal.store', 'App\Policies\PoInternalPolicy@store');
@@ -139,6 +140,7 @@ class AuthServiceProvider extends ServiceProvider
           Gate::define('invoice.verify2', 'App\Policies\InvoicePolicy@verify2');
           Gate::define('invoice.approve', 'App\Policies\InvoicePolicy@approve');
           Gate::define('invoice.print', 'App\Policies\InvoicePolicy@print');
+          Gate::define('invoice.reject', 'App\Policies\InvoicePolicy@pembatalan');
            // Adjustment
            Gate::define('adjustment.view', 'App\Policies\AdjustmentPolicy@view');
            Gate::define('adjustment.store', 'App\Policies\AdjustmentPolicy@store');

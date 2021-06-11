@@ -55,6 +55,14 @@
                                 <button id="btnSave" type="button" onclick="open_sppb_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.sppb.index')}}')">Save</button>
+                            @can('sppb.pembatalan', Auth::user())
+                                @if($sppb->sppb_status == 3 || $sppb->sppb_status == 4 )                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                                @if($sppb->sppb_status == 5 )                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Batal</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -385,6 +393,29 @@
                     text: 'Your record is still safe!',
                 });
             }
+        });
+    }
+    @endcan
+    @can('sppb.pembatalan', Auth::user())
+    function reject()
+    {
+        $.ajax({
+        url: "{{route('local.sppb.pembatalan', $sppb->id) }}",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.sppb.index') }}");
+            }
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
         });
     }
     @endcan

@@ -96,6 +96,11 @@
                             <button id="btnSave" type="button" onclick="open_inv_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.inv.index')}}')">Save</button>
+                            @can('invoice.reject', Auth::user())
+                                @if($invoice->inv_status == 3 || $invoice->inv_status == 4 )                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -464,6 +469,29 @@
                     text: 'Your record is still safe!',
                 });
             }
+        });
+    }
+    @endcan
+    @can('invoice.reject', Auth::user())
+    function reject()
+    {
+        $.ajax({
+        url: "{{route('local.inv.pembatalan', $invoice->id) }}",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.inv.index') }}");
+            }
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
         });
     }
     @endcan
