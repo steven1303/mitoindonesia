@@ -106,6 +106,11 @@
                             <i class="fa fa-th"></i> <span>Transfer Receipt</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('local.print.stock_master')}}" target="_blank">
+                            <i class="fa fa-th"></i> <span>Print SOH</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
