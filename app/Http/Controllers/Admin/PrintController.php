@@ -252,7 +252,7 @@ class PrintController extends SettingsController
             'stock_master' => $stock_master
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_stock_soh',$data);
-        return $pdf->stream('print_stock_soh.pdf');
+        return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
     }
 
 }

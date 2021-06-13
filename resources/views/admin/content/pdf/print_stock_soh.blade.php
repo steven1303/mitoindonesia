@@ -22,19 +22,26 @@
                 <td>Bin</td>
                 <td>Satuan</td>
                 <td>SOH</td>
+                <td>Harga Modal</td>
+                <td>Harga Jual</td>
             </tr>
+            @php
+            $i = 1;
+            @endphp
             @foreach ($stock_master as $detail)
             @php
-                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty');
+                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty');                
             @endphp
             @if($soh > 0)
             <tr style="border: 1px solid black;">
-                <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
+                <td style="border: 1px solid black;">{{ $i++ }}</td>
                 <td style="border: 1px solid black;">{{ $detail->stock_no }}</td>
                 <td style="border: 1px solid black;">{{ $detail->name}}</td>
                 <td style="border: 1px solid black;">{{ $detail->bin}}</td>
                 <td style="border: 1px solid black;">{{ $detail->satuan}}</td>
                 <td style="border: 1px solid black;">{{ $soh }}</td>
+                <td style="border: 1px solid black;">{{ "Rp. ".number_format($detail->harga_modal,0, ",", ".") }}</td>
+                <td style="border: 1px solid black;">{{ "Rp. ".number_format($detail->harga_jual,0, ",", ".") }}</td>
             </tr>
             @endif
             @endforeach
