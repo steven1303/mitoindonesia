@@ -32,14 +32,14 @@
             </tbody>
         </table>
 
-        <table width="98%" style="margin: auto; border-collapse: collapse;">
+        <table border="1" width="98%" style="margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td style="height: 20px;" width="10%"></td>
                     <td style="height: 20px;" width="30%"></td>
                     <td style="height: 20px;" width="25%"></td>
-                    <td style="height: 20px;" width="15%"></td>
-                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="12%"></td>
+                    <td style="height: 20px;" width="13%"></td>
                     <td style="height: 20px;" width="5%"></td>
                     <td style="height: 20px;" width="5%"></td>
                 </tr>
