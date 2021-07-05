@@ -111,9 +111,10 @@ class PrintController extends SettingsController
 
     public function print_inv($id)
     {
+        // number_format($inv->inv_detail->sum('total_ppn') ,0, ",", ".")
         $inv = Invoice::findOrFail($id);
         $inv->inv_print = Carbon::now();
-        $terbilang = Terbilang::make($inv->inv_detail->sum('total_ppn'), ' rupiah', '');
+        $terbilang = Terbilang::make(number_format($inv->inv_detail->sum('total_ppn') ,0, ",", "."), ' rupiah', '');
         $inv->update();
         $data = [
             'inv' => $inv,
@@ -247,12 +248,25 @@ class PrintController extends SettingsController
 
     public function print_stock_soh()
     {
+        
         $stock_master = StockMaster::where('id_branch','=', Auth::user()->id_branch)->latest()->get();
         $data = [
             'stock_master' => $stock_master
         ];
+
+        if(Auth::user()->id_branch == 1)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_stock_soh_pekanbaru',$data);
+            return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
+        }
+        if(Auth::user()->id_branch == 2)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_stock_soh_medan',$data);
+            return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
+        }
         $pdf = PDF::loadView('admin.content.pdf.print_stock_soh',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
+
     }
 
 }
