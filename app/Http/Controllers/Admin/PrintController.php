@@ -114,7 +114,7 @@ class PrintController extends SettingsController
         // number_format($inv->inv_detail->sum('total_ppn') ,0, ",", ".")
         $inv = Invoice::findOrFail($id);
         $inv->inv_print = Carbon::now();
-        $terbilang = Terbilang::make(number_format($inv->inv_detail->sum('total_ppn') ,0, ",", "."), ' rupiah', '');
+        $terbilang = Terbilang::make(number_format($inv->inv_detail->sum('total_ppn') ,0), ' rupiah', '');
         $inv->update();
         $data = [
             'inv' => $inv,
