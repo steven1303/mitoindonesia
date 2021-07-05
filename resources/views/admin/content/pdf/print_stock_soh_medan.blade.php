@@ -69,12 +69,14 @@
             @php
             $i = 1;
             $total_harga_modal = 0;
+            $total_harga_jual = 0;
             @endphp
             @foreach ($stock_master as $detail)
             @php
                 $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty'); 
                 if($detail->stock_no != "JSA 01 CCB"){
                     $total_harga_modal = $total_harga_modal + ($detail->harga_modal * $soh);
+                    $total_harga_jual = $total_harga_jual + ($detail->harga_jual * $soh);
                 }
             @endphp
             @if($soh > 0 && $detail->stock_no != "JSA 01 CCB" )
@@ -84,7 +86,7 @@
                 <td style="font-size: 13px; border: 1px solid black; text-align: left">{{ $detail->name}}</td>
                 <td style="font-size: 13px; border: 1px solid black;">{{ $detail->bin}}</td>
                 <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ $detail->satuan}}</td>
-                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ $soh }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "".number_format(($soh),0, ",", ".") }}</td>
                 <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_modal,0, ",", ".") }}</td>
                 <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_jual,0, ",", ".") }}</td>
                 <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format( ( $detail->harga_modal * $soh),0, ",", ".")  }}</td>
@@ -95,22 +97,14 @@
             <tr>
                 <td colspan="8" style="font-weight: bold; text-align: right"> TOTAL : </td>
                 <td style="font-weight: bold;">{{ "Rp. ".number_format($total_harga_modal,0, ",", ".") }}</td>
-                <td style="font-weight: bold;">nilai TOTAL Modal</td>
+                <td style="font-weight: bold;">{{ "Rp. ".number_format($total_harga_jual,0, ",", ".") }}</td>
             </tr>
             <tr>
                 <td colspan="8" style="font-weight: bold; text-align: right">Margin :  </td>
-                <td colspan="2" style="font-weight: bold;">nilai TOTAL margin</td>
+                <td colspan="2" style="font-weight: bold;">{{ "Rp. ".number_format( ($total_harga_jual - $total_harga_modal),0, ",", ".") }}</td>
             </tr>
             </tbody>
         </table>
-    <!-- <table width="100%" style="margin: auto; text-align: center; border-collapse: collapse;">
-        <tbody>
-            <tr>
-                <td><td style="border: 1px solid black; font-weight: bold;">Total Nilai Modal</td></rd>
-                <td><td style="border: 1px solid black; font-weight: bold;">Total Nilai Jual</td></rd>
-                <td><td style="border: 1px solid black; font-weight: bold;">Total Nilai Keuntungan</td></rd>
-            </tr>
-        </tbody> -->
     </table>
     </body>
 </html>

@@ -43,6 +43,18 @@
         <table width="100%" style="margin: auto; text-align: center; border-collapse: collapse;">
             <tbody>
             <tr>
+                    <td style="height: 20px;" width="3%"></td>
+                    <td style="height: 20px;" width="12%"></td>
+                    <td style="height: 20px;" width="21%"></td>
+                    <td style="height: 20px;" width="8%"></td>
+                    <td style="height: 20px;" width="7%"></td>
+                    <td style="height: 20px;" width="5%"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="12%"></td>
+                    <td style="height: 20px;" width="12%"></td>
+                </tr>
+            <tr>
                 <td style="border: 1px solid black; font-weight: bold;">No</td>
                 <td style="border: 1px solid black; font-weight: bold;">Kode Stock</td>
                 <td style="border: 1px solid black; font-weight: bold;">Stock Name</td>
@@ -51,28 +63,48 @@
                 <td style="border: 1px solid black; font-weight: bold;">SOH</td>
                 <td style="border: 1px solid black; font-weight: bold;">Harga Modal</td>
                 <td style="border: 1px solid black; font-weight: bold;">Harga Jual</td>
+                <td style="border: 1px solid black; font-weight: bold;">Jumlah Harga Modal</td>
+                <td style="border: 1px solid black; font-weight: bold;">Jumlah Harga Jual</td>
             </tr>
             @php
             $i = 1;
+            $total_harga_modal = 0;
+            $total_harga_jual = 0;
             @endphp
             @foreach ($stock_master as $detail)
             @php
-                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty');                
+                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty'); 
+                if($detail->stock_no != "JSA 01 CCB"){
+                    $total_harga_modal = $total_harga_modal + ($detail->harga_modal * $soh);
+                    $total_harga_jual = $total_harga_jual + ($detail->harga_jual * $soh);
+                }
             @endphp
-            @if($soh > 0)
+            @if($soh > 0 && $detail->stock_no != "JSA 01 CCB" )
             <tr style="border: 1px solid black;">
-                <td style="border: 1px solid black;">{{ $i++ }}</td>
-                <td style="border: 1px solid black; text-align: left">{{ $detail->stock_no }}</td>
-                <td style="border: 1px solid black; text-align: left">{{ $detail->name}}</td>
-                <td style="border: 1px solid black;">{{ $detail->bin}}</td>
-                <td style="border: 1px solid black; text-align: right">{{ $detail->satuan}}</td>
-                <td style="border: 1px solid black; text-align: right">{{ $soh }}</td>
-                <td style="border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_modal,0, ",", ".") }}</td>
-                <td style="border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_jual,0, ",", ".") }}</td>
-            </tr>
+                <td style="font-size: 13px; border: 1px solid black;">{{ $i++ }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: left">{{ $detail->stock_no }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: left">{{ $detail->name}}</td>
+                <td style="font-size: 13px; border: 1px solid black;">{{ $detail->bin}}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ $detail->satuan}}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "".number_format(($soh),0, ",", ".") }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_modal,0, ",", ".") }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format($detail->harga_jual,0, ",", ".") }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format( ( $detail->harga_modal * $soh),0, ",", ".")  }}</td>
+                <td style="font-size: 13px; border: 1px solid black; text-align: right">{{ "Rp. ".number_format( ( $detail->harga_jual * $soh),0, ",", ".")  }}</td>
             @endif
             @endforeach
+            </tr>
+            <tr>
+                <td colspan="8" style="font-weight: bold; text-align: right"> TOTAL : </td>
+                <td style="font-weight: bold;">{{ "Rp. ".number_format($total_harga_modal,0, ",", ".") }}</td>
+                <td style="font-weight: bold;">{{ "Rp. ".number_format($total_harga_jual,0, ",", ".") }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="font-weight: bold; text-align: right">Margin :  </td>
+                <td colspan="2" style="font-weight: bold;">{{ "Rp. ".number_format( ($total_harga_jual - $total_harga_modal),0, ",", ".") }}</td>
+            </tr>
             </tbody>
         </table>
+    </table>
     </body>
 </html>
