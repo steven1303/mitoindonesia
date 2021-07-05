@@ -32,13 +32,13 @@
             </tbody>
         </table>
 
-        <table  width="98%" style="margin: auto; border-collapse: collapse;">
+        <table border="1" width="98%" style="margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td style="height: 20px;" width="10%"></td>
                     <td style="height: 20px;" width="30%"></td>
-                    <td style="height: 20px;" width="30%"></td>
-                    <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="25%"></td>
+                    <td style="height: 20px;" width="15%"></td>
                     <td style="height: 20px;" width="10%"></td>
                     <td style="height: 20px;" width="5%"></td>
                     <td style="height: 20px;" width="5%"></td>
@@ -46,28 +46,25 @@
                 <tr>
                     <td>Nomor</td>
                     <td colspan="2">: {{ $inv->inv_no }}</td>
-                    <td>Pengiriman</td>
-                    <td colspan="3">: {{ $inv->inv_alamatkirim }}</td>
+                    <td>No PO</td>
+                    <td colspan="3">: {{ $inv->po_cust }}</td>
                 </tr>
                 <tr>
                     <td>Tanggal</td>
                     <td colspan="2">: {{ date("d/m/Y", strtotime($inv->date)) }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Kepada</td>
-                    <td colspan="2">: {{ $inv->customer->name }}</td>
                     <td>Mata Uang</td>
                     <td colspan="3">: {{ $inv->mata_uang }}</td>
                 </tr>
                 <tr>
-                    <td>No PO</td>
-                    <td colspan="2">: {{ $inv->po_cust }}</td>
+                    <td>Kepada</td>
+                    <td colspan="2">: {{ $inv->customer->name }}</td>
                     <td>Terms</td>
                     <td colspan="3">: {{ date("d/m/Y", strtotime($inv->top_date)) }}</td>
+                </tr>
+                <tr>
+                    <td>Pengiriman</td>
+                    <td colspan="6">: {{ $inv->inv_alamatkirim }}</td>
+                
                 </tr>
                 <tr>
                     <td colspan="7" style="height: 10px"></td>
