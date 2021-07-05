@@ -68,12 +68,16 @@
             </tr>
             @php
             $i = 1;
+            $total_harga_modal = 0;
             @endphp
             @foreach ($stock_master as $detail)
             @php
-                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty');                
+                $soh =  $detail->stock_movement()->where([['in_qty','>', 0],['status','=', 0]])->sum('in_qty') - $detail->stock_movement()->where([['out_qty','>', 0],['status','=', 0]])->sum('out_qty'); 
+                if($detail->stock_no != "JSA 01 CCB"){
+                    $total_harga_modal = $total_harga_modal + ($detail->harga_modal * $soh);
+                }
             @endphp
-            @if($soh > 0)
+            @if($soh > 0 && $detail->stock_no != "JSA 01 CCB" )
             <tr style="border: 1px solid black;">
                 <td style="font-size: 13px; border: 1px solid black;">{{ $i++ }}</td>
                 <td style="font-size: 13px; border: 1px solid black; text-align: left">{{ $detail->stock_no }}</td>
@@ -90,7 +94,7 @@
             </tr>
             <tr>
                 <td colspan="8" style="font-weight: bold; text-align: right"> TOTAL : </td>
-                <td style="font-weight: bold;">nilai TOTAL Modal</td>
+                <td style="font-weight: bold;">{{ "Rp. ".number_format($total_harga_modal,0, ",", ".") }}</td>
                 <td style="font-weight: bold;">nilai TOTAL Modal</td>
             </tr>
             <tr>
