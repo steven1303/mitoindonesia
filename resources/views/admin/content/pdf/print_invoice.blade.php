@@ -32,7 +32,7 @@
             </tbody>
         </table>
 
-        <table  width="98%" style="margin: auto; border-collapse: collapse;">
+        <table  width="98%" style="font-size: 15px; margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td style="height: 20px;" width="10%"></td>
@@ -71,7 +71,7 @@
                 </tr>
             </tbody>
         </table>
-        <table width="98%" style="margin: auto; border-collapse: collapse;">
+        <table width="98%" style="font-size: 15px; margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td width="5%" style="border: 1px solid black; text-align: center;">No</td>
