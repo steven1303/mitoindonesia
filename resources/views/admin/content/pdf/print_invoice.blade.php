@@ -32,7 +32,7 @@
             </tbody>
         </table>
 
-        <table  width="98%" style="font-size: 15px; margin: auto; border-collapse: collapse;">
+        <table width="98%" style="font-size: 15px; margin: auto; border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td style="height: 20px;" width="10%"></td>
@@ -62,9 +62,9 @@
                     <td colspan="3">: {{ date("d/m/Y", strtotime($inv->top_date)) }}</td>
                 </tr>
                 <tr>
-                    <td>Pengiriman</td>
-                    <td colspan="6">: {{ $inv->inv_alamatkirim }}</td>
-                
+                    <td valign="top">Pengiriman</td>
+                    <td colspan="2">: {{ $inv->inv_alamatkirim }}</td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td colspan="7" style="height: 10px"></td>
