@@ -36,8 +36,9 @@
             <tbody>
                 <tr>
                     <td style="height: 20px;" width="10%"></td>
+                    <td style="height: 20px;" width="1%"></td>
                     <td style="height: 20px;" width="30%"></td>
-                    <td style="height: 20px;" width="24%"></td>
+                    <td style="height: 20px;" width="23%"></td>
                     <td style="height: 20px;" width="11%"></td>
                     <td style="height: 20px;" width="15%"></td>
                     <td style="height: 20px;" width="5%"></td>
@@ -45,29 +46,33 @@
                 </tr>
                 <tr>
                     <td>Nomor</td>
-                    <td colspan="2">: {{ $inv->inv_no }}</td>
+                    <td>:</td>
+                    <td colspan="2">{{ $inv->inv_no }}</td>
                     <td>No PO</td>
                     <td colspan="3">: {{ $inv->po_cust }}</td>
                 </tr>
                 <tr>
                     <td>Tanggal</td>
-                    <td colspan="2">: {{ date("d/m/Y", strtotime($inv->date)) }}</td>
+                    <td>:</td>
+                    <td colspan="2">{{ date("d/m/Y", strtotime($inv->date)) }}</td>
                     <td>Mata Uang</td>
                     <td colspan="3">: {{ $inv->mata_uang }}</td>
                 </tr>
                 <tr>
                     <td>Kepada</td>
-                    <td colspan="2">: {{ $inv->customer->name }}</td>
+                    <td>:</td>
+                    <td colspan="2">{{ $inv->customer->name }}</td>
                     <td>Terms</td>
                     <td colspan="3">: {{ date("d/m/Y", strtotime($inv->top_date)) }}</td>
                 </tr>
                 <tr>
                     <td valign="top">Pengiriman</td>
-                    <td colspan="2">: {{ $inv->inv_alamatkirim }}</td>
+                    <td valign="top">:</td>
+                    <td colspan="2">{{ $inv->inv_alamatkirim }}</td>
                     <td colspan="4"></td>
                 </tr>
                 <tr>
-                    <td colspan="7" style="height: 10px"></td>
+                    <td colspan="8" style="height: 10px"></td>
                 </tr>
             </tbody>
         </table>
