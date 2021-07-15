@@ -112,7 +112,7 @@ class InvoiceController extends SettingAjaxController
             $sppb = Invoice::where([
                 ['id_sppb','=', $request['sppb']],
                 ['id_branch','=', Auth::user()->id_branch],
-                ['inv_status','<>', 7]
+                ['inv_status','<>', 8]
             ])->count();
 
             if($sppb > 0){

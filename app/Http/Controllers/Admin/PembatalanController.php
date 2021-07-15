@@ -54,9 +54,10 @@ class PembatalanController extends SettingAjaxController
             ['po_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
             ['po_status','<>', 1],
-            ['po_status','<>', 5],
+            ['po_status','<>', 2],
             ['po_status','<>', 6],
             ['po_status','<>', 7],
+            ['po_status','<>', 8],
         ])->get();
         $formatted_tags = [];
         foreach ($tags as $tag) {
@@ -116,9 +117,10 @@ class PembatalanController extends SettingAjaxController
             ['inv_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
             ['inv_status','<>', 1],
-            ['inv_status','<>', 5],
+            ['inv_status','<>', 2],
             ['inv_status','<>', 6],
             ['inv_status','<>', 7],
+            ['inv_status','<>', 8],
         ])->get();
         $formatted_tags = [];
         foreach ($tags as $tag) {
@@ -287,7 +289,7 @@ class PembatalanController extends SettingAjaxController
             ['doc_no','=', $no_po ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->update(['status' => 1, 'ket' => $pembatalan_no]);
-        $po_stock->po_status = 7;
+        $po_stock->po_status = 8;
         $po_stock->update();
     }
 
@@ -313,14 +315,14 @@ class PembatalanController extends SettingAjaxController
             ['inv_no','=', $no_inv ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
-        $inv->inv_status = 7;
+        $inv->inv_status = 8;
         $inv->update();        
         
         $sppb = Sppb::where([
             ['sppb_no','=', $inv->sppb->sppb_no ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
-        $sppb->sppb_status = 4;
+        $sppb->sppb_status = 5;
         $sppb->sppb_detail()->update(['inv_qty' => 0 ]);
         $sppb->update();
 
@@ -336,14 +338,14 @@ class PembatalanController extends SettingAjaxController
             ['inv_no','=', $no_inv ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
-        $inv->inv_status = 7;
+        $inv->inv_status = 8;
         $inv->update();
         
         
         $sppb = Sppb::where([
             ['sppb_no','=', $inv->sppb->sppb_no ],
             ['id_branch','=', Auth::user()->id_branch],
-        ])->update(['sppb_status' => 6]);
+        ])->update(['sppb_status' => 7]);
 
         $stock_movement_inv = StockMovement::where([
             ['doc_no','=', $no_inv ],
