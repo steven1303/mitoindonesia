@@ -267,11 +267,20 @@
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {
                         table.ajax.reload();
-                        swal({
-                            type: 'success',
-                            title: 'Deleted',
-                            text: 'Poof! Your record has been deleted!',
-                        });
+                        if(data.stat == "Error"){
+                            swal({
+                                type: 'error',
+                                title: 'Warning',
+                                text: data.message,
+                            });
+                        }
+                        if(data.stat == "Success"){
+                            swal({
+                                type: 'success',
+                                title: 'Deleted',
+                                text: 'Poof! Your record has been deleted!',
+                            });
+                        }
                     },
                     error : function () {
                         swal( {

@@ -228,6 +228,10 @@ class PoNonStockController extends SettingAjaxController
     public function destroy($id)
     {
         if(Auth::user()->can('po.non.stock.delete')){
+            $check = PoNonStock::find($id)->po_non_stock_detail->count();
+            if($check > 0 ){
+                return response()->json(['code'=>200,'message' => 'Delete Detail PO First', 'stat' => 'Error']);
+            }
             PoNonStock::destroy($id);
             return response()
                 ->json(['code'=>200,'message' => 'PO Non Stock Success Deleted', 'stat' => 'Success']);

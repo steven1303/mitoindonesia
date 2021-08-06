@@ -25,7 +25,7 @@
             </tr>
         </tbody>
     </table>
-    <table width="95%" style="font-size: 10px; margin: auto; border-collapse: collapse;">
+    <table width="95%" style="margin: auto; border-collapse: collapse;" >
         <tbody>
              <tr>
                 <td style="height: 20px;" width="17%"></td>
