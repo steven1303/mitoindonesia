@@ -160,7 +160,7 @@
             <td colspan="2">Disetujui Oleh,</td>
             <td colspan="2" style="margin: auto; text-align: left;" >Total</td>
             <td style="margin: auto; text-align: left;" >:     Rp.</td>
-            <td colspan="3" style="margin: auto; text-align: right;">{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total"),0, ",", ".") }}</td>
+            <td colspan="3" style="margin: auto; text-align: right;">{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total")),0, ",", ".") }}</td>
                                 
         </tr>
         <tr>
