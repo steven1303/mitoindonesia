@@ -120,8 +120,8 @@
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
                     <td style="border: 1px solid black; text-align: left">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->spb_detail->qty }} {{ $detail->spb_detail->satuan }}</td>
-                    <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->price),0, ",", ".") }}</td>
-                    <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->spb_detail->qty * $detail->price),0, ",", ".") }}</td>
+                    <td style="border: 1px solid black; text-align: right;">{{ "Rp. ".number_format( ($detail->price),0, ",", ".") }}</td>
+                    <td style="border: 1px solid black; text-align: right;">{{ "Rp. ".number_format( ($detail->spb_detail->qty * $detail->price),0, ",", ".") }}</td>
                 </tr>
             @endforeach
             @for ($i = $po_stock->po_non_stock_detail->count(); $i < 25; $i++)
