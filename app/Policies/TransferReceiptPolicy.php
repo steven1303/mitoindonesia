@@ -22,7 +22,7 @@ class TransferReceiptPolicy
     public function view(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-view'){
+            if($permission->name == 'receipt-transfer-view'){
                 return true;
             }
         }
@@ -32,7 +32,7 @@ class TransferReceiptPolicy
     public function store(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-store'){
+            if($permission->name == 'receipt-transfer-store'){
                 return true;
             }
         }
@@ -42,7 +42,7 @@ class TransferReceiptPolicy
     public function update(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-update'){
+            if($permission->name == 'receipt-transfer-update'){
                 return true;
             }
         }
@@ -52,7 +52,7 @@ class TransferReceiptPolicy
     public function delete(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-delete'){
+            if($permission->name == 'receipt-transfer-delete'){
                 return true;
             }
         }
@@ -62,7 +62,7 @@ class TransferReceiptPolicy
     public function open(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-open'){
+            if($permission->name == 'receipt-transfer-open'){
                 return true;
             }
         }
@@ -72,7 +72,7 @@ class TransferReceiptPolicy
     public function approve(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-approve'){
+            if($permission->name == 'receipt-transfer-approve'){
                 return true;
             }
         }
@@ -81,7 +81,7 @@ class TransferReceiptPolicy
     public function print(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
-            if($permission->name == 'transfer-receipt-print'){
+            if($permission->name == 'receipt-transfer-print'){
                 return true;
             }
         }
