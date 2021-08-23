@@ -83,7 +83,7 @@
         </div>
     </div>
 </section>
-@canany(['adjustment.store', 'adjustment.update'], Auth::user())
+@canany(['transfer.store', 'transfer.update'], Auth::user())
 <div class="modal fade" id="modal-input-item">
     <div class="modal-dialog">
         <form role="form" id="TransferDetailForm" method="POST">
@@ -166,7 +166,7 @@
         ]
     });
 
-    @canany(['adjustment.store', 'adjustment.update'], Auth::user())
+    @canany(['transfer.store', 'transfer.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('dd-mm-yyyy', { 'placeholder': 'dd-mm-yyyy' });
 
@@ -259,7 +259,7 @@
         $('input[name=_method]').val('POST');
     }
     @endcanany
-    @can('adjustment.update', Auth::user())
+    @can('transfer.update', Auth::user())
     function editForm(id) {
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
@@ -288,7 +288,7 @@
         });
     }
     @endcan
-    @can('adjustment.update', Auth::user())
+    @can('transfer.update', Auth::user())
     function open_transfer_Form() {
         $.ajax({
         url: "{{route('local.transfer.open.index', $transfer->id) }}",
@@ -312,12 +312,12 @@
         });
     }
     @endcan
-    @can('adjustment.print', Auth::user())
+    @can('transfer.print', Auth::user())
     function print_transfer(id){
         window.open("{{ url('transfer_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('adjustment.delete', Auth::user())
+    @can('transfer.delete', Auth::user())
     function deleteData(id, title){
         swal({
             title: 'Are you sure want to delete ' + title + ' ?',

@@ -171,5 +171,13 @@ class AuthServiceProvider extends ServiceProvider
            Gate::define('transfer.open', 'App\Policies\TransferPolicy@open');
            Gate::define('transfer.approve', 'App\Policies\TransferPolicy@approve');
            Gate::define('transfer.print', 'App\Policies\TransferPolicy@print');
+           // transfer receipt
+           Gate::define('transfer.receipt.view', 'App\Policies\TransferReceiptPolicy@view');
+           Gate::define('transfer.receipt.store', 'App\Policies\TransferReceiptPolicy@store');
+           Gate::define('transfer.receipt.update', 'App\Policies\TransferReceiptPolicy@update');
+           Gate::define('transfer.receipt.delete', 'App\Policies\TransferReceiptPolicy@delete');
+           Gate::define('transfer.receipt.open', 'App\Policies\TransferReceiptPolicy@open');
+           Gate::define('transfer.receipt.approve', 'App\Policies\TransferReceiptPolicy@approve');
+           Gate::define('transfer.receipt.print', 'App\Policies\TransferReceiptPolicy@print');
     }
 }

@@ -9,7 +9,7 @@
     </ol>
 </section>
 <section class="content">
-    @canany(['adjustment.store', 'adjustment.update'], Auth::user())
+    @canany(['transfer.store', 'transfer.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -219,7 +219,7 @@
         window.open("{{ url('transfer_receipt_print') }}" + '/' + id,"_blank");
     }
     @endcan
-    @can('adjustment.approve', Auth::user())
+    @can('transfer.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
         $.ajax({

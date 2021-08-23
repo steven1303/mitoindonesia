@@ -9,7 +9,7 @@
     </ol>
 </section>
 <section class="content">
-    @canany(['adjustment.store', 'adjustment.update'], Auth::user())
+    @canany(['transfer.store', 'transfer.update'], Auth::user())
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
