@@ -283,7 +283,7 @@
             $('#btnSave').attr('disabled',false);
             $('#id_invoice').val(data.id);
             $('#invoice_no').val(data.inv_no);
-            $('#total_inv').val(data.inv_total);
+            $('#total_inv').val(data.inv_total - 0);
             $('#sisa').val(data.inv_sisa);
             format_decimal_limit();
         },

@@ -303,7 +303,7 @@ class TransferBranchController extends SettingAjaxController
                 }
                 if($data->transfer->transfer_status == 1){
                     if($access->can('transfer.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                        // $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
                     if($access->can('transfer.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
@@ -311,7 +311,7 @@ class TransferBranchController extends SettingAjaxController
                 }
                 if($data->transfer->transfer_status == 2){
                     if($access->can('transfer.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                        // $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
                     if($access->can('transfer.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';

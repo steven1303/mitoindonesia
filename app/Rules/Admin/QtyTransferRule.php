@@ -32,7 +32,7 @@ class QtyTransferRule implements Rule
         $stock = StockMaster::where([
             ['id','=', $this->stock_master],
             ['id_branch','=', Auth::user()->id_branch]
-        ])->first()->stock_movement->sum('soh_qty');
+        ])->first()->stock_movement->where('status', 0)->sum('soh_qty');
 
         if($stock >= $value){
             return true;
