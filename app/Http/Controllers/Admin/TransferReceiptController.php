@@ -19,7 +19,7 @@ class TransferReceiptController extends SettingAjaxController
 {
     public function index()
     {
-        if(Auth::user()->can('transfer.view')){
+        if(Auth::user()->can('transfer.receipt.view')){
             $data = [];
             return view('admin.content.transfer_receipt')->with($data);
         }
@@ -28,7 +28,7 @@ class TransferReceiptController extends SettingAjaxController
 
     public function detail($id)
     {
-        if(Auth::user()->can('transfer.view')){
+        if(Auth::user()->can('transfer.receipt.view')){
             $transfer = TransferReceipt::findOrFail($id);
             $data = [
                 'transfer' => $transfer
@@ -50,7 +50,7 @@ class TransferReceiptController extends SettingAjaxController
 
     public function store(Request $request)
     {
-        if(Auth::user()->can('transfer.store')){
+        if(Auth::user()->can('transfer.receipt.store')){
             $draf = TransferReceipt::where([
                 ['receipt_transfer_status','=', 1],
                 ['id_branch','=', Auth::user()->id_branch]
@@ -88,7 +88,7 @@ class TransferReceiptController extends SettingAjaxController
 
     public function store_detail(StoreDetailTransferReceiptRequest $request, $id)
     {
-        if(Auth::user()->can('transfer.update')){
+        if(Auth::user()->can('transfer.receipt.update')){
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'id_receipt_transfer' => $id,
@@ -125,7 +125,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function edit($id)
     {
-        if(Auth::user()->can('transfer.update')){
+        if(Auth::user()->can('transfer.receipt.update')){
             $data = TransferReceipt::with('from')->findOrFail($id);
             return $data;
         }
@@ -141,7 +141,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function edit_detail($id)
     {
-        if(Auth::user()->can('transfer.update')){
+        if(Auth::user()->can('transfer.receipt.update')){
             $data = TransferReceiptDetail::with(['stock_master_from','stock_master','transfer_detail'])->findOrFail($id);
             return $data;
         }
@@ -157,7 +157,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('transfer.update')){
+        if(Auth::user()->can('transfer.receipt.update')){
             $data = TransferReceipt::find($id);
             $data->keterangan    = $request['keterangan'];
             $data->update();
@@ -177,7 +177,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function update_detail(UpdateDetailTransferReceiptRequest $request, $id)
     {
-        if(Auth::user()->can('transfer.update')){
+        if(Auth::user()->can('transfer.receipt.update')){
             $data = TransferReceiptDetail::find($id);
             $data->id_stock_master    = $request['stock_master'];
             // $data->qty    = $request['terima'];
@@ -202,7 +202,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('transfer.delete')){
+        if(Auth::user()->can('transfer.receipt.delete')){
             $data = TransferReceipt::find($id);
             foreach ($data->transfer_receipt_detail as $detail ) {
                 $transfer_detail = TransferDetail::find($detail->id_transfer_detail);
@@ -268,7 +268,7 @@ class TransferReceiptController extends SettingAjaxController
                 $action = "";
                 $title = "'".$data->transfer_no."'";
                 if($data->receipt_transfer_status == 1){
-                    if($access->can('transfer.view')){
+                    if($access->can('transfer.receipt.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-warning btn-xs"> Draft</a> ';
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .','.$title.')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
@@ -277,21 +277,21 @@ class TransferReceiptController extends SettingAjaxController
                     }
                 }
                 elseif($data->receipt_transfer_status == 2){
-                    if($access->can('transfer.view')){
+                    if($access->can('transfer.receipt.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('transfer.approve')){
+                    if($access->can('transfer.receipt.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
-                    if($access->can('transfer.print')){
+                    if($access->can('transfer.receipt.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_transfer('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
                 }
                 else{
-                    if($access->can('transfer.view')){
+                    if($access->can('transfer.receipt.view')){
                         $action .= '<a href="'.$transfer_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('transfer.print')){
+                    if($access->can('transfer.receipt.print')){
                         $action .= '<button id="'. $data->id .'" onclick="print_transfer('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
                     }
                 }
@@ -317,18 +317,18 @@ class TransferReceiptController extends SettingAjaxController
                 $title = "'".$data->stock_master->name."'";
 
                 if($data->transfer_receipt->receipt_transfer_status == 1){
-                    if($access->can('transfer.update')){
+                    if($access->can('transfer.receipt.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
-                    if($access->can('transfer.delete')){
+                    if($access->can('transfer.receipt.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
                 if($data->transfer_receipt->receipt_transfer_status == 2){
-                    if($access->can('transfer.update')){
+                    if($access->can('transfer.receipt.update')){
                         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
-                    if($access->can('transfer.delete')){
+                    if($access->can('transfer.receipt.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
@@ -359,7 +359,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function transfer_receipt_open($id)
     {
-        if(Auth::user()->can('transfer.open')){
+        if(Auth::user()->can('transfer.receipt.open')){
             $data = TransferReceipt::findOrFail($id);
             if($data->transfer_receipt_detail->count() < 1)
             {
@@ -384,7 +384,7 @@ class TransferReceiptController extends SettingAjaxController
      */
     public function approve($id)
     {
-        if(Auth::user()->can('transfer.approve')){
+        if(Auth::user()->can('transfer.receipt.approve')){
             $data = TransferReceipt::findOrFail($id);
             $data->receipt_transfer_status = 3;
             $data->transfer->transfer_status = 4;

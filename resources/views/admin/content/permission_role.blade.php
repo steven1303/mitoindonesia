@@ -474,6 +474,28 @@
                                     @endif
                                     @endforeach
                                 </div>
+                                <div class="col-md-2">
+                                    <label for="permission"><b>Transfer Receipt Access</b></label>
+                                    @foreach ($permissions as $permission)
+                                    @if ($permission->for == 'Receipt Transfer')
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permission[]" value="{{ $permission->id }}"
+                                            @foreach ($role->permissions as $permit)
+                                            @if ($permit->id == $permission->id)
+                                            checked
+                                            @endif
+                                            {{-- @if ($role->id == 1)
+                                            disabled
+                                            @endif --}}
+                                            @endforeach
+                                            >
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="row">
 

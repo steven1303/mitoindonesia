@@ -36,11 +36,8 @@ class LoginController extends Controller
         ];
 
         if (Auth::guard('admin')->attempt($this->credentials($request), $request->remember)){
-
             return redirect()->intended(route('local.admin.dashboard'));
-
         }
-
         return redirect()->back()->withInput($request->only('username','remember'));
     }
 
@@ -61,7 +58,6 @@ class LoginController extends Controller
         $loginType = request()->input('username');
         $this->username = filter_var($loginType, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         request()->merge([$this->username => $loginType]);
-
         return property_exists($this, 'username') ? $this->username : 'email';
     }
 
