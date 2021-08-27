@@ -226,6 +226,13 @@ class PoStockController extends SettingAjaxController
             $data->disc    = preg_replace('/\D/', '',$request['disc']);
             $data->keterangan    = $request['keterangan'];
             $data->update();
+
+            if($data->po_stock->po_status != 1){
+                if($data->po_stock->vendor->status_ppn == 1){
+                    $data->po_stock->ppn = $data->po_stock->po_stock_detail->sum('total') * 0.1;
+                    $data->po_stock->update();
+                }
+            }
             return response()
                 ->json(['code'=>200,'message' => 'Edit Item PO Stock Success', 'stat' => 'Success']);
         }
