@@ -248,9 +248,18 @@ class InvoiceController extends SettingAjaxController
                 $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
             }
             $data->price    = $price;
+            $data->subtotal    = $subtotal;
+            $data->total_befppn    = $total_befppn;
+            $data->total_ppn    = $total_ppn;
             $data->disc    = $disc;
             $data->keterangan    = $request['keterangan'];
             $data->update();
+            if($data->invoice->inv_status != 1){
+                if($data->invoice->customer->status_ppn == 1){
+                    $data->invoice->ppn = $data->invoice->inv_detail->sum('total') * 0.1;
+                    $data->invoice->update();
+                }
+            }
             return response()
                 ->json(['code'=>200,'message' => 'Edit Item Invoice Success', 'stat' => 'Success']);
         }
