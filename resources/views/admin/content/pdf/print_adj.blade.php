@@ -86,24 +86,24 @@
                     <td colspan="7" style="height: 25px"></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Dibuat Oleh</td>
-                    <td style="text-align: center;">Disetujui Oleh</td>
                     <td></td>
+                    <td colspan="3" style="text-align: center;" >Dibuat Oleh</td>
                     <td colspan="2" style="text-align: right;">Total Qty In</td>
                     <td>: {{ $adj->adj_detail->sum('in_qty') }}</td>
                 </tr>
                 <tr>
-                    <td colspan="4"></td>
+                    <td></td>
+                    <td colspan="3" rowspan="2" style="text-align: center;"> <img src="{{asset('img/ttd_abas_png.png')}}" width="120px" > </td>
                     <td colspan="2" style="text-align: right;">Total Qty Out</td>
                     <td>: {{ $adj->adj_detail->sum('out_qty') }}</td>
                 </tr>
                 <tr>
-                    <td colspan="7" style="height: 50px"></td>
+                    <td colspan="7" style="height: 50px">  </td>
                 </tr>
                 <tr>
-                    <td colspan="2">(......................)</td>
-                    <td style="text-align: center;">(......................)</td>
-                    <td colspan="4"></td>
+                    <td></td>
+                    <td colspan="3" style="text-align: center;">( ABAS SUSILO )</td>
+                    <td colspan="3"></td>
                 </tr>
             </tbody>
         </table>
