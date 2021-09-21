@@ -121,8 +121,16 @@ class PrintController extends SettingsController
             'inv' => $inv,
             'terbilang' => $terbilang
         ];
-        $pdf = PDF::loadView('admin.content.pdf.print_invoice',$data);
-        return $pdf->stream('print_invoice.pdf');
+        if(Auth::user()->id_branch == 1){
+            $pdf = PDF::loadView('admin.content.pdf.print_invoice_pku',$data);
+            return $pdf->stream('print_invoice_pku.pdf');
+        }
+        if(Auth::user()->id_branch == 2){
+            $pdf = PDF::loadView('admin.content.pdf.print_invoice_medan',$data);
+            return $pdf->stream('print_invoice_medan.pdf');
+        }
+        $pdf = PDF::loadView('admin.content.pdf.print_invoice_default',$data);
+        return $pdf->stream('print_invoice_default.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
     }
 
