@@ -34,10 +34,10 @@
             </tr>
             <tr>
                 <td style="height: 20px;" width="5%"></td>
-                <td style="height: 20px;" width="21%"></td>
-                <td style="height: 20px;" width="24%"></td>
+                <td style="height: 20px;" width="28%"></td>
+                <td style="height: 20px;" width="20%"></td>
                 <td style="height: 20px;" width="14%"></td>
-                <td style="height: 20px;" width="18%"></td>
+                <td style="height: 20px;" width="15%"></td>
                 <td style="height: 20px;" width="18%"></td>
             </tr>
             <tr>
