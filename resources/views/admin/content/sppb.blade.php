@@ -270,6 +270,10 @@
         $.ajax({
         url: "{{ url('sppb') }}" + '/' + id + "/approve",
         type: "GET",
+        beforeSend:function(){
+            document.getElementById('approve'+id).disabled = true;
+            $(document).find('span.error-text').text('');
+        },
         dataType: "JSON",
         success: function(data) {
             table.ajax.reload();
