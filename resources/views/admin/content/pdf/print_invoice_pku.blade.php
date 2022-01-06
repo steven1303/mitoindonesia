@@ -95,7 +95,7 @@
                     <td style="border: 1px solid black; text-align: center;">{{ $detail->stock_master->satuan }}</td>
                     <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($detail->price,0, ",", ".") }}</td>
                     <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($detail->disc,0, ",", ".") }}</td>
-                    <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($detail->subtotal,0, ",", ".") }}</td>
+                    <td style="border: 1px solid black; text-align: center;">Rp. {{ number_format($detail->subtotal - $detail->disc ,0, ",", ".") }}</td>
                 </tr>
                 @endforeach
                 @for ($i = $inv->inv_detail->count(); $i < 10; $i++)
