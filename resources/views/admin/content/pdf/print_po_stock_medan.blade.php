@@ -97,7 +97,7 @@
         <tbody>
         <tr>
             <td colspan="2">Dibuat Oleh,</td>
-            <td colspan="2">Disetujui Oleh,</td>
+            <td colspan="2">Diketahui Oleh,</td>
             <td colspan="2">Disetujui Oleh,</td>
             <td colspan="2">Total            :</td>
             <td colspan="3">{{ "Rp. ".number_format( ($po_stock->po_stock_detail->sum("total")),0, ",", ".") }}</td>
@@ -163,8 +163,8 @@
         </tr>
         <tr>
             <td colspan="2">Purchasing</td>
-            <td colspan="2">Branch Manager</td>
-            <td colspan="2">Direktur</td>
+            <td colspan="2">Manager</td>
+            <td colspan="2">GM / Direktur</td>
             <td></td>
             <td></td>
             <td></td>

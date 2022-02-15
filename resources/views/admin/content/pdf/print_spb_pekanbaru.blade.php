@@ -141,9 +141,9 @@
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">Pemohon</td>
-                    <td style="border: 1px solid black;">Manager</td>
                     <td style="border: 1px solid black;">GA</td>
-                    <td style="border: 1px solid black;">Direktur Utama/GM</td>
+                    <td style="border: 1px solid black;">Manager</td>
+                    <td style="border: 1px solid black;">GM / Direktur</td>
                 </tr>
             </tbody>
         </table>

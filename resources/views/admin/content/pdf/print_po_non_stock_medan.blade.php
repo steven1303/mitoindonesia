@@ -156,7 +156,7 @@
             </tr>
         <tr>
             <td colspan="2">Dibuat Oleh,</td>
-            <td colspan="2">Disetujui Oleh,</td>
+            <td colspan="2">Diketahui Oleh,</td>
             <td colspan="2">Disetujui Oleh,</td>
             <td colspan="2" style="margin: auto; text-align: left;" >Total</td>
             <td style="margin: auto; text-align: left;" >:     Rp.</td>
