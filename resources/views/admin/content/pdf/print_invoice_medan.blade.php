@@ -112,6 +112,7 @@
                 
                 <tr>
                     <td colspan="7" style="height: 25px"></td>
+                
                 </tr>
                 <tr>
                     <td colspan="4">Terbilang :</td>
@@ -148,7 +149,7 @@
             </tr>            
             <tr>
                 <td>Bank</td>
-                <td>: Bank Mandiri Pekanbaru</td>
+                <td>: Bank BNI Pekanbaru</td>
             </tr>
             <tr>
                 <td>Atas nama</td>
@@ -156,7 +157,7 @@
             </tr>
             <tr>
                 <td>No Rekening </td>
-                <td>: 108 0558828 282</td>
+                <td>: 122 819 044 9</td>
             </tr>
             <tr>
                 <td style="height: 40px"></td>
