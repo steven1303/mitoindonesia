@@ -165,7 +165,7 @@ class InvoiceController extends SettingAjaxController
             $total_befppn = ($subtotal  - $disc ) - 0;
             $total_ppn = $total_befppn;
             if($inv->customer->status_ppn == 1){
-                $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+                $total_ppn = ($total_befppn  + ($total_befppn * 0.11)) - 0;
             }
             $data = [
                 'id_branch' => Auth::user()->id_branch,
@@ -245,7 +245,7 @@ class InvoiceController extends SettingAjaxController
             $total_befppn = ($subtotal  - $disc ) - 0;
             $total_ppn = $total_befppn;
             if($data->invoice->customer->status_ppn == 1){
-                $total_ppn = ($total_befppn  + ($total_befppn * 0.1)) - 0;
+                $total_ppn = ($total_befppn  + ($total_befppn * 0.11)) - 0;
             }
             $data->price    = $price;
             $data->subtotal    = $subtotal;

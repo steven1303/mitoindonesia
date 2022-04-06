@@ -229,7 +229,7 @@ class PoStockController extends SettingAjaxController
 
             if($data->po_stock->po_status != 1){
                 if($data->po_stock->vendor->status_ppn == 1){
-                    $data->po_stock->ppn = $data->po_stock->po_stock_detail->sum('total') * 0.1;
+                    $data->po_stock->ppn = $data->po_stock->po_stock_detail->sum('total') * 0.11;
                     $data->po_stock->update();
                 }
             }

@@ -110,7 +110,11 @@
             <td colspan="2" style="margin: auto; text-align: left;" >PPN</td>
             <td style="margin: auto; text-align: left;" >:     Rp.</td>
             @if ($po_stock->vendor->status_ppn == 1)
-            <td colspan="3" style="margin: auto; text-align: right;" >{{ " ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.1),0, ",", ".") }}</td>
+                @if($po_stock->created_at > "2022-04-01")
+                    <td colspan="3" style="margin: auto; text-align: right;" >{{ " ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.11),0, ",", ".") }}</td>
+                @else
+                    <td colspan="3" style="margin: auto; text-align: right;" >{{ " ".number_format( ($po_stock->po_non_stock_detail->sum("total") * 0.1),0, ",", ".") }}</td>
+                @endif
             @else
             <td colspan="3" style="margin: auto; text-align: right;" >{{ " ".number_format( (0),0, ",", ".") }}</td>
             @endif
@@ -122,7 +126,11 @@
             <td colspan="2" style="margin: auto; text-align: left; font-weight: bold; ">Grand Total</td>
             <td style="margin: auto; text-align: left; font-weight: bold;" >:     Rp.</td>
             @if ($po_stock->vendor->status_ppn == 1)
+                @if($po_stock->created_at > "2022-04-01")
+                    <td colspan="3" style="margin: auto; text-align: right; font-weight: bold;">{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total") + ($po_stock->po_non_stock_detail->sum("total") * 0.11)),0, ",", ".") }}</td>
+                @else
                 <td colspan="3" style="margin: auto; text-align: right; font-weight: bold;">{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total") + ($po_stock->po_non_stock_detail->sum("total") * 0.1)),0, ",", ".") }}</td>
+                @endif
             @else
             <td colspan="3" style="margin: auto; text-align: right; font-weight: bold;">{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total")),0, ",", ".") }}</td>
             @endif
