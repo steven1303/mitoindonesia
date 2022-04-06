@@ -68,7 +68,7 @@
                 <tr>
                     <td valign="top">Pengiriman</td>
                     <td valign="top">:</td>
-                    <td colspan="2">{{ $inv->inv_alamatkirim }}</td>
+                    <td colspan="2">{{ $inv->customer->address1." ".$inv->customer->address2 }}</td>
                     <td colspan="4"></td>
                 </tr>
                 <tr>

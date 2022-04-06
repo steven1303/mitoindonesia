@@ -74,7 +74,7 @@
                     <td style="border: 1px solid black;">Keterangan</td>
                 </tr>
                 @foreach ($spb->spb_detail as $detail)
-                <tr style="border: 1px solid black;">
+                <tr style="border: 1px solid black; font-size: 13px;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
                     <td colspan="2" style="border: 1px solid black; text-align: left;">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>

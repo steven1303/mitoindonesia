@@ -116,7 +116,7 @@
                 <td style="border: 1px solid black;">Total</td>
             </tr>
             @foreach ($po_stock->po_non_stock_detail as $detail)
-                    <tr style="border: 1px solid black;">
+                    <tr style="border: 1px solid black; font-size: 13px;">
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
                     <td style="border: 1px solid black; text-align: left">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->spb_detail->qty }} {{ $detail->spb_detail->satuan }}</td>
@@ -124,7 +124,7 @@
                     <td style="border: 1px solid black; text-align: right;">{{ "Rp. ".number_format( ($detail->spb_detail->qty * $detail->price),0, ",", ".") }}</td>
                 </tr>
             @endforeach
-            @for ($i = $po_stock->po_non_stock_detail->count(); $i < 25; $i++)
+            @for ($i = $po_stock->po_non_stock_detail->count(); $i < 14; $i++)
                 <tr style="border: 1px solid black; height: 20px;">
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
