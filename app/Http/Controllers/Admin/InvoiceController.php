@@ -256,7 +256,7 @@ class InvoiceController extends SettingAjaxController
             $data->update();
             if($data->invoice->inv_status != 1){
                 if($data->invoice->customer->status_ppn == 1){
-                    $data->invoice->ppn = $data->invoice->inv_detail->sum('total') * 0.1;
+                    $data->invoice->ppn = $data->invoice->inv_detail->sum('total') * 0.11;
                     $data->invoice->update();
                 }
             }
@@ -462,7 +462,7 @@ class InvoiceController extends SettingAjaxController
             $data->ppn = 0;
             $data->inv_open = Carbon::now();
             if($data->customer->status_ppn == 1){
-                $data->ppn = $data->inv_detail->sum('total') * 0.1;
+                $data->ppn = $data->inv_detail->sum('total') * 0.11;
             }
             $data->update();
             return response()

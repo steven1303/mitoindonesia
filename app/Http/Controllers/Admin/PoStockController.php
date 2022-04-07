@@ -448,7 +448,7 @@ class PoStockController extends SettingAjaxController
             $data->ppn = 0;
             $data->po_open = Carbon::now();
             if($data->vendor->status_ppn == 1){
-                $data->ppn = $data->po_stock_detail->sum('total') * 0.1;
+                $data->ppn = $data->po_stock_detail->sum('total') * 0.11;
             }
             $data->update();
             return response()
