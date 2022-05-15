@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class VendorController extends SettingAjaxController
