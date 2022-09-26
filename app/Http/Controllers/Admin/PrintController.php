@@ -275,7 +275,15 @@ class PrintController extends SettingsController
         }
         $pdf = PDF::loadView('admin.content.pdf.print_stock_soh',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
+    }
 
+    public function print_po_list(){
+        $po_list = PoStock::where('id_branch','=', Auth::user()->id_branch)->orderBy('po_no', 'desc')->get();
+        $data = [
+            'po_list' => $po_list
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_po_list',$data);
+        return $pdf->stream('print_po_list.pdf');
     }
 
 }

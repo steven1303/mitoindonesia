@@ -111,6 +111,11 @@
                             <i class="fa fa-th"></i> <span>Print SOH</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('local.print.po_list')}}" target="_blank">
+                            <i class="fa fa-th"></i> <span>Print PO List</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
