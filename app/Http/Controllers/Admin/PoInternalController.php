@@ -335,7 +335,7 @@ class PoInternalController extends SettingAjaxController
             $data->ppn = 0;
             $data->po_open = Carbon::now();
             if($data->customer->status_ppn == 1){
-                $data->ppn = $data->po_internal_detail->sum('total') * 0.1;
+                $data->ppn = $data->po_internal_detail->sum('total') * 0.11;
             }
             $data->update();
             return response()

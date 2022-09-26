@@ -95,7 +95,7 @@
                             <div class="col-xs-3">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" id="status_ppn" name="status_ppn"> PPN 10%
+                                        <input type="checkbox" id="status_ppn" name="status_ppn"> PPN 11%
                                     </label>
                                 </div>
                             </div>

@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index()
     {
         $data = [];
-        return view('frontend.pages.home')->with($data);
+        // return view('frontend.pages.home')->with($data);
         
     }
 }
