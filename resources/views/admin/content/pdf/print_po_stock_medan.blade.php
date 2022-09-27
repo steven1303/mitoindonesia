@@ -163,8 +163,8 @@
         </tr>
         <tr>
             <td colspan="2">Purchasing</td>
-            <td colspan="2">Manager</td>
-            <td colspan="2">GM / Direktur</td>
+            <td colspan="2">Head Accounting-Finance</td>
+            <td colspan="2">Direktur / GM</td>
             <td></td>
             <td></td>
             <td></td>

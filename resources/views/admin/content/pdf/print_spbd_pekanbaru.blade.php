@@ -83,7 +83,7 @@
                 <td colspan="2" style="border: 1px solid black;">{{ $detail->keterangan }}</td>
             </tr>
             @endforeach
-            @for ($i = $spbd->spbd_detail->count(); $i < 16; $i++)
+            @for ($i = $spbd->spbd_detail->count(); $i < 15; $i++)
             <tr style="border: 1px solid black; height: 20px;">
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
@@ -128,23 +128,26 @@
         <tbody>
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">Pemohon,</td>
-                <td style="border: 1px solid black;">Diketahui oleh,</td>
+                <td colspan="2" style="border: 1px solid black;">Diketahui oleh,</td>
                 <td style="border: 1px solid black;">Disetujui oleh,</td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="height: 100px; border: 1px solid black;"></td>
                 <td style="height: 100px; border: 1px solid black;"></td>
                 <td style="height: 100px; border: 1px solid black;"></td>
+                <td style="height: 100px; border: 1px solid black;"></td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">(…................................)</td>
                 <td style="border: 1px solid black;">(…................................)</td>
                 <td style="border: 1px solid black;">(…................................)</td>
+                <td style="border: 1px solid black;">(…................................)</td>
             </tr>
             <tr style="border: 1px solid black;">
-                <td style="border: 1px solid black;">Admin Sales/Gudang</td>
-                <td style="border: 1px solid black;">Head GA/Head Sales</td>
-                <td style="border: 1px solid black;">Direktur Utama/GM</td>
+                <td style="border: 1px solid black;">Admin Sales</td>
+                <td style="border: 1px solid black;">Admin Logistik</td>
+                <td style="border: 1px solid black;">Head Logistik</td>
+                <td style="border: 1px solid black;">Head Sales & Marketing</td>
             </tr>
         </tbody>
     </table>

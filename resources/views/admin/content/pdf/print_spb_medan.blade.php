@@ -123,27 +123,20 @@
         <table style="margin: auto; text-align: center; border: 1px solid black; border-collapse: collapse;" width="95%" height="10px">
             <tbody>
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">Pemohon,</td>
-                    <td colspan="2" style="border: 1px solid black;">Diketahui oleh,</td>
+                <td style="border: 1px solid black;">Pemohon,</td>
                     <td style="border: 1px solid black;">Disetujui oleh,</td>
                 </tr>
                 <tr style="border: 1px solid black;">
                     <td style="height: 100px; border: 1px solid black;"></td>
                     <td style="height: 100px; border: 1px solid black;"></td>
-                    <td style="height: 100px; border: 1px solid black;"></td>
-                    <td style="height: 100px; border: 1px solid black;"></td>
                 </tr>
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">(….......................)</td>
-                    <td style="border: 1px solid black;">(….......................)</td>
-                    <td style="border: 1px solid black;">(........................)</td>
-                    <td style="border: 1px solid black;">(….......................)</td>
+                    <td style="border: 1px solid black;">(..................................)</td>
+                    <td style="border: 1px solid black;">(..................................)</td>
                 </tr>
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">Pemohon</td>
-                    <td style="border: 1px solid black;">Admin</td>
-                    <td style="border: 1px solid black;">HRD & GA</td>
-                    <td style="border: 1px solid black;">Branch Manager</td>
+                    <td style="border: 1px solid black;">Admin GA</td>
+                    <td style="border: 1px solid black;">Atasan Pengguna Barang & Jasa</td>
                 </tr>
             </tbody>
         </table>

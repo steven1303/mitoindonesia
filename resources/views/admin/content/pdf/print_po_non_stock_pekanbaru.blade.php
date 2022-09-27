@@ -91,8 +91,9 @@
     <table style="margin: auto; text-align: center; border: 1px solid black; border-collapse: collapse;" width="95%" height="10px" >
         <tbody>
         <tr>
-            <td colspan="3">Dibuat Oleh,</td>
-            <td colspan="3">Disetujui Oleh,</td>
+            <td colspan="2">Dibuat Oleh,</td>
+            <td colspan="2">Diketahui Oleh,</td>
+            <td colspan="2">Disetujui Oleh,</td>
             <td colspan="2" style="margin: auto; text-align: left;" >Total</td>
             <td style="margin: auto; text-align: left;" >:     Rp.</td>
             <td colspan="3"  style="margin: auto; text-align: right;" >{{ "".number_format( ($po_stock->po_non_stock_detail->sum("total")),0, ",", ".") }}</td>
@@ -137,14 +138,16 @@
         </tr>
         
         <tr>
-            <td colspan="3">(…..............................)</td>
-            <td colspan="3">(…..............................)</td>
+            <td colspan="2">(…..............................)</td>
+            <td colspan="2">(…..............................)</td>
+            <td colspan="2">(…..............................)</td>
             <td colspan="6"></td>
             
         </tr>
         <tr>
-            <td colspan="3">Purchasing</td>
-            <td colspan="3">GM / Direktur</td>
+            <td colspan="2">Purchasing</td>
+            <td colspan="2">Head Accounting-Finance</td>
+            <td colspan="2">Direktur / GM</td>
             <td colspan="6"></td>
         </tr>
         </tbody>

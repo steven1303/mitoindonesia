@@ -126,24 +126,27 @@
 
     <table style="margin: auto; text-align: center; border: 1px solid black; border-collapse: collapse;" width="95%" height="10px">
         <tbody>
-            <tr style="border: 1px solid black;">
+        <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">Pemohon,</td>
-                <td style="border: 1px solid black;">Diketahui oleh,</td>
+                <td colspan="2" style="border: 1px solid black;">Diketahui oleh,</td>
                 <td style="border: 1px solid black;">Disetujui oleh,</td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="height: 100px; border: 1px solid black;"></td>
                 <td style="height: 100px; border: 1px solid black;"></td>
                 <td style="height: 100px; border: 1px solid black;"></td>
+                <td style="height: 100px; border: 1px solid black;"></td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">(…................................)</td>
                 <td style="border: 1px solid black;">(…................................)</td>
                 <td style="border: 1px solid black;">(…................................)</td>
+                <td style="border: 1px solid black;">(…................................)</td>
             </tr>
             <tr style="border: 1px solid black;">
-                <td style="border: 1px solid black;">Admin Sales/Gudang</td>
-                <td style="border: 1px solid black;">Kepala Gudang</td>
+                <td style="border: 1px solid black;">Admin Sales</td>
+                <td style="border: 1px solid black;">Admin Logistik</td>
+                <td style="border: 1px solid black;">Head/Spv Logistik</td>
                 <td style="border: 1px solid black;">Branch Manager</td>
             </tr>
         </tbody>
