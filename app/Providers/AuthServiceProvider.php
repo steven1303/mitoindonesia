@@ -88,6 +88,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('po.stock.verify2', 'App\Policies\PoStockPolicy@verify2');
          Gate::define('po.stock.approve', 'App\Policies\PoStockPolicy@approve');
          Gate::define('po.stock.print', 'App\Policies\PoStockPolicy@print');
+         Gate::define('po.stock.reject', 'App\Policies\PoStockPolicy@reject');
          // Receipt
         Gate::define('receipt.view', 'App\Policies\ReceiptPolicy@view');
         Gate::define('receipt.store', 'App\Policies\ReceiptPolicy@store');

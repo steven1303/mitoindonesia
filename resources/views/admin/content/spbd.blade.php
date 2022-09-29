@@ -205,7 +205,7 @@
     @endcan
     
     @can('spbd.verify1', Auth::user())
-    function approve(id) {
+    function verify1(id) {
         save_method = 'edit';
         $.ajax({
         url: "{{ url('spbd') }}" + '/' + id + "/verify1",
@@ -214,8 +214,6 @@
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);
-            // print otomatis setelah approved
-            print_spbd(id);
         },
         error : function() {
             error('Error', 'Nothing Data');
@@ -225,7 +223,7 @@
     @endcan
     
     @can('spbd.verify2', Auth::user())
-    function approve(id) {
+    function verify2(id) {
         save_method = 'edit';
         $.ajax({
         url: "{{ url('spbd') }}" + '/' + id + "/verify2",
@@ -234,8 +232,6 @@
         success: function(data) {
             table.ajax.reload();
             success(data.stat, data.message);
-            // print otomatis setelah approved
-            print_spbd(id);
         },
         error : function() {
             error('Error', 'Nothing Data');

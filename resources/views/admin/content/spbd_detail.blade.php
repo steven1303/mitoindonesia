@@ -50,7 +50,7 @@
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.spbd.index')}}')">Save</button>
                             @can('spbd.pembatalan', Auth::user())
-                                @if($spbd->spbd_status == 3)                                                       
+                                @if($spbd->spbd_status == 5 || $spbd->spbd_status == 4 || $spbd->spbd_status == 3)                                                       
                                     <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
                                 @endif
                             @endcan

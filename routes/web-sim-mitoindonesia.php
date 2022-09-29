@@ -140,6 +140,7 @@ Route::get('/po_stock/{id}/edit', 'App\Http\Controllers\Admin\PoStockController@
 Route::patch('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@update')->name('local.po_stock.update');
 Route::delete('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@destroy')->name('local.po_stock.delete');
 Route::get('record/po_stock', 'App\Http\Controllers\Admin\PoStockController@recordPoStock')->name('local.record.po_stock');
+Route::get('/po_stock/{id}/pembatalan', 'App\Http\Controllers\Admin\PoStockController@pembatalan')->name('local.po_stock.pembatalan');
 Route::get('record/search_po_stock', 'App\Http\Controllers\Admin\PoStockController@searchPo_stock')->name('local.search.po_stock');
 
 

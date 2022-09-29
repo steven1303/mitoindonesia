@@ -282,9 +282,6 @@ class SpbdController extends SettingAjaxController
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('spbd.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
                     if($access->can('spbd.verify2')){
                         $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
                     }
@@ -297,9 +294,6 @@ class SpbdController extends SettingAjaxController
                 elseif($data->spbd_status == 4){
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    }
-                    if($access->can('spbd.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
                     }
                     if($access->can('spbd.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
@@ -390,7 +384,7 @@ class SpbdController extends SettingAjaxController
         $tags = Spbd::where([
             ['spbd_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['spbd_status','=', 3],
+            ['spbd_status','=', 5],
         ])->get();
 
         $formatted_tags = [];
@@ -510,7 +504,7 @@ class SpbdController extends SettingAjaxController
     public function pembatalan_check($data)
     {
         $po_stock = PoStock::where('id_spbd','=', $data->id )->count();
-        if($data->spbd_status == 3 && $po_stock < 1 )
+        if(($data->spbd_status == 5 || $data->spbd_status == 4 || $data->spbd_status == 3) && $po_stock < 1 )
         {
             return true;
         }

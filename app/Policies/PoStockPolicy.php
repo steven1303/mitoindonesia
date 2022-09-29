@@ -98,6 +98,17 @@ class PoStockPolicy
         }
         return false;
     }
+
+    public function reject(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'po-stock-reject'){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function print(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {

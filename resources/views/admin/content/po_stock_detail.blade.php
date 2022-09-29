@@ -14,7 +14,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }} <b>(  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif @if($po_stock->po_status == 3)  Verified @endif  @if($po_stock->po_status == 4 ) Approved @endif ) </b></h3>
+                    <h3 class="box-title"  id="formTitle">PO Stock {{ $po_stock->po_no }} <b>(  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif @if($po_stock->po_status == 3)  Verified 1 @endif  @if($po_stock->po_status == 4 ) Verify 2 @endif @if($po_stock->po_status == 5 ) Approved @endif ) </b></h3>
                 </div>
                 <div class="box-body">
                     <form role="form" id="SpbdForm" method="POST">
@@ -55,6 +55,11 @@
                                 <button id="btnSave" type="button" onclick="open_po_stock_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
+                            @can('po.stock.reject', Auth::user())
+                                @if( $po_stock->po_status == 4 || $po_stock->po_status == 3)                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -430,4 +435,28 @@
             }
         });
     }
+
+    @can('po.stock.reject', Auth::user())
+    function reject()
+    {
+        $.ajax({
+        url: "{{route('local.po_stock.pembatalan', $po_stock->id) }}",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.po_stock.index') }}");
+            }
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
 </script>
