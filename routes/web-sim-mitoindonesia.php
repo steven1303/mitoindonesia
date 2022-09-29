@@ -215,8 +215,8 @@ Route::get('/sppb/{id}/verify1', 'App\Http\Controllers\Admin\SppbController@veri
 Route::get('/sppb/{id}/verify2', 'App\Http\Controllers\Admin\SppbController@verify2')->name('local.sppb.verify2');
 Route::get('/inv/{id}/verify1', 'App\Http\Controllers\Admin\InvoiceController@verify1')->name('local.inv.verify1');
 Route::get('/inv/{id}/verify2', 'App\Http\Controllers\Admin\InvoiceController@verify2')->name('local.inv.verify2');
-Route::get('/spbd/{id}/verify1', 'App\Http\Controllers\Admin\SpbdController@verify1')->name('local.sppb.verify1');
-Route::get('/spbd/{id}/verify2', 'App\Http\Controllers\Admin\SpbdController@verify2')->name('local.sppb.verify2');
+Route::get('/spbd/{id}/verify1', 'App\Http\Controllers\Admin\SpbdController@verify1')->name('local.spbd.verify1');
+Route::get('/spbd/{id}/verify2', 'App\Http\Controllers\Admin\SpbdController@verify2')->name('local.spbd.verify2');
 
 // Approval
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');
