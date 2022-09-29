@@ -69,6 +69,26 @@ class SpbdPolicy
         return false;
     }
 
+    public function verify1(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'spbd-verify1'){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function verify2(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'spbd-verify2'){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function approve(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {

@@ -73,6 +73,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('spbd.update', 'App\Policies\SpbdPolicy@update');
         Gate::define('spbd.delete', 'App\Policies\SpbdPolicy@delete');
         Gate::define('spbd.open', 'App\Policies\SpbdPolicy@open');
+        Gate::define('spbd.verify1', 'App\Policies\SpbdPolicy@verify1');
+        Gate::define('spbd.verify2', 'App\Policies\SpbdPolicy@verify2');
         Gate::define('spbd.approve', 'App\Policies\SpbdPolicy@approve');
         Gate::define('spbd.print', 'App\Policies\SpbdPolicy@print');
         Gate::define('spbd.pembatalan', 'App\Policies\SpbdPolicy@pembatalan');
