@@ -509,7 +509,7 @@ class PoStockController extends SettingAjaxController
             $data->po_status = 5;
             $movement = $this->po_movement($data->po_stock_detail);
             $spbd = Spbd::findOrFail($data->id_spbd);
-            $spbd->spbd_status = 4;
+            $spbd->spbd_status = 6;
             $spbd->update();
             $data->update();
             return response()
@@ -586,4 +586,23 @@ class PoStockController extends SettingAjaxController
 
         return response()->json($formatted_tags);
     }
+
+    public function pembatalan($id)
+    {
+        if(Auth::user()->can('po.stock.reject')){
+            $data = PoStock::findOrFail($id);
+            if($data->po_status == 3 || $data->po_status == 4)
+            {
+                $data->po_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'PO Stock Reject Success', 'stat' => 'Success']);
+            }
+            return response()
+                    ->json(['code'=>200,'message' => 'PO Stock Sudah tidak bisa di revisi', 'stat' => 'Error']);
+            }
+        return response()
+            ->json(['code'=>200,'message' => 'Error PO Stock Access Denied', 'stat' => 'Error']);
+    }
+
 }

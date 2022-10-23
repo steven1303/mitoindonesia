@@ -17,7 +17,6 @@ class CreateSpbdsTable extends Migration
             $table->id();
             $table->bigInteger('id_branch');
             $table->string('spbd_no')->unique();
-            $table->bigInteger('id_vendor')->default(0);
             $table->dateTime('spbd_date');
             $table->integer('spbd_status');
             $table->string('spbd_user_name');

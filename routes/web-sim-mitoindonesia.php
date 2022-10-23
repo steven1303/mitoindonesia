@@ -140,6 +140,7 @@ Route::get('/po_stock/{id}/edit', 'App\Http\Controllers\Admin\PoStockController@
 Route::patch('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@update')->name('local.po_stock.update');
 Route::delete('/po_stock/{id}', 'App\Http\Controllers\Admin\PoStockController@destroy')->name('local.po_stock.delete');
 Route::get('record/po_stock', 'App\Http\Controllers\Admin\PoStockController@recordPoStock')->name('local.record.po_stock');
+Route::get('/po_stock/{id}/pembatalan', 'App\Http\Controllers\Admin\PoStockController@pembatalan')->name('local.po_stock.pembatalan');
 Route::get('record/search_po_stock', 'App\Http\Controllers\Admin\PoStockController@searchPo_stock')->name('local.search.po_stock');
 
 
@@ -215,6 +216,8 @@ Route::get('/sppb/{id}/verify1', 'App\Http\Controllers\Admin\SppbController@veri
 Route::get('/sppb/{id}/verify2', 'App\Http\Controllers\Admin\SppbController@verify2')->name('local.sppb.verify2');
 Route::get('/inv/{id}/verify1', 'App\Http\Controllers\Admin\InvoiceController@verify1')->name('local.inv.verify1');
 Route::get('/inv/{id}/verify2', 'App\Http\Controllers\Admin\InvoiceController@verify2')->name('local.inv.verify2');
+Route::get('/spbd/{id}/verify1', 'App\Http\Controllers\Admin\SpbdController@verify1')->name('local.spbd.verify1');
+Route::get('/spbd/{id}/verify2', 'App\Http\Controllers\Admin\SpbdController@verify2')->name('local.spbd.verify2');
 
 // Approval
 Route::get('/spbd/{id}/approve', 'App\Http\Controllers\Admin\SpbdController@approve')->name('local.spbd.approve');

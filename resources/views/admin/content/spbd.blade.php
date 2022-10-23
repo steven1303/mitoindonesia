@@ -203,6 +203,44 @@
         window.open("{{ url('spbd_print') }}" + '/' + id,"_blank");
     }
     @endcan
+    
+    @can('spbd.verify1', Auth::user())
+    function verify1(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('spbd') }}" + '/' + id + "/verify1",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
+    
+    @can('spbd.verify2', Auth::user())
+    function verify2(id) {
+        save_method = 'edit';
+        $.ajax({
+        url: "{{ url('spbd') }}" + '/' + id + "/verify2",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            table.ajax.reload();
+            success(data.stat, data.message);
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
+
+    
     @can('spbd.approve', Auth::user())
     function approve(id) {
         save_method = 'edit';
@@ -222,6 +260,7 @@
         });
     }
     @endcan
+    
     @can('spbd.delete', Auth::user())
     function deleteData(id, title){
         swal({

@@ -73,6 +73,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('spbd.update', 'App\Policies\SpbdPolicy@update');
         Gate::define('spbd.delete', 'App\Policies\SpbdPolicy@delete');
         Gate::define('spbd.open', 'App\Policies\SpbdPolicy@open');
+        Gate::define('spbd.verify1', 'App\Policies\SpbdPolicy@verify1');
+        Gate::define('spbd.verify2', 'App\Policies\SpbdPolicy@verify2');
         Gate::define('spbd.approve', 'App\Policies\SpbdPolicy@approve');
         Gate::define('spbd.print', 'App\Policies\SpbdPolicy@print');
         Gate::define('spbd.pembatalan', 'App\Policies\SpbdPolicy@pembatalan');
@@ -86,6 +88,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('po.stock.verify2', 'App\Policies\PoStockPolicy@verify2');
          Gate::define('po.stock.approve', 'App\Policies\PoStockPolicy@approve');
          Gate::define('po.stock.print', 'App\Policies\PoStockPolicy@print');
+         Gate::define('po.stock.reject', 'App\Policies\PoStockPolicy@reject');
          // Receipt
         Gate::define('receipt.view', 'App\Policies\ReceiptPolicy@view');
         Gate::define('receipt.store', 'App\Policies\ReceiptPolicy@store');
