@@ -31,7 +31,7 @@
                             </div> -->
                         </div>
                         <div class="box-footer">
-                            <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
+                            <button id="btnSave" type="submit" class="btn btn-primary">Create</button>
                             <!-- <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button> -->
                         </div>
                     </form>
