@@ -26,12 +26,12 @@
                                     <input type="text" class="form-control" id="spbd_no" name="spbd_no" readonly value="{{ $spb->spb_no }}">
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                            <!-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
-                                    <input type="text" class="form-control" id="vendor" name="vendor" readonly value="{{ $spb->vendor->name }}">
+                                    <input type="text" class="form-control" id="vendor" name="vendor" readonly value="">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Date</label>

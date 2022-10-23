@@ -32,8 +32,9 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
-                                    <input type="text" class="form-control" id="vendor_name" name="vendor_name" placeholder="Vendor Name" readonly>
-                                    <input type="hidden" id="vendor" name="vendor">
+                                    <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
+                                        <option></option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -104,6 +105,25 @@
             placeholder: "Select and Search",
             ajax:{
                 url:"{{route('local.search.spb') }}",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+        })
+
+        $('#vendor').select2({
+            placeholder: "Select and Search",
+            ajax:{
+                url:"{{route('local.search.vendor') }}",
                 dataType: 'json',
                 data: function (params) {
                     return {

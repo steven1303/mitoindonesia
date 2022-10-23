@@ -21,14 +21,14 @@
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <input type="hidden" id="id" name="id">
                         <div class="box-body">
-                            <div class="col-xs-4">
+                            <!-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
                                     <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
@@ -91,25 +91,6 @@
     @canany(['spb.store', 'spb.update'], Auth::user())
     $(function(){
         $('#datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' });
-
-        $('#vendor').select2({
-            placeholder: "Select and Search",
-            ajax:{
-                url:"{{route('local.search.vendor') }}",
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        q: $.trim(params.term)
-                    }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            },
-        })
 
 	    $('#SpbForm').validator().on('submit', function (e) {
 		    var id = $('#id').val();

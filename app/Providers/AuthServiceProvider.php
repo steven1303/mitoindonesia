@@ -113,6 +113,7 @@ class AuthServiceProvider extends ServiceProvider
          Gate::define('po.non.stock.open', 'App\Policies\PoNonStockPolicy@open');
          Gate::define('po.non.stock.verify', 'App\Policies\PoNonStockPolicy@verify');
          Gate::define('po.non.stock.approve', 'App\Policies\PoNonStockPolicy@approve');
+         Gate::define('po.non.stock.reject', 'App\Policies\PoNonStockPolicy@reject');
          Gate::define('po.non.stock.print', 'App\Policies\PoNonStockPolicy@print');
          // SPPB
          Gate::define('sppb.view', 'App\Policies\SppbPolicy@view');

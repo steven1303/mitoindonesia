@@ -1,11 +1,11 @@
 <section class="content-header">
     <h1>
-        PO Stock  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif
+        PO Non Stock  @if($po_stock->po_status == 1 ) Draft @endif @if($po_stock->po_status == 2 ) Open @endif
         {{-- <small>it all starts here</small> --}}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#">PO Stock</a></li>
-        <li><a href="#">PO Stock Draft</a></li>
+        <li><a href="#">PO Non Stock</a></li>
+        <li><a href="#">PO Non Stock Draft</a></li>
         <li class="active"><a href="#">PO Stock Detail</a></li>
     </ol>
 </section>
@@ -29,7 +29,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
-                                    <input type="text" class="form-control" id="vendor" name="vendor" placeholder="Input Vendor" readonly value="{{ $po_stock->spb->vendor->name }}">
+                                    <input type="text" class="form-control" id="vendor" name="vendor" placeholder="Input Vendor" readonly value="{{ $po_stock->vendor->name }}">
                                 </div>
                             </div>
                             <div class="col-xs-2">
@@ -49,6 +49,11 @@
                                 <button id="btnSave" type="button" onclick="open_po_stock_Form()" class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_non_stock.index')}}')">Save</button>
+                            @can('po.non.stock.reject', Auth::user())
+                                @if( $po_stock->po_status == 3 )                                                       
+                                    <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
+                                @endif
+                            @endcan
                         </div>
                     </form>
                 </div>
@@ -420,4 +425,28 @@
         });
     }
     @endcanany
+
+    @can('po.non.stock.reject', Auth::user())
+    function reject()
+    {
+        $.ajax({
+        url: "{{route('local.po_non_stock.pembatalan', $po_stock->id) }}",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data) {
+            if(data.stat == "Error")
+            {
+                error(data.stat, data.message);
+            }
+            if(data.stat == "Success"){
+                success(data.stat, data.message);
+                ajaxLoad("{{ route('local.po_non_stock.index') }}");
+            }
+        },
+        error : function() {
+            error('Error', 'Nothing Data');
+        }
+        });
+    }
+    @endcan
 </script>

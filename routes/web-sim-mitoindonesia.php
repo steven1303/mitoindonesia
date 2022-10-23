@@ -278,15 +278,16 @@ Route::delete('/spb_detail/{id}', 'App\Http\Controllers\Admin\SpbController@dest
 Route::get('record/spb_detail/{id}/{po_stat?}', 'App\Http\Controllers\Admin\SpbController@recordSpb_detail')->name('local.record.spb_detail');
 Route::get('/spb_open/{id}', 'App\Http\Controllers\Admin\SpbController@spb_open')->name('local.spb.open.index');
 
-// PO Stock
+// PO Non Stock
 Route::get('/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@index')->name('local.po_non_stock.index');
 Route::post('/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@store')->name('local.po_non_stock.store');
 Route::get('/po_non_stock/{id}/edit', 'App\Http\Controllers\Admin\PoNonStockController@edit')->name('local.po_non_stock.edit');
 Route::patch('/po_non_stock/{id}', 'App\Http\Controllers\Admin\PoNonStockController@update')->name('local.po_non_stock.update');
 Route::delete('/po_non_stock/{id}', 'App\Http\Controllers\Admin\PoNonStockController@destroy')->name('local.po_non_stock.delete');
 Route::get('record/po_non_stock', 'App\Http\Controllers\Admin\PoNonStockController@recordPoNonStock')->name('local.record.po_non_stock');
+Route::get('/po_non_stock/{id}/pembatalan', 'App\Http\Controllers\Admin\PoNonStockController@pembatalan')->name('local.po_non_stock.pembatalan');
 
-// PO Stock Detail
+// PO Non Stock Detail
 Route::get('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@detail')->name('local.po_non_stock.detail.index');
 Route::post('/po_non_stock_detail/{id}', 'App\Http\Controllers\Admin\PoNonStockController@store_detail')->name('local.po_non_stock.store_detail');
 Route::get('/po_non_stock_detail/{id}/edit_detail', 'App\Http\Controllers\Admin\PoNonStockController@edit_detail')->name('local.po_non_stock.edit_detail');

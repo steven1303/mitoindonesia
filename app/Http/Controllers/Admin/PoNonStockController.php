@@ -441,4 +441,22 @@ class PoNonStockController extends SettingAjaxController
         }
         return response()->json(['code'=>200,'message' => 'Error PO Non Stock Access Denied', 'stat' => 'Error']);
     }
+
+    public function pembatalan($id)
+    {
+        if(Auth::user()->can('po.non.stock.reject')){
+            $data = PoNonStock::findOrFail($id);
+            if($data->po_status == 3)
+            {
+                $data->po_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'PO Non Stock Reject Success', 'stat' => 'Success']);
+            }
+            return response()
+                    ->json(['code'=>200,'message' => 'PO Non Stock Sudah tidak bisa di revisi', 'stat' => 'Error']);
+            }
+        return response()
+            ->json(['code'=>200,'message' => 'Error PO Non Stock Access Denied', 'stat' => 'Error']);
+    }
 }

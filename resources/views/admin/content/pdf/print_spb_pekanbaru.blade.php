@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: left;">Bagian General Affairs</td>
-                    <td colspan="2" style="text-align: left;">Vendor : {{ $spb->vendor->name }}</td>
+                    <!-- <td colspan="2" style="text-align: left;">Vendor :</td> -->
                     
                 </tr>
                 <tr>
@@ -78,7 +78,7 @@
                     <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
                     <td colspan="2" style="border: 1px solid black; text-align: left;">{{ $detail->product }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->satuan }}</td>
-                    <!-- <td style="border: 1px solid black;">{{ $detail->spb->vendor->name }}</td> -->
+                    <!-- <td style="border: 1px solid black;"></td> -->
                     <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
                 </tr>
                 @endforeach

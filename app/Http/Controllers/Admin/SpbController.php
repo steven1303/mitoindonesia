@@ -58,7 +58,7 @@ class SpbController extends SettingAjaxController
             $data = [
                 'spb_no' => $this->spb_no(),
                 'id_branch' => Auth::user()->id_branch,
-                'id_vendor' => $request['vendor'],
+                // 'id_vendor' => $request['vendor'],
                 'spb_date' => Carbon::now(),
                 'spb_user_id' => Auth::user()->id,
                 'spb_user_name' => Auth::user()->name,
@@ -149,7 +149,7 @@ class SpbController extends SettingAjaxController
     {
         if(Auth::user()->can('spb.update')){
             $data = Spb::find($id);
-            $data->id_vendor    = $request['vendor'];
+            // $data->id_vendor    = $request['vendor'];
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'Edit SPB Success', 'stat' => 'Success']);
@@ -241,9 +241,9 @@ class SpbController extends SettingAjaxController
                     if($access->can('spb.view')){
                         $action .= '<a href="'.$spb_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
                     }
-                    if($access->can('spb.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
+                    // if($access->can('spb.update')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    // }
                     if($access->can('spb.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
@@ -252,9 +252,9 @@ class SpbController extends SettingAjaxController
                     if($access->can('spb.view')){
                         $action .= '<a href="'.$spb_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('spb.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
+                    // if($access->can('spb.update')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    // }
                     if($access->can('spb.approve')){
                         $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
                     }
@@ -350,8 +350,8 @@ class SpbController extends SettingAjaxController
             $formatted_tags[] = [
                 'id'    => $tag->id,
                 'text'  => $tag->spb_no,
-                'vendor'  => $tag->id_vendor,
-                'vendor_name'  => $tag->vendor->name,
+                // 'vendor'  => $tag->id_vendor,
+                // 'vendor_name'  => $tag->vendor->name,
             ];
         }
 
