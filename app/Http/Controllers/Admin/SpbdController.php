@@ -61,7 +61,6 @@ class SpbdController extends SettingAjaxController
             $data = [
                 'spbd_no' => $this->spbd_no(),
                 'id_branch' => Auth::user()->id_branch,
-                'id_vendor' => $request['vendor'],
                 'spbd_date' => Carbon::now(),
                 'spbd_user_id' => Auth::user()->id,
                 'spbd_user_name' => Auth::user()->name,
@@ -153,9 +152,7 @@ class SpbdController extends SettingAjaxController
     {
         if(Auth::user()->can('spbd.update')){
             $data = Spbd::find($id);
-            // $data->spbd_no    = $request['spbd_no'];
             $data->id_vendor    = $request['vendor'];
-            // $data->spbd_date    = Carbon::now();
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'Edit SPBD Success', 'stat' => 'Success']);

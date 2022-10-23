@@ -12,7 +12,6 @@ class Spbd extends Model
     protected $fillable = [
         'id_branch',
         'spbd_no',
-        'id_vendor',
         'spbd_date',
         'spbd_status',
         'spbd_user_name',
@@ -20,11 +19,6 @@ class Spbd extends Model
         'spbd_open',
         'spbd_print',
     ];
-
-    public function vendor()
-    {
-    	return $this->belongsTo('App\Models\Vendor','id_vendor');
-    }
 
     public function spbd_detail()
     {
