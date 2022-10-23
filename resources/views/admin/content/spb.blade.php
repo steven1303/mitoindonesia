@@ -32,7 +32,7 @@
                         </div>
                         <div class="box-footer">
                             <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
-                            <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button>
+                            <!-- <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button> -->
                         </div>
                     </form>
                 </div>
