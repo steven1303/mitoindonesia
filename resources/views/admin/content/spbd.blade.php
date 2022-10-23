@@ -27,18 +27,18 @@
                                     <input type="text" class="form-control" id="spbd_no" name="spbd_no" placeholder="Input SPBD No">
                                 </div>
                             </div> --}}
-                            <div class="col-xs-4">
+                            <!-- <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
                                     <select class="form-control select2" id="vendor" name="vendor" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="box-footer">
-                            <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
-                            <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button>
+                            <button id="btnSave" type="submit" class="btn btn-primary">Create</button>
+                            <!-- <button class="btn btn-secondary" type="button" onclick="cancel()">Cancel</button> -->
                         </div>
                     </form>
                 </div>

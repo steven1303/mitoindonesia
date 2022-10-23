@@ -252,9 +252,9 @@ class SpbdController extends SettingAjaxController
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
                     }
-                    if($access->can('spbd.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
+                    // if($access->can('spbd.update')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    // }
                     if($access->can('spbd.delete')){
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
@@ -263,9 +263,9 @@ class SpbdController extends SettingAjaxController
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
-                    if($access->can('spbd.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
+                    // if($access->can('spbd.update')){
+                    //     $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    // }
                     if($access->can('spbd.verify1')){
                         $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
                     }

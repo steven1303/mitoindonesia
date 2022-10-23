@@ -50,7 +50,7 @@
             <tr>
             <td colspan="2" style="text-align: left;">Bagian General Affairs</td>
                 <td></td>
-                <td colspan="2" style="text-align: left;">Vendor : {{ $spbd->vendor->name }}</td>
+                <!-- <td colspan="2" style="text-align: left;">Vendor : </td> -->
             </tr>
             <tr>
                 <td style="height: 20px;"></td>
