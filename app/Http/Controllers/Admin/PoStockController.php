@@ -509,7 +509,7 @@ class PoStockController extends SettingAjaxController
             $data->po_status = 5;
             $movement = $this->po_movement($data->po_stock_detail);
             $spbd = Spbd::findOrFail($data->id_spbd);
-            $spbd->spbd_status = 6;
+            $spbd->spbd_status = 4;
             $spbd->update();
             $data->update();
             return response()
