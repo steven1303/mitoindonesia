@@ -231,12 +231,8 @@ class SpbdController extends SettingAjaxController
                 }elseif ($data->spbd_status == 2) {
                     $spbd_status = "Request";
                 }elseif ($data->spbd_status == 3) {
-                    $spbd_status = "Verify 1";
-                }elseif ($data->spbd_status == 4) {
-                    $spbd_status = "Verify 2";
-                }elseif ($data->spbd_status == 5) {
                     $spbd_status = "Approved";
-                }elseif ($data->spbd_status == 6) {
+                }elseif ($data->spbd_status == 4) {
                     $spbd_status = "Closed";
                 }else {
                     $spbd_status = "Reject";
@@ -259,36 +255,36 @@ class SpbdController extends SettingAjaxController
                         $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
                     }
                 }
-                elseif($data->spbd_status == 2){
-                    if($access->can('spbd.view')){
-                        $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    }
-                    if($access->can('spbd.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
-                    if($access->can('spbd.verify1')){
-                        $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
-                    }
-                    // matikan fungsi print saat spbd masih request
-                    // if($access->can('spbd.print')){
-                    //     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    // }
-                    // matikan fungsi print saat spbd masih requests
-                }
+                // elseif($data->spbd_status == 2){
+                //     if($access->can('spbd.view')){
+                //         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                //     }
+                //     if($access->can('spbd.update')){
+                //         $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                //     }
+                //     if($access->can('spbd.verify1')){
+                //         $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
+                //     }
+                //     // matikan fungsi print saat spbd masih request
+                //     // if($access->can('spbd.print')){
+                //     //     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                //     // }
+                //     // matikan fungsi print saat spbd masih requests
+                // }
+                // elseif($data->spbd_status == 3){
+                //     if($access->can('spbd.view')){
+                //         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
+                //     }
+                //     if($access->can('spbd.verify2')){
+                //         $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
+                //     }
+                //     // matikan fungsi print saat spbd masih request
+                //     // if($access->can('spbd.print')){
+                //     //     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
+                //     // }
+                //     // matikan fungsi print saat spbd masih requests
+                // }
                 elseif($data->spbd_status == 3){
-                    if($access->can('spbd.view')){
-                        $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-                    }
-                    if($access->can('spbd.verify2')){
-                        $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
-                    }
-                    // matikan fungsi print saat spbd masih request
-                    // if($access->can('spbd.print')){
-                    //     $action .= '<button id="'. $data->id .'" onclick="print_spbd('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-                    // }
-                    // matikan fungsi print saat spbd masih requests
-                }
-                elseif($data->spbd_status == 4){
                     if($access->can('spbd.view')){
                         $action .= '<a href="'.$spbd_detail.'" class="btn btn-success btn-xs"> Open</a> ';
                     }
@@ -381,7 +377,7 @@ class SpbdController extends SettingAjaxController
         $tags = Spbd::where([
             ['spbd_no','like','%'.$term.'%'],
             ['id_branch','=', Auth::user()->id_branch],
-            ['spbd_status','=', 5],
+            ['spbd_status','=', 4],
         ])->get();
 
         $formatted_tags = [];
@@ -471,7 +467,7 @@ class SpbdController extends SettingAjaxController
     {
         if(Auth::user()->can('spbd.approve')){
             $data = Spbd::findOrFail($id);
-            $data->spbd_status = 5;
+            $data->spbd_status = 3;
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
