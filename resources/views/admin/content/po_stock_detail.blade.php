@@ -29,7 +29,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Vendor</label>
-                                    <input type="text" class="form-control" id="vendor" name="vendor" placeholder="Input Vendor" readonly value="{{ $po_stock->spbd->vendor->name }}">
+                                    <input type="text" class="form-control" id="vendor" name="vendor" placeholder="Input Vendor" readonly value="{{ $po_stock->vendor->name }}">
                                 </div>
                             </div>
                             <div class="col-xs-2">
@@ -56,7 +56,7 @@
                             @endif
                             <button class="btn btn-secondary" type="button" onclick="ajaxLoad('{{route('local.po_stock.index')}}')">Save</button>
                             @can('po.stock.reject', Auth::user())
-                                @if( $po_stock->po_status == 4 || $po_stock->po_status == 3)                                                       
+                                @if( $po_stock->po_status == 3 || $po_stock->po_status == 4 )                                                       
                                     <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>
                                 @endif
                             @endcan

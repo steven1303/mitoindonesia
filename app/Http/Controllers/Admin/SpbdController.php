@@ -390,9 +390,9 @@ class SpbdController extends SettingAjaxController
             $formatted_tags[] = [
                 'id'    => $tag->id,
                 'text'  => $tag->spbd_no,
-                'vendor'  => $tag->id_vendor,
-                'vendor_name'  => $tag->vendor->name,
-                'ppn'  => $tag->vendor->ppn,
+                // 'vendor'  => $tag->id_vendor,
+                // 'vendor_name'  => $tag->vendor->name,
+                // 'ppn'  => $tag->vendor->ppn,
             ];
         }
 
