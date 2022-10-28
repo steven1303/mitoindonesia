@@ -235,7 +235,9 @@ class PembatalanController extends SettingAjaxController
                 $title = "'".$data->pembatalan_no."'";
                 if($data->status == 1){
                     $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                    $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    if($access->can('pembatalan.approve')){
+                        $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
+                    }
                 }
                 if($data->status == 2){
                     if($access->can('pembatalan.print')){

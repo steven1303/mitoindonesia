@@ -59,6 +59,16 @@ class PembatalanPolicy
         return false;
     }
 
+    public function approve(Admin $user)
+    {
+        foreach ($user->roles->Permissions as $permission ) {
+            if($permission->name == 'pembatalan-approve'){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function print(Admin $user)
     {
         foreach ($user->roles->Permissions as $permission ) {
