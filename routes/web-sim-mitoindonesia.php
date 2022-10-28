@@ -319,7 +319,7 @@ Route::patch('/po_internal/{id}', 'App\Http\Controllers\Admin\PoInternalControll
 Route::delete('/po_internal/{id}', 'App\Http\Controllers\Admin\PoInternalController@destroy')->name('local.po_internal.delete');
 Route::get('record/po_internal', 'App\Http\Controllers\Admin\PoInternalController@recordPoInternal')->name('local.record.po_internal');
 
-// SPPB Detail
+// PO Internal Detail
 Route::get('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@detail')->name('local.po_internal.detail.index');
 Route::post('/po_internal_detail/{id}', 'App\Http\Controllers\Admin\PoInternalController@store_detail')->name('local.po_internal.store_detail');
 Route::get('/po_internal/{id}/edit_detail', 'App\Http\Controllers\Admin\PoInternalController@edit_detail')->name('local.po_internal.edit_detail');

@@ -183,5 +183,35 @@ class AuthServiceProvider extends ServiceProvider
            Gate::define('transfer.receipt.open', 'App\Policies\TransferReceiptPolicy@open');
            Gate::define('transfer.receipt.approve', 'App\Policies\TransferReceiptPolicy@approve');
            Gate::define('transfer.receipt.print', 'App\Policies\TransferReceiptPolicy@print');
+            // SPPB New
+            Gate::define('sppb.new.view', 'App\Policies\SppbPolicy@view');
+            Gate::define('sppb.new.store', 'App\Policies\SppbPolicy@store');
+            Gate::define('sppb.new.update', 'App\Policies\SppbPolicy@update');
+            Gate::define('sppb.new.delete', 'App\Policies\SppbPolicy@delete');
+            Gate::define('sppb.new.open', 'App\Policies\SppbPolicy@open');
+            Gate::define('sppb.new.verify1', 'App\Policies\SppbPolicy@verify1');
+            Gate::define('sppb.new.verify2', 'App\Policies\SppbPolicy@verify2');
+            Gate::define('sppb.new.approve', 'App\Policies\SppbPolicy@approve');
+            Gate::define('sppb.new.print', 'App\Policies\SppbPolicy@print');
+            Gate::define('sppb.new.pembatalan', 'App\Policies\SppbPolicy@pembatalan');
+            // Po Internal New
+            Gate::define('po.internal.new.view', 'App\Policies\PoInternalPolicy@view');
+            Gate::define('po.internal.new.store', 'App\Policies\PoInternalPolicy@store');
+            Gate::define('po.internal.new.update', 'App\Policies\PoInternalPolicy@update');
+            Gate::define('po.internal.new.delete', 'App\Policies\PoInternalPolicy@delete');
+            Gate::define('po.internal.new.open', 'App\Policies\PoInternalPolicy@open');
+            Gate::define('po.internal.new.approve', 'App\Policies\PoInternalPolicy@approve');
+            Gate::define('po.internal.new.print', 'App\Policies\PoInternalPolicy@print');
+            // Invoice New
+            Gate::define('invoice.new.view', 'App\Policies\InvoicePolicy@view');
+            Gate::define('invoice.new.store', 'App\Policies\InvoicePolicy@store');
+            Gate::define('invoice.new.update', 'App\Policies\InvoicePolicy@update');
+            Gate::define('invoice.new.delete', 'App\Policies\InvoicePolicy@delete');
+            Gate::define('invoice.new.open', 'App\Policies\InvoicePolicy@open');
+            Gate::define('invoice.new.verify1', 'App\Policies\InvoicePolicy@verify1');
+            Gate::define('invoice.new.verify2', 'App\Policies\InvoicePolicy@verify2');
+            Gate::define('invoice.new.approve', 'App\Policies\InvoicePolicy@approve');
+            Gate::define('invoice.new.print', 'App\Policies\InvoicePolicy@print');
+            Gate::define('invoice.new.reject', 'App\Policies\InvoicePolicy@pembatalan');
     }
 }

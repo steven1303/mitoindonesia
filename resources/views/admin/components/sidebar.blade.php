@@ -137,6 +137,13 @@
                     @can('po.internal.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.po_internal.index')}}')">
+                            <i class="fa fa-th"></i> <span>Old PO Internal</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('po.internal.new.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.po_internal.new.index')}}')">
                             <i class="fa fa-th"></i> <span>PO Internal</span>
                         </a>
                     </li>
@@ -144,6 +151,13 @@
                     @can('sppb.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.sppb.index')}}')">
+                            <i class="fa fa-th"></i> <span>Old SPPB</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('sppb.new.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.sppb.new.index')}}')">
                             <i class="fa fa-th"></i> <span>SPPB</span>
                         </a>
                     </li>
@@ -151,10 +165,17 @@
                     @can('invoice.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.inv.index')}}')">
-                            <i class="fa fa-th"></i> <span>Invoice</span>
+                            <i class="fa fa-th"></i> <span>Old Invoice</span>
                         </a>
                     </li>
                     @endcan
+                    @can('invoice.new.view', Auth::user())
+                    <li>
+                        <a href="javascript:ajaxLoad('{{route('local.inv.new.index')}}')">
+                            <i class="fa fa-th"></i> <span>Invoice</span>
+                        </a>
+                    </li>
+                    @endcan 
                     @can('pelunasan.view', Auth::user())
                     <li>
                         <a href="javascript:ajaxLoad('{{route('local.pelunasan.index')}}')">
