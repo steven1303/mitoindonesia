@@ -287,7 +287,7 @@ class PembatalanController extends SettingAjaxController
         $spbd = Spbd::where([
             ['spbd_no','=', $po_stock->spbd->spbd_no ],
             ['id_branch','=', Auth::user()->id_branch],
-        ])->update(['spbd_status' => 5]);
+        ])->update(['spbd_status' => 7]);
 
         $stock_movement = StockMovement::where([
             ['doc_no','=', $no_po ],
