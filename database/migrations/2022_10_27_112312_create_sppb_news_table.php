@@ -26,6 +26,79 @@ class CreateSppbNewsTable extends Migration
             $table->dateTime('sppb_print')->nullable();
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert([
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-view',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-store',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-update',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-delete',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-open',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-approve',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-print',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-verify1',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-verify2',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'SppbNew',
+                'name' => 'sppb-new-pembatalan',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+        ]);
     }
 
     /**

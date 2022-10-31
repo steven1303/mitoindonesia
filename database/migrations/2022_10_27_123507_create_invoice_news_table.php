@@ -34,6 +34,79 @@ class CreateInvoiceNewsTable extends Migration
             $table->dateTime('inv_print')->nullable();
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert([
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-view',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-store',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-update',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-delete',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-open',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-approve',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-print',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-verify1',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-verify2',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+            [
+                'for' => 'InvoiceNew',
+                'name' => 'invoice-new-reject',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'stat' => 1,
+            ],
+        ]);
     }
 
     /**

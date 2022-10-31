@@ -496,6 +496,72 @@
                                     @endif
                                     @endforeach
                                 </div>
+                                <div class="col-md-2">
+                                    <label for="permission"><b>PoInternal New Access</b></label>
+                                    @foreach ($permissions as $permission)
+                                    @if ($permission->for == 'PoInternalNew')
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permission[]" value="{{ $permission->id }}"
+                                            @foreach ($role->permissions as $permit)
+                                            @if ($permit->id == $permission->id)
+                                            checked
+                                            @endif
+                                            {{-- @if ($role->id == 1)
+                                            disabled
+                                            @endif --}}
+                                            @endforeach
+                                            >
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="permission"><b>SPPB New Access</b></label>
+                                    @foreach ($permissions as $permission)
+                                    @if ($permission->for == 'SppbNew')
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permission[]" value="{{ $permission->id }}"
+                                            @foreach ($role->permissions as $permit)
+                                            @if ($permit->id == $permission->id)
+                                            checked
+                                            @endif
+                                            {{-- @if ($role->id == 1)
+                                            disabled
+                                            @endif --}}
+                                            @endforeach
+                                            >
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="permission"><b>Invoice New Access</b></label>
+                                    @foreach ($permissions as $permission)
+                                    @if ($permission->for == 'InvoiceNew')
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permission[]" value="{{ $permission->id }}"
+                                            @foreach ($role->permissions as $permit)
+                                            @if ($permit->id == $permission->id)
+                                            checked
+                                            @endif
+                                            {{-- @if ($role->id == 1)
+                                            disabled
+                                            @endif --}}
+                                            @endforeach
+                                            >
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="row">
 

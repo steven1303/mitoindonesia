@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web-frontend-mitoindonesia.php'));
 
-            Route::domain(env('APP_DOMAIN_FRONTEND',"mitoindonesia.test"))->middleware('web')
+            Route::domain(env('APP_DOMAIN_ADMIN',"sim.mitoindonesia.test"))->middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web-mitoindonesia.php'));
 

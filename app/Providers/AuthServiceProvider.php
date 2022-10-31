@@ -196,13 +196,13 @@ class AuthServiceProvider extends ServiceProvider
             Gate::define('sppb.new.print', 'App\Policies\SppbPolicy@print');
             Gate::define('sppb.new.pembatalan', 'App\Policies\SppbPolicy@pembatalan');
             // Po Internal New
-            Gate::define('po.internal.new.view', 'App\Policies\PoInternalPolicy@view');
-            Gate::define('po.internal.new.store', 'App\Policies\PoInternalPolicy@store');
-            Gate::define('po.internal.new.update', 'App\Policies\PoInternalPolicy@update');
-            Gate::define('po.internal.new.delete', 'App\Policies\PoInternalPolicy@delete');
-            Gate::define('po.internal.new.open', 'App\Policies\PoInternalPolicy@open');
-            Gate::define('po.internal.new.approve', 'App\Policies\PoInternalPolicy@approve');
-            Gate::define('po.internal.new.print', 'App\Policies\PoInternalPolicy@print');
+            Gate::define('po.internal.new.view', 'App\Policies\PoInternalNewPolicy@view');
+            Gate::define('po.internal.new.store', 'App\Policies\PoInternalNewPolicy@store');
+            Gate::define('po.internal.new.update', 'App\Policies\PoInternalNewPolicy@update');
+            Gate::define('po.internal.new.delete', 'App\Policies\PoInternalNewPolicy@delete');
+            Gate::define('po.internal.new.open', 'App\Policies\PoInternalNewPolicy@open');
+            Gate::define('po.internal.new.approve', 'App\Policies\PoInternalNewPolicy@approve');
+            Gate::define('po.internal.new.print', 'App\Policies\PoInternalNewPolicy@print');
             // Invoice New
             Gate::define('invoice.new.view', 'App\Policies\InvoicePolicy@view');
             Gate::define('invoice.new.store', 'App\Policies\InvoicePolicy@store');
