@@ -13,6 +13,7 @@ Route::patch('/po_internal_new/{id}', 'App\Http\Controllers\Admin\PoInternalNewC
 Route::delete('/po_internal_new/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@destroy')->name('local.po_internal.new.delete');
 Route::get('record/po_internal_new', 'App\Http\Controllers\Admin\PoInternalNewController@recordPoInternal')->name('local.record.po_internal.new');
 Route::get('/po_internal_new/{id}/approve', 'App\Http\Controllers\Admin\PoInternalNewController@approve')->name('local.po_internal.new.approve');
+Route::get('record/search_po_internal_new', 'App\Http\Controllers\Admin\PoInternalNewController@searchPoInternal')->name('local.search.po_internal.new');
 
 // PO Internal Detail
 Route::get('/po_internal_new_detail/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@detail')->name('local.po_internal.detail.new.index');
@@ -20,26 +21,26 @@ Route::post('/po_internal_new_detail/{id}', 'App\Http\Controllers\Admin\PoIntern
 Route::get('/po_internal_new/{id}/edit_detail', 'App\Http\Controllers\Admin\PoInternalNewController@edit_detail')->name('local.po_internal.new.edit_detail');
 Route::patch('/po_internal_new_detail/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@update_detail')->name('local.po_internal.new.update_detail');
 Route::delete('/po_internal_new_detail/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@destroy_detail')->name('local.po_internal.new.delete_detail');
-Route::get('record/po_internal_new_detail/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@recordPoInternal_detail')->name('local.record.po_internal_detail.new');
+Route::get('record/po_internal_new_detail/{id}/{status?}', 'App\Http\Controllers\Admin\PoInternalNewController@recordPoInternal_detail')->name('local.record.po_internal_detail.new');
 Route::get('/po_internal_new_open/{id}', 'App\Http\Controllers\Admin\PoInternalNewController@po_internal_open')->name('local.po_internal.new.open.index');
 
 // SPPB New
 Route::get('/sppb_new', 'App\Http\Controllers\Admin\SppbNewController@index')->name('local.sppb.new.index');
-// Route::post('/sppb_new', 'App\Http\Controllers\Admin\SppbNewController@store')->name('local.sppb.new.store');
-// Route::patch('/sppb_new/{id}', 'App\Http\Controllers\Admin\SppbNewController@update')->name('local.sppb.new.update');
+Route::post('/sppb_new', 'App\Http\Controllers\Admin\SppbNewController@store')->name('local.sppb.new.store');
+Route::patch('/sppb_new/{id}', 'App\Http\Controllers\Admin\SppbNewController@update')->name('local.sppb.new.update');
 // Route::get('/sppb_new/{id}/edit', 'App\Http\Controllers\Admin\SppbNewController@edit')->name('local.sppb.new.edit');
-// Route::delete('/sppb_new/{id}', 'App\Http\Controllers\Admin\SppbNewController@destroy')->name('local.sppb.new.delete');
-// Route::get('record/sppb_new', 'App\Http\Controllers\Admin\SppbNewController@recordSppb')->name('local.record.sppb.new');
+Route::delete('/sppb_new/{id}', 'App\Http\Controllers\Admin\SppbNewController@destroy')->name('local.sppb.new.delete');
+Route::get('record/sppb_new', 'App\Http\Controllers\Admin\SppbNewController@recordSppb')->name('local.record.sppb.new');
 // Route::get('record/search_sppb_new', 'App\Http\Controllers\Admin\SppbNewController@searchSppb')->name('local.search.sppb.new');
 // Route::get('/sppb_new/{id}/pembatalan', 'App\Http\Controllers\Admin\SppbNewController@pembatalan')->name('local.sppb.new.pembatalan');
 
 // // SPPB New Detail
-// Route::get('/sppb_new_detail/{id}', 'App\Http\Controllers\Admin\SppbNewController@detail')->name('local.sppb.new.detail.index');
+Route::get('/sppb_new_detail/{id}', 'App\Http\Controllers\Admin\SppbNewController@detail')->name('local.sppb.new.detail.index');
 // Route::post('/sppb_new_detail/{id}', 'App\Http\Controllers\Admin\SppbNewController@store_detail')->name('local.sppb.new.store_detail');
 // Route::get('/sppb_new/{id}/edit_detail', 'App\Http\Controllers\Admin\SppbNewController@edit_detail')->name('local.sppb.new.edit_detail');
 // Route::patch('/sppb_new_detail/{id}', 'App\Http\Controllers\Admin\SppbNewController@update_detail')->name('local.sppb.new.update_detail');
 // Route::delete('/sppb_new_detail/{id}', 'App\Http\Controllers\Admin\SppbNewController@destroy_detail')->name('local.sppb.new.delete_detail');
-// Route::get('record/sppb_new_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\SppbNewController@recordSppb_detail')->name('local.record.sppb_detail.new');
+Route::get('record/sppb_new_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\SppbNewController@recordSppb_detail')->name('local.record.sppb_detail.new');
 // Route::get('/sppb_new_open/{id}', 'App\Http\Controllers\Admin\SppbNewController@sppb_open')->name('local.sppb.new.open.index');
 
 // Invoice
