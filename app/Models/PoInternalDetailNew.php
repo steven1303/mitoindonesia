@@ -27,7 +27,7 @@ class PoInternalDetailNew extends Model
 
     public function po_internal()
     {
-        return $this->belongsTo('App\Models\PoInternal','id_po');
+        return $this->belongsTo('App\Models\PoInternalNew','id_po');
     }
 
     public function getTotalAttribute()

@@ -209,6 +209,38 @@ class PoInternalNewController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error PO Internal Access Denied', 'stat' => 'Error']);
     }
 
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchPoInternal(Request $request)
+    {
+        $term = trim($request->q);
+
+        if (empty($term)) {
+            return response()->json([]);
+        }
+
+        $tags = PoInternalNew::where([
+            ['po_no','like','%'.$term.'%'],
+            ['id_branch','=', Auth::user()->id_branch],
+            ['po_status','=', 3],
+        ])->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = [
+                'id'    => $tag->id,
+                'text'  => $tag->po_no,
+            ];
+        }
+
+        return response()->json($formatted_tags);
+    }
+
     public function recordPoInternal(){
         $data = PoInternalNew::where([
             ['id_branch','=', Auth::user()->id_branch],
@@ -270,7 +302,7 @@ class PoInternalNewController extends SettingAjaxController
             ->rawColumns(['action'])->make(true);
     }
 
-    public function recordPoInternal_detail($id){
+    public function recordPoInternal_detail($id, $status= Null){
 
         $data = PoInternalDetailNew::where([
             ['id_branch','=', Auth::user()->id_branch],
@@ -285,25 +317,30 @@ class PoInternalNewController extends SettingAjaxController
             ->addColumn('disc_format', function($data){
                 return "Rp. ".number_format($data->disc,0, ",", ".");
             })
-            ->addColumn('action', function($data) use($access){
+            ->addColumn('action', function($data) use($access, $status){
                 $action = "";
                 $title = "'".$data->stock_master->name."'";
-                if($data->po_internal->po_status == 1){
-                    if($access->can('po.internal.new.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                if($status == "SppbNew"){
+                    $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
+                }else{
+                    if($data->po_internal->po_status == 1){
+                        if($access->can('po.internal.new.update')){
+                            $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                        }
+                        if($access->can('po.internal.delete')){
+                            $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                        }
                     }
-                    if($access->can('po.internal.delete')){
-                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    if($data->po_internal->po_status == 2){
+                        if($access->can('po.internal.new.update')){
+                            $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                        }
+                        if($access->can('po.internal.new.delete')){
+                            $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                        }
                     }
                 }
-                if($data->po_internal->po_status == 2){
-                    if($access->can('po.internal.new.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
-                    if($access->can('po.internal.new.delete')){
-                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                    }
-                }
+                
                 return $action;
             })
             ->addColumn('nama_stock', function($data){

@@ -29,7 +29,7 @@ class PoInternalNew extends Model
 
     public function po_internal_detail()
     {
-    	return $this->hasMany('App\Models\PoInternalDetail','id_po');
+    	return $this->hasMany('App\Models\PoInternalDetailNew','id_po');
     }
 
     public function branch()
