@@ -30,15 +30,16 @@
     <table width="95%" style="margin: auto; text-align: center; border-collapse: collapse;">
         <tbody>
             <tr>
-                <td colspan="6" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER </td>
+                <td colspan="7" style="font-size: 20px; font-weight: bold;">PURCHASE ORDER </td>
             </tr>
             <tr>
-                <td style="height: 20px;" width="5%"></td>
-                <td style="height: 20px;" width="21%"></td>
-                <td style="height: 20px;" width="24%"></td>
-                <td style="height: 20px;" width="14%"></td>
-                <td style="height: 20px;" width="18%"></td>
-                <td style="height: 20px;" width="18%"></td>
+            <td style="height: 20px;" width="3%"></td>
+                <td style="height: 20px;" width="22%"></td>
+                <td style="height: 20px;" width="17%"></td>
+                <td style="height: 20px;" width="10%"></td>
+                <td style="height: 20px;" width="16%"></td>
+                <td style="height: 20px;" width="16%"></td>
+                <td style="height: 20px;" width="16%"></td>
             </tr>
             <tr>
                 <td colspan="3" style="text-align: left;">No.  PO  : {{ $po_stock->po_no }}</td>
@@ -60,6 +61,7 @@
                 <td style="height: 20px;"></td>
                 <td style="height: 20px;"></td>
                 <td style="height: 20px;"></td>
+                <td style="height: 20px;"></td>
             </tr>
             <tr style="border: 1px solid black;">
                 <td style="border: 1px solid black;">No</td>
@@ -67,20 +69,23 @@
                 <td style="border: 1px solid black;">Deskripsi</td>
                 <td style="border: 1px solid black;">Qty</td>
                 <td style="border: 1px solid black;">Harga @</td>
+                <td style="border: 1px solid black;">Disc</td>
                 <td style="border: 1px solid black;">Total</td>
             </tr>
             @foreach ($po_stock->po_stock_detail as $detail)
                 <tr style="border: 1px solid black;">
-                    <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->stock_master->name }}</td>
+                <td style="border: 1px solid black;">{{ $loop->iteration }}</td>
+                    <td style="border: 1px solid black; text-align: left">{{ $detail->stock_master->name }}</td>
                     <td style="border: 1px solid black;">{{ $detail->keterangan }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }} {{ $detail->stock_master->satuan }}</td>
                     <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->price),0, ",", ".") }}</td>
-                    <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->qty * $detail->price),0, ",", ".") }}</td>
+                    <td style="border: 1px solid black;">{{ "Rp. ".number_format( ($detail->disc),0, ",", ".") }}</td>
+                    <td style="border: 1px solid black;">{{ "Rp. ".number_format( (($detail->qty * $detail->price)-$detail->disc),0, ",", ".") }}</td>
                 </tr>
             @endforeach
             @for ($i = $po_stock->po_stock_detail->count(); $i < 18; $i++)
             <tr style="border: 1px solid black; height: 20px;">
+                <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
                 <td style="border: 1px solid black; height: 20px;"></td>
