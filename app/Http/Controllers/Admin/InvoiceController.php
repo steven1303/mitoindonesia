@@ -301,6 +301,7 @@ class InvoiceController extends SettingAjaxController
 
     public function recordInv(){
         $data = Invoice::where([
+            ['id_sppb','<>', 0],
             ['id_branch','=', Auth::user()->id_branch],
         ])->latest()->get();
         $access =  Auth::user();

@@ -45,15 +45,15 @@ Route::get('record/sppb_new_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admi
 
 // Invoice
 Route::get('/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@index')->name('local.inv.new.index');
-// Route::post('/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@store')->name('local.inv.new.store');
+Route::post('/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@store')->name('local.inv.new.store');
 // Route::get('/inv_new/{id}/edit', 'App\Http\Controllers\Admin\InvoiceNewController@edit')->name('local.inv.new.edit');
 // Route::patch('/inv_new/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@update')->name('local.inv.new.update');
 // Route::delete('/inv_new/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@destroy')->name('local.inv.new.delete');
-// Route::get('record/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@recordInv')->name('local.record.inv.new');
+Route::get('record/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@recordInv')->name('local.record.inv.new');
 // Route::get('/inv_new/{id}/pembatalan', 'App\Http\Controllers\Admin\InvoiceNewController@pembatalan')->name('local.inv.new.pembatalan');
 
 // // Invoice Detail
-// Route::get('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@detail')->name('local.inv.detail.new.index');
+Route::get('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@detail')->name('local.inv.detail.new.index');
 // Route::post('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@store_detail')->name('local.inv.new.store_detail');
 // Route::get('/inv_new_detail/{id}/edit_detail', 'App\Http\Controllers\Admin\InvoiceNewController@edit_detail')->name('local.inv.new.edit_detail');
 // Route::patch('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@update_detail')->name('local.inv.new.update_detail');
