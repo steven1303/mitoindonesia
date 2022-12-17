@@ -1,4 +1,11 @@
 <script type="text/javascript">
+    $('#datemask1').inputmask('yyyy-mm-dd', {
+        'placeholder': 'yyyy-mm-dd'
+    });
+    $('#datemask2').inputmask('yyyy-mm-dd', {
+        'placeholder': 'yyyy-mm-dd'
+    });
+
     var save_method;
     save_method = 'add';
     var table = $('#invSppbTable')
@@ -129,7 +136,7 @@
                 'placeholder': 'yyyy-mm-dd'
             });
 
-            $('#PoDetailForm').validator().on('submit', function(e) {
+            $('#invoiceForm').validator().on('submit', function(e) {
                 var id = $('#id').val();
                 if (!e.isDefaultPrevented()) {
                     if (save_method == 'add') {
@@ -142,7 +149,7 @@
                     $.ajax({
                         url: url,
                         type: "POST",
-                        data: $('#PoDetailForm').serialize(),
+                        data: $('#invoiceForm').serialize(),
                         success: function(data) {
                             table.ajax.reload();
                             table1.ajax.reload();
@@ -150,7 +157,7 @@
                                 save_method = 'add';
                                 $('input[name=_method]').val('POST');
                                 $('#id').val('');
-                                $('#PoDetailForm')[0].reset();
+                                $('#invoiceForm')[0].reset();
                                 $('#btnSave').text('Submit');
                                 success(data.stat, data.message);
                                 $('#modal-input-item').modal('hide')
@@ -231,7 +238,7 @@
 
         function cancel() {
             save_method = 'add';
-            $('#PoDetailForm')[0].reset();
+            $('#invoiceForm')[0].reset();
             $('#btnSave').text('Submit');
             $('#formTitle').text('Create Stock Adjustment');
             $('#btnSave').attr('disabled', false);

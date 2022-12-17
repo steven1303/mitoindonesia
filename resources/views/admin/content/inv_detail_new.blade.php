@@ -21,7 +21,7 @@
                     <h3 class="box-title" id="formTitle">Invoice {{ $invoice->inv_no }}</h3>
                 </div>
                 <div class="box-body">
-                    <form role="form" id="SpbdForm" method="POST">
+                    <form role="form" id="invoiceForm" method="POST">
                         {{ csrf_field() }} {{ method_field('POST') }}
                         <div class="box-body">
                             <div class="col-xs-4">
@@ -60,10 +60,8 @@
                             <div class="col-xs-4">
                                 <div class="form-group">
                                     <label>Customer</label>
-                                    <select class="form-control select2" id="customer" name="customer"
-                                        style="width: 100%;">
-                                        <option></option>
-                                    </select>
+                                    <input type="text" class="form-control" id="inv_no" name="inv_no"
+                                        value="{{ $invoice->customer->name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -71,6 +69,13 @@
                                     <label>PO Customer</label>
                                     <input type="text" class="form-control" id="po_cust" name="po_cust"
                                         placeholder="Input PO No Customer" value="">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Mata Uang</label>
+                                    <input type="text" class="form-control" id="mata_uang" name="mata_uang"
+                                        value="{{ $invoice->mata_uang }}">
                                 </div>
                             </div>
                             <div class="col-xs-6">
@@ -84,21 +89,7 @@
                                 <div class="form-group">
                                     <label>Alamat Pengantaran</label>
                                     <input type="text" class="form-control" id="inv_alamatkirim"
-                                        name="inv_alamatkirim" value="{{ $invoice->inv_alamatkirim }}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Mata Uang</label>
-                                    <input type="text" class="form-control" id="mata_uang" name="mata_uang"
-                                        value="{{ $invoice->mata_uang }}" readonly>
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    <label>PPN</label>
-                                    <input type="text" class="form-control" id="ppn" name="ppn"
-                                        value="{{ $invoice->ppn - 0 }}" readonly>
+                                        name="inv_alamatkirim" value="{{ $invoice->inv_alamatkirim }}">
                                 </div>
                             </div>
                         </div>
@@ -106,6 +97,7 @@
                             @if ($invoice->inv_status == 1)
                                 <button id="btnSave" type="button" onclick="open_inv_Form()"
                                     class="btn btn-success">Open / Request</button>
+                                <button class="btn btn-warning" type="submit">Update</button>
                             @endif
                             <button class="btn btn-secondary" type="button"
                                 onclick="ajaxLoad('{{ route('local.inv.new.index') }}')">back</button>
