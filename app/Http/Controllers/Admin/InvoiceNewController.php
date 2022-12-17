@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Invoice;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -66,14 +67,16 @@ class InvoiceNewController extends SettingAjaxController
                     ->json(['code'=>200,'message' => 'Use the previous Draf Invoice First', 'stat' => 'Error']);
             }
 
+            $customer = Customer::find($request['customer']);
+
             $data = [
                 'id_branch' => Auth::user()->id_branch,
                 'inv_no' => $this->inv_no(),
                 'id_sppb' => 0,
-                'id_customer' => 0,
+                'id_customer' => $request['customer'],
                 'po_cust' => 'Null',
-                'inv_kirimke' => "",
-                'inv_alamatkirim' => "",
+                'inv_kirimke' => $customer->address1,
+                'inv_alamatkirim' => $customer->address1,
                 'mata_uang' => "RUPIAH",
                 'date' => Carbon::now(),
                 'top_date' => Carbon::now(),
@@ -92,6 +95,16 @@ class InvoiceNewController extends SettingAjaxController
                 return response()
                     ->json(['code'=>200,'message' => 'Error Invoice Store', 'stat' => 'Error']);
             }
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    public function destroy($id)
+    {
+        if(Auth::user()->can('invoice.delete')){
+            Invoice::destroy($id);
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Success Deleted', 'stat' => 'Success']);
         }
         return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }

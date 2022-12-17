@@ -42,6 +42,25 @@
             ]
         });
 
+    $('#customer').select2({
+        placeholder: "Select and Search",
+        ajax: {
+            url: "{{ route('local.search.customer') }}",
+            dataType: 'json',
+            data: function(params) {
+                return {
+                    q: $.trim(params.term)
+                }
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+    })
+
     $('#InvoiceForm').validator().on('submit', function(e) {
         var id = $('#id').val();
         if (!e.isDefaultPrevented()) {
@@ -61,7 +80,7 @@
                         $('#btnSave').text('Submit');
                         success(data.stat, data.message);
                         if (data.process == 'add') {
-                            ajaxLoad("{{ url('sppb_new_detail') }}" + '/' + data.sppb_id);
+                            ajaxLoad("{{ url('inv_new_detail') }}" + '/' + data.inv_id);
                         }
                     }
                     if (data.stat == 'Error') {
@@ -85,4 +104,47 @@
             return false;
         }
     });
+
+    function deleteData(id, title){
+        swal({
+            title: 'Are you sure want to delete ' + title + ' ?',
+            text: 'You won\'t be able to revert this!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        })
+        .then((willDelete) => {
+            if (willDelete.value) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url : "{{ url('inv_new') }}" + '/' + id,
+                    type : "POST",
+                    data : {'_method' : 'DELETE', '_token' : csrf_token},
+                    success : function(data) {
+                        table.ajax.reload();
+                        swal({
+                            type: 'success',
+                            title: 'Deleted',
+                            text: 'Poof! Your record has been deleted!',
+                        });
+                    },
+                    error : function () {
+                        swal( {
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!'
+                        });
+                    }
+                });
+            } else {
+                swal({
+                    type: 'success',
+                    title: 'Canceled',
+                    text: 'Your record is still safe!',
+                });
+            }
+        });
+    }
 </script>

@@ -108,7 +108,7 @@
                                     class="btn btn-success">Open / Request</button>
                             @endif
                             <button class="btn btn-secondary" type="button"
-                                onclick="ajaxLoad('{{ route('local.inv.index') }}')">Save</button>
+                                onclick="ajaxLoad('{{ route('local.inv.new.index') }}')">back</button>
                             @can('invoice.reject', Auth::user())
                                 @if ($invoice->inv_status == 3 || $invoice->inv_status == 4)
                                     <button class="btn btn-danger" type="button" onclick="reject()">Reject</button>

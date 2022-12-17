@@ -19,6 +19,17 @@
                     <div class="box-body">
                         <form role="form" id="InvoiceForm" method="POST">
                             {{ csrf_field() }} {{ method_field('POST') }}
+                            <div class="box-body">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label>Customer</label>
+                                        <select class="form-control select2" id="customer" name="customer"
+                                            style="width: 100%;">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="box-footer">
                                 <button id="btnSave" type="submit" class="btn btn-primary">Submit</button>
                             </div>

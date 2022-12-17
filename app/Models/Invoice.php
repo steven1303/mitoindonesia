@@ -64,4 +64,9 @@ class Invoice extends Model
     {
         return $ppn - 0;
     }
+
+    public function sppb_new()
+    {
+    	return $this->hasMany('App\Models\Sppb','invoice_id');
+    }
 }
