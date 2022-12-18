@@ -97,7 +97,7 @@
                             @if ($invoice->inv_status == 1)
                                 <button id="btnSave" type="button" onclick="open_inv_Form()"
                                     class="btn btn-success">Open / Request</button>
-                                <button class="btn btn-warning" type="submit">Update</button>
+                                <button id="buttonUpdate" class="btn btn-warning" type="submit">Update</button>
                             @endif
                             <button class="btn btn-secondary" type="button"
                                 onclick="ajaxLoad('{{ route('local.inv.new.index') }}')">back</button>
@@ -165,7 +165,7 @@
 @canany(['invoice.store', 'invoice.update'], Auth::user())
     <div class="modal fade" id="modal-input-item">
         <div class="modal-dialog">
-            <form role="form" id="PoDetailForm" method="POST">
+            <form role="form" id="InvoiceDetailForm" method="POST">
                 {{ csrf_field() }} {{ method_field('POST') }}
                 <input type="hidden" id="id" name="id">
                 <input type="hidden" id="id_sppb_detail" name="id_sppb_detail">
@@ -241,4 +241,4 @@
     </div>
 @endcanany
 
-@include('admin.javascript.inv_detail_new')
+@include('admin.javascript.inv_detail_new', ['invoice', $invoice])
