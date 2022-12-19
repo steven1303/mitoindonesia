@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label>PO Customer</label>
                                     <input type="text" class="form-control" id="po_cust" name="po_cust"
-                                        placeholder="Input PO No Customer" value="">
+                                        placeholder="Input PO No Customer" value="{{ $invoice->po_cust }}">
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -116,7 +116,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Invoice item</h3><br /><br />
+                    <h3 class="box-title">SPPB List</h3><br /><br />
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped" id="invoiceDetailTable">
@@ -163,6 +163,26 @@
     </div>
 </section>
 @canany(['invoice.store', 'invoice.update'], Auth::user())
+
+<div class="modal fade" id="modal-input-item">
+    <div class="modal-dialog">
+        <form role="form" id="SppbList">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 id="modal_title" class="modal-title">Adds SPPB</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
     <div class="modal fade" id="modal-input-item">
         <div class="modal-dialog">
             <form role="form" id="InvoiceDetailForm" method="POST">

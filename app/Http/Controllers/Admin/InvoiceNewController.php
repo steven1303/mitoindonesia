@@ -102,7 +102,17 @@ class InvoiceNewController extends SettingAjaxController
     }
 
     public function update($id, Request $request){
-        
+        if(Auth::user()->can('invoice.update')){
+            $data = Invoice::find($id);
+            $data->top_date    = $request['top_date'];
+            $data->po_cust    = $request['po_cust'];
+            $data->mata_uang    = $request['mata_uang'];
+            $data->inv_alamatkirim    = $request['inv_alamatkirim'];
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Invoice Detail Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
     public function destroy($id)
@@ -153,5 +163,9 @@ class InvoiceNewController extends SettingAjaxController
                 return "Rp. ".number_format($data->inv_detail->sum('total_ppn'),0, ",", ".");
             })
             ->rawColumns(['action'])->make(true);
+    }
+
+    public function recordListSppb($invoice){
+
     }
 }

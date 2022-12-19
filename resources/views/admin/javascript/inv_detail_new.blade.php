@@ -8,7 +8,7 @@
 
     $('#invoiceForm').validator().on('submit', function(e) {
         if (!e.isDefaultPrevented()) {
-            url = "{{ route('local.sppb.store_detail', $invoice->id) }}";
+            url = "{{ route('local.inv.new.update', $invoice->id) }}";
             $('input[name=_method]').val('PATCH');
             $.ajax({
                 url: url,
