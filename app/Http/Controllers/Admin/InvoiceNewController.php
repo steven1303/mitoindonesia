@@ -129,6 +129,15 @@ class InvoiceNewController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
+    public function destroy_detail($id){
+        $sppb = Sppb::find($id);
+        $sppb->invoice_id = 0;        
+        foreach ($sppb->sppb_detail as $detail) {
+            InvoiceDetail::where('id_sppb_detail', $detail->id)->delete();
+        }
+        $sppb->update();
+    }
+
     public function recordInv(){
         $data = Invoice::where([
             ['id_sppb','=', 0],
@@ -160,7 +169,7 @@ class InvoiceNewController extends SettingAjaxController
                 return $action;
             })
             ->addColumn('action', function($data) use($access){
-                return $this->button_list1($data, $access);
+                return $this->button_list($data, $access);
             })
             ->addColumn('total_inv', function($data){
                 // return $data->inv_detail->sum('total_ppn');
@@ -204,25 +213,7 @@ class InvoiceNewController extends SettingAjaxController
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data)  use($inv_stat, $access){
-                $action = "";
-                $title = "'".$data->stock_master->name."'";
-                if($data->invoice->inv_status == 1){
-                    if($access->can('invoice.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
-                    if($access->can('invoice.delete')){
-                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
-                    }
-                }
-                if($data->invoice->inv_status == 2){
-                    if($access->can('invoice.update')){
-                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
-                    }
-                }
-                if($inv_stat == 1){
-                    $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
-                }
-                return $action;
+                return $this->button_edit_invoice_detail($data, $inv_stat, $access);
             })
             ->addColumn('nama_stock', function($data){
                 $action = $data->stock_master->name;

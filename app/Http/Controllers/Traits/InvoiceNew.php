@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Traits;
 
 trait InvoiceNew {
     
-    function button_list1($data, $access) {
+    function button_list($data, $access) {
         $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.new.index', $data->id)."')";
         $action = "";
         $title = "'".$data->inv_no."'";
@@ -45,72 +45,27 @@ trait InvoiceNew {
             $action .= '<button type="button" id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
         }
         if($data->invoice_id != 0){
-            $action .= '<button type="button" id="'. $data->id .'" onclick="deleteItem('. $data->id .', '.$data->sppb_no.')" class="btn btn-danger btn-xs"> Delete</button> ';
+            $title = "'".$data->sppb_no."'";
+            $action .= '<button type="button" id="delete_'. $data->id .'" onclick="deleteItem('. $data->id .', '.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
         }
         return $action;
     }
 
-    function button_list($data, $access){
-        $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.new.index', $data->id)."')";
+    function button_edit_invoice_detail($data, $inv_stat, $access){
         $action = "";
-        $title = "'".$data->inv_no."'";
-        if($data->inv_status == 1){
-            if($access->can('invoice.view')){
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-warning btn-xs"> Draf</a> ';
-            }
+        $title = "'".$data->stock_master->name."'";
+        if($data->invoice->inv_status == 1){
             if($access->can('invoice.update')){
                 $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
             }
-            if($access->can('invoice.delete')){
-                $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+        }
+        if($data->invoice->inv_status == 2){
+            if($access->can('invoice.update')){
+                $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
             }
         }
-        if($data->inv_status == 2){
-            if($access->can('invoice.view')){
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-            }
-            if($access->can('invoice.verify1')){
-                $action .= '<button id="'. $data->id .'" onclick="verify1('. $data->id .')" class="btn btn-info btn-xs"> Verify 1</button> ';
-            }
-            // fungsi untuk hilangkan print sebelum approval
-            // if($access->can('invoice.print')){
-            //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-            // }
-            // fungsi untuk hilangkan print sebelum approval
-        }
-        if($data->inv_status == 3){
-            if($access->can('invoice.view')){
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-            }
-            if($access->can('invoice.verify2')){
-                $action .= '<button id="'. $data->id .'" onclick="verify2('. $data->id .')" class="btn btn-info btn-xs"> Verify 2</button> ';
-            }
-            // fungsi untuk hilangkan print sebelum approval
-            // if($access->can('invoice.print')){
-            //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-            // }
-            // fungsi untuk hilangkan print sebelum approval
-        }
-        if($data->inv_status == 4){
-            if($access->can('invoice.view')){
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-            }
-            if($access->can('invoice.approve')){
-                $action .= '<button id="'. $data->id .'" onclick="approve('. $data->id .')" class="btn btn-info btn-xs"> Approve</button> ';
-            }
-            // fungsi untuk hilangkan print sebelum approval
-            // if($access->can('invoice.print')){
-            //     $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-            // }
-            // fungsi untuk hilangkan print sebelum approval
-        }
-        if($data->inv_status == 5 || $data->inv_status == 6 || $data->inv_status == 7 || $data->inv_status == 8){
-            if($access->can('invoice.view')){
-                $action .= '<a href="'.$invoice_detail.'" class="btn btn-success btn-xs"> Open</a> ';
-            }
-            if($access->can('invoice.print')){
-                $action .= '<button id="'. $data->id .'" onclick="print_inv('. $data->id .')" class="btn btn-normal btn-xs"> Print</button> ';
-            }
+        if($inv_stat == 1){
+            $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
         }
         return $action;
     }
