@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Sppb;
 use App\Models\Invoice;
 use App\Models\Customer;
+use App\Models\StockMaster;
 use Illuminate\Http\Request;
+use App\Models\InvoiceDetail;
+use App\Models\StockMovement;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Traits\InvoiceNew;
@@ -165,7 +169,129 @@ class InvoiceNewController extends SettingAjaxController
             ->rawColumns(['action'])->make(true);
     }
 
-    public function recordListSppb($invoice){
+    public function recordListSppb($invoice, $customer){
+        if($invoice == 0){
+            $data = Sppb::where([
+                ['id_branch','=', Auth::user()->id_branch],
+                ['id_customer','=', $customer],
+                ['sppb_status','=', 5],
+                ['invoice_id','=', 0],
+            ])->latest()->get();
+        }else{
+            $data = Sppb::where([
+                ['id_branch','=', Auth::user()->id_branch],
+                ['id_customer','=', $customer],
+                ['sppb_status','=', 5],
+                ['invoice_id','=', $invoice],
+            ])->latest()->get();
+        }
+        
+        $access =  Auth::user();
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function($data) use($access){
+                return $this->button_sppb_list_add($data, $access);
+            })
+            ->rawColumns(['action'])->make(true);
+    }
 
+    public function recordInv_detail($id, $inv_stat = NULL){
+        $data = InvoiceDetail::where([
+            ['id_branch','=', Auth::user()->id_branch],
+            ['id_inv','=', $id],
+        ])->latest()->get();
+        $access =  Auth::user();
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function($data)  use($inv_stat, $access){
+                $action = "";
+                $title = "'".$data->stock_master->name."'";
+                if($data->invoice->inv_status == 1){
+                    if($access->can('invoice.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                    if($access->can('invoice.delete')){
+                        $action .= '<button id="'. $data->id .'" onclick="deleteData('. $data->id .','.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
+                    }
+                }
+                if($data->invoice->inv_status == 2){
+                    if($access->can('invoice.update')){
+                        $action .= '<button id="'. $data->id .'" onclick="editForm('. $data->id .')" class="btn btn-info btn-xs"> Edit</button> ';
+                    }
+                }
+                if($inv_stat == 1){
+                    $action .= '<button id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
+                }
+                return $action;
+            })
+            ->addColumn('nama_stock', function($data){
+                $action = $data->stock_master->name;
+                return $action;
+            })
+            ->addColumn('satuan', function($data){
+                $action = $data->stock_master->satuan;
+                return $action;
+            })
+            ->addColumn('format_balance', function($data){
+                return "Rp. ".number_format($data->price,0, ",", ".");
+            })
+            ->rawColumns(['action'])->make(true);
+    }
+
+    public function addInvoiceSppb($invoice, $sppb){
+        $sppb = Sppb::find($sppb);
+        if($sppb->invoice_id != 0){
+            return response()
+                ->json(['code'=>200,'message' => 'Error SPPB already used for invoice '.$sppb->invoice_id, 'stat' => 'Error']); 
+        }
+        $sppb->invoice_id = $invoice;
+        $sppb->update();
+
+        foreach ($sppb->sppb_detail as $item_sppb) {
+            $data = [
+                'id_branch' => Auth::user()->id_branch,
+                'id_inv' => $invoice,
+                'id_sppb_detail' => $item_sppb->id,
+                'id_stock_master' => $item_sppb->id_stock_master,
+                'qty' => $item_sppb->qty,
+                'price' => 0,
+                'disc' => 0,
+                'subtotal' => 0,
+                'total_befppn' => 0,
+                'total_ppn' => 0,
+                'keterangan' => '-',
+                'inv_detail_status' => 1,
+            ];
+            $activity = InvoiceDetail::create($data);            
+        }
+
+        return response()
+            ->json(['code'=>200,'message' => 'Add new SPPB Success' , 'stat' => 'Success', 'process' => 'add']);
+    }
+
+    public function inv_movement($data)
+    {
+        foreach ($data as $detail ) {
+            $data = [
+                'id_stock_master' => $detail->id_stock_master,
+                'id_branch' => $detail->id_branch,
+                'move_date' => $detail->invoice->date,
+                'type' => 'INV',
+                'doc_no' => $detail->invoice->inv_no,
+                'order_qty' => 0,
+                'sell_qty' => $detail->qty,
+                'in_qty' => 0,
+                'out_qty' => 0,
+                'harga_modal' => 0,
+                'harga_jual' => $detail->price,
+                'user' => Auth::user()->name,
+                'ket' => 'SPPB ('.$detail->sppb_detail->sppb->sppb_no.')',
+            ];
+
+            $movement = StockMovement::create($data);
+            $stock_master = StockMaster::find($detail->id_stock_master);
+            $stock_master->harga_jual = $detail->price;
+            $stock_master->update();
+        }
     }
 }

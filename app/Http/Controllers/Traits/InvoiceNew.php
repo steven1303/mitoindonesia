@@ -39,6 +39,17 @@ trait InvoiceNew {
         return $action;
     }
 
+    function button_sppb_list_add ($data, $access){
+        $action = "";
+        if($data->invoice_id == 0){
+            $action .= '<button type="button" id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
+        }
+        if($data->invoice_id != 0){
+            $action .= '<button type="button" id="'. $data->id .'" onclick="deleteItem('. $data->id .', '.$data->sppb_no.')" class="btn btn-danger btn-xs"> Delete</button> ';
+        }
+        return $action;
+    }
+
     function button_list($data, $access){
         $invoice_detail = "javascript:ajaxLoad('".route('local.inv.detail.new.index', $data->id)."')";
         $action = "";

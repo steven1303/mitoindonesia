@@ -14,6 +14,7 @@ class Sppb extends Model
         'sppb_no',
         'sppb_date',
         'id_customer',
+        'invoice_id',
         'sppb_po_cust',
         'po_cust_status',
         'sppb_status',
