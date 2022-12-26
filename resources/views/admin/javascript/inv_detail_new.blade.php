@@ -6,6 +6,21 @@
         'placeholder': 'yyyy-mm-dd'
     });
 
+    function format_decimal_limit() {
+        VMasker(document.getElementById("price")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+        VMasker(document.getElementById("disc")).maskMoney({
+            precision: 0,
+            separator: '.',
+            delimiter: '.',
+            unit: 'Rp',
+        });
+    }
+
     var table1 = $('#invoiceSppbTable')
         .DataTable({
             'paging': true,
@@ -97,6 +112,10 @@
                     name: 'DT_RowIndex'
                 },
                 {
+                    data: 'sppb_no',
+                    name: 'sppb_no'
+                },
+                {
                     data: 'nama_stock',
                     name: 'nama_stock'
                 },
@@ -168,6 +187,42 @@
         }
     });
 
+    $('#invoiceDetailForm').validator().on('submit', function(e) {
+        var id = $('#id').val();
+        if (!e.isDefaultPrevented()) {
+            url = "{{ url('inv_detail') . '/' }}" + id;
+            $('input[name=_method]').val('PATCH');
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: $('#invoiceDetailForm').serialize(),
+                success: function(data) {
+                    table.ajax.reload();
+                    table1.ajax.reload();
+                    if (data.stat == 'Success') {
+                        save_method = 'add';
+                        $('input[name=_method]').val('POST');
+                        $('#id').val('');
+                        $('#invoiceDetailForm')[0].reset();
+                        $('#btnSave').text('Submit');
+                        success(data.stat, data.message);
+                        $('#modal-input-item').modal('hide')
+                    }
+                    if (data.stat == 'Error') {
+                        error(data.stat, data.message);
+                    }
+                    if (data.stat == 'Warning') {
+                        error(data.stat, data.message);
+                    }
+                },
+                error: function() {
+                    error('Error', 'Oops! Something Error! Try to reload your page first...');
+                }
+            });
+            return false;
+        }
+    });
+
     function addItem(sppb) {
         console.log(sppb)
         $.ajax({
@@ -188,6 +243,36 @@
                 error('Error', 'Oops! Something Error! Try to reload your page first...');
             }
         })
+    }
+
+    function editForm(id) {
+        save_method = 'edit';
+        $('input[name=_method]').val('PATCH');
+        $.ajax({
+            url: "{{ url('inv_detail') }}" + '/' + id + "/edit_detail",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                $('#modal-input-item').modal('show');
+                $('#btnSave').text('Update');
+                $('#modal_title').text('Edit Item');
+                $('#btnSave').attr('disabled', false);
+                $('#id').val(data.id);
+                $('#id_sppb_detail').val(data.id);
+                $('#stock_master').val(data.stock_master);
+                $('#id_stock_master').val(data.id_stock_master);
+                $('#qty').val(data.qty);
+                $('#price').val(data.price - 0);
+                $('#disc').val(data.disc);
+                $('#satuan').val(data.satuan);
+                $('#keterangan').val(data.keterangan);
+                $('#keterangan1').val(data.keterangan1);
+                format_decimal_limit();
+            },
+            error: function() {
+                error('Error', 'Nothing Data');
+            }
+        });
     }
 
     function deleteItem(sppb, title) {

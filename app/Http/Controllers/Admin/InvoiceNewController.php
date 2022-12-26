@@ -223,6 +223,10 @@ class InvoiceNewController extends SettingAjaxController
                 $action = $data->stock_master->satuan;
                 return $action;
             })
+            ->addColumn('sppb_no', function($data){
+                $action = $data->sppb_detail->sppb->sppb_no;
+                return $action;
+            })
             ->addColumn('format_balance', function($data){
                 return "Rp. ".number_format($data->price,0, ",", ".");
             })
