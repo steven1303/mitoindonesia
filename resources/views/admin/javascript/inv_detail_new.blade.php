@@ -190,19 +190,17 @@
     $('#invoiceDetailForm').validator().on('submit', function(e) {
         var id = $('#id').val();
         if (!e.isDefaultPrevented()) {
-            url = "{{ url('inv_detail') . '/' }}" + id;
-            $('input[name=_method]').val('PATCH');
+            url = "{{ url('inv_new_detail') . '/' }}" + id;
             $.ajax({
                 url: url,
                 type: "POST",
                 data: $('#invoiceDetailForm').serialize(),
                 success: function(data) {
-                    table.ajax.reload();
                     table1.ajax.reload();
+                    table2.ajax.reload();
+                    table3.ajax.reload();
                     if (data.stat == 'Success') {
                         save_method = 'add';
-                        $('input[name=_method]').val('POST');
-                        $('#id').val('');
                         $('#invoiceDetailForm')[0].reset();
                         $('#btnSave').text('Submit');
                         success(data.stat, data.message);
@@ -249,7 +247,7 @@
         save_method = 'edit';
         $('input[name=_method]').val('PATCH');
         $.ajax({
-            url: "{{ url('inv_detail') }}" + '/' + id + "/edit_detail",
+            url: "{{ url('inv_new_detail') }}" + '/' + id + "/edit_detail",
             type: "GET",
             dataType: "JSON",
             success: function(data) {

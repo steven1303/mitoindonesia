@@ -198,7 +198,7 @@
     <div class="modal fade" id="modal-input-item">
         <div class="modal-dialog">
             <form role="form" id="invoiceDetailForm" method="POST">
-                {{ csrf_field() }} {{ method_field('POST') }}
+                {{ csrf_field() }} {{ method_field('PATCH') }}
                 <input type="hidden" id="id" name="id">
                 <input type="hidden" id="id_sppb_detail" name="id_sppb_detail">
                 <div class="modal-content">

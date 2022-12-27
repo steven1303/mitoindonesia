@@ -105,6 +105,27 @@ class InvoiceNewController extends SettingAjaxController
         return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 
+    public function edit_detail($id)
+    {
+        if(Auth::user()->can('invoice.update')){
+            $inv_detail = InvoiceDetail::findOrFail($id);
+            $data = array(
+                "id" => $inv_detail->id,
+                "id_sppb_detail" => $inv_detail->id_sppb_detail,
+                "id_stock_master" => $inv_detail->id_stock_master,
+                "stock_master" => $inv_detail->stock_master->name,
+                "qty" => $inv_detail->qty - 0,
+                "satuan" => $inv_detail->stock_master->satuan,
+                "keterangan1" => $inv_detail->sppb_detail->keterangan,
+                "price" => $inv_detail->price,
+                "disc" => $inv_detail->disc - 0,
+                "keterangan" => $inv_detail->keterangan,
+            );
+            return json_encode($data);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
     public function update($id, Request $request){
         if(Auth::user()->can('invoice.update')){
             $data = Invoice::find($id);
@@ -115,6 +136,37 @@ class InvoiceNewController extends SettingAjaxController
             $data->update();
             return response()
                 ->json(['code'=>200,'message' => 'Edit Invoice Detail Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    public function update_detail(Request $request, $id)
+    {
+        if(Auth::user()->can('invoice.update')){
+            $data = InvoiceDetail::find($id);
+            $price = preg_replace('/\D/', '',$request['price']);
+            $disc = preg_replace('/\D/', '',$request['disc']);
+            $subtotal = ($request['qty'] * $price) - 0;
+            $total_befppn = ($subtotal  - $disc ) - 0;
+            $total_ppn = $total_befppn;
+            if($data->invoice->customer->status_ppn == 1){
+                $total_ppn = ($total_befppn  + ($total_befppn * 0.11)) - 0;
+            }
+            $data->price    = $price;
+            $data->subtotal    = $subtotal;
+            $data->total_befppn    = $total_befppn;
+            $data->total_ppn    = $total_ppn;
+            $data->disc    = $disc;
+            $data->keterangan    = $request['keterangan'];
+            $data->update();
+            if($data->invoice->inv_status != 1){
+                if($data->invoice->customer->status_ppn == 1){
+                    $data->invoice->ppn = $data->invoice->inv_detail->sum('total') * 0.11;
+                    $data->invoice->update();
+                }
+            }
+            return response()
+                ->json(['code'=>200,'message' => 'Edit Item Invoice Success', 'stat' => 'Success']);
         }
         return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
@@ -264,6 +316,91 @@ class InvoiceNewController extends SettingAjaxController
             ->json(['code'=>200,'message' => 'Add new SPPB Success' , 'stat' => 'Success', 'process' => 'add']);
     }
 
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function inv_open($id)
+    {
+        if(Auth::user()->can('invoice.open')){
+            $data = Invoice::findOrFail($id);
+            if($data->sppb->sppb_detail->count() != $data->inv_detail->count())
+            {
+                return response()->json(['code'=>200,'message' => 'SPBD Invoice still have detail not added.', 'stat' => 'Error']);
+            }
+            $data->inv_status = 2;
+            $data->ppn = 0;
+            $data->inv_open = Carbon::now();
+            if($data->customer->status_ppn == 1){
+                $data->ppn = $data->inv_detail->sum('total') * 0.11;
+            }
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Request Invoice Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify1($id)
+    {
+        if(Auth::user()->can('invoice.verify1')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 3;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Verified 1 Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function verify2($id)
+    {
+        if(Auth::user()->can('invoice.verify2')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 4;
+            $data->update();
+            return response()
+                ->json(['code'=>200,'message' => 'Invoice Verified 2 Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve($id)
+    {
+        if(Auth::user()->can('invoice.approve')){
+            $data = Invoice::findOrFail($id);
+            $data->inv_status = 5;
+            $this->inv_movement($data->inv_detail);
+            $data->update();
+            $sppd = Sppb::findOrFail($data->id_sppb);
+            $sppd->sppb_status = 5;
+            $sppd->update();
+            return response()
+                ->json(['code'=>200,'message' => 'SPBD Approve Success', 'stat' => 'Success']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
+    }
+
     public function inv_movement($data)
     {
         foreach ($data as $detail ) {
@@ -288,5 +425,23 @@ class InvoiceNewController extends SettingAjaxController
             $stock_master->harga_jual = $detail->price;
             $stock_master->update();
         }
+    }
+
+    public function pembatalan($id)
+    {
+        if(Auth::user()->can('invoice.reject')){
+            $data = Invoice::findOrFail($id);
+            // status verify 1 & 2
+            if($data->inv_status == 3 ||  $data->inv_status == 4 )
+            {
+                $data->inv_status = 2;
+                $data->update();
+                return response()
+                    ->json(['code'=>200,'message' => 'Invoice Reject Success', 'stat' => 'Success']);
+            }
+            return response()
+                    ->json(['code'=>200,'message' => 'Invoice Sudah ada / SPPB tidak bisa di revisi', 'stat' => 'Error']);
+        }
+        return response()->json(['code'=>200,'message' => 'Error Invoice Access Denied', 'stat' => 'Error']);
     }
 }
