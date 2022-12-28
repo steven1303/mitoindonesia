@@ -129,7 +129,6 @@
                                 <th>ID</th>
                                 <th>SPPB No.</th>
                                 <th>Date</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -184,7 +183,6 @@
                                     <th>ID</th>
                                     <th>SPPB No.</th>
                                     <th>Date</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

@@ -46,10 +46,6 @@
                     name: 'sppb_date'
                 },
                 {
-                    data: 'sppb_status',
-                    name: 'sppb_status'
-                },
-                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -81,10 +77,6 @@
                 {
                     data: 'sppb_date',
                     name: 'sppb_date'
-                },
-                {
-                    data: 'sppb_status',
-                    name: 'sppb_status'
                 },
                 {
                     data: 'action',

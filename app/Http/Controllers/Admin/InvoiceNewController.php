@@ -232,14 +232,14 @@ class InvoiceNewController extends SettingAjaxController
 
     public function recordListSppb($invoice, $customer){
         if($invoice == 0){
-            $data = Sppb::where([
+            $data = Sppb::Details()->where([
                 ['id_branch','=', Auth::user()->id_branch],
                 ['id_customer','=', $customer],
                 ['sppb_status','=', 5],
                 ['invoice_id','=', 0],
             ])->latest()->get();
         }else{
-            $data = Sppb::where([
+            $data = Sppb::Details()->where([
                 ['id_branch','=', Auth::user()->id_branch],
                 ['id_customer','=', $customer],
                 ['sppb_status','=', 5],

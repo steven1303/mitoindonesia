@@ -24,6 +24,13 @@ class Sppb extends Model
         'sppb_print',
     ];
 
+    public function scopeDetails($query)
+    {
+        $query->addSelect(['invoice_status' => Invoice::whereColumn('id', 'sppbs.invoice_id')
+            ->selectRaw('inv_status as invoice_status')
+        ]);
+    }
+
     public function customer()
     {
     	return $this->belongsTo('App\Models\Customer','id_customer');
@@ -32,6 +39,11 @@ class Sppb extends Model
     public function sppb_detail()
     {
     	return $this->hasMany('App\Models\SppbDetail','sppb_id');
+    }
+
+    public function invoice()
+    {
+    	return $this->belongsTo('App\Models\Invoice','invoice_id');
     }
 
     public function branch()

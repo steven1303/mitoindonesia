@@ -44,7 +44,7 @@ trait InvoiceNew {
         if($data->invoice_id == 0){
             $action .= '<button type="button" id="'. $data->id .'" onclick="addItem('. $data->id .')" class="btn btn-info btn-xs"> Add Item</button> ';
         }
-        if($data->invoice_id != 0){
+        if($data->invoice_id != 0 && $data->invoice_status == 1){
             $title = "'".$data->sppb_no."'";
             $action .= '<button type="button" id="delete_'. $data->id .'" onclick="deleteItem('. $data->id .', '.$title.')" class="btn btn-danger btn-xs"> Delete</button> ';
         }
