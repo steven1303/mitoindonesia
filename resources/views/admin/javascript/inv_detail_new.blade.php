@@ -323,4 +323,27 @@
                 }
             });
     }
+    @can('invoice.open', Auth::user())
+        function open_inv_Form() {
+            $.ajax({
+                url: "{{ route('local.inv.new.open.index', $invoice->id) }}",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    if (data.stat == "Success") {
+                        success(data.stat, data.message);
+                        // print_inv("{{ $invoice->id }}"); // fungsi untuk hilangkan print sebelum approval
+                        ajaxLoad("{{ route('local.inv.new.index') }}");
+                    }
+                    if (data.stat == "Error") {
+                        error(data.stat, data.message);
+                    }
+
+                },
+                error: function() {
+                    error('Error', 'Nothing Data');
+                }
+            });
+        }
+    @endcan
 </script>

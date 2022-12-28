@@ -61,5 +61,5 @@ Route::get('/inv_new_detail/{id}/edit_detail', 'App\Http\Controllers\Admin\Invoi
 Route::patch('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@update_detail')->name('local.inv.new.update_detail');
 Route::delete('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@destroy_detail')->name('local.inv.new.delete_detail');
 Route::get('record/inv_new_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\InvoiceNewController@recordInv_detail')->name('local.record.inv_detail.new');
-// Route::get('/inv_new_open/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@inv_open')->name('local.inv.new.open.index');
+Route::get('/inv_new_open/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@inv_open')->name('local.inv.new.open.index');
 // Route::get('/inv_new_batal/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@inv_batal')->name('local.inv.new.batal.index');

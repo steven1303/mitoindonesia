@@ -326,7 +326,7 @@ class InvoiceNewController extends SettingAjaxController
     {
         if(Auth::user()->can('invoice.open')){
             $data = Invoice::findOrFail($id);
-            if($data->sppb->sppb_detail->count() != $data->inv_detail->count())
+            if($data->inv_detail->where('price', '=', 0)->count() > 1)
             {
                 return response()->json(['code'=>200,'message' => 'SPBD Invoice still have detail not added.', 'stat' => 'Error']);
             }
