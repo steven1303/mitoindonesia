@@ -50,6 +50,7 @@ Route::post('/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@store')
 Route::patch('/inv_new/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@update')->name('local.inv.new.update');
 Route::delete('/inv_new/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@destroy')->name('local.inv.new.delete');
 Route::get('record/inv_new', 'App\Http\Controllers\Admin\InvoiceNewController@recordInv')->name('local.record.inv.new');
+Route::get('/inv_new/{id}/approve', 'App\Http\Controllers\Admin\InvoiceNewController@approve')->name('local.inv.new.approve');
 // Route::get('/inv_new/{id}/pembatalan', 'App\Http\Controllers\Admin\InvoiceNewController@pembatalan')->name('local.inv.new.pembatalan');
 
 // // Invoice Detail

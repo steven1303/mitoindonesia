@@ -148,7 +148,7 @@
     function approve(id) {
         save_method = 'edit';
         $.ajax({
-        url: "{{ url('inv') }}" + '/' + id + "/approve",
+        url: "{{ url('inv_new') }}" + '/' + id + "/approve",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
