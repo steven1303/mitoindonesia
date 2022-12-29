@@ -117,9 +117,9 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">SPPB List</h3><br /><br />
-                    @if($invoice->inv_status == 1)
-                    <button id="buttonAddSppb" class="btn btn-primary" type="button" data-toggle="modal"
-                        data-target="#modal-add-sppb">Add SPPB</button>
+                    @if ($invoice->inv_status == 1 || $invoice->inv_status == 2)
+                        <button id="buttonAddSppb" class="btn btn-primary" type="button" data-toggle="modal"
+                            data-target="#modal-add-sppb">Add SPPB</button>
                     @endif
                 </div>
                 <div class="box-body">
