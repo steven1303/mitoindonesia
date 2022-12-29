@@ -392,7 +392,7 @@ class InvoiceNewController extends SettingAjaxController
             $data->inv_status = 5;
             $this->inv_movement($data->inv_detail);
             $data->update();
-            $sppd = Sppb::where('invoice_id', $id)->update(['sppb_status' => 5]);
+            $sppd = Sppb::where('invoice_id','=', $id)->update(['sppb_status' => 5]);
             // $sppd->sppb_status = 5;
             // $sppd->update();
             return response()
