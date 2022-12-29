@@ -350,7 +350,7 @@
                     }
                     if (data.stat == "Success") {
                         success(data.stat, data.message);
-                        ajaxLoad("{{ route('local.inv.index') }}");
+                        ajaxLoad("{{ route('local.inv.new.index') }}");
                     }
                 },
                 error: function() {
