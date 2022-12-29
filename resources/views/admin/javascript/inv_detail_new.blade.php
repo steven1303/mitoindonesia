@@ -338,4 +338,25 @@
             });
         }
     @endcan
+    @can('invoice.reject', Auth::user())
+        function reject() {
+            $.ajax({
+                url: "{{ route('local.inv.pembatalan', $invoice->id) }}",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    if (data.stat == "Error") {
+                        error(data.stat, data.message);
+                    }
+                    if (data.stat == "Success") {
+                        success(data.stat, data.message);
+                        ajaxLoad("{{ route('local.inv.index') }}");
+                    }
+                },
+                error: function() {
+                    error('Error', 'Nothing Data');
+                }
+            });
+        }
+    @endcan
 </script>
