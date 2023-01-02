@@ -352,16 +352,16 @@ class PembatalanController extends SettingAjaxController
             ['id_branch','=', Auth::user()->id_branch],
         ])->first();
         $inv->inv_status = 8;
-        $inv->update();
 
         Sppb::where([
-            ['invoice_id','=', $inv->invoice_id ],
+            ['invoice_id','=', $inv->id ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->update(['sppb_status' => 7]);
+            
         
         
         $sppb = Sppb::where([
-            ['invoice_id','=', $inv->invoice_id ],
+            ['invoice_id','=', $inv->id ],
             ['id_branch','=', Auth::user()->id_branch],
         ])->get();
 
@@ -376,5 +376,7 @@ class PembatalanController extends SettingAjaxController
                 ['id_branch','=', Auth::user()->id_branch],
             ])->update(['status' => 1, 'ket' => $pembatalan_no]);
         }   
+
+        $inv->update();
     }
 }
