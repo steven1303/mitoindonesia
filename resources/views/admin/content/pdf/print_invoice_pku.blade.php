@@ -117,7 +117,7 @@
                                 'price' => $row->sum('price'),
                                 'disc' => $row->sum('disc'),
                                 'qty' => $row->sum('qty'),
-                                'subtotal' => $row->sum('subtotal'),
+                                'subtotal' => $row->sum('subtotal') / $row->sum('qty'),
                                 'name' => $row->first()->stock_master->name,
                                 'satuan' => $row->first()->stock_master->satuan,
                             ];
