@@ -114,10 +114,10 @@
                         ->groupBy('id_stock_master')
                         ->map(function ($row) {
                             return [
-                                'price' => $row->sum('price'),
+                                'price' => $row->first()->price,
                                 'disc' => $row->sum('disc'),
                                 'qty' => $row->sum('qty'),
-                                'subtotal' => $row->sum('subtotal') / $row->sum('qty'),
+                                'subtotal' => $row->sum('subtotal'),
                                 'name' => $row->first()->stock_master->name,
                                 'satuan' => $row->first()->stock_master->satuan,
                             ];
