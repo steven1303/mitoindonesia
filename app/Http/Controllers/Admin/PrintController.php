@@ -43,6 +43,11 @@ class PrintController extends SettingsController
             $pdf = PDF::loadView('admin.content.pdf.print_spbd_medan',$data);
             return $pdf->stream('print_spbd.pdf');
         }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_spbd_pnk',$data);
+            return $pdf->stream('print_spbd.pdf');
+        }
         $pdf = PDF::loadView('admin.content.pdf.print_spbd_default',$data);
         return $pdf->stream('print_spbd.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
@@ -64,6 +69,11 @@ class PrintController extends SettingsController
         if(Auth::user()->id_branch == 2)
         {
             $pdf = PDF::loadView('admin.content.pdf.print_po_stock_medan',$data);
+            return $pdf->stream('print_po_stock.pdf');
+        }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_stock_pnk',$data);
             return $pdf->stream('print_po_stock.pdf');
         }
         $pdf = PDF::loadView('admin.content.pdf.print_po_stock_default',$data);
@@ -104,6 +114,11 @@ class PrintController extends SettingsController
             $pdf = PDF::loadView('admin.content.pdf.print_sppb_medan',$data);
             return $pdf->stream('print_sppb.pdf');
         }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_sppb_pnk',$data);
+            return $pdf->stream('print_sppb.pdf');
+        }
         $pdf = PDF::loadView('admin.content.pdf.print_sppb',$data);
         return $pdf->setPaper('a4', 'landscape')->stream('print_sppb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
@@ -128,6 +143,10 @@ class PrintController extends SettingsController
         if(Auth::user()->id_branch == 2){
             $pdf = PDF::loadView('admin.content.pdf.print_invoice_medan',$data);
             return $pdf->stream('print_invoice_medan.pdf');
+        }
+        if(Auth::user()->id_branch == 3){
+            $pdf = PDF::loadView('admin.content.pdf.print_invoice_pnk',$data);
+            return $pdf->stream('print_invoice_pnk.pdf');
         }
         $pdf = PDF::loadView('admin.content.pdf.print_invoice_default',$data);
         return $pdf->stream('print_invoice_default.pdf');
@@ -165,6 +184,11 @@ class PrintController extends SettingsController
             $pdf = PDF::loadView('admin.content.pdf.print_spb_medan',$data);
             return $pdf->stream('print_spb.pdf');
         }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_spb_pnk',$data);
+            return $pdf->stream('print_spb.pdf');
+        }
         $pdf = PDF::loadView('admin.content.pdf.print_spb_default',$data);
         return $pdf->stream('print_spb.pdf');
         // return view('admin.content.pdf.print_spbd')->with($data);
@@ -186,6 +210,11 @@ class PrintController extends SettingsController
         if(Auth::user()->id_branch == 2)
         {
             $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_medan',$data);
+            return $pdf->stream('print_po_non_stock.pdf');
+        }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_pnk',$data);
             return $pdf->stream('print_po_non_stock.pdf');
         }
         $pdf = PDF::loadView('admin.content.pdf.print_po_non_stock_default',$data);
@@ -271,6 +300,11 @@ class PrintController extends SettingsController
         if(Auth::user()->id_branch == 2)
         {
             $pdf = PDF::loadView('admin.content.pdf.print_stock_soh_medan',$data);
+            return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
+        }
+        if(Auth::user()->id_branch == 3)
+        {
+            $pdf = PDF::loadView('admin.content.pdf.print_stock_soh_pnk',$data);
             return $pdf->setPaper('a4', 'landscape')->stream('print_stock_soh.pdf');
         }
         $pdf = PDF::loadView('admin.content.pdf.print_stock_soh',$data);
