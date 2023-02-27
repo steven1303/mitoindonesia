@@ -64,3 +64,5 @@ Route::delete('/inv_new_detail/{id}', 'App\Http\Controllers\Admin\InvoiceNewCont
 Route::get('record/inv_new_detail/{id}/{inv_stat?}', 'App\Http\Controllers\Admin\InvoiceNewController@recordInv_detail')->name('local.record.inv_detail.new');
 Route::get('/inv_new_open/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@inv_open')->name('local.inv.new.open.index');
 // Route::get('/inv_new_batal/{id}', 'App\Http\Controllers\Admin\InvoiceNewController@inv_batal')->name('local.inv.new.batal.index');
+
+Route::get('/rec_receipt_custom', 'App\Http\Controllers\Admin\PrintController@print_po_receipt_report')->name('local.print.rec_custom');

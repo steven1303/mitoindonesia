@@ -16,6 +16,7 @@ use App\Models\PoInternal;
 use App\Models\PoNonStock;
 use App\Models\StockMaster;
 use Illuminate\Http\Request;
+use App\Models\RecStockDetail;
 use App\Models\TransferBranch;
 use App\Models\TransferReceipt;
 use Barryvdh\DomPDF\Facade  as PDF;
@@ -320,4 +321,12 @@ class PrintController extends SettingsController
         return $pdf->stream('print_po_list.pdf');
     }
 
+    public function print_po_receipt_report(){
+        $po_receipt = RecStock::where('id_branch','=', Auth::user()->id_branch)->orderBy('rec_no', 'desc')->get();
+        $data = [
+            'rec_stock' => $po_receipt
+        ];
+        $pdf = PDF::loadView('admin.content.pdf.print_rec_custom_list',$data);
+        return $pdf->stream('print_rec_custom_list.pdf');
+    }
 }
