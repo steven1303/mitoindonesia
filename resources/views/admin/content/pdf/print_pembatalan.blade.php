@@ -102,7 +102,7 @@
                     <td style="border: 1px solid black;">{{ $detail->invoice->inv_no }}</td>
                     <td style="border: 1px solid black;" colspan="2">{{ $detail->stock_master->name }}</td>
                     <td style="border: 1px solid black;">{{ $detail->qty }}</td>
-                    <td style="border: 1px solid black;">{{ $detail->invoice->sppb->sppb_no }}</td>
+                    <td style="border: 1px solid black;"></td>
                 </tr>
             @endforeach
             @for ($i = $pembatalan->invoice->inv_detail->count(); $i < 23; $i++)
