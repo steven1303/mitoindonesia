@@ -148,15 +148,15 @@
                 <td colspan="2">Rekening Tujuan Pembayaran</td>
             </tr>            
             <tr>
-                <td>Nama Pemilik Rekening</td>
-                <td>: PT. MITO ENERGI INDONESIA</td>
-            </tr>
-            <tr>
-                <td>Rekening Bank</td>
+                <td>Bank</td>
                 <td>: BRI KC Pekanbaru Lancang Kuning</td>
             </tr>
             <tr>
-                <td>Nomor Rekening </td>
+                <td>Atas nama</td>
+                <td>: PT. Mito Energi Indonesia</td>
+            </tr>
+            <tr>
+                <td>No Rekening </td>
                 <td>: 1079-01-000884-30-7</td>
             </tr>
             <tr>

@@ -189,7 +189,7 @@
             </tr>
             <tr>
                 <td>Bank</td>
-                <td>: Bank Mandiri Pekanbaru</td>
+                <td>: BRI KC Pekanbaru Lancang Kuning</td>
             </tr>
             <tr>
                 <td>Atas nama</td>
@@ -197,7 +197,7 @@
             </tr>
             <tr>
                 <td>No Rekening </td>
-                <td>: 108 0558828 282</td>
+                <td>: 1079-01-000884-30-7</td>
             </tr>
             <tr>
                 <td style="height: 40px"></td>
