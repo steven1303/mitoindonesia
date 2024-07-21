@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Admin\SettingAjaxController;
 
-class AdminController extends SettingAjaxController
+class AdminController extends SettingsController
 {
     //
     public function index()
