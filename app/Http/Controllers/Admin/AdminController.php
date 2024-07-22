@@ -116,6 +116,7 @@ class AdminController extends SettingsController
         if(Auth::user()->can('admin.view')){
             $admin = Admin::all();
             $access =  Auth::user();
+            dd($admin);
             return DataTables::of($admin)
                 ->addIndexColumn()
                 ->addColumn('role_name', function($admin){
