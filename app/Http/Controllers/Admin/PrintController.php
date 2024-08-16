@@ -229,7 +229,8 @@ class PrintController extends SettingsController
         $adj->adj_print = Carbon::now();
         $adj->update();
         $data = [
-            'adj' => $adj
+            'adj' => $adj,
+            'user' => Auth::user()->name
         ];
         $pdf = PDF::loadView('admin.content.pdf.print_adj',$data);
         return $pdf->stream('print_adj.pdf');

@@ -190,7 +190,7 @@
             </tr>
             <tr>
                 <td>Bank</td>
-                <td>: BRI KC Pekanbaru Lancang Kuning</td>
+                <td>: CIMB NIAGA KC. Nangka</td>
             </tr>
             <tr>
                 <td>Atas nama</td>
@@ -198,7 +198,7 @@
             </tr>
             <tr>
                 <td>No Rekening </td>
-                <td>: 1079-01-000884-30-7</td>
+                <td>: 800175441100</td>
             </tr>
             <tr>
                 <td style="height: 40px"></td>

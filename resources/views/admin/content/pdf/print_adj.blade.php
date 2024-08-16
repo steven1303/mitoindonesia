@@ -102,7 +102,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="3" style="text-align: center;">( ABAS SUSILO )</td>
+                    <td colspan="3" style="text-align: center;">( {{ $user }} )</td>
                     <td colspan="3"></td>
                 </tr>
             </tbody>
